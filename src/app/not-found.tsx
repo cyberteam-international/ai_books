@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-import Button from '@/UI/button'
+import Button from '@UI/button'
 
 import img_404 from '@public/img_404.svg'
 

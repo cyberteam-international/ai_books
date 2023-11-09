@@ -1,0 +1,8 @@
+.form{
+    display: block;
+    &__wrapper{
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+}

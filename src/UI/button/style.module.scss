@@ -1,0 +1,22 @@
+
+
+.button{
+    padding: 8px 32px;
+    border-radius: 110px;
+    background: radial-gradient(5057.17% 129.86% at -3.54% 81.67%, #C7299E 0%, #5E12BA 49.77%, #331ED2 100%);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: -0.44px;
+    color: rgb(var(--color-white));
+    transition: var(--transition-button) all;
+    &_disable{
+        opacity: 0.3;
+        pointer-events: none;
+    }
+    &:active, &:hover{
+        background: radial-gradient(5057.17% 129.86% at -3.54% 81.67%, #C7299E 0%, #5E12BA 49.77%, #331ED2 100%);
+        box-shadow: 0px 4px 9px 0px rgba(192, 40, 161, 0.24), 0px 16px 16px 0px rgba(192, 40, 161, 0.20), 0px 35px 21px 0px rgba(192, 40, 161, 0.12), 0px 63px 25px 0px rgba(192, 40, 161, 0.04), 0px 98px 27px 0px rgba(192, 40, 161, 0.00);   
+    }
+}

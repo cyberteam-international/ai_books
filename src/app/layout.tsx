@@ -20,8 +20,10 @@ export default function RootLayout({
 	return (
 		<html lang="ru">
 			<body className={FontOnest.className}>
-				<Header/>
-				{children}
+				<div className="page__wrapper">
+					<Header/>
+					{children}
+				</div>
 				<Footer/>
 			</body>
 		</html>
