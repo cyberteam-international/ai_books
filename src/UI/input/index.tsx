@@ -12,7 +12,7 @@ type Props = {
     label?: string,
     name: string,
     placeholder?: string,
-    type?: 'email' | 'text' | 'password',
+    type?: 'email' | 'text' | 'password' | 'number',
     error?: string | undefined,
     status?: 'active' | 'disable',
     onChange?: ChangeHandler,
@@ -21,6 +21,7 @@ type Props = {
     children?: ReactNode,
     touched: boolean | undefined,
     ref?: Ref<any>,
+    value?: string | number | readonly string[] | undefined
 };
 
 const Input: FC<Props> = forwardRef((
@@ -35,7 +36,8 @@ const Input: FC<Props> = forwardRef((
         status = 'active',
         error,
         onSubmit,
-        touched
+        touched,
+        value
     }, ref): JSX.Element => {
 
     const [passwordVisible, setPasswordVisible] = useState(false)
@@ -57,6 +59,7 @@ const Input: FC<Props> = forwardRef((
                 className={clsx(style.input__field, style[`input__field_${type}`])}
                 readOnly={status === 'disable'}
                 name={name}
+                value={value}
                 id={name}
                 type={type === 'password' ? passwordVisible ? 'text' : type : type}
                 placeholder={placeholder}

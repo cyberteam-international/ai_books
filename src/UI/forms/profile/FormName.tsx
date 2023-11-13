@@ -5,14 +5,14 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { SchemaProfileName } from "@/utils/config/yupShemes";
+import { SchemaProfileName } from "@utils/config/yupShemes";
+import { ProfileForm } from "@utils/interface";
 
 import Input from "@/UI/input";
 
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
-import { ProfileForm } from "@/utils/interface";
 
 type Props = {
     stepState: 'none' | 'change name',

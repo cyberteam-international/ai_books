@@ -105,7 +105,7 @@ export default function History({ data }: Props) {
                     </div>
                 )}
             </div>
-            <div className={clsx(style.history__dates, settingsOpen && style.history__dates_fixed)}>
+            <div className={clsx(style.history__dates, settingsOpen && style.history__dates_fixed, 'scroll')}>
                 {setHistory()}
             </div>
         </div>

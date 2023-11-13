@@ -55,5 +55,25 @@ input{
     border: 0;
     background: none;
     color: inherit;
-    outline: none !important;      
+    outline: none !important;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }    
+}
+
+.scroll{
+    &::-webkit-scrollbar {
+        width: 14px;
+    }
+    &::-webkit-scrollbar-track {
+        border-radius: 200px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(16px);
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 240px;
+        background: rgb(var(--color-purpure));
+    }
 }

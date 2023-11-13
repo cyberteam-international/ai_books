@@ -1,0 +1,74 @@
+
+
+.select{
+    position: relative;
+    width: 400px;
+    &__input{
+        position: relative;
+        cursor: pointer;
+        input{
+            width: 100%;
+            padding: 12px 54px 14px 24px;
+            border-radius: 240px;
+            border: 2px solid rgba(var(--color-white), 0.3);
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 150%;
+            color: rgb(var(--color-white));
+            &::placeholder{
+                color: rgba(var(--color-white), 0.6);
+            }
+        }
+        img{
+            position: absolute;
+            top: 50%;
+            right: 24px;
+            transform: translateY(-50%) rotate(90deg);
+        }
+    }
+    &__options{
+        position: absolute;
+        z-index: 2;
+        top: calc(100% + 6px);
+        left: 0;
+        width: 100%;
+        height: 177px;
+        background: rgb(var(--color-white));
+        border-radius: 24px;
+        padding: 16px;
+        &__list{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-y: scroll;
+            height: calc(177px - 16px - 16px);
+            padding-right: 10px;
+            &::-webkit-scrollbar-track {
+                background: rgba(var(--сolor-grey), 0.12);
+                backdrop-filter: blur(16px);
+            }
+            &__item{
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 10px;
+                cursor: pointer;
+                border-radius: 8px;
+                text-overflow: ellipsis;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 150%;
+                letter-spacing: 0.36px;
+                color: rgba(var(--сolor-grey), 0.6);
+                &:hover{
+                    background: rgba(var(--сolor-grey), 0.03);
+                    color: rgba(var(--сolor-grey), 0.3);
+                }
+                img{
+                    width: 22px;
+                }
+            }
+        }
+    }
+}

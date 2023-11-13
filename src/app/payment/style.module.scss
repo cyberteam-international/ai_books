@@ -2,7 +2,7 @@
 
 .payment{
     display: grid;
-    grid-template-columns: 835px 1fr;
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
     gap: 40px;
     &__wrapper{
@@ -48,5 +48,10 @@
                 background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.00) 100%);
             }
         }
+    }
+    &__form{
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
     }
 }

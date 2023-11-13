@@ -8,12 +8,11 @@ import { FontUnbounded } from '@/fonts';
 import History from '@components/payment/History';
 
 import { dataPaymentHistory } from './data';
+import FormPayment from '@UI/forms/payment';
 
 import loading_1 from '@public/loading_1.svg'
 
 import style from './style.module.scss'
-
-type Props = {};
 
 export default function PagePayment() {
 
@@ -39,6 +38,7 @@ export default function PagePayment() {
                 </div>
                 <div className={style.payment__form}>
                     <p className={style.payment__title}>Пополнить баланс</p>
+                    <FormPayment/>
                 </div>
             </div>
             <div className={style.payment__wrapper}>

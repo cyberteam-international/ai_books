@@ -9,11 +9,13 @@ type Props = {
     callback?: () => void,
     className?: string,
     isActive?: boolean,
+    id?: string
 };
 
-export default function Button({ children, callback, type='button', className, isActive=true }: Props) {
+export default function Button({ children, callback, type='button', className, isActive=true, id }: Props) {
     return (
-        <button 
+        <button
+            form={id}
             className={clsx(style.button, !isActive && style.button_disable, className)}
             onClick={callback}
             type={type}

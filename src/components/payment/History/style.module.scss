@@ -41,18 +41,6 @@
         &_fixed{
             overflow: hidden;
         }
-        &::-webkit-scrollbar {
-            width: 14px;
-        }
-        &::-webkit-scrollbar-track {
-            border-radius: 200px;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(16px);
-        }
-        &::-webkit-scrollbar-thumb {
-            border-radius: 240px;
-            background: rgb(var(--color-purpure));
-        }
     }
     &__calendar{
         position: absolute;
