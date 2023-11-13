@@ -1,0 +1,52 @@
+
+
+.payment{
+    display: grid;
+    grid-template-columns: 835px 1fr;
+    grid-template-rows: auto;
+    gap: 40px;
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+    &__title{
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+        letter-spacing: -0.44px;
+    }
+    &__balance{
+        display: block;
+        &__value{
+            margin-top: 12px;
+            font-size: 52px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 122%; /* 63.44px */
+            letter-spacing: -2.08px;
+            color: rgb(var(--color-white));
+            span{
+                color: rgba(var(--color-white), 0.12);
+            }
+        }
+        &__subtitle{
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(var(--color-white), 0.6);
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 150%;
+            img{
+                width: 28px;
+                height: 28px;
+                border-radius: 100%;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.00) 100%);
+            }
+        }
+    }
+}

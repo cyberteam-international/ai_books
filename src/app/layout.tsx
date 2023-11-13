@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 
 import "normalize.css"
 import '@styles/global.scss'
+import '@styles/datepicker.scss'
 
 export const metadata: Metadata = {
 	title: 'AI Books',
