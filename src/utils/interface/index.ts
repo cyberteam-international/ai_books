@@ -1,4 +1,6 @@
 export type { ProfileForm } from './ProfileForm'
 export type { PaymentForm } from './PaymentForm'
+export type { MainForm } from './MainForm'
 export type { History } from './History'
-export type { SelectProps } from './Select'
+export type { Languages } from './Languages'
+export type { Banks } from './Banks'

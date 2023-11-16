@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { PaymentForm, ProfileForm } from '../interface'
+import { MainForm, PaymentForm, ProfileForm } from '../interface'
 
 const phone_REG_EXP = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
 // ----------
@@ -30,6 +30,10 @@ export const SchemaPaymentBank: Yup.ObjectSchema<PaymentForm['FormBank']> = Yup.
 
 export const SchemaPaymentMobile: Yup.ObjectSchema<PaymentForm['FormMobile']> = Yup.object({
     phone: Yup.string().required('Заполните поле').matches(phone_REG_EXP, 'Введите корректный номер')
+})
+// ----------
+export const SchemaMain: Yup.ObjectSchema<MainForm> = Yup.object({
+    data: Yup.string().required('Заполните поле').max(5000, 'Введите не более 5000 символов')
 })
 // ----------
 

@@ -1,4 +1,4 @@
-import { SelectProps } from "@utils/interface";
+import { Banks } from "@utils/interface";
 
 import bank_card from '@public/bank_card.svg'
 import mir_pay from '@public/mir_pay.svg'
@@ -6,40 +6,40 @@ import you_money from '@public/you_money.svg'
 import tinkoff from '@public/tinkoff.svg'
 import spb from '@public/SPB.svg'
 
-export const selectOptions: SelectProps['options'] = [
+export const BANKS: Banks[] = [
     {
         title: 'Банковская карта',
-        value: 'Банковская карта',
-        type: 'bank',
+        inputValue: 'Банковская карта',
+        value: 'bank',
         img: bank_card,
     },
     {
         title: 'Mir Pay',
-        value: 'Mir Pay',
-        type: 'bank',
+        inputValue: 'Mir Pay',
+        value: 'bank',
         img: mir_pay,
     },
     {
         title: 'ЮMoney',
-        value: 'ЮMoney',
-        type: 'mobile',
+        inputValue: 'ЮMoney',
+        value: 'mobile',
         img: you_money,
     },
     {
         title: 'Tinkoff Pay',
-        value: 'Tinkoff Pay',
-        type: 'bank',
+        inputValue: 'Tinkoff Pay',
+        value: 'bank',
         img: tinkoff,
     },
     {
         title: 'СБП (Система быстрых платежей)',
-        value: 'СБП',
-        type: 'mobile',
+        inputValue: 'СБП',
+        value: 'mobile',
         img: spb,
     },
 ]
 
-export const amountOptions = [
+export const BANKS_BULLETS = [
     1000,
     2000,
     5000,

@@ -2,28 +2,54 @@
 
 .select{
     position: relative;
-    width: 400px;
+    width: 100%;
+    &_form{
+        .select{
+            &__input{
+                display: block;
+                width: inherit;
+                cursor: pointer;
+                &__block{
+                    font-size: 22px;
+                    font-weight: 400;
+                    line-height: 150%;
+                    color: rgb(var(--color-white));
+                    width: inherit;
+                    padding: 12px 54px 14px 24px;
+                    border-radius: 240px;
+                    border: 2px solid rgba(var(--color-white), 0.3);
+                    &::placeholder{
+                        color: rgba(var(--color-white), 0.6);
+                    }
+                }
+                &__arrow{
+                    position: absolute;
+                    top: 50%;
+                    right: 24px;
+                    transform: translateY(-50%) rotate(90deg);
+                }
+            }
+        }
+    }
     &__input{
         position: relative;
-        cursor: pointer;
-        input{
-            width: 100%;
-            padding: 12px 54px 14px 24px;
-            border-radius: 240px;
-            border: 2px solid rgba(var(--color-white), 0.3);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        &__block{
             font-size: 22px;
             font-weight: 400;
             line-height: 150%;
             color: rgb(var(--color-white));
-            &::placeholder{
-                color: rgba(var(--color-white), 0.6);
-            }
         }
-        img{
-            position: absolute;
-            top: 50%;
-            right: 24px;
-            transform: translateY(-50%) rotate(90deg);
+        &__image{
+            display: block;
+            overflow: visible;
+        }
+        &__arrow{
+            position: relative;
+            right: 0;
+            transform: rotate(90deg);
         }
     }
     &__options{

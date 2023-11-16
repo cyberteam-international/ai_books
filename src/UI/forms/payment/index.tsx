@@ -10,9 +10,9 @@ import FormMobile from "./FormMobile";
 import FormBank from "./FormBank";
 
 import { SchemaPaymentAmountValue } from "@utils/config/yupShemes";
-import { SelectProps } from "@utils/interface";
 
-import { amountOptions, selectOptions } from "./data";
+import { BANKS, BANKS_BULLETS } from "@utils/config";
+import { Banks } from "@utils/interface";
 
 import style from './style.module.scss'
 
@@ -22,13 +22,13 @@ export default function FormPayment({ }: Props) {
 
 	const onlyNumberReg = /^\d+$/
 
-	const [paymentMethod, setPaymentMethod] = useState<SelectProps['value']>()
+	const [paymentMethod, setPaymentMethod] = useState<Banks>()
 	const [amountValue, setAmountValue] = useState<number>()
 	const [amountError, setAmountError] = useState<string>()
 	const [amountTouched, setAmountTouched] = useState<boolean>(false)
 
 	const setAmountBullets = () => {
-		return amountOptions.map((item, index) => {
+		return BANKS_BULLETS.map((item, index) => {
 			return (
 				<p
 					key={index}
@@ -69,12 +69,12 @@ export default function FormPayment({ }: Props) {
 			<div className={style.form__wrapper}>
 				<Select
 					value={paymentMethod}
-					onChange={setPaymentMethod}
+					onChange={(data)=>setPaymentMethod((data as Banks))}
 					placeholder="Выберите способ"
-					options={selectOptions}
+					options={BANKS}
 				/>
-				{paymentMethod?.type === 'bank' && <FormBank/>}
-				{paymentMethod?.type === 'mobile' && <FormMobile/>}
+				{paymentMethod?.value === 'bank' && <FormBank/>}
+				{paymentMethod?.value === 'mobile' && <FormMobile/>}
 			</div>
 			<div className={style.form__wrapper}>
 				<div className={style.form__amount}>

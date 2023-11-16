@@ -1,0 +1,32 @@
+
+
+.form{
+    display: block;
+    &__control{
+        margin-top: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+        &__wrapper{
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        &__character{
+            span{
+                color: rgba(var(--color-white), 0.6);
+            }
+        }
+        &__reset{
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            cursor: pointer;
+            color: rgb(var(--color-red));
+        }
+    }
+}

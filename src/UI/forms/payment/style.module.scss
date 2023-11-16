@@ -2,7 +2,7 @@
 
 .form{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 400px);
     gap: 40px;
     &__wrapper{
         display: flex;

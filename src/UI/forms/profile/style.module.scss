@@ -1,7 +1,8 @@
 .form{
     display: block;
     &__wrapper{
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 400px);
         align-items: center;
         gap: 24px;
     }

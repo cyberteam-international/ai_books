@@ -1,0 +1,39 @@
+
+
+.rules{
+    padding: 18px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 32px;
+    border: 2px solid rgba(var(--color-white), 0.06);
+    gap: 16px;
+    &__item{
+        display: flex;
+        gap: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(var(--color-white), 0.06);
+        &:last-child{
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        img{
+            margin-top: 14px;
+        }
+        &__wrapper{
+            p{
+                font-style: normal;
+                font-weight: 400;
+                &:first-child{
+                    font-size: 22px;
+                    line-height: 135%;
+                }
+                &:last-child{
+                    font-size: 18px;
+                    line-height: 150%;
+                    letter-spacing: 0.36px;
+                    color: rgba(var(--color-white), 0.6);
+                }
+            }
+        }
+    }
+}
