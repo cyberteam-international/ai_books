@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  ai_books_app:
+    command: start
+    build:
+      context: .
+    ports:
+      - "80:3000"
