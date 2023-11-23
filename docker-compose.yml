@@ -1,12 +1,10 @@
-version: '3.8'
+version: '3'
 services:
-  ai_books_web:
-    build:
-      context: ./
-      target: runner
-    volumes:
-      - .:/app
+  aibooks_nextjs:
+    container_name: aibooks_nextjs
+    build: ./
+  aibooks_nginx:
+    container_name: aibooks_nginx
+    build: ./nginx
     ports:
-      - "80:3000"
-    environment:
-      NODE_ENV: development
+      - 80:80
