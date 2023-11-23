@@ -1,12 +1,8 @@
-version: '3'
+version: '3.8'
 services:
-  aibooks_nextjs:
-    container_name: aibooks_nextjs
-    build: ./
-  aibooks_nginx:
-    container_name: aibooks_nginx
-    depends_on:
-      - aibooks_nextjs
-    build: ./nginx
+  ai_books_app:
+    command: start
+    build:
+      context: .
     ports:
-      - 80:80
+      - "80:3000"
