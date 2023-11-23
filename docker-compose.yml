@@ -5,6 +5,8 @@ services:
     build: ./
   aibooks_nginx:
     container_name: aibooks_nginx
+    depends_on:
+      - aibooks_nextjs
     build: ./nginx
     ports:
       - 80:80
