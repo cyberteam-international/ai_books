@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 import { SelectValue } from "./SelectValue";
 
 
@@ -7,5 +8,6 @@ enum BanksType{
 }
 
 export interface Banks extends SelectValue {
+    img: StaticImageData,
     value: keyof typeof BanksType,
 }

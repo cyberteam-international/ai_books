@@ -1,105 +1,40 @@
-import { StaticImageData } from "next/image"
-
-import ru_img from '@public/languages/ru.svg'
-import by_img from '@public/languages/by.svg'
-import kz_img from '@public/languages/kz.svg'
-import bg_img from '@public/languages/bg.svg'
-import hu_img from '@public/languages/hu.svg'
-import gr_img from '@public/languages/gr.svg'
-import dk_img from '@public/languages/dk.svg'
-import id_img from '@public/languages/id.svg'
-import es_img from '@public/languages/es.svg'
-import it_img from '@public/languages/it.svg'
-import cn_img from '@public/languages/cn.svg'
-import kr_img from '@public/languages/kr.svg'
-import fr_img from '@public/languages/fr.svg'
-
-enum VoiceValue {
-    'ru',
-    'by',
-    'kz',
-    'bg',
-    'hu',
-    'gr',
-    'dk',
-    'id',
-    'es',
-    'it',
-    'cn',
-    'kr',
-    'fr',
-}
-
-type Voices = {
-    img: StaticImageData,
-    title: string,
-    value: keyof typeof VoiceValue,
-}
+import { Voices } from "../interface"
 
 export const VOICES: Voices[] = [
     {
-        img: ru_img,
-        title: 'Русский',
-        value: 'ru'
+        title: 'Алиса',
+        value: 'Алиса',
+        inputValue: 'Алиса',
+        audio: 'test_audio.mp3'
     },
     {
-        img: by_img,
-        title: 'Беларускі',
-        value: 'by'
+        title: 'Василий Уткин',
+        value: 'Василий Уткин',
+        inputValue: 'Василий Уткин',
+        audio: 'test_audio.mp3'
     },
     {
-        img: kz_img,
-        title: 'Қазақша',
-        value: 'kz'
+        title: 'Ольга Бузова',
+        value: 'Ольга Бузова',
+        inputValue: 'Ольга Бузова',
+        audio: 'test_audio.mp3'
     },
     {
-        img: bg_img,
-        title: 'Български',
-        value: 'bg'
+        title: 'Олег',
+        value: 'Олег',
+        inputValue: 'Олег',
+        audio: 'test_audio.mp3'
     },
     {
-        img: hu_img,
-        title: 'Magyar',
-        value: 'hu'
+        title: 'Дмитрий Оленин',
+        value: 'Дмитрий Оленин',
+        inputValue: 'Дмитрий Оленин',
+        audio: 'test_audio.mp3'
     },
     {
-        img: gr_img,
-        title: 'Ελληνική',
-        value: 'gr'
-    },
-    {
-        img: dk_img,
-        title: 'Dansk',
-        value: 'dk'
-    },
-    {
-        img: id_img,
-        title: 'Японский',
-        value: 'id'
-    },
-    {
-        img: es_img,
-        title: 'Испанский',
-        value: 'es'
-    },
-    {
-        img: it_img,
-        title: 'Итальянский',
-        value: 'it'
-    },
-    {
-        img: cn_img,
-        title: 'Китайский',
-        value: 'cn'
-    },
-    {
-        img: kr_img,
-        title: 'Корейский',
-        value: 'kr'
-    },
-    {
-        img: fr_img,
-        title: 'Французкий',
-        value: 'fr'
-    },
+        title: 'Алла Довлатова',
+        value: 'Алла Довлатова',
+        inputValue: 'Алла Довлатова',
+        audio: 'test_audio.mp3'
+    }
 ]

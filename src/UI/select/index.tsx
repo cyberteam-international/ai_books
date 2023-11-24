@@ -4,34 +4,52 @@ import { useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import { Banks, Languages } from "@utils/interface";
+import { Banks, Languages, Voices } from "@utils/interface";
+
+import { PlayerSelect } from "../audioPlayer";
 
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
 
 type Props = {
-    value: Banks | Languages | undefined
+    value: Banks | Languages | Voices | undefined,
     onChange: (value: Props['value'])=>void,
     placeholder?: string,
-    imgVisible?: boolean,
-    styleInput?: boolean,
-    options: (Banks | Languages)[],
+    type: 'banks' | 'languages' | 'voices',
+    options: (Banks | Languages | Voices)[],
 }
 
-export default function Select({value, onChange, placeholder, options, imgVisible, styleInput=true }: Props) {
+export default function Select({value, onChange, placeholder, options, type }: Props) {
 
     const [isOpen, setIsOpen] = useState(false)
+    const [playingOption, setPlayingOption] = useState<number>(-1)
 
     const setOptions = () => {
         return options.map((item, index)=>{
-            return (
+            if (type === 'banks' || type === 'languages') {
+                return (
+                    <li 
+                        key={index} 
+                        className={style.select__options__list__item} 
+                        onClick={()=>{onChange({...item}); setIsOpen(false)}}
+                    >
+                        <Image {...(item as Banks || item as Languages).img} className={style.select__options__list__item__img} alt={item.title}/>
+                        <p>{item.title}</p>
+                    </li>
+                )
+            }
+            else return(
                 <li 
                     key={index} 
                     className={style.select__options__list__item} 
                     onClick={()=>{onChange({...item}); setIsOpen(false)}}
                 >
-                    <Image {...item.img} alt={item.title}/>
+                    <PlayerSelect 
+                        canPlay={playingOption === index} 
+                        setPlayingOption={()=>setPlayingOption(index)} 
+                        src={(item as Voices).audio}
+                    />
                     <p>{item.title}</p>
                 </li>
             )
@@ -39,29 +57,26 @@ export default function Select({value, onChange, placeholder, options, imgVisibl
     }
 
     return (
-        <div className={clsx(style.select, styleInput && style.select_form)}>
+        <div className={clsx(style.select, type === 'banks' && style.select_form)}>
             <div className={style.select__input} onClick={()=>setIsOpen(!isOpen)}>
-                {imgVisible && value?.img && 
+                {type === 'languages' && (value as Languages)?.img && 
                     <Image 
                         className={style.select__input__image} 
                         alt={value?.inputValue?? 'select value'}
-                        {...value?.img} 
+                        {...(value as Languages).img} 
                     />
                 }
-                {styleInput? (
+                {type === 'banks'? (
                     <input
-                        className={clsx(
-                            style.select__input__block,
-                            (imgVisible && value?.img) && style.select__input__block_img,
-                        )}
-                        value={value?.inputValue} 
+                        className={clsx(style.select__input__block, style.select__input__block_img)}
+                        value={value?.inputValue}
                         readOnly 
                         placeholder={placeholder} 
                     />
                 ) : (
                     <p className={style.select__input__block}>{value?.inputValue}</p>
                 )}
-                <Image className={style.select__input__arrow} {...arrow_right} alt='open select'/>
+                <Image className={clsx(style.select__input__arrow, isOpen && style.select__input__arrow_active)} {...arrow_right} alt='open select'/>
             </div>
             {isOpen && (
                 <div className={style.select__options}>

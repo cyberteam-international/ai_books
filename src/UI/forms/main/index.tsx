@@ -12,19 +12,20 @@ import Button from "@/UI/button";
 import icon_trash from '@public/icon_trash.svg'
 
 import style from './style.module.scss'
+import Delete from "@/UI/delete";
 
 type Props = {
-    language: Languages
-    voice: Languages
+    submit: (data: MainForm)=>void
+    canSubmit: boolean
 };
 
-export default function FormMain({ language, voice }: Props) {
+export default function FormMain({ submit, canSubmit }: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
 
     const {
         register,
-        formState: { touchedFields },
+        formState: { touchedFields, isValid },
         handleSubmit,
         getValues,
         watch,
@@ -33,14 +34,6 @@ export default function FormMain({ language, voice }: Props) {
         resolver: yupResolver(SchemaMain),
         mode: 'all',
     });
-
-    const submit = (data: MainForm) => {
-        console.log({
-            ...data,
-            language: language.value,
-            voice: voice.value
-        });
-    };
 
     useEffect(() => {
         if (getValues('data')?.length > 5000) {
@@ -60,12 +53,11 @@ export default function FormMain({ language, voice }: Props) {
                     <p className={style.form__control__character}>
                         <span>Символов</span> {characterCount.toLocaleString('ru')}/5 000
                     </p>
-                    <div className={style.form__control__reset} onClick={()=>setValue('data', '')}>
-                        <Image {...icon_trash} alt='reset textarea'/>
+                    <Delete callback={()=>setValue('data', '')}>
                         <p>Очистить</p>
-                    </div>
+                    </Delete>
                 </div>
-                <Button type="submit">Озвучить</Button>
+                <Button type="submit" isActive={Boolean(canSubmit && isValid)}>Озвучить</Button>
             </div>
         </form>
     );

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { SchemaProfileEmail, SchemaProfilePassword } from "@/utils/config/yupShemes";
+import { SchemaProfilePassword } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
 
 import Input from "@/UI/input";
@@ -42,7 +42,7 @@ export const FormPassword = () => {
         <div className={style.form}>
             <form className={style.form__wrapper} onSubmit={handleSubmit(submit)}>
                 <Input
-                    label='Пароль'
+                    placeholder='Пароль'
                     type="password"
                     status="disable"
                     error={errors['password']?.message}
@@ -53,7 +53,7 @@ export const FormPassword = () => {
                 </Input>
                 {step !== 'none' && (
                     <Input
-                        label='Новый пароль'
+                        placeholder='Новый пароль'
                         type="password"
                         touched={touchedFields['new_password']}
                         error={errors['new_password']?.message}
@@ -67,7 +67,7 @@ export const FormPassword = () => {
                 )}
                 {step === 'confirm password' && (
                     <Input
-                        label='Повторите пароль'
+                        placeholder='Повторите пароль'
                         type="password"
                         touched={touchedFields['confirm_password']}
                         error={errors['confirm_password']?.message}

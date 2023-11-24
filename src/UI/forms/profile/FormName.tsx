@@ -42,7 +42,7 @@ export const FormName = () => {
         <div className={style.form}>
             <form className={style.form__wrapper} onSubmit={handleSubmit(submit)}>
                 <Input
-                    label='Имя'
+                    placeholder='Имя'
                     status="disable"
                     touched={touchedFields['name']}
                     error={errors['name']?.message}
@@ -52,7 +52,7 @@ export const FormName = () => {
                 </Input>
                 {step === 'change name' && (
                     <Input
-                        label='Новое имя'
+                        placeholder='Новое имя'
                         touched={touchedFields['new_name']}
                         error={errors['new_name']?.message}
                         onSubmit={handleSubmit(submit)}

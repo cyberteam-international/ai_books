@@ -3,7 +3,7 @@
     &__wrapper{
         display: grid;
         grid-template-columns: repeat(3, 400px);
-        align-items: center;
+        align-items: flex-start;
         gap: 24px;
     }
 }

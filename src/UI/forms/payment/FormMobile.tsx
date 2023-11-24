@@ -9,17 +9,16 @@ import Input from "@UI/input";
 
 import style from './forms.module.scss'
 
-type Props = {};
+type Props = {
+    setValid: (val: boolean)=>void
+};
 
-export default function FormMobile({ }: Props) {
+export default function FormMobile({ setValid }: Props) {
 
     const {
         register,
-        formState: { errors, touchedFields },
+        formState: { errors, touchedFields, isValid },
         handleSubmit,
-        getValues, 
-        setValue,
-        watch,
     } = useForm<PaymentForm['FormMobile']>({
         resolver: yupResolver(SchemaPaymentMobile),
         mode: 'all',
@@ -29,11 +28,14 @@ export default function FormMobile({ }: Props) {
         console.log(data);
     };
 
+    useEffect(()=>{
+        setValid(isValid)
+    }, [isValid])
+
     return (
         <form id={'paymentForm'} className={style.form} onSubmit={handleSubmit(submit)}>
             <Input
-                label='Номер телефона'
-                placeholder=""
+                placeholder="Номер телефона"
                 touched={touchedFields['phone']}
                 error={errors['phone']?.message}
                 {...register('phone', { required: true })}

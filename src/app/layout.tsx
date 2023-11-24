@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
 import { FontOnest } from '@fonts/index'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import Header from '@components/Header'
+import Footer from '@components/Footer'
 
 import "normalize.css"
 import '@styles/global.scss'

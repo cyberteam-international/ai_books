@@ -26,6 +26,7 @@ export default function FormPayment({ }: Props) {
 	const [amountValue, setAmountValue] = useState<number>()
 	const [amountError, setAmountError] = useState<string>()
 	const [amountTouched, setAmountTouched] = useState<boolean>(false)
+	const [formValid, setFormValid] = useState<boolean>(false)
 
 	const setAmountBullets = () => {
 		return BANKS_BULLETS.map((item, index) => {
@@ -72,11 +73,8 @@ export default function FormPayment({ }: Props) {
 					onChange={(data)=>setPaymentMethod((data as Banks))}
 					placeholder="Выберите способ"
 					options={BANKS}
+					type={"banks"}
 				/>
-				{paymentMethod?.value === 'bank' && <FormBank/>}
-				{paymentMethod?.value === 'mobile' && <FormMobile/>}
-			</div>
-			<div className={style.form__wrapper}>
 				<div className={style.form__amount}>
 					<Input
 						touched={amountTouched}
@@ -92,12 +90,22 @@ export default function FormPayment({ }: Props) {
 					</Input>
 					<div className={style.form__amount__bullets}>{setAmountBullets()}</div>
 				</div>
-				<div className={style.form__submit}>
-					<Button type="submit" id="paymentForm">Пополнить</Button>
+				{paymentMethod?.value === 'bank' && <FormBank setValid={()=>setFormValid} />}
+				{paymentMethod?.value === 'mobile' && <FormMobile setValid={()=>setFormValid} />}
+				<Button 
+					type="submit" 
+					id="paymentForm"
+				>
+					<p>Пополнить</p>
 					{amountValue && 
-						<p>~{Math.floor(amountValue / 0.00299914995).toLocaleString('ru-RU')} символов</p>
+						<p className={style.form__submit_amount}>
+							~{Math.floor(amountValue / 0.00299914995).toLocaleString('ru-RU')} символов
+						</p>
 					}
-				</div>
+				</Button>
+				{/* {amountValue && 
+					<p>~{Math.floor(amountValue / 0.00299914995).toLocaleString('ru-RU')} символов</p>
+				} */}
 			</div>
 		</div>
 	);

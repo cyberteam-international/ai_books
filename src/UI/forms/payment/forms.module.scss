@@ -6,17 +6,7 @@
     gap: 16px;
     &__wrapper{
         display: flex;
-        align-items: center;
-        gap: 16px;
-        div:first-child{
-            input{
-                width: 135px;
-            }
-        }
-        div:last-child{
-            input{
-                width: 110px;
-            }
-        }
+        align-items: flex-start;
+        gap: 12px;
     }
 }

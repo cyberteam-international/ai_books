@@ -56,7 +56,7 @@ const Input: FC<Props> = forwardRef((
                 />
             )}
             <input
-                className={clsx(style.input__field, style[`input__field_${type}`])}
+                className={clsx(style.input__field, style[`input__field_${type}`], error && style.input__field_error)}
                 readOnly={status === 'disable'}
                 name={name}
                 value={value}
