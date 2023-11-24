@@ -21,6 +21,11 @@ body{
 
 main{
     padding: 64px 0;
+    transition: 0.3s opacity;
+    &.modal{
+        transition: 0.3s opacity;
+        opacity: 0.1;
+    }
 }
 
 footer{

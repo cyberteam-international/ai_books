@@ -55,6 +55,9 @@
             padding-left: calc(24px + 24px + 16px);
             // -webkit-text-security: disc;
         }
+        &_error{
+            border-color: rgb(var(--color-red));
+        }
     }
     &__children, &__success{
         position: absolute;
@@ -64,9 +67,8 @@
         cursor: pointer;
     }
     &__error{
-        position: absolute;
-        bottom: -10px;
-        left: 24px;
-        transform: translateY(100%);
+        margin-top: 10px;
+        padding-left: 24px;
+        color: rgb(var(--color-red));
     }
 }

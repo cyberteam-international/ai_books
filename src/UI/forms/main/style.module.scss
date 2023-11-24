@@ -21,12 +21,5 @@
                 color: rgba(var(--color-white), 0.6);
             }
         }
-        &__reset{
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            cursor: pointer;
-            color: rgb(var(--color-red));
-        }
     }
 }

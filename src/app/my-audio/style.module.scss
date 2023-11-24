@@ -1,0 +1,47 @@
+
+
+.page{
+    display: block;
+    &__table{
+        border-radius: 32px;
+        border: 2px solid rgba(var(--color-white), 0.06);
+        backdrop-filter: blur(32px);
+        padding: 32px 36px 36px 36px;
+        &__header{
+            display: grid;
+            grid-template-columns: 28px 2fr 1fr 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            border-bottom: 2px solid rgba(var(--color-white), 0.06);
+            padding: 0 16px 16px 16px;
+            &__filter{
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 150%;
+                color: rgba(var(--color-white), 0.3);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                &_active{
+                    color: rgb(var(--color-white));
+                }
+                &_time{
+                    padding-right: 40px;
+                    justify-content: flex-end;
+                }
+
+                &__image{
+                    transform: rotate(90deg) scale(1, -1);
+                    &_up{
+                        transform: rotate(90deg) scale(-1, 1);
+                    }
+                    &_down{
+                        transform: rotate(90deg) scale(1, -1);
+                    }
+                }
+            }
+        }
+    }
+}

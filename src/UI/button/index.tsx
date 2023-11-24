@@ -12,12 +12,12 @@ type Props = {
     id?: string
 };
 
-export default function Button({ children, callback, type='button', className, isActive=true, id }: Props) {
+export default function Button({ children, callback=()=>{}, type='button', className, isActive=true, id }: Props) {
     return (
         <button
             form={id}
             className={clsx(style.button, !isActive && style.button_disable, className)}
-            onClick={callback}
+            onClick={(e)=>{e.stopPropagation(); callback()}}
             type={type}
         >
             {children}
