@@ -4,6 +4,10 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useState } from 'react'
 
+import { PlayerFull } from '@UI/audioPlayer'
+
+import { dataMyAudio } from './data'
+
 import time from '@public/time.svg'
 import arrow_right from '@public/arrow_right.svg'
 
@@ -25,6 +29,7 @@ export default function PageMyAudio() {
 
     const [activeFilter, setActiveFilter] = useState<keyof typeof filter>('name')
     const [filterMode, setFilterMode] = useState<keyof typeof filterType>()
+    const [playingIndex, setPlayingIndex] = useState<number>(-1)
 
     const changeFilterHandler = (filterName: keyof typeof filter) => {
         if (filterName !== activeFilter) {
@@ -56,6 +61,18 @@ export default function PageMyAudio() {
                         <Image {...time} alt='filter time' />
                         <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'time' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter time' />
                     </div>
+                </div>
+                <div className={style.page__table__body}>
+                    {dataMyAudio.map((item, index)=>{
+                        return (
+                            <PlayerFull
+                                setPlayingIndex={()=>{setPlayingIndex(index)}} 
+                                canPlay={playingIndex === index} 
+                                {...item} 
+                                index={index+1}
+                            />
+                        )
+                    })}
                 </div>
             </div>
         </main>

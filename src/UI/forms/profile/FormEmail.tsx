@@ -42,7 +42,7 @@ export const FormEmail = () => {
         <div className={style.form}>
             <form className={style.form__wrapper} onSubmit={handleSubmit(submit)}>
                 <Input
-                    label='Почта'
+                    placeholder='Почта'
                     type="email"
                     status="disable"
                     error={errors['email']?.message}
@@ -53,7 +53,7 @@ export const FormEmail = () => {
                 </Input>
                 {step !== 'none' && (
                     <Input
-                        label='Новая почта'
+                        placeholder='Новая почта'
                         type="email"
                         touched={touchedFields['new_email']}
                         error={errors['new_email']?.message}
@@ -67,7 +67,7 @@ export const FormEmail = () => {
                 )}
                 {step === 'confirm code' && (
                     <Input
-                        label='Введите код из письма'
+                        placeholder='Введите код из письма'
                         touched={touchedFields['email']}
                         error={errors['confirm_email']?.message}
                         onSubmit={handleSubmit(submit)}

@@ -9,7 +9,7 @@
         padding: 32px 36px 36px 36px;
         &__header{
             display: grid;
-            grid-template-columns: 28px 2fr 1fr 1fr 1fr;
+            grid-template-columns: 28px 360px 1fr 1fr 1fr;
             align-items: center;
             gap: 60px;
             border-bottom: 2px solid rgba(var(--color-white), 0.06);
@@ -27,11 +27,10 @@
                 &_active{
                     color: rgb(var(--color-white));
                 }
-                &_time{
-                    padding-right: 40px;
-                    justify-content: flex-end;
-                }
-
+                // &_time{
+                //     padding-right: 40px;
+                //     justify-content: flex-end;
+                // }
                 &__image{
                     transform: rotate(90deg) scale(1, -1);
                     &_up{
@@ -42,6 +41,12 @@
                     }
                 }
             }
+        }
+        &__body{
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
     }
 }
