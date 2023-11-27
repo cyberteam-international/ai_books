@@ -9,6 +9,7 @@ import { SchemaProfileEmail } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
 
 import Input from "@/UI/input";
+import { ModalMessage } from "@/components/Modal";
 
 import arrow_right from '@public/arrow_right.svg'
 
@@ -21,6 +22,7 @@ type Props = {
 export const FormEmail = () => {
 
     const [step, setStep] = useState<Props['stepState']>('none')
+    const [completeMessage, setCompleteMessage] = useState<string>()
 
     const {
         register,
@@ -36,6 +38,8 @@ export const FormEmail = () => {
     
     const submit = (data: ProfileForm['FormEmail']) => {
         console.log(data)
+        setStep('none')
+        setCompleteMessage('Вы успешно изменили почту')
     }
 
     return (
@@ -68,13 +72,14 @@ export const FormEmail = () => {
                 {step === 'confirm code' && (
                     <Input
                         placeholder='Введите код из письма'
-                        touched={touchedFields['email']}
+                        touched={touchedFields['confirm_email']}
                         error={errors['confirm_email']?.message}
                         onSubmit={handleSubmit(submit)}
                         {...register('confirm_email', { required: false })}
                     />
                 )}
             </form>
+            <ModalMessage message={completeMessage}/>
         </div>
     )
 }

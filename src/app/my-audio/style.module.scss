@@ -43,10 +43,15 @@
             }
         }
         &__body{
-            margin-top: 16px;
+            padding-top: 16px;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            height: 400px;
+            overflow-y: scroll;
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
     }
 }

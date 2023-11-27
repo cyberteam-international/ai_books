@@ -9,6 +9,7 @@ import { SchemaProfileName } from "@utils/config/yupShemes";
 import { ProfileForm } from "@utils/interface";
 
 import Input from "@/UI/input";
+import { ModalMessage } from "@/components/Modal";
 
 import arrow_right from '@public/arrow_right.svg'
 
@@ -21,6 +22,7 @@ type Props = {
 export const FormName = () => {
 
     const [step, setStep] = useState<Props['stepState']>('none');
+    const [completeMessage, setCompleteMessage] = useState<string>()
 
     const {
         register,
@@ -36,6 +38,8 @@ export const FormName = () => {
 
     const submit = (data: ProfileForm['FormName']) => {
         console.log(data);
+        setStep('none');
+        setCompleteMessage(`Ваше имя изменено на ${data.new_name}`)
     };
 
     return (
@@ -60,6 +64,7 @@ export const FormName = () => {
                     />
                 )}
             </form>
+            <ModalMessage message={completeMessage}/>
         </div>
     );
 }

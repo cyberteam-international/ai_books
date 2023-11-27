@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
-import { ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
+import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
 import Select from '@UI/select'
 import FormMain from '@UI/forms/main'
 import Rules from '@components/main/Rules'
@@ -20,6 +20,7 @@ export default function PageHome() {
 	const [voice, setVoice] = useState<Voices>(VOICES[0])
 	const [modalOpen, setModalOpen] = useState<boolean>(false)
 	const [loading, setLoading] = useState<boolean>(false)
+	const [completeMessage, setCompleteMessage] = useState<string>()
 
 	useEffect(() => {
 		console.log(language)
@@ -40,6 +41,7 @@ export default function PageHome() {
 			const timeout = setTimeout(()=>{
 				setModalOpen(true)
 				setLoading(false)
+				setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
 			}, 3000)
 		}
 	}, [loading])
@@ -75,6 +77,7 @@ export default function PageHome() {
 			<ModalWrapper state={[modalOpen, setModalOpen]}>
 				<ModalResult/>
 			</ModalWrapper>
+			<ModalMessage message={completeMessage}/>
 		</>
 	)
 }

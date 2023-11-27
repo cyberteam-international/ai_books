@@ -74,3 +74,42 @@
         }
     }
 }
+
+.message{
+    position: fixed;
+    top: 90%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 24px;
+    border: 1px solid #FFF;
+    background: rgba(var(--color-white), 0.12);
+    backdrop-filter: blur(32px);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 24px;
+    z-index: 1;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+    letter-spacing: 0.36px;
+    color: rgb(var(--color-white));
+    transition: 0.3s opacity;
+    max-width: calc(50vw - 24px - 24px);
+
+    &_enter{
+        opacity: 0;
+        &_active{
+            transition: 0.3s opacity;
+            opacity: 1;
+        }
+    }
+    &_exit{
+        opacity: 1;
+        &_active{
+            transition: 0.3s opacity;
+            opacity: 0;
+        }
+    }
+}

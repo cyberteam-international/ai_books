@@ -74,6 +74,8 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
         data.forEach((value, key)=>{
             console.log(`${key}: ${value}`);
         })
+        setNewTrackName(`Аудиокнига «${trackName}»`)
+
     }
 
     useEffect(() => {
@@ -88,7 +90,6 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.volume = 0.1
-            onLoadedMetadata()
         }
     }, [audioRef])
 
@@ -124,6 +125,7 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
                 <div className={style.player__wrapper_info}>
                     <audio
                         ref={audioRef}
+                        onCanPlayThrough={()=>onLoadedMetadata()}
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
@@ -151,19 +153,21 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
                         <span></span>
                     </div>
                 </div>
-                <div className={style.player__wrapper_range}>
-                    <input
-                        className={style.player__range}
-                        ref={progressBarRef}
-                        type="range"
-                        value={currentTime}
-                        defaultValue="0"
-                        max={duration}
-                        onChange={handleChangeRange}
-                    />
-                    <span 
-                        style={{ width: `${playLineWidth}%`}}></span>
-                </div>
+                {isPlaying && (
+                    <div className={style.player__wrapper_range}>
+                        <input
+                            className={style.player__range}
+                            ref={progressBarRef}
+                            type="range"
+                            value={currentTime}
+                            defaultValue="0"
+                            max={duration}
+                            onChange={handleChangeRange}
+                        />
+                        <span 
+                            style={{ width: `${playLineWidth}%`}}></span>
+                    </div>
+                )}
                 {menuOpen && (
                     <div className={style.player__options}>
                         <div className={style.player__options__download} onClick={()=>{console.log('Скачать'); setMenuOpen(false)}}>

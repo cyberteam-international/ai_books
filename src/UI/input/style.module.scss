@@ -2,9 +2,6 @@
 
 .input{
     display: block;
-    position: relative;
-    z-index: 0;
-    width: 100%;
     &_active{
         .input__field{
             pointer-events: all;
@@ -14,6 +11,11 @@
         .input__field{
             pointer-events: all;
         }
+    }
+    &__wrapper{
+        position: relative;
+        width: 100%;
+        z-index: 0;
     }
     &__label{
         position: absolute;

@@ -9,6 +9,7 @@ import { SchemaProfilePassword } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
 
 import Input from "@/UI/input";
+import { ModalMessage } from "@/components/Modal";
 
 import arrow_right from '@public/arrow_right.svg'
 
@@ -21,6 +22,7 @@ type Props = {
 export const FormPassword = () => {
 
     const [step, setStep] = useState<Props['stepState']>('none')
+    const [completeMessage, setCompleteMessage] = useState<string>()
 
     const {
         register,
@@ -36,6 +38,8 @@ export const FormPassword = () => {
     
     const submit = (data: ProfileForm['FormPassword']) => {
         console.log(data)
+        setStep('none')
+        setCompleteMessage('Пароль успешно изменен')
     }
 
     return (
@@ -76,6 +80,7 @@ export const FormPassword = () => {
                     />
                 )}
             </form>
+            <ModalMessage message={completeMessage}/>
         </div>
     )
 }

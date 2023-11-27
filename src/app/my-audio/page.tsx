@@ -33,7 +33,8 @@ export default function PageMyAudio() {
 
     const changeFilterHandler = (filterName: keyof typeof filter) => {
         if (filterName !== activeFilter) {
-            return setActiveFilter(filterName)
+            setActiveFilter(filterName)
+            setFilterMode('up')
         }
         else{
             setFilterMode(filterMode === 'down'? 'up' : 'down')

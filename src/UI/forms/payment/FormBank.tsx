@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 
 import { PaymentForm } from "@utils/interface";
 import { SchemaPaymentBank } from "@utils/config/yupShemes";
@@ -7,13 +8,13 @@ import { SchemaPaymentBank } from "@utils/config/yupShemes";
 import Input from "@UI/input";
 
 import style from './forms.module.scss'
-import { useEffect } from "react";
 
 type Props = {
-    setValid: (val: boolean)=>void
+    setValid: (val: boolean)=>void,
+    onSubmit: (data: object)=>void
 };
 
-export default function FormBank({ setValid }: Props) {
+export default function FormBank({ setValid, onSubmit }: Props) {
 
     const {
         register,
@@ -21,19 +22,19 @@ export default function FormBank({ setValid }: Props) {
         handleSubmit,
     } = useForm<PaymentForm['FormBank']>({
         resolver: yupResolver(SchemaPaymentBank),
-        mode: 'all',
+        mode: 'onBlur',
     });
 
-    const submit = (data: PaymentForm['FormBank']) => {
-        console.log(data);
-    };
+    // const submit = (data: PaymentForm['FormBank']) => {
+    //     console.log(data);
+    // };
 
     useEffect(()=>{
         setValid(isValid)
     }, [isValid])
 
     return (
-        <form id={'paymentForm'} className={style.form} onSubmit={handleSubmit(submit)}>
+        <form id={'paymentForm'} className={style.form} onSubmit={handleSubmit(onSubmit)}>
             <Input
                 placeholder="Номер карты"
                 touched={touchedFields['card_number']}
