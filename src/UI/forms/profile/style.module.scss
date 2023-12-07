@@ -1,9 +1,26 @@
+@import "@styles/spec";
+
 .form{
     display: block;
     &__wrapper{
-        display: grid;
-        grid-template-columns: repeat(3, 400px);
+        display: flex;
         align-items: flex-start;
+        flex-wrap: wrap;
         gap: 24px;
+        @include media-down(sm){
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: stretch;
+        }
+    }
+    &__block{
+        width: 400px;
+        @include media-down(lg){
+            width: 320px;
+        }
+        @include media-down(sm){
+            width: 100%;
+        }
     }
 }

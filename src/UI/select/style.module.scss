@@ -1,4 +1,4 @@
-
+@import "@styles/spec";
 
 .select{
     position: relative;
@@ -21,12 +21,21 @@
                     &::placeholder{
                         color: rgba(var(--color-white), 0.6);
                     }
+                    @include media-down (sm){
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 135%; /* 21.6px */
+                    }
                 }
                 &__arrow{
                     position: absolute;
                     top: 50%;
                     right: 24px;
                     transform: translateY(-50%) rotate(90deg);
+                }
+                &__image{
+                    display: none;
                 }
             }
         }
@@ -36,6 +45,12 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        @include media-down (sm){
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 135%; /* 21.6px */
+        }
         &__block{
             font-size: 22px;
             font-weight: 400;

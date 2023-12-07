@@ -1,4 +1,4 @@
-
+@import "@styles/spec";
 
 .modal{
     position: absolute;
@@ -10,7 +10,10 @@
     background: rgb(var(--color-white));
     transition: 0.3s opacity;
     color: rgb(var(--сolor-grey));
-
+    @include media-down(sm){
+        width: calc(100% - 15px - 15px);
+    }
+    
     &_enter{
         opacity: 0;
         &_active{
@@ -65,19 +68,32 @@
         display: flex;
         flex-direction: column;
         gap: 32px;
+        @include media-down(sm){
+            width: 100%;
+        }
         &__options{
             padding-top: 16px;
             border-top: 2px solid rgba(var(--сolor-grey), 0.03);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            @include media-down(sm){
+                padding-top: 0;
+                border-top: none;
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 12px;
+                button{
+                    grid-row: 1/1;
+                }
+            }
         }
     }
 }
 
 .message{
     position: fixed;
-    top: 90%;
+    top: 80%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     border-radius: 24px;
@@ -85,7 +101,8 @@
     background: rgba(var(--color-white), 0.12);
     backdrop-filter: blur(32px);
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
     padding: 24px;
     z-index: 1;
@@ -96,7 +113,16 @@
     letter-spacing: 0.36px;
     color: rgb(var(--color-white));
     transition: 0.3s opacity;
-    max-width: calc(50vw - 24px - 24px);
+    max-width: 50%;
+    width: 100%;
+    @include media-down(sm){
+        max-width: calc(100% - 15px - 15px);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 130%; /* 20.8px */
+        letter-spacing: 0.32px;
+    }
 
     &_enter{
         opacity: 0;

@@ -1,0 +1,7 @@
+<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="burger">
+<rect width="38" height="38" rx="10" fill="white" fill-opacity="0.12"/>
+<rect id="Rectangle 12" x="13" y="10" width="22" height="4" rx="2" transform="rotate(45 13 10)" fill="white"/>
+<rect id="Rectangle 15" x="10" y="25.9999" width="22" height="4" rx="2" transform="rotate(-45 10 25.9999)" fill="white"/>
+</g>
+</svg>

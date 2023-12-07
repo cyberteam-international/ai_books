@@ -1,4 +1,4 @@
-
+@import "@styles/spec";
 
 .page{
     display: block;
@@ -14,6 +14,9 @@
             gap: 60px;
             border-bottom: 2px solid rgba(var(--color-white), 0.06);
             padding: 0 16px 16px 16px;
+            // @include media-down (lg){
+            //     grid-template-columns: 28px 160px 1fr 1fr 1fr;
+            // }
             &__filter{
                 font-size: 18px;
                 font-style: normal;

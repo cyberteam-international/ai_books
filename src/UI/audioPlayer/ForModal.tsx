@@ -118,8 +118,10 @@ export const PlayerModal = ({ }: Props) => {
                             <Image {...change_black} />
                         </label>
                     </form>
-                    <p>{voiceName}</p>
-                    <p>{formatTime()}</p>
+                    <div className={style.player__wrapper_info__wrapper}>
+                        <p>{voiceName}</p>
+                        <p>{formatTime()}</p>
+                    </div>
                 </div>
                 <div className={style.player__wrapper_range}>
                     <input

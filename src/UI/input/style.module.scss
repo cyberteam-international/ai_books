@@ -1,4 +1,4 @@
-
+@import "@styles/spec";
 
 .input{
     display: block;
@@ -47,6 +47,12 @@
         font-weight: 400;
         line-height: 150%;
         color: rgb(var(--color-white));
+        @include media-down(sm){
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 150%;
+        }
         &::placeholder{
             color: rgba(var(--color-white), 0.6);
         }
