@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   ai_books_app:
-    command: start
+    command: dev
     build:
       context: .
     ports:
