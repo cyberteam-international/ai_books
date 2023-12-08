@@ -7,6 +7,11 @@
         border: 2px solid rgba(var(--color-white), 0.06);
         backdrop-filter: blur(32px);
         padding: 32px 36px 36px 36px;
+        @include media-down (sm){
+            padding: 0;
+            border: none;
+            border-radius: 0;
+        }
         &__header{
             display: grid;
             grid-template-columns: 28px 360px 1fr 1fr 1fr;
@@ -14,9 +19,11 @@
             gap: 60px;
             border-bottom: 2px solid rgba(var(--color-white), 0.06);
             padding: 0 16px 16px 16px;
-            // @include media-down (lg){
-            //     grid-template-columns: 28px 160px 1fr 1fr 1fr;
-            // }
+            @include media-down (lg){
+                display: block;
+                border-bottom: 0;
+                padding: 0;
+            }
             &__filter{
                 font-size: 18px;
                 font-style: normal;
@@ -54,6 +61,10 @@
             overflow-y: scroll;
             &::-webkit-scrollbar {
                 display: none;
+            }
+            @include media-down (sm){
+                gap: 20px;
+                margin-top: 4px;
             }
         }
     }

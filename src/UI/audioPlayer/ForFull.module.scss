@@ -1,4 +1,4 @@
-
+@import "@styles/spec";
 
 .player{
     display: flex;
@@ -7,6 +7,10 @@
     padding: 8px 16px;
     border-radius: 8px;
     position: relative;
+    @include media-down (sm){
+        padding: 0;
+        background: none !important;
+    }
     &:hover{
         background: rgba(var(--color-white), 0.03);
     }
@@ -22,6 +26,12 @@
         align-items: center;
         gap: 4px;
         cursor: pointer;
+        @include media-down (lg){
+            position: relative;
+            transform: translateY(0%);
+            right: 0;
+            top: 0;
+        }
         &:hover{
             opacity: 0.6;
         }
@@ -53,6 +63,13 @@
         letter-spacing: 0.36px;
         color: rgba(var(--color-white), 0.6);
         text-align: left;
+        @include media-down (lg){
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 150%; /* 18px */
+            letter-spacing: 0.24px;
+        }
     }
     &__options{
         position: absolute;
@@ -89,10 +106,16 @@
             gap: 0 60px;
             text-align: right;
             position: relative;
+            @include media-down (lg){
+                display: block;
+            }
         }
         &_range{
             margin-top: 14px;
             position: relative;
+            @include media-down (lg){
+                margin-top: 0;
+            }
             span{
                 position: absolute;
                 display: block;
@@ -150,6 +173,13 @@
         line-height: 150%;
         letter-spacing: 0.36px;
         position: relative;
+        @include media-down (lg){
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 150%; /* 21px */
+            letter-spacing: 0.28px;
+        }
         &:hover{
             input{
                 color: rgba(var(--color-gray), 0.6);
@@ -174,6 +204,14 @@
             height: 17px;
             opacity: 0;
             transition: 0.3s opacity;
+        }
+    }
+
+    &__bottom{
+        display: flex;
+        justify-content: space-between;
+        &__wrapper{
+            display: block;
         }
     }
 }

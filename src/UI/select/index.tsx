@@ -11,14 +11,15 @@ import { PlayerSelect } from "../audioPlayer";
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
+import { IDataFilter } from "@/app/my-audio/data";
 
 type Props = {
-    value: Banks | Languages | Voices | undefined,
+    value: Banks | Languages | Voices | IDataFilter | undefined,
     onChange: (value: Props['value'])=>void,
     placeholder?: string,
     type: 'banks' | 'languages' | 'voices',
     inputStyle?: 'withForm' | 'default',
-    options: (Banks | Languages | Voices)[],
+    options: (Banks | Languages | Voices | IDataFilter)[],
 }
 
 export default function Select({value, onChange, placeholder, options, type, inputStyle='withForm' }: Props) {
@@ -35,7 +36,9 @@ export default function Select({value, onChange, placeholder, options, type, inp
                         className={style.select__options__list__item} 
                         onClick={()=>{onChange({...item}); setIsOpen(false)}}
                     >
-                        <Image {...(item as Banks || item as Languages).img} className={style.select__options__list__item__img} alt={item.title}/>
+                        {(item as Banks || item as Languages).img && (
+                            <Image {...(item as Banks || item as Languages).img} className={style.select__options__list__item__img} alt={item.title}/>
+                        )}
                         <p>{item.title}</p>
                     </li>
                 )
