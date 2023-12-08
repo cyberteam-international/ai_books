@@ -10,10 +10,11 @@ import Input from "@UI/input";
 import style from './forms.module.scss'
 
 type Props = {
-    setValid: (val: boolean)=>void
+    setValid: (val: boolean)=>void,
+    onSubmit: (data: object)=>void
 };
 
-export default function FormMobile({ setValid }: Props) {
+export default function FormMobile({ setValid, onSubmit }: Props) {
 
     const {
         register,
@@ -24,16 +25,16 @@ export default function FormMobile({ setValid }: Props) {
         mode: 'all',
     });
 
-    const submit = (data: PaymentForm['FormMobile']) => {
-        console.log(data);
-    };
+    // const submit = (data: PaymentForm['FormMobile']) => {
+    //     console.log(data);
+    // };
 
     useEffect(()=>{
         setValid(isValid)
     }, [isValid])
 
     return (
-        <form id={'paymentForm'} className={style.form} onSubmit={handleSubmit(submit)}>
+        <form id={'paymentForm'} className={style.form} onSubmit={handleSubmit(onSubmit)}>
             <Input
                 placeholder="Номер телефона"
                 touched={touchedFields['phone']}

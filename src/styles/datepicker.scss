@@ -818,6 +818,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-top: 12px;
 }
 
 .react-datepicker__week{
@@ -965,8 +966,6 @@
 }
 
 .react-datepicker__header__dropdown{
-  grid-row: 2;
-  margin-top: 11px;
   display: flex;
   align-items: center;
   gap: 12px;

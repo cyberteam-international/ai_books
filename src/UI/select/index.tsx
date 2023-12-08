@@ -11,16 +11,18 @@ import { PlayerSelect } from "../audioPlayer";
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
+import { IDataFilter } from "@/app/my-audio/data";
 
 type Props = {
-    value: Banks | Languages | Voices | undefined,
+    value: Banks | Languages | Voices | IDataFilter | undefined,
     onChange: (value: Props['value'])=>void,
     placeholder?: string,
     type: 'banks' | 'languages' | 'voices',
-    options: (Banks | Languages | Voices)[],
+    inputStyle?: 'withForm' | 'default',
+    options: (Banks | Languages | Voices | IDataFilter)[],
 }
 
-export default function Select({value, onChange, placeholder, options, type }: Props) {
+export default function Select({value, onChange, placeholder, options, type, inputStyle='withForm' }: Props) {
 
     const [isOpen, setIsOpen] = useState(false)
     const [playingOption, setPlayingOption] = useState<number>(-1)
@@ -34,7 +36,9 @@ export default function Select({value, onChange, placeholder, options, type }: P
                         className={style.select__options__list__item} 
                         onClick={()=>{onChange({...item}); setIsOpen(false)}}
                     >
-                        <Image {...(item as Banks || item as Languages).img} className={style.select__options__list__item__img} alt={item.title}/>
+                        {(item as Banks || item as Languages).img && (
+                            <Image {...(item as Banks || item as Languages).img} className={style.select__options__list__item__img} alt={item.title}/>
+                        )}
                         <p>{item.title}</p>
                     </li>
                 )
@@ -57,7 +61,7 @@ export default function Select({value, onChange, placeholder, options, type }: P
     }
 
     return (
-        <div className={clsx(style.select, type === 'banks' && style.select_form)}>
+        <div className={clsx(style.select, inputStyle === 'withForm' && style.select_form)}>
             <div className={style.select__input} onClick={()=>setIsOpen(!isOpen)}>
                 {type === 'languages' && (value as Languages)?.img && 
                     <Image 
@@ -66,7 +70,7 @@ export default function Select({value, onChange, placeholder, options, type }: P
                         {...(value as Languages).img} 
                     />
                 }
-                {type === 'banks'? (
+                {inputStyle === 'withForm'? (
                     <input
                         className={clsx(style.select__input__block, style.select__input__block_img)}
                         value={value?.inputValue}

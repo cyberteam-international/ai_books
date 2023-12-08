@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { useWindowWidth } from '@react-hook/window-size'
 
-import { ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
+import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
 import Select from '@UI/select'
 import FormMain from '@UI/forms/main'
 import Rules from '@components/main/Rules'
@@ -20,6 +21,9 @@ export default function PageHome() {
 	const [voice, setVoice] = useState<Voices>(VOICES[0])
 	const [modalOpen, setModalOpen] = useState<boolean>(false)
 	const [loading, setLoading] = useState<boolean>(false)
+	const [completeMessage, setCompleteMessage] = useState<string>()
+
+	const windowWidth = typeof window !== undefined? useWindowWidth(): 1920
 
 	useEffect(() => {
 		console.log(language)
@@ -40,6 +44,7 @@ export default function PageHome() {
 			const timeout = setTimeout(()=>{
 				setModalOpen(true)
 				setLoading(false)
+				setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
 			}, 3000)
 		}
 	}, [loading])
@@ -53,17 +58,27 @@ export default function PageHome() {
 						value={language}
 						onChange={(data) => setLanguage((data as Languages))}
 						type={'languages'}
+						inputStyle={windowWidth < 768? 'withForm': 'default'}
 					/>
 					<Select
 						options={VOICES}
 						value={voice}
 						onChange={(data) => setVoice((data as unknown as Voices))}
 						type={'voices'}
+						inputStyle={windowWidth < 768? 'withForm': 'default'}
 					/>
 				</div>
+				{windowWidth < 768 && (
+					<div className={style.main__wrapper}>
+						<Rules/>
+					</div>
+					
+				)}
 				<div className={style.main__wrapper}>
 					<FormMain submit={submit} canSubmit={language.value && voice.value? true : false}/>
-					<Rules />
+					{windowWidth > 768 && (
+						<Rules />
+					)}
 				</div>
 			</main>
 			{loading && (
@@ -75,6 +90,7 @@ export default function PageHome() {
 			<ModalWrapper state={[modalOpen, setModalOpen]}>
 				<ModalResult/>
 			</ModalWrapper>
+			<ModalMessage message={completeMessage}/>
 		</>
 	)
 }

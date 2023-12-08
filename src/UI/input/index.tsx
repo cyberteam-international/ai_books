@@ -44,33 +44,35 @@ const Input: FC<Props> = forwardRef((
 
     return (
         <div className={clsx(style.input, style[`input_${status}`])}>
-            {label && (
-                <label className={style.input__label} htmlFor={name}>{label}</label>
-            )}
-            {type === 'password' && (
-                <Image
-                    className={style.input__toggle}
-                    onClick={() => setPasswordVisible(!passwordVisible)}
-                    {...password_eye}
-                    alt="toggle password visible"
+            <div className={style.input__wrapper}>
+                {label && (
+                    <label className={style.input__label} htmlFor={name}>{label}</label>
+                )}
+                {type === 'password' && (
+                    <Image
+                        className={style.input__toggle}
+                        onClick={() => setPasswordVisible(!passwordVisible)}
+                        {...password_eye}
+                        alt="toggle password visible"
+                    />
+                )}
+                <input
+                    className={clsx(style.input__field, style[`input__field_${type}`], error && style.input__field_error)}
+                    readOnly={status === 'disable'}
+                    name={name}
+                    value={value}
+                    id={name}
+                    type={type === 'password' ? passwordVisible ? 'text' : type : type}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    ref={ref}
                 />
-            )}
-            <input
-                className={clsx(style.input__field, style[`input__field_${type}`], error && style.input__field_error)}
-                readOnly={status === 'disable'}
-                name={name}
-                value={value}
-                id={name}
-                type={type === 'password' ? passwordVisible ? 'text' : type : type}
-                placeholder={placeholder}
-                onChange={onChange}
-                onBlur={onBlur}
-                ref={ref}
-            />
-            <div className={style.input__children}>{children}</div>
-            {!error && touched && status !== 'disable' && !children &&
-                <Image className={style.input__success} onClick={onSubmit} {...checkmark} alt="submit" />
-            }
+                <div className={style.input__children}>{children}</div>
+                {!error && touched && status !== 'disable' && !children &&
+                    <Image className={style.input__success} onClick={onSubmit} {...checkmark} alt="submit" />
+                }
+            </div>
             {error && <p className={style.input__error}>{error}</p>}
         </div>
     )

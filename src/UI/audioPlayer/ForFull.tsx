@@ -15,15 +15,16 @@ import pause from '@public/player/pause.svg'
 import download from '@public/download.svg'
 
 import style from './ForFull.module.scss'
+import { useWindowWidth } from '@react-hook/window-size';
 
 interface Props extends IDataMyAudio {
     index: number,
     canPlay: boolean,
-    setPlayingIndex: ()=>void
+    setPlayingIndex: () => void
 };
 
-export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, setPlayingIndex}: Props) => {
-    
+export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay, setPlayingIndex }: Props) => {
+
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState<number | undefined>(0)
     const [currentTime, setCurrentTime] = useState<number>(0)
@@ -35,6 +36,8 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
 
     const audioRef = useRef<HTMLAudioElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
+
+    const windowWidth = typeof window !== undefined ? useWindowWidth() : 1920
 
     const onLoadedMetadata = () => {
         if (audioRef.current && audioRef.current.duration) {
@@ -51,7 +54,6 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
     const formatTime = () => {
         if (duration) {
             const timeRemaning = duration - currentTime
-            console.log(timeRemaning)
             const minutes = Math.floor(timeRemaning / 60);
             const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
             const seconds = Math.floor(timeRemaning % 60);
@@ -71,9 +73,11 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
     const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget)
-        data.forEach((value, key)=>{
+        data.forEach((value, key) => {
             console.log(`${key}: ${value}`);
         })
+        setNewTrackName(`Аудиокнига «${trackName}»`)
+
     }
 
     useEffect(() => {
@@ -88,18 +92,17 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.volume = 0.1
-            onLoadedMetadata()
         }
     }, [audioRef])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!canPlay && audioRef.current) {
             setIsPlaying(false)
             audioRef.current.currentTime = 0
         }
     }, [canPlay])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (progressBarRef.current && duration) {
             setPlayLineWidth((Number(progressBarRef.current.value) / duration) * 100)
         }
@@ -107,72 +110,90 @@ export const PlayerFull = ({index, src, trackName, voiceName, dateAdd, canPlay, 
 
     return (
         <div className={clsx(style.player, isPlaying && style.player_active)}>
-            <p className={style.player__index}>{index}</p>
-            <Button className={clsx(style.player__button)} callback={() => {setIsPlaying(!isPlaying); setPlayingIndex()}}>
-                <Image 
-                    className={clsx(style.player__button__img, isPlaying && style.player__button__img_active)} 
-                    {...pause} 
-                    alt="pause" 
+            {windowWidth > 1280 && (
+                <p className={style.player__index}>{index}</p>
+            )}
+            <Button className={clsx(style.player__button)} callback={() => { setIsPlaying(!isPlaying); setPlayingIndex() }}>
+                <Image
+                    className={clsx(style.player__button__img, isPlaying && style.player__button__img_active)}
+                    {...pause}
+                    alt="pause"
                 />
-                <Image 
-                    className={clsx(style.player__button__img, !isPlaying && style.player__button__img_active)} 
-                    {...play} 
-                    alt="play" 
+                <Image
+                    className={clsx(style.player__button__img, !isPlaying && style.player__button__img_active)}
+                    {...play}
+                    alt="play"
                 />
             </Button>
             <div className={style.player__wrapper}>
                 <div className={style.player__wrapper_info}>
                     <audio
                         ref={audioRef}
+                        onCanPlayThrough={() => onLoadedMetadata()}
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
                         src={src}
                     />
                     <form onSubmit={submitHandler} className={style.player__input}>
-                        <input 
+                        <input
                             type="text"
                             name='track_name'
                             id='track_name'
                             defaultValue={trackNameState}
                             value={newTrackName}
-                            onChange={(e)=>{setNewTrackName(e.currentTarget.value)}} 
+                            onChange={(e) => { setNewTrackName(e.currentTarget.value) }}
                         />
                         <label htmlFor="track_name">
                             <Image {...change_white} />
                         </label>
                     </form>
-                    <p className={style.player__text}>{voiceNameState}</p>
-                    <p className={style.player__text}>{formatDate(dateAdd)}</p>
-                    <p className={style.player__text}>{formatTime()}</p>
-                    <div className={clsx(style.player__menu, menuOpen && style.player__menu_active)} onClick={()=>{setMenuOpen(!menuOpen)}}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                    {windowWidth > 1280 && (
+                        <>
+                            <p className={style.player__text}>{voiceNameState}</p>
+                            <p className={style.player__text}>{formatDate(dateAdd)}</p>
+                            <p className={style.player__text}>{formatTime()}</p>
+                        </>
+                    )}
                 </div>
-                <div className={style.player__wrapper_range}>
-                    <input
-                        className={style.player__range}
-                        ref={progressBarRef}
-                        type="range"
-                        value={currentTime}
-                        defaultValue="0"
-                        max={duration}
-                        onChange={handleChangeRange}
-                    />
-                    <span 
-                        style={{ width: `${playLineWidth}%`}}></span>
-                </div>
-                {menuOpen && (
-                    <div className={style.player__options}>
-                        <div className={style.player__options__download} onClick={()=>{console.log('Скачать'); setMenuOpen(false)}}>
-                            <Image {...download} alt='download'/>
-                            <p>Скачать</p>
-                        </div>
-                        <Delete callback={()=>{console.log('Удалить'); setMenuOpen(false)}}><p>Удалить</p></Delete>
+                {isPlaying && (
+                    <div className={style.player__wrapper_range}>
+                        <input
+                            className={style.player__range}
+                            ref={progressBarRef}
+                            type="range"
+                            value={currentTime}
+                            defaultValue="0"
+                            max={duration}
+                            onChange={handleChangeRange}
+                        />
+                        <span
+                            style={{ width: `${playLineWidth}%` }}></span>
                     </div>
                 )}
+                {windowWidth < 1280 && (
+                    <div className={style.player__bottom}>
+                        <div className={style.player__bottom__wrapper}>
+                            <p className={style.player__text}>{voiceNameState}</p>
+                            <p className={style.player__text}>{formatDate(dateAdd)}</p>
+                        </div>
+                        <p className={style.player__text}>{formatTime()}</p>
+                    </div>
+                )}
+                {menuOpen && (
+                    <div className={style.player__options}>
+                        <div className={style.player__options__download} onClick={() => { console.log('Скачать'); setMenuOpen(false) }}>
+                            <Image {...download} alt='download' />
+                            <p>Скачать</p>
+                        </div>
+                        <Delete callback={() => { console.log('Удалить'); setMenuOpen(false) }}><p>Удалить</p></Delete>
+                    </div>
+                )}
+            </div>
+            <div className={clsx(style.player__menu, menuOpen && style.player__menu_active)} onClick={() => { setMenuOpen(!menuOpen) }}>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     );

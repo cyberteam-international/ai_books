@@ -55,6 +55,7 @@ export const PlayerModal = ({ }: Props) => {
         data.forEach((value, key)=>{
             console.log(`${key}: ${value}`);
         })
+        setNewTrackName('Без названия #1')
     }
 
     useEffect(() => {
@@ -98,7 +99,8 @@ export const PlayerModal = ({ }: Props) => {
                         ref={audioRef}
                         controls
                         hidden
-                        onLoadedMetadata={onLoadedMetadata}
+                        onCanPlayThrough={()=>onLoadedMetadata()}
+                        onLoadedMetadataCapture={()=>{onLoadedMetadata()}}
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
                         src={'test_audio.mp3'}
                     />
@@ -116,8 +118,10 @@ export const PlayerModal = ({ }: Props) => {
                             <Image {...change_black} />
                         </label>
                     </form>
-                    <p>{voiceName}</p>
-                    <p>{formatTime()}</p>
+                    <div className={style.player__wrapper_info__wrapper}>
+                        <p>{voiceName}</p>
+                        <p>{formatTime()}</p>
+                    </div>
                 </div>
                 <div className={style.player__wrapper_range}>
                     <input

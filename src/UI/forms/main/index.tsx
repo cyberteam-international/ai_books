@@ -45,6 +45,7 @@ export default function FormMain({ submit, canSubmit }: Props) {
     return (
         <form id={'mainForm'} className={style.form} onSubmit={handleSubmit(submit)}>
             <TextArea
+                placeholder={'Вставьте или введите сюда текст, можно озвучить до 5 000 символов'}
                 touched={touchedFields['data']}
                 {...register('data', { required: true })}
             />
