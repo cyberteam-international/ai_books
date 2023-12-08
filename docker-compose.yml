@@ -1,8 +1,19 @@
-version: '3.8'
 services:
-  ai_books_app:
-    command: dev
+  nextjs:
+    container_name: nextjs
     build:
-      context: .
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/logs:/var/log/nginx
     ports:
-      - "80:3000"
+      - 80:80
+    depends_on:
+      - nextjs
+    restart: always
