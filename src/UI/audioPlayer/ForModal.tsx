@@ -19,7 +19,6 @@ export const PlayerModal = ({ }: Props) => {
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState<number>()
     const [currentTime, setCurrentTime] = useState<number>(0)
-    const [playLineWidth, setPlayLineWidth] = useState<number>(0)
     const [trackName, setTrackName] = useState('Без названия #1')
     const [newTrackName, setNewTrackName] = useState('Без названия #1')
     const [voiceName, setVoiceName] = useState('Алиса')
@@ -67,17 +66,17 @@ export const PlayerModal = ({ }: Props) => {
         }
     }, [isPlaying])
 
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.volume = 0.1
+    useEffect(()=>{
+        if (currentTime < 1) {
+            progressBarRef.current?.style.setProperty('--value', `${0}`);
         }
-    }, [audioRef])
+        else progressBarRef.current?.style.setProperty('--value', `${currentTime}`);
+    }, [currentTime])
 
     useEffect(()=>{
-        if (progressBarRef.current && duration) {
-            setPlayLineWidth((Number(progressBarRef.current.value) / duration) * 100)
-        }
-    }, [progressBarRef.current?.value, duration])
+        progressBarRef.current?.style.setProperty('--min', `${0}`);
+        progressBarRef.current?.style.setProperty('--max', `${duration}`);
+    }, [duration, progressBarRef.current])
 
     return (
         <div className={style.player}>
@@ -100,11 +99,11 @@ export const PlayerModal = ({ }: Props) => {
                         controls
                         hidden
                         onCanPlayThrough={()=>onLoadedMetadata()}
+                        onEnded={()=>setIsPlaying(false)}
                         onLoadedMetadataCapture={()=>{onLoadedMetadata()}}
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
                         src={'test_audio.mp3'}
                     />
-                    {/* <p>{formatTime(currentTime)}</p> */}
                     <form onSubmit={submitHandler}  className={style.player__input}>
                         <input 
                             type="text"
@@ -125,7 +124,7 @@ export const PlayerModal = ({ }: Props) => {
                 </div>
                 <div className={style.player__wrapper_range}>
                     <input
-                        className={style.player__range}
+                        className={clsx(style.player__range, 'track', 'play')}
                         ref={progressBarRef}
                         type="range"
                         value={currentTime}
@@ -133,8 +132,6 @@ export const PlayerModal = ({ }: Props) => {
                         max={duration}
                         onChange={handleChangeRange}
                     />
-                    <span 
-                        style={{ width: `${playLineWidth}%`}}></span>
                 </div>
             </div>
         </div>

@@ -3,11 +3,14 @@ import Image from 'next/image';
 import { useState, useRef, ChangeEvent, FormEventHandler, useEffect } from 'react';
 import { ru } from 'date-fns/locale'
 import { format } from 'date-fns';
+import { useWindowWidth } from '@react-hook/window-size';
 
 import Button from '../button';
 import Delete from '../delete';
 
 import { IDataMyAudio } from '@/app/my-audio/data';
+
+import { useIsClient } from '@/utils/hooks';
 
 import change_white from '@public/change_white.svg'
 import play from '@public/player/play.svg'
@@ -15,7 +18,6 @@ import pause from '@public/player/pause.svg'
 import download from '@public/download.svg'
 
 import style from './ForFull.module.scss'
-import { useWindowWidth } from '@react-hook/window-size';
 
 interface Props extends IDataMyAudio {
     index: number,
@@ -28,16 +30,16 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState<number | undefined>(0)
     const [currentTime, setCurrentTime] = useState<number>(0)
-    const [playLineWidth, setPlayLineWidth] = useState<number>(0)
-    const [trackNameState, setTrackNameState] = useState(`Аудиокнига «${trackName}»`)
-    const [newTrackName, setNewTrackName] = useState(trackNameState)
-    const [voiceNameState, setVoiceNameState] = useState(voiceName)
+    const [trackNameState, setTrackNameState] = useState<string>()
+    const [newTrackName, setNewTrackName] = useState<string>()
     const [menuOpen, setMenuOpen] = useState(false)
 
     const audioRef = useRef<HTMLAudioElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
 
-    const windowWidth = typeof window !== undefined ? useWindowWidth() : 1920
+    const isClient = useIsClient()
+
+    const windowWidth = useWindowWidth()
 
     const onLoadedMetadata = () => {
         if (audioRef.current && audioRef.current.duration) {
@@ -77,8 +79,12 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
             console.log(`${key}: ${value}`);
         })
         setNewTrackName(`Аудиокнига «${trackName}»`)
-
     }
+
+    useEffect(()=>{
+        setTrackNameState(`Аудиокнига «${trackName}»`)
+        setNewTrackName(`Аудиокнига «${trackName}»`)
+    }, [trackName])
 
     useEffect(() => {
         if (isPlaying) {
@@ -102,15 +108,22 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
         }
     }, [canPlay])
 
-    useEffect(() => {
-        if (progressBarRef.current && duration) {
-            setPlayLineWidth((Number(progressBarRef.current.value) / duration) * 100)
+    useEffect(()=>{
+        if (currentTime < 1) {
+            progressBarRef.current?.style.setProperty('--value', `${0}`);
         }
-    }, [progressBarRef.current?.value, duration])
+        else progressBarRef.current?.style.setProperty('--value', `${currentTime}`);
+    }, [currentTime])
+
+    useEffect(()=>{
+        console.log('duration')
+        progressBarRef.current?.style.setProperty('--min', `${0}`);
+        progressBarRef.current?.style.setProperty('--max', `${duration}`);
+    }, [duration, progressBarRef.current])
 
     return (
         <div className={clsx(style.player, isPlaying && style.player_active)}>
-            {windowWidth > 1280 && (
+            {isClient && windowWidth > 1280 && (
                 <p className={style.player__index}>{index}</p>
             )}
             <Button className={clsx(style.player__button)} callback={() => { setIsPlaying(!isPlaying); setPlayingIndex() }}>
@@ -130,6 +143,7 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                     <audio
                         ref={audioRef}
                         onCanPlayThrough={() => onLoadedMetadata()}
+                        onEnded={()=>setIsPlaying(false)}
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
@@ -148,9 +162,9 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                             <Image {...change_white} />
                         </label>
                     </form>
-                    {windowWidth > 1280 && (
+                    {isClient && windowWidth > 1280 && (
                         <>
-                            <p className={style.player__text}>{voiceNameState}</p>
+                            <p className={style.player__text}>{voiceName}</p>
                             <p className={style.player__text}>{formatDate(dateAdd)}</p>
                             <p className={style.player__text}>{formatTime()}</p>
                         </>
@@ -159,7 +173,7 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                 {isPlaying && (
                     <div className={style.player__wrapper_range}>
                         <input
-                            className={style.player__range}
+                            className={clsx(style.player__range, 'track', 'play')}
                             ref={progressBarRef}
                             type="range"
                             value={currentTime}
@@ -167,14 +181,12 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                             max={duration}
                             onChange={handleChangeRange}
                         />
-                        <span
-                            style={{ width: `${playLineWidth}%` }}></span>
                     </div>
                 )}
-                {windowWidth < 1280 && (
+                {isClient && windowWidth < 1280 && (
                     <div className={style.player__bottom}>
                         <div className={style.player__bottom__wrapper}>
-                            <p className={style.player__text}>{voiceNameState}</p>
+                            <p className={style.player__text}>{voiceName}</p>
                             <p className={style.player__text}>{formatDate(dateAdd)}</p>
                         </div>
                         <p className={style.player__text}>{formatTime()}</p>

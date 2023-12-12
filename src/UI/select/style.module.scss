@@ -45,6 +45,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
+
         @include media-down (sm){
             font-size: 16px;
             font-style: normal;
@@ -56,15 +57,18 @@
             font-weight: 400;
             line-height: 150%;
             color: rgb(var(--color-white));
+            cursor: pointer;
         }
         &__image{
             display: block;
             overflow: visible;
+            cursor: pointer;
         }
         &__arrow{
             position: relative;
             right: 0;
             transform: rotate(90deg);
+            cursor: pointer;
             &_active{
                 transform: rotate(90deg) scale(-1, 1);
             }

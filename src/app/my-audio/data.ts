@@ -110,7 +110,7 @@ export const filterOptionsMyAudio: IDataFilter[] = [
         title: 'По голосу озвучки',
         inputValue: 'Сортировка: по голосу озвучки',
         filter: 'voice',
-        filterType: 'down',
+        filterType: 'up',
     },
     {
         title: 'Сначала новые',

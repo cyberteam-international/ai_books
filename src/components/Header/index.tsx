@@ -7,6 +7,7 @@ import { useWindowWidth } from '@react-hook/window-size';
 import { useState } from 'react';
 
 import { LINKS, ROUTES } from '@utils/config';
+import { useIsClient } from '@/utils/hooks';
 
 import logo from '@public/logo.svg'
 import profile from '@public/profile.svg'
@@ -24,13 +25,14 @@ type Props = {
 
 export default function Header({ }: Props) {
 
-    const windowWidth = typeof window !== undefined ? useWindowWidth() : 1920;
-
     const [isOpen, setIsOpen] = useState(false);
+    const isClient = useIsClient()
+
+    const windowWidth = useWindowWidth()
 
     return (
-        <header className={clsx(style.header, (windowWidth < 768 && isOpen) && style.header_open, windowWidth > 768 && 'container')}>
-            {windowWidth > 768 ? (
+        <header className={clsx(style.header, (isClient && windowWidth < 768 && isOpen) && style.header_open, isClient && windowWidth > 768 && 'container')}>
+            {isClient && windowWidth > 768 ? (
                 <>
                     <Link href={ROUTES.HOME}>
                         <Image {...logo} alt='AI Books logo' />
@@ -56,7 +58,7 @@ export default function Header({ }: Props) {
             ) : (
                 <div className={clsx(style.header__wrapper, 'container')}>
                     <div className={style.header__top}>
-                        <Link onClick={()=>setIsOpen(false)} href={ROUTES.HOME}>
+                        <Link onClick={() => setIsOpen(false)} href={ROUTES.HOME}>
                             <Image {...logo} alt='AI Books logo' />
                         </Link>
                         {isOpen ? (
@@ -69,17 +71,17 @@ export default function Header({ }: Props) {
                         <ul className={style.header__menu}>
                             <li className={style.header__menu__item}>
                                 <p>Личный кабинет</p>
-                                <Link onClick={()=>setIsOpen(false)} href={ROUTES.PROFILE}>Александр</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PROFILE}>Александр</Link>
                             </li>
                             <li className={style.header__menu__item}>
                                 <p>Баланс</p>
-                                <Link onClick={()=>setIsOpen(false)} href={ROUTES.PAYMENT}>2 999 000.49 ₽</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>2 999 000.49 ₽</Link>
                             </li>
                             <li className={style.header__menu__item}>
-                                <Link onClick={()=>setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
                             </li>
                             <li className={style.header__menu__item}>
-                                <Link onClick={()=>setIsOpen(false)} href={ROUTES.HOME}><span>Справка</span></Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.HOME}><span>Справка</span></Link>
                             </li>
                             <li className={style.header__menu__item}>
                                 <a href={LINKS.ABOUT_US} target="_blank" rel="noopener noreferrer"><span>О проекте</span></a>
@@ -95,9 +97,9 @@ export default function Header({ }: Props) {
                             </li>
                         </ul>
                         <div className={style.header__social}>
-                            <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk'/></a>
-                            <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image {...telegram} alt='telegram'/></a>
-                            <a href={LINKS.WHATSAPP} target="_blank" rel="noopener noreferrer"><Image {...whatsapp} alt='whatsapp'/></a>
+                            <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk' /></a>
+                            <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image {...telegram} alt='telegram' /></a>
+                            <a href={LINKS.WHATSAPP} target="_blank" rel="noopener noreferrer"><Image {...whatsapp} alt='whatsapp' /></a>
                         </div>
                         <p className={style.header__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>
                     </nav>

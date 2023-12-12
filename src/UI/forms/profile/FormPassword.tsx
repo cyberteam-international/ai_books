@@ -16,6 +16,7 @@ import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
 import Button from "@/UI/button";
+import { useIsClient } from "@/utils/hooks";
 
 type Props = {
     stepState: 'none' | 'change password' | 'confirm password',
@@ -26,12 +27,15 @@ export const FormPassword = () => {
     const [step, setStep] = useState<Props['stepState']>('none')
     const [completeMessage, setCompleteMessage] = useState<string>()
 
-    const windowWidth = typeof window !== undefined ? useWindowWidth() : 1920;
+    const isClient = useIsClient()
+
+    const windowWidth = useWindowWidth();
 
     const {
         register,
         formState: { errors, touchedFields, isValid },
         handleSubmit,
+        reset,
     } = useForm<ProfileForm['FormPassword']>({
         resolver: yupResolver(SchemaProfilePassword),
         mode: 'all',
@@ -43,6 +47,7 @@ export const FormPassword = () => {
     const submit = (data: ProfileForm['FormPassword']) => {
         console.log(data)
         setStep('none')
+        reset()
         setCompleteMessage('Пароль успешно изменен')
     }
 
@@ -77,6 +82,12 @@ export const FormPassword = () => {
                         </Input>
                     </div>
                 )}
+                {step === 'change password' && isClient && windowWidth < 768 && (
+                    <Button 
+                        isActive={Boolean(touchedFields['new_password']) && !errors['new_password']?.message} 
+                        callback={() => setStep('confirm password')}
+                    >Изменить пароль</Button>
+                )}
                 {step === 'confirm password' && (
                     <div className={style.form__block}>
                         <Input
@@ -89,7 +100,7 @@ export const FormPassword = () => {
                         />
                     </div>
                 )}
-                {step === 'confirm password' && windowWidth < 768 && (
+                {step === 'confirm password' && isClient && windowWidth < 768 && (
                     <Button isActive={isValid} type="submit">Применить изменения</Button>
                 )}
             </form>

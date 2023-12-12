@@ -11,6 +11,7 @@ import Rules from '@components/main/Rules'
 import Loader from '@UI/loader'
 
 import { LANGUAGES, VOICES } from '@utils/config'
+import { useIsClient } from '@/utils/hooks'
 import { Languages, MainForm, Voices } from '@utils/interface'
 
 import style from './style.module.scss'
@@ -23,7 +24,9 @@ export default function PageHome() {
 	const [loading, setLoading] = useState<boolean>(false)
 	const [completeMessage, setCompleteMessage] = useState<string>()
 
-	const windowWidth = typeof window !== undefined? useWindowWidth(): 1920
+	const isClient = useIsClient()
+
+	const windowWidth = useWindowWidth()
 
 	useEffect(() => {
 		console.log(language)
@@ -58,17 +61,17 @@ export default function PageHome() {
 						value={language}
 						onChange={(data) => setLanguage((data as Languages))}
 						type={'languages'}
-						inputStyle={windowWidth < 768? 'withForm': 'default'}
+						inputStyle={isClient && windowWidth < 768? 'withForm': 'default'}
 					/>
 					<Select
 						options={VOICES}
 						value={voice}
 						onChange={(data) => setVoice((data as unknown as Voices))}
 						type={'voices'}
-						inputStyle={windowWidth < 768? 'withForm': 'default'}
+						inputStyle={isClient && windowWidth < 768? 'withForm': 'default'}
 					/>
 				</div>
-				{windowWidth < 768 && (
+				{isClient && windowWidth < 768 && (
 					<div className={style.main__wrapper}>
 						<Rules/>
 					</div>
@@ -76,7 +79,7 @@ export default function PageHome() {
 				)}
 				<div className={style.main__wrapper}>
 					<FormMain submit={submit} canSubmit={language.value && voice.value? true : false}/>
-					{windowWidth > 768 && (
+					{isClient && windowWidth > 768 && (
 						<Rules />
 					)}
 				</div>

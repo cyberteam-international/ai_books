@@ -16,6 +16,7 @@ import Button from "@/UI/button";
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
+import { useIsClient } from "@/utils/hooks";
 
 type Props = {
     stepState: 'none' | 'change name',
@@ -26,11 +27,14 @@ export const FormName = () => {
     const [step, setStep] = useState<Props['stepState']>('none');
     const [completeMessage, setCompleteMessage] = useState<string>()
 
-    const windowWidth = typeof window !== undefined? useWindowWidth() : 1920;
+    const isClient = useIsClient()
+
+    const windowWidth = useWindowWidth();
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, touchedFields, isValid },
     } = useForm<ProfileForm['FormName']>({
         resolver: yupResolver(SchemaProfileName),
@@ -43,6 +47,7 @@ export const FormName = () => {
     const submit = (data: ProfileForm['FormName']) => {
         console.log(data);
         setStep('none');
+        reset()
         setCompleteMessage(`Ваше имя изменено на ${data.new_name}`)
     };
 
@@ -71,7 +76,7 @@ export const FormName = () => {
                         />
                     </div>
                 )}
-                {step === 'change name' && windowWidth < 768 && (
+                {step === 'change name' && isClient && windowWidth < 768 && (
                     <Button isActive={isValid} type="submit">Применить изменения</Button>
                 )}
             </form>
