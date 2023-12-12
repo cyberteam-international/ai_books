@@ -8,14 +8,15 @@ import { useWindowWidth } from "@react-hook/window-size";
 
 import { SchemaProfileEmail } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
+import { useIsClient } from "@/utils/hooks";
 
 import Input from "@/UI/input";
+import Button from "@/UI/button";
 import { ModalMessage } from "@/components/Modal";
 
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
-import Button from "@/UI/button";
 
 type Props = {
     stepState: 'none' | 'change email' | 'confirm code',
@@ -26,11 +27,14 @@ export const FormEmail = () => {
     const [step, setStep] = useState<Props['stepState']>('none')
     const [completeMessage, setCompleteMessage] = useState<string>()
 
-    const windowWidth = typeof window !== undefined ? useWindowWidth() : 1920;
+    const windowWidth = useWindowWidth();
+
+    const isClient = useIsClient()
 
     const {
         register,
         formState: { errors, touchedFields, isValid },
+        reset,
         handleSubmit,
     } = useForm<ProfileForm['FormEmail']>({
         resolver: yupResolver(SchemaProfileEmail),
@@ -43,6 +47,7 @@ export const FormEmail = () => {
     const submit = (data: ProfileForm['FormEmail']) => {
         console.log(data)
         setStep('none')
+        reset()
         setCompleteMessage('Вы успешно изменили почту')
     }
 
@@ -81,9 +86,9 @@ export const FormEmail = () => {
                         </Input>
                     </div>
                 )}
-                {step === 'change email' && windowWidth < 768 && (
+                {step === 'change email' && isClient && windowWidth < 768 && (
                     <Button
-                        isActive={touchedFields['new_email'] && !errors['new_email']?.message}
+                        isActive={Boolean(touchedFields['new_email']) && !errors['new_email']?.message}
                         callback={() => sendCode()}
                     >Отправить код</Button>
                 )}
@@ -98,7 +103,7 @@ export const FormEmail = () => {
                         />
                     </div>
                 )}
-                {step === 'confirm code' && windowWidth < 768 && (
+                {step === 'confirm code' && isClient && windowWidth < 768 && (
                     <Button isActive={isValid} type="submit">Применить изменения</Button>
                 )}
             </form>

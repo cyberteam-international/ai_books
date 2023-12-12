@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react'
 import { useWindowWidth } from '@react-hook/window-size'
 
 import { PlayerFull } from '@UI/audioPlayer'
+import Select from '@/UI/select'
+
+import { useIsClient } from '@/utils/hooks'
 
 import { IDataFilter, IDataMyAudio, dataMyAudio, filter, filterOptionsMyAudio, filterType } from './data'
 
@@ -13,7 +16,7 @@ import time from '@public/time.svg'
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
-import Select from '@/UI/select'
+
 
 export default function PageMyAudio() {
 
@@ -24,9 +27,11 @@ export default function PageMyAudio() {
     const [playingIndex, setPlayingIndex] = useState<number>(-1)
 
     const [defaultAudioList, setDefaultAudioList] = useState<IDataMyAudio[]>(dataMyAudio)
-    const [filterAudioList, setFilterAudioList] = useState<IDataMyAudio[]>(dataMyAudio)
+    const [filterAudioList, setFilterAudioList] = useState<IDataMyAudio[]>()
 
-    const windowWidth = typeof window !== undefined ? useWindowWidth() : 1920
+    const isClient = useIsClient()
+
+    const windowWidth = useWindowWidth()
 
     const changeFilterHandler = (filterName: keyof typeof filter) => {
         if (filterName !== activeFilter) {
@@ -39,20 +44,22 @@ export default function PageMyAudio() {
     }
 
     useEffect(() => {
-        const newAudioList: IDataMyAudio[] = dataMyAudio;
+        let newAudioList: IDataMyAudio[] | undefined;
         switch (activeFilter) {
             case 'date':
-                newAudioList.sort((a, b) => filterMode === 'up' ? b.dateAdd.getTime() - a.dateAdd.getTime() : a.dateAdd.getTime() - b.dateAdd.getTime());
+                newAudioList = [...defaultAudioList].sort((a, b) => filterMode === 'up' ? a.dateAdd.getTime() - b.dateAdd.getTime() : b.dateAdd.getTime() - a.dateAdd.getTime());
                 break;
-            case 'name': 
-                newAudioList.sort((a, b)=> filterMode === 'up' ? a.trackName.localeCompare(b.trackName): b.trackName.localeCompare(a.trackName))
-            case 'voice': 
-                newAudioList.sort((a, b)=> filterMode === 'up' ? a.voiceName.localeCompare(b.voiceName): b.voiceName.localeCompare(a.voiceName))
+            case 'name':
+                newAudioList = [...defaultAudioList].sort((a, b) => filterMode === 'up' ? a.trackName.localeCompare(b.trackName) : b.trackName.localeCompare(a.trackName))
+                break;
+            case 'voice':
+                newAudioList = [...defaultAudioList].sort((a, b) => filterMode === 'up' ? a.voiceName.localeCompare(b.voiceName) : b.voiceName.localeCompare(a.voiceName))
+                break;
             default:
                 break;
         }
+        console.log('newAudioList', newAudioList)
         setFilterAudioList(newAudioList)
-        console.log('filterAudioList', filterAudioList)
     }, [defaultAudioList, activeFilter, filterMode]);
 
     useEffect(() => {
@@ -66,7 +73,7 @@ export default function PageMyAudio() {
         <main className={clsx(style.page, 'container')}>
             <div className={style.page__table}>
                 <div className={style.page__table__header}>
-                    {windowWidth > 1280 ? (
+                    {isClient && windowWidth > 1280 ? (
                         <>
                             <p className={clsx(style.page__table__header__filter, style.page__table__header__filter_number)}>#</p>
                             <div onClick={() => changeFilterHandler('name')} className={clsx(style.page__table__header__filter, style.page__table__header__filter_name, activeFilter === 'name' && style.page__table__header__filter_active)}>
@@ -87,13 +94,17 @@ export default function PageMyAudio() {
                             </div>
                         </>
                     ) : (
-                        <Select
-                            options={filterOptionsMyAudio}
-                            value={selectFilterValue}
-                            inputStyle='withForm'
-                            onChange={(val) => { setSelectFilterValue(val as IDataFilter) }}
-                            type='banks'
-                        />
+                        <>
+                            {isClient && (
+                                <Select
+                                    options={filterOptionsMyAudio}
+                                    value={selectFilterValue}
+                                    inputStyle='withForm'
+                                    onChange={(val) => { setSelectFilterValue(val as IDataFilter) }}
+                                    type='banks'
+                                />
+                            )}
+                        </>
                     )}
 
                 </div>
