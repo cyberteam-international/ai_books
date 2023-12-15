@@ -2,12 +2,16 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
+import axios from "axios";
 
 import { SchemaProfileName } from "@utils/config/yupShemes";
 import { ProfileForm } from "@utils/interface";
+import { useIsClient } from "@/utils/hooks";
+import { ENDPOINTS } from "@/utils/config";
+import { ContextUser } from "@/utils/context";
 
 import Input from "@/UI/input";
 import { ModalMessage } from "@/components/Modal";
@@ -16,16 +20,18 @@ import Button from "@/UI/button";
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
-import { useIsClient } from "@/utils/hooks";
 
 type Props = {
-    stepState: 'none' | 'change name',
+    
 };
 
-export const FormName = () => {
+type Steps = 'none' | 'change name'
 
-    const [step, setStep] = useState<Props['stepState']>('none');
+export const FormName = ({}: Props) => {
+
+    const [step, setStep] = useState<Steps>('none');
     const [completeMessage, setCompleteMessage] = useState<string>()
+    const [userState, setUserState] = useContext(ContextUser)
 
     const isClient = useIsClient()
 
@@ -35,21 +41,40 @@ export const FormName = () => {
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors, touchedFields, isValid },
     } = useForm<ProfileForm['FormName']>({
         resolver: yupResolver(SchemaProfileName),
         mode: 'all',
         defaultValues: {
-            name: 'Александр',
+            name: userState?.name,
         },
     });
 
     const submit = (data: ProfileForm['FormName']) => {
-        console.log(data);
-        setStep('none');
-        reset()
-        setCompleteMessage(`Ваше имя изменено на ${data.new_name}`)
+        axios({
+            ...ENDPOINTS.USERS.UPDATE_INFO,
+            data: {...data, password: 'password'},
+        }).then(res=>{
+            console.log(res)
+            setStep('none');
+            reset()
+            setCompleteMessage(`Ваше имя изменено на ${data.name}`)
+            if (userState) {
+                setUserState({...userState, name: data.name})
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
+        // setStep('none');
+        // reset()
     };
+
+    useEffect(()=>{
+        if (userState?.name) {
+            setValue('old_name', userState?.name)
+        }
+    }, [userState])
 
     return (
         <div className={style.form}>
@@ -58,9 +83,9 @@ export const FormName = () => {
                     <Input
                         placeholder='Имя'
                         status="disable"
-                        touched={touchedFields['name']}
-                        error={errors['name']?.message}
-                        {...register('name', { required: true })}
+                        touched={touchedFields['old_name']}
+                        error={errors['old_name']?.message}
+                        {...register('old_name', { required: true })}
                     >
                         <Image onClick={() => setStep(step === 'none' ? 'change name' : 'none')} {...arrow_right} alt="change name" />
                     </Input>
@@ -69,10 +94,10 @@ export const FormName = () => {
                     <div className={style.form__block}>
                         <Input
                             placeholder='Новое имя'
-                            touched={touchedFields['new_name']}
-                            error={errors['new_name']?.message}
+                            touched={touchedFields['name']}
+                            error={errors['name']?.message}
                             onSubmit={handleSubmit(submit)}
-                            {...register('new_name', { required: true })}
+                            {...register('name', { required: true })}
                         />
                     </div>
                 )}

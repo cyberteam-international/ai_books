@@ -1,12 +1,12 @@
 export type ProfileForm = {
     FormName: {
+        old_name: string,
         name: string,
-        new_name: string,
     },
     FormEmail: {
+        old_email: string,
         email: string,
-        new_email: string,
-        confirm_email: string
+        code: string
     },
     FormPassword: {
         password: string,
