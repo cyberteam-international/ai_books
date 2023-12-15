@@ -2,13 +2,14 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
 
 import { SchemaProfileEmail } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
 import { useIsClient } from "@/utils/hooks";
+import { ContextUser } from "@/utils/context";
 
 import Input from "@/UI/input";
 import Button from "@/UI/button";
@@ -17,6 +18,8 @@ import { ModalMessage } from "@/components/Modal";
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
+import { ENDPOINTS } from "@/utils/config";
+import axios from "axios";
 
 type Props = {
     stepState: 'none' | 'change email' | 'confirm code',
@@ -26,6 +29,7 @@ export const FormEmail = () => {
 
     const [step, setStep] = useState<Props['stepState']>('none')
     const [completeMessage, setCompleteMessage] = useState<string>()
+    const [userState, setUserState] = useContext(ContextUser)
 
     const windowWidth = useWindowWidth();
 
@@ -35,24 +39,50 @@ export const FormEmail = () => {
         register,
         formState: { errors, touchedFields, isValid },
         reset,
+        setValue,
+        getValues,
         handleSubmit,
     } = useForm<ProfileForm['FormEmail']>({
         resolver: yupResolver(SchemaProfileEmail),
         mode: 'all',
         defaultValues: {
-            email: 'donsky@email.com',
+            email: userState?.email,
         },
     });
 
     const submit = (data: ProfileForm['FormEmail']) => {
-        console.log(data)
-        setStep('none')
-        reset()
-        setCompleteMessage('Вы успешно изменили почту')
+        axios({
+            ...ENDPOINTS.USERS.UPDATE_EMAIL_CONFIRM,
+            data: data,
+        }).then(res=>{
+            setStep('none')
+            reset()
+            setCompleteMessage('Вы успешно изменили почту')
+            if (userState) {
+                setUserState({...userState, email: data.email})
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
     }
 
+    useEffect(()=>{
+        if (userState?.name) {
+            setValue('old_email', userState?.email)
+        }
+    }, [userState])
+
     const sendCode = () => {
-        setStep('confirm code')
+        axios({
+            ...ENDPOINTS.USERS.UPDATE_EMAIL,
+            data: {"email": getValues('email')},
+        }).then(res=>{
+            console.log(res)
+            setStep('confirm code')
+            setCompleteMessage(`На адрес ${getValues('email')} выслано письмо подтверждения`)
+        }).catch(err=>{
+            console.log(err)
+        })
     }
 
     return (
@@ -63,9 +93,9 @@ export const FormEmail = () => {
                         placeholder='Почта'
                         type="email"
                         status="disable"
-                        error={errors['email']?.message}
-                        touched={touchedFields['email']}
-                        {...register('email', { required: true })}
+                        error={errors['old_email']?.message}
+                        touched={touchedFields['old_email']}
+                        {...register('old_email', { required: true })}
                     >
                         <Image onClick={() => step !== 'confirm code' ? setStep(step === 'none' ? 'change email' : 'none') : null} src={arrow_right} alt="change email" />
                     </Input>
@@ -75,20 +105,20 @@ export const FormEmail = () => {
                         <Input
                             placeholder='Новая почта'
                             type="email"
-                            touched={touchedFields['new_email']}
-                            error={errors['new_email']?.message}
+                            touched={touchedFields['email']}
+                            error={errors['email']?.message}
                             onSubmit={handleSubmit(submit)}
-                            {...register('new_email', { required: false })}
+                            {...register('email', { required: false })}
                         >
-                            {touchedFields['new_email'] && !errors['new_email']?.message && (
-                                <Image onClick={() => setStep(step === 'change email' ? 'confirm code' : 'change email')} src={arrow_right} alt="change email" />
+                            {touchedFields['email'] && !errors['email']?.message && (
+                                <Image onClick={() => sendCode()} src={arrow_right} alt="change email" />
                             )}
                         </Input>
                     </div>
                 )}
                 {step === 'change email' && isClient && windowWidth < 768 && (
                     <Button
-                        isActive={Boolean(touchedFields['new_email']) && !errors['new_email']?.message}
+                        isActive={Boolean(touchedFields['email']) && !errors['email']?.message}
                         callback={() => sendCode()}
                     >Отправить код</Button>
                 )}
@@ -96,10 +126,10 @@ export const FormEmail = () => {
                     <div className={style.form__block}>
                         <Input
                             placeholder='Введите код из письма'
-                            touched={touchedFields['confirm_email']}
-                            error={errors['confirm_email']?.message}
+                            touched={touchedFields['code']}
+                            error={errors['code']?.message}
                             onSubmit={handleSubmit(submit)}
-                            {...register('confirm_email', { required: false })}
+                            {...register('code', { required: false })}
                         />
                     </div>
                 )}

@@ -1,17 +1,17 @@
 import * as Yup from 'yup'
-import { MainForm, PaymentForm, ProfileForm } from '../interface'
+import { LoginForm, MainForm, PaymentForm, ProfileForm, RegistrationForm } from '../interface'
 
 const phone_REG_EXP = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
 // ----------
 export const SchemaProfileName: Yup.ObjectSchema<ProfileForm['FormName']> = Yup.object({
-    name: Yup.string().required('Поле "Имя" обязательно для заполнения'),
-    new_name: Yup.string().notOneOf([Yup.ref('name')], 'Введите имя, отличное от текущего').required('Поле "Имя" обязательно для заполнения'),
+    old_name: Yup.string().required('Поле "Имя" обязательно для заполнения'),
+    name: Yup.string().notOneOf([Yup.ref('old_name')], 'Введите имя, отличное от текущего').required('Поле "Имя" обязательно для заполнения'),
 })
 
 export const SchemaProfileEmail: Yup.ObjectSchema<ProfileForm['FormEmail']> = Yup.object({
-    email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
-    new_email: Yup.string().email('Некорректный адрес электронной почты').notOneOf([Yup.ref('email')], 'Введите почту, отличную от текущей').required('Поле "Почта" обязательно для заполнения'),
-    confirm_email: Yup.string().required('Поле "Код подверждения" обязательно для заполнения'),
+    old_email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
+    email: Yup.string().email('Некорректный адрес электронной почты').notOneOf([Yup.ref('old_email')], 'Введите почту, отличную от текущей').required('Поле "Почта" обязательно для заполнения'),
+    code: Yup.string().required('Поле "Код подверждения" обязательно для заполнения'),
 })
 
 export const SchemaProfilePassword: Yup.ObjectSchema<ProfileForm['FormPassword']> = Yup.object({
@@ -36,5 +36,15 @@ export const SchemaMain: Yup.ObjectSchema<MainForm> = Yup.object({
     data: Yup.string().required('Заполните поле').max(5000, 'Введите не более 5000 символов')
 })
 // ----------
+export const SchemaRegistration: Yup.ObjectSchema<RegistrationForm> = Yup.object({
+    email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
+    name: Yup.string().required('Поле "Имя" обязательно для заполнения'),
+    password: Yup.string().min(6, 'Пароль должен содержать минимум 6 символов').required('Поле "Пароль" обязательно для заполнения'),
+})
+// ----------
+export const SchemaLogin: Yup.ObjectSchema<LoginForm> = Yup.object({
+    email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
+    password: Yup.string().required('Поле "Пароль" обязательно для заполнения'),
+})
 
 

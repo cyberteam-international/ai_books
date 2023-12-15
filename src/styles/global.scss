@@ -6,9 +6,15 @@
 @import "./variables";
 @import "./container";
 @import "./track";
+@import "./title";
+
+html{
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
 
 body{
-    overflow-x: hidden;
+    overflow: hidden;
     min-height: 100vh;
     display: flex;
     flex-direction: column;

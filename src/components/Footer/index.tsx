@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,6 +16,7 @@ import style from './style.module.scss'
 type Props = {};
 
 export default function Footer({ }: Props) {
+
     return (
         <footer className={style.footer}>
             <div className={clsx(style.footer__wrapper, "container")}>
@@ -49,6 +52,7 @@ export default function Footer({ }: Props) {
                     </div>
                     <p className={style.footer__nav__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>
                 </div>
+                <button className={style.footer__scroll} title="На верх" onClick={()=>window.scrollTo(0, 0)}></button>
             </div>
         </footer>
     );
