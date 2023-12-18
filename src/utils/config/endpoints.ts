@@ -1,6 +1,6 @@
 import Cookies from "js-cookie"
 
-const BASE_URL = 'http://158.160.127.24:3000'
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 const token = Cookies.get('access_token')
 

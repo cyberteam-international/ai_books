@@ -35,6 +35,7 @@ export default function FormRegistration({ }: Props) {
     });
 
     const submit = (data: RegistrationForm) => {
+        console.log(process.env)
         axios({
            ...ENDPOINTS.AUTH.SIGNUP,
            data: data
