@@ -19,7 +19,7 @@ export default function ContextLayout({
         if (user) {
             setUserInfo(JSON.parse(user) as UserInfo)
         }
-    })
+    }, [])
 
 	return (
         <ContextUser.Provider value={[userInfo, setUserInfo]}>
