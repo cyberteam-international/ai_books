@@ -4,17 +4,22 @@ import { UserInfo } from '@/utils/interface'
 
 //ROUTES not working in middleware
 export const config = {
-    matcher: ['/work', '/profile', '/payment', '/my-audio'],
+    // matcher: ['/work', '/profile', '/payment', '/my-audio'],
+    matcher: ['/:path*'],
 }
 
 export async function middleware(request: NextRequest) {
 
-    const login = request.nextUrl.clone()
+    const allowedRoutes = ['/', '/login', '/registration', '/policy']
+
+    const url = request.nextUrl.clone()
+    const login = url
     login.pathname = ROUTES.LOGIN
 
     const tokenRequest = request.cookies.get('token')
+    const userRequest = request.cookies.get('user')
 
-    const moddlewareAutorization = async (token: string) => {
+    const middlewareAutorization = async (token: string) => {
         try {
             const response = await fetch(ENDPOINTS.USERS.GET_iNFO.url, {
                 method: ENDPOINTS.USERS.GET_iNFO.method,
@@ -35,21 +40,27 @@ export async function middleware(request: NextRequest) {
     }
 
     if (tokenRequest) {
-        const authenticated = await moddlewareAutorization(tokenRequest.value)
+        const authenticated = await middlewareAutorization(tokenRequest.value)
         if (authenticated?.id) {
             const responseHeaders = new Headers()
-            responseHeaders.append('Set-Cookie', `user=${JSON.stringify(authenticated)}`)
+            if (userRequest?.value !== JSON.stringify(authenticated)) {
+                responseHeaders.append('Set-Cookie', `user=${JSON.stringify(authenticated)}`)
+            }
             const response = NextResponse.next({
-                request: {
-                    headers: new Headers(request.headers),
-                },
-                headers: responseHeaders
+                headers: responseHeaders,
             })
             return response
         }
         else {
-            return Response.redirect(login, 302);
+            if (!allowedRoutes.includes(url.pathname)) {
+                console.log()
+                return NextResponse.redirect(login, 302);   
+            }
         }
     }
-    else return Response.redirect(login, 302);
+    else {
+        if (!allowedRoutes.includes(url.pathname)) {
+            return NextResponse.redirect(login, 302);   
+        }
+    }
 }
