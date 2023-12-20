@@ -1,8 +1,8 @@
 import Cookies from "js-cookie"
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+const BASE_URL = process.env.BACKEND_URL
 
-const token = Cookies.get('access_token')
+const token = Cookies.get('token')
 
 export const ENDPOINTS = {
     USERS: {

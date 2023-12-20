@@ -38,11 +38,10 @@ export default function FormLogin({ }: Props) {
             ...ENDPOINTS.AUTH.LOGIN,
             data: data
         }).then((res: AxiosResponse<{access_token: string}>) => {
-            console.log(res.data)
-            Cookies.set('access_token', res.data.access_token, {secure: true})
+            Cookies.set('token', res.data.access_token, {secure: true})
             window.location.href = ROUTES.WORK;
         }).catch(err => {
-            console.log(err)
+            console.error(err)
             setFetchError(err)
         })
     }

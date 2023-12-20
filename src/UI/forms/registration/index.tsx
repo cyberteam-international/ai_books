@@ -35,25 +35,22 @@ export default function FormRegistration({ }: Props) {
     });
 
     const submit = (data: RegistrationForm) => {
-        console.log(process.env)
         axios({
            ...ENDPOINTS.AUTH.SIGNUP,
            data: data
         }).then(res => {
-            console.log(res)
             axios({
                 ...ENDPOINTS.AUTH.LOGIN,
                 data: data
             }).then((res: AxiosResponse<{access_token: string}>) => {
-                console.log(res.data)
-                Cookies.set('access_token', res.data.access_token, {secure: true})
+                Cookies.set('token', res.data.access_token, {secure: true})
                 window.location.href = ROUTES.WORK;
             }).catch(err => {
                 setFetchError(err)
             })
             reset()
         }).catch(err => {
-            console.log(err)
+            console.error(err)
             setFetchError(err)
         })
     }

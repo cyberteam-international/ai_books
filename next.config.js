@@ -7,6 +7,9 @@ const nextConfig = {
         devServer: {
             allowedHosts: "all"
         }
+    },
+    env: {
+        BACKEND_URL: 'http://158.160.114.5:3000'
     }
 }
 
