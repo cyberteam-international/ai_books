@@ -5,15 +5,5 @@ services:
       context: ./
       dockerfile: Dockerfile
     restart: always
-  nginx:
-    container_name: nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    volumes:
-      - ./nginx/logs:/var/log/nginx
     ports:
-      - 80:80
-    depends_on:
-      - nextjs
-    restart: always
+      - 80:3000
