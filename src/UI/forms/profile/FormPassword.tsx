@@ -17,14 +17,16 @@ import arrow_right from '@public/arrow_right.svg'
 import style from './style.module.scss'
 import Button from "@/UI/button";
 import { useIsClient } from "@/utils/hooks";
+import axios from "axios";
+import { ENDPOINTS } from "@/utils/config";
 
 type Props = {
-    stepState: 'none' | 'change password' | 'confirm password',
+    stepState: 'change password' | 'confirm password',
 };
 
 export const FormPassword = () => {
 
-    const [step, setStep] = useState<Props['stepState']>('none')
+    const [step, setStep] = useState<Props['stepState']>('change password')
     const [completeMessage, setCompleteMessage] = useState<string>()
 
     const isClient = useIsClient()
@@ -45,10 +47,18 @@ export const FormPassword = () => {
     });
 
     const submit = (data: ProfileForm['FormPassword']) => {
-        console.log(data)
-        setStep('none')
-        reset()
-        setCompleteMessage('Пароль успешно изменен')
+        axios({
+            ...ENDPOINTS.USERS.UPDATE_INFO,
+            data: {"password": data.confirm_password},
+        }).then(res=>{
+            if (res.status === 204) {
+                setStep('change password');
+                reset()
+                setCompleteMessage('Пароль успешно изменен')
+            }
+        }).catch(err=>{
+            console.log(err)
+        })       
     }
 
     return (
@@ -56,32 +66,18 @@ export const FormPassword = () => {
             <form className={style.form__wrapper} onSubmit={handleSubmit(submit)}>
                 <div className={style.form__block}>
                     <Input
-                        placeholder='Пароль'
+                        placeholder='Новый пароль'
                         type="password"
-                        status="disable"
-                        error={errors['password']?.message}
-                        touched={touchedFields['password']}
-                        {...register('password', { required: true })}
+                        touched={touchedFields['new_password']}
+                        error={errors['new_password']?.message}
+                        onSubmit={handleSubmit(submit)}
+                        {...register('new_password', { required: false })}
                     >
-                        <Image onClick={() => step !== 'confirm password' ? setStep(step === 'none' ? 'change password' : 'none') : null} src={arrow_right} alt="change password" />
+                        {touchedFields['new_password'] && !errors['new_password']?.message && (
+                            <Image onClick={() => setStep(step === 'change password' ? 'confirm password' : 'change password')} src={arrow_right} alt="change password" />
+                        )}
                     </Input>
                 </div>
-                {step !== 'none' && (
-                    <div className={style.form__block}>
-                        <Input
-                            placeholder='Новый пароль'
-                            type="password"
-                            touched={touchedFields['new_password']}
-                            error={errors['new_password']?.message}
-                            onSubmit={handleSubmit(submit)}
-                            {...register('new_password', { required: false })}
-                        >
-                            {touchedFields['new_password'] && !errors['new_password']?.message && (
-                                <Image onClick={() => setStep(step === 'change password' ? 'confirm password' : 'change password')} src={arrow_right} alt="change password" />
-                            )}
-                        </Input>
-                    </div>
-                )}
                 {step === 'change password' && isClient && windowWidth < 768 && (
                     <Button 
                         isActive={Boolean(touchedFields['new_password']) && !errors['new_password']?.message} 

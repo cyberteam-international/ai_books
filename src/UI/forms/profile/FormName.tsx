@@ -54,7 +54,7 @@ export const FormName = ({}: Props) => {
     const submit = (data: ProfileForm['FormName']) => {
         axios({
             ...ENDPOINTS.USERS.UPDATE_INFO,
-            data: {...data, password: 'password'},
+            data: {"name": data.name},
         }).then(res=>{
             console.log(res)
             setStep('none');
