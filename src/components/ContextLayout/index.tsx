@@ -5,6 +5,8 @@ import Cookies from "js-cookie"
 
 import { ContextUser } from "@/utils/context"
 import { UserInfo } from "@/utils/interface"
+import axios from "axios"
+import { ENDPOINTS } from "@/utils/config"
 
 export default function ContextLayout({
 	children,
@@ -15,10 +17,14 @@ export default function ContextLayout({
     const [userInfo, setUserInfo] = useState<UserInfo>()
 
     useEffect(()=>{
-        const user = Cookies.get('user')
-        if (user) {
-            setUserInfo(JSON.parse(user) as UserInfo)
-        }
+        axios({
+            ...ENDPOINTS.USERS.GET_iNFO,
+        })
+        .then((res)=>{
+            setUserInfo(res.data as UserInfo)
+        }).catch(err => {
+            console.log(err)
+        })
     }, [])
 
 	return (
