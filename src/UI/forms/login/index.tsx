@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 import { ENDPOINTS, ROUTES } from "@/utils/config";
@@ -39,6 +38,7 @@ export default function FormLogin({ }: Props) {
             data: data
         }).then((res: AxiosResponse<{access_token: string}>) => {
             Cookies.set('token', res.data.access_token, {secure: true})
+            console.log(Cookies.get('token'))
             window.location.href = ROUTES.WORK;
         }).catch(err => {
             console.error(err)

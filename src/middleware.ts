@@ -40,23 +40,23 @@ export async function middleware(request: NextRequest) {
     }
 
     if (tokenRequest) {
-        const authenticated = await middlewareAutorization(tokenRequest.value)
-        if (authenticated?.id) {
-            const responseHeaders = new Headers()
-            if (userRequest?.value !== JSON.stringify(authenticated)) {
-                responseHeaders.append('Set-Cookie', `user=${JSON.stringify(authenticated)}`)
-            }
-            const response = NextResponse.next({
-                headers: responseHeaders,
-            })
-            return response
-        }
-        else {
-            if (!allowedRoutes.includes(url.pathname)) {
-                console.log()
-                return NextResponse.redirect(login, 302);   
-            }
-        }
+        // const authenticated = await middlewareAutorization(tokenRequest.value)
+        // if (authenticated?.id) {
+        //     const responseHeaders = new Headers()
+        //     if (userRequest?.value !== JSON.stringify(authenticated)) {
+        //         responseHeaders.append('Set-Cookie', `user=${JSON.stringify(authenticated)}`)
+        //     }
+        //     const response = NextResponse.next({
+        //         headers: responseHeaders,
+        //     })
+        //     return response
+        // }
+        // else {
+        //     if (!allowedRoutes.includes(url.pathname)) {
+        //         console.log()
+        //         return NextResponse.redirect(login, 302);
+        //     }
+        // }
     }
     else {
         if (!allowedRoutes.includes(url.pathname)) {
