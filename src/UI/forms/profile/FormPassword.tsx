@@ -54,7 +54,7 @@ export const FormPassword = () => {
             if (res.status === 204) {
                 setStep('change password');
                 reset()
-                setCompleteMessage('Пароль успешно изменен')
+                setCompleteMessage(`Пароль успешно изменен`)
             }
         }).catch(err=>{
             console.log(err)
