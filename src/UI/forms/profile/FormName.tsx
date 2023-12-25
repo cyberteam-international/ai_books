@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
-import axios from "axios";
 
 import { SchemaProfileName } from "@utils/config/yupShemes";
 import { ProfileForm } from "@utils/interface";
@@ -52,13 +51,11 @@ export const FormName = ({}: Props) => {
     });
 
     const submit = (data: ProfileForm['FormName']) => {
-        axios({
-            ...ENDPOINTS.USERS.UPDATE_INFO,
-            data: {"name": data.name},
-        }).then(res=>{
+        ENDPOINTS.USERS.UPDATE_INFO(data)
+        .then(res=>{
             console.log(res)
-            setStep('none');
             reset()
+            setStep('none');
             setCompleteMessage(`Ваше имя изменено на ${data.name}`)
             if (userState) {
                 setUserState({...userState, name: data.name})
@@ -66,8 +63,6 @@ export const FormName = ({}: Props) => {
         }).catch(err=>{
             console.log(err)
         })
-        // setStep('none');
-        // reset()
     };
 
     useEffect(()=>{

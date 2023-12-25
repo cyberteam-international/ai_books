@@ -4,13 +4,17 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useWindowWidth } from '@react-hook/window-size'
+import { AxiosResponse } from 'axios'
 
+import { useIsClient } from '@/utils/hooks'
+import { ENDPOINTS } from '@/utils/config'
+import { ResponseWork } from '@/utils/interface'
+
+import { ModalMessage } from '@/components/Modal'
 import { PlayerFull } from '@UI/audioPlayer'
 import Select from '@/UI/select'
 
-import { useIsClient } from '@/utils/hooks'
-
-import { IDataFilter, IDataMyAudio, dataMyAudio, filter, filterOptionsMyAudio, filterType } from './data'
+import { IDataFilter, filter, filterOptionsMyAudio, filterType } from './data'
 
 import time from '@public/time.svg'
 import arrow_right from '@public/arrow_right.svg'
@@ -26,8 +30,10 @@ export default function PageMyAudio() {
 
     const [playingIndex, setPlayingIndex] = useState<number>(-1)
 
-    const [defaultAudioList, setDefaultAudioList] = useState<IDataMyAudio[]>(dataMyAudio)
-    const [filterAudioList, setFilterAudioList] = useState<IDataMyAudio[]>()
+    const [defaultAudioList, setDefaultAudioList] = useState<ResponseWork[]>()
+    const [filterAudioList, setFilterAudioList] = useState<ResponseWork[]>()
+
+    const [removeMessage, setRemoveMessage] = useState<string>()
 
     const isClient = useIsClient()
 
@@ -43,23 +49,65 @@ export default function PageMyAudio() {
         }
     }
 
+    const removeHandler = (data: ResponseWork) => {
+        ENDPOINTS.WORK.DELETE_WORK(data.id)
+        .then(res => {
+            if (res.status === 200) {
+                if (filterAudioList) {
+                    setFilterAudioList([...filterAudioList].filter((el) => el.id !== data.id))
+                    setRemoveMessage(`Аудиозапись "${data.name}" с id:${data.id} удалена`)
+                }
+            }
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
+
+    useEffect(()=> {
+        ENDPOINTS.WORK.GET_WORKS()
+        .then((res: AxiosResponse<ResponseWork[]>) => {
+            console.log(res.data)
+            setDefaultAudioList(res.data)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }, [])
+
     useEffect(() => {
-        let newAudioList: IDataMyAudio[] | undefined;
-        switch (activeFilter) {
-            case 'date':
-                newAudioList = [...defaultAudioList].sort((a, b) => filterMode === 'up' ? a.dateAdd.getTime() - b.dateAdd.getTime() : b.dateAdd.getTime() - a.dateAdd.getTime());
-                break;
-            case 'name':
-                newAudioList = [...defaultAudioList].sort((a, b) => filterMode === 'up' ? a.trackName.localeCompare(b.trackName) : b.trackName.localeCompare(a.trackName))
-                break;
-            case 'voice':
-                newAudioList = [...defaultAudioList].sort((a, b) => filterMode === 'up' ? a.voiceName.localeCompare(b.voiceName) : b.voiceName.localeCompare(a.voiceName))
-                break;
-            default:
-                break;
+        if (defaultAudioList) {
+            let newAudioList: ResponseWork[] | undefined;
+            switch (activeFilter) {
+                case 'date':
+                    newAudioList = [...defaultAudioList].sort((a, b) => 
+                        filterMode === 'up' ?
+                        new Date(a.created_at).getTime() - new Date(b.created_at).getTime() 
+                        : new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+                    );
+                    break;
+                case 'name':
+                    newAudioList = [...defaultAudioList].sort((a, b) => 
+                        filterMode === 'down' ? 
+                        a.name.localeCompare(b.name) 
+                        : b.name.localeCompare(a.name)
+                    );
+                    break;
+                case 'voice':
+                    newAudioList = [...defaultAudioList].sort((a, b) => 
+                        filterMode === 'down' ? 
+                        a.voice.localeCompare(b.voice) 
+                        : b.voice.localeCompare(a.voice)
+                    );
+                    break;
+                case 'time':
+                    newAudioList = [...defaultAudioList]
+                    break;
+                default:
+                    break;
+            }
+            setFilterAudioList(newAudioList)
         }
-        console.log('newAudioList', newAudioList)
-        setFilterAudioList(newAudioList)
     }, [defaultAudioList, activeFilter, filterMode]);
 
     useEffect(() => {
@@ -113,13 +161,15 @@ export default function PageMyAudio() {
                             <PlayerFull
                                 setPlayingIndex={() => { setPlayingIndex(index) }}
                                 canPlay={playingIndex === index}
-                                {...item}
+                                data={item}
+                                removeHandler={removeHandler}
                                 index={index + 1}
                             />
                         )
                     })}
                 </div>
             </div>
+            <ModalMessage message={removeMessage} />
         </main>
     )
 }

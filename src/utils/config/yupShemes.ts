@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { LoginForm, MainForm, PaymentForm, ProfileForm, RegistrationForm } from '../interface'
+import { LoginForm, CreateWorks, PaymentForm, ProfileForm, RegistrationForm } from '../interface'
 
 const phone_REG_EXP = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
 // ----------
@@ -16,8 +16,7 @@ export const SchemaProfileEmail: Yup.ObjectSchema<ProfileForm['FormEmail']> = Yu
 
 export const SchemaProfilePassword: Yup.ObjectSchema<ProfileForm['FormPassword']> = Yup.object({
     password: Yup.string().min(6, 'Пароль должен содержать минимум 6 символов').required('Поле "Пароль" обязательно для заполнения'),
-    new_password: Yup.string().min(6, 'Пароль должен содержать минимум 6 символов').notOneOf([Yup.ref('password')], 'Введите пароль, отличный от текущего').required('Поле "Пароль" обязательно для заполнения'),
-    confirm_password: Yup.string().oneOf([Yup.ref('new_password')], 'Пароли должны совпадать').required('Подтвердите пароль'),
+    confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Пароли должны совпадать').required('Подтвердите пароль'),
 })
 // ----------
 export const SchemaPaymentAmountValue = Yup.string().required('Поле обязательно').matches(/^\d+(\.\d+)?$/, 'Введите число')
@@ -32,8 +31,9 @@ export const SchemaPaymentMobile: Yup.ObjectSchema<PaymentForm['FormMobile']> = 
     phone: Yup.string().required('Заполните поле').matches(phone_REG_EXP, 'Введите корректный номер')
 })
 // ----------
-export const SchemaMain: Yup.ObjectSchema<MainForm> = Yup.object({
-    data: Yup.string().required('Заполните поле').max(5000, 'Введите не более 5000 символов')
+
+export const SchemaTextArea: Yup.ObjectSchema<{input_text: CreateWorks['input_text']}> = Yup.object({
+    input_text: Yup.string().required('Заполните поле').max(5000, 'Введите не более 5000 символов')
 })
 // ----------
 export const SchemaRegistration: Yup.ObjectSchema<RegistrationForm> = Yup.object({

@@ -80,7 +80,7 @@
         top: calc(100% + 6px);
         left: 0;
         width: 100%;
-        height: 250px;
+        max-height: 250px;
         background: rgb(var(--color-white));
         border-radius: 24px;
         padding: 16px;
@@ -88,8 +88,8 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-            overflow-y: scroll;
-            height: calc(250px - 16px - 16px);
+            overflow-y: auto;
+            max-height: calc(250px - 16px - 16px);
             padding-right: 10px;
             &::-webkit-scrollbar-track {
                 background: rgba(var(--сolor-grey), 0.12);

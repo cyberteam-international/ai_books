@@ -25,6 +25,9 @@
             align-items: center;
             gap: 24px;
             justify-content: space-between;
+            img{
+                transform: translateY(-2px);
+            }
         }
         &__character{
             span{

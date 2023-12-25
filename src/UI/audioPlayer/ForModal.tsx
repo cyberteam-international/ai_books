@@ -4,6 +4,9 @@ import Image from 'next/image';
 import { ChangeEvent, FormEventHandler, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 
+import { ResponseWork } from '@/utils/interface';
+import { ENDPOINTS } from '@/utils/config';
+
 import Button from '../button';
 
 import change_black from '@public/change_black.svg'
@@ -12,16 +15,17 @@ import pause from '@public/player/pause.svg'
 
 import style from './ForModal.module.scss'
 
-type Props = {};
+type Props = {
+    data: ResponseWork
+};
 
-export const PlayerModal = ({ }: Props) => {
+export const PlayerModal = ({ data }: Props) => {
 
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState<number>()
     const [currentTime, setCurrentTime] = useState<number>(0)
-    const [trackName, setTrackName] = useState('Без названия #1')
-    const [newTrackName, setNewTrackName] = useState('Без названия #1')
-    const [voiceName, setVoiceName] = useState('Алиса')
+    const [trackName, setTrackName] = useState('')
+    const [newTrackName, setNewTrackName] = useState('')
 
     const audioRef = useRef<HTMLAudioElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
@@ -50,11 +54,13 @@ export const PlayerModal = ({ }: Props) => {
 
     const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        const data = new FormData(e.currentTarget)
-        data.forEach((value, key)=>{
-            console.log(`${key}: ${value}`);
+        ENDPOINTS.WORK.UPDATE_WORK(data.id, {name: newTrackName})
+        .then(res => {
+            console.log(res.data)
         })
-        setNewTrackName('Без названия #1')
+        .catch(err => {
+            console.error(err)
+        })
     }
 
     useEffect(() => {
@@ -77,6 +83,12 @@ export const PlayerModal = ({ }: Props) => {
         progressBarRef.current?.style.setProperty('--min', `${0}`);
         progressBarRef.current?.style.setProperty('--max', `${duration}`);
     }, [duration, progressBarRef.current])
+
+    useEffect(() => {
+        setTrackName(data.name)
+        setNewTrackName(data.name)
+    }, [data]);
+    
 
     return (
         <div className={style.player}>
@@ -118,7 +130,7 @@ export const PlayerModal = ({ }: Props) => {
                         </label>
                     </form>
                     <div className={style.player__wrapper_info__wrapper}>
-                        <p>{voiceName}</p>
+                        <p>{data?.voice}</p>
                         <p>{formatTime()}</p>
                     </div>
                 </div>

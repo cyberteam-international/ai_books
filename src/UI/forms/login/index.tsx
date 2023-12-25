@@ -33,10 +33,8 @@ export default function FormLogin({ }: Props) {
     });
 
     const submit = (data: LoginForm) => {
-        axios({
-            ...ENDPOINTS.AUTH.LOGIN,
-            data: data
-        }).then((res: AxiosResponse<{access_token: string}>) => {
+        ENDPOINTS.AUTH.LOGIN(data)
+        .then((res: AxiosResponse<{access_token: string}>) => {
             Cookies.set('token', res.data.access_token)
             console.log(Cookies.get('token'))
             window.location.href = ROUTES.WORK;

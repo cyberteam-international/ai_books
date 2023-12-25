@@ -10,6 +10,7 @@
     background: rgb(var(--color-white));
     transition: 0.3s opacity;
     color: rgb(var(--сolor-grey));
+    z-index: 2;
     @include media-down(sm){
         width: calc(100% - 15px - 15px);
     }
@@ -105,7 +106,7 @@
     justify-content: space-between;
     gap: 10px;
     padding: 24px;
-    z-index: 1;
+    z-index: 2;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;

@@ -8,17 +8,16 @@ import { useWindowWidth } from "@react-hook/window-size";
 
 import { SchemaProfilePassword } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
+import { useIsClient } from "@/utils/hooks";
+import { ENDPOINTS } from "@/utils/config";
 
-import Input from "@/UI/input";
 import { ModalMessage } from "@/components/Modal";
+import Input from "@/UI/input";
+import Button from "@/UI/button";
 
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
-import Button from "@/UI/button";
-import { useIsClient } from "@/utils/hooks";
-import axios from "axios";
-import { ENDPOINTS } from "@/utils/config";
 
 type Props = {
     stepState: 'change password' | 'confirm password',
@@ -41,20 +40,16 @@ export const FormPassword = () => {
     } = useForm<ProfileForm['FormPassword']>({
         resolver: yupResolver(SchemaProfilePassword),
         mode: 'all',
-        defaultValues: {
-            password: 'Password000111',
-        },
     });
 
     const submit = (data: ProfileForm['FormPassword']) => {
-        axios({
-            ...ENDPOINTS.USERS.UPDATE_INFO,
-            data: {"password": data.confirm_password},
-        }).then(res=>{
+        setCompleteMessage(undefined) // Если обновляется тот же самый пароль, т.к. на фронте мы не можем проверить
+        ENDPOINTS.USERS.UPDATE_INFO(data)
+        .then(res=>{
             if (res.status === 204) {
-                setStep('change password');
                 reset()
-                setCompleteMessage(`Пароль успешно изменен`)
+                setStep('change password');
+                setCompleteMessage(`Пароль успешно изменен на ${data.password}`)
             }
         }).catch(err=>{
             console.log(err)
@@ -68,19 +63,19 @@ export const FormPassword = () => {
                     <Input
                         placeholder='Новый пароль'
                         type="password"
-                        touched={touchedFields['new_password']}
-                        error={errors['new_password']?.message}
+                        touched={touchedFields['password']}
+                        error={errors['password']?.message}
                         onSubmit={handleSubmit(submit)}
-                        {...register('new_password', { required: false })}
+                        {...register('password', { required: false })}
                     >
-                        {touchedFields['new_password'] && !errors['new_password']?.message && (
+                        {touchedFields['password'] && !errors['password']?.message && (
                             <Image onClick={() => setStep(step === 'change password' ? 'confirm password' : 'change password')} src={arrow_right} alt="change password" />
                         )}
                     </Input>
                 </div>
                 {step === 'change password' && isClient && windowWidth < 768 && (
                     <Button 
-                        isActive={Boolean(touchedFields['new_password']) && !errors['new_password']?.message} 
+                        isActive={Boolean(touchedFields['password']) && !errors['password']?.message} 
                         callback={() => setStep('confirm password')}
                     >Изменить пароль</Button>
                 )}

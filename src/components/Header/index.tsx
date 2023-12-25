@@ -8,7 +8,7 @@ import { useContext, useState } from 'react';
 
 import { LINKS, ROUTES } from '@utils/config';
 import { useIsClient } from '@/utils/hooks';
-import useIsAuthorization from '@/utils/hooks/useIsAutorisation';
+import { ContextUser } from '@/utils/context';
 
 import logo from '@public/logo.svg'
 import profile from '@public/profile.svg'
@@ -19,7 +19,6 @@ import telegram from '@public/telegram.svg'
 import whatsapp from '@public/whatsapp.svg'
 
 import style from './style.module.scss'
-import { ContextUser } from '@/utils/context';
 
 type Props = {
 
@@ -29,7 +28,7 @@ export default function Header({ }: Props) {
 
     const [isOpen, setIsOpen] = useState(false);
     const isClient = useIsClient()
-    
+
     const [userState, _setUserState] = useContext(ContextUser)
 
     const windowWidth = useWindowWidth()
@@ -40,27 +39,29 @@ export default function Header({ }: Props) {
                 <>
                     {windowWidth > 768 ? (
                         <>
-                            <Link href={ROUTES.HOME}>
+                            <a href={ROUTES.HOME}>
                                 <Image {...logo} alt='AI Books logo' />
-                            </Link>
-                            {userState && (
-                                <nav>
-                                    <ul className={style.header__menu}>
-                                        <li className={style.header__menu__item}>
-                                            <a href={ROUTES.WORK}>Озвучить</a>
-                                        </li>
-                                        <li className={style.header__menu__item}>
-                                            <a href={ROUTES.MY_AUDIO}>Мои аудио</a>
-                                        </li>
-                                        <li className={style.header__menu__item}>
-                                            <a href={ROUTES.PAYMENT}>Баланс <span>{userState.balance}</span> ₽</a>
-                                        </li>
-                                        <li className={style.header__menu__item}>
-                                            <a href={ROUTES.HOME}>Справка</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            )}
+                            </a>
+                            <nav>
+                                <ul className={style.header__menu}>
+                                    <li className={style.header__menu__item}>
+                                        <a href={ROUTES.WORK}>Озвучить</a>
+                                    </li>
+                                    {userState && (
+                                        <>
+                                            <li className={style.header__menu__item}>
+                                                <a href={ROUTES.MY_AUDIO}>Мои аудио</a>
+                                            </li>
+                                            <li className={style.header__menu__item}>
+                                                <a href={ROUTES.PAYMENT}>Баланс <span>{userState.balance}</span> ₽</a>
+                                            </li>
+                                        </>
+                                    )}
+                                    <li className={style.header__menu__item}>
+                                        <a href={ROUTES.HOME}>Справка</a>
+                                    </li>
+                                </ul>
+                            </nav>
                             {userState ? (
                                 <a href={ROUTES.PROFILE} className={style.header__profile}>
                                     <p className={style.header__profile__name}>{userState.name}</p>
@@ -68,12 +69,12 @@ export default function Header({ }: Props) {
                                 </a>
                             ) : (
                                 <div className={style.header__block}>
-                                    <Link href={ROUTES.REGISTRATION} className={style.header__profile}>
+                                    <a href={ROUTES.REGISTRATION} className={style.header__profile}>
                                         Регистрация
-                                    </Link>
-                                    <Link href={ROUTES.LOGIN} className={style.header__profile}>
+                                    </a>
+                                    <a href={ROUTES.LOGIN} className={style.header__profile}>
                                         Войти
-                                    </Link>
+                                    </a>
                                 </div>
                             )}
                         </>
@@ -102,13 +103,7 @@ export default function Header({ }: Props) {
                                                 <a onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userState.balance} ₽</a>
                                             </li>
                                             <li className={style.header__menu__item}>
-                                                <a onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></a>
-                                            </li>
-                                            <li className={style.header__menu__item}>
                                                 <a onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></a>
-                                            </li>
-                                            <li className={style.header__menu__item}>
-                                                <a onClick={() => setIsOpen(false)} href={ROUTES.HOME}><span>Справка</span></a>
                                             </li>
                                         </>
                                     ) : (
@@ -126,16 +121,22 @@ export default function Header({ }: Props) {
                                         </>
                                     )}
                                     <li className={style.header__menu__item}>
-                                        <a href={LINKS.ABOUT_US} target="_blank" rel="noopener noreferrer"><span>О проекте</span></a>
+                                        <a onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></a>
                                     </li>
                                     <li className={style.header__menu__item}>
-                                        <a href={'##'} target="_blank" rel="noopener noreferrer"><span>Тарифы</span></a>
+                                        <a onClick={() => setIsOpen(false)} href={ROUTES.HOME}><span>Справка</span></a>
                                     </li>
                                     <li className={style.header__menu__item}>
-                                        <a href={LINKS.VOICES} target="_blank" rel="noopener noreferrer"><span>Голоса</span></a>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US} scroll={true}><span>О проекте</span></Link>
                                     </li>
                                     <li className={style.header__menu__item}>
-                                        <a href={LINKS.SUPPORT} target="_blank" rel="noopener noreferrer"><span>Поддержка</span></a>
+                                        <Link onClick={() => setIsOpen(false)} href={'##'}><span>Тарифы</span></Link>
+                                    </li>
+                                    <li className={style.header__menu__item}>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.VOICES} scroll={true}><span>Голоса</span></Link>
+                                    </li>
+                                    <li className={style.header__menu__item}>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT} scroll={true}><span>Поддержка</span></Link>
                                     </li>
                                 </ul>
                                 <div className={style.header__social}>

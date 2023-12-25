@@ -75,9 +75,9 @@ export default function FormPayment({ }: Props) {
 		}
 	}, [amountValue, amountTouched])
 
-	useEffect(() => {
-		console.log('formValid', formValid)
-	}, [formValid])
+	// useEffect(() => {
+	// 	console.log('formValid', formValid)
+	// }, [formValid])
 
 	return (
 		<>
@@ -119,9 +119,6 @@ export default function FormPayment({ }: Props) {
 							</p>
 						}
 					</Button>
-					{/* {amountValue && 
-					<p>~{Math.floor(amountValue / 0.00299914995).toLocaleString('ru-RU')} символов</p>
-				} */}
 				</div>
 			</div>
 			<ModalMessage message={completeMessage} />

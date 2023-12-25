@@ -1,10 +1,10 @@
-'use client'
-
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { LINKS, ROUTES } from '@utils/config';
+
+import ButtonUp from '@/UI/buttonUp';
 
 import logo from '@public/logo.svg'
 import vk from '@public/vk.svg'
@@ -32,16 +32,16 @@ export default function Footer({ }: Props) {
                     <nav>
                         <ul className={style.footer__nav__menu}>
                             <li className={style.footer__nav__menu__item}>
-                                <a href={LINKS.ABOUT_US} target="_blank" rel="noopener noreferrer">О проекте</a>
+                                <Link href={LINKS.ABOUT_US} scroll={true}>О проекте</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
                                 <a href={'##'} target="_blank" rel="noopener noreferrer">Тарифы</a>
                             </li>
                             <li className={style.footer__nav__menu__item}>
-                                <a href={LINKS.VOICES} target="_blank" rel="noopener noreferrer">Голоса</a>
+                                <Link href={LINKS.VOICES} scroll={true}>Голоса</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
-                                <a href={LINKS.SUPPORT} target="_blank" rel="noopener noreferrer">Поддержка</a>
+                                <Link href={LINKS.SUPPORT} scroll={true}>Поддержка</Link>
                             </li>
                         </ul>
                     </nav>
@@ -52,7 +52,9 @@ export default function Footer({ }: Props) {
                     </div>
                     <p className={style.footer__nav__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>
                 </div>
-                <button className={style.footer__scroll} title="На верх" onClick={()=>window.scrollTo(0, 0)}></button>
+                <div className={style.footer__scroll}>
+                    <ButtonUp/>
+                </div>
             </div>
         </footer>
     );

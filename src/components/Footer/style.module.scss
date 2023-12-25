@@ -78,20 +78,10 @@
         }
     }
     &__scroll{
-        display: block;
-        width: 3.25em;
-        height: 3.25em;
-        background: url("/images/button-up.svg") 50% 50% no-repeat;
-        background-size: contain;
-
         @include media-down(sm) {
             position: absolute;
             right: 1em;
             top: 0;
-        }
-        
-        &:hover {
-            background-image: url("/images/button-up_h.svg")
         }
     }
 }

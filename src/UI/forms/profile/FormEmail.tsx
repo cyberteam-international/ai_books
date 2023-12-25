@@ -10,6 +10,7 @@ import { SchemaProfileEmail } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
 import { useIsClient } from "@/utils/hooks";
 import { ContextUser } from "@/utils/context";
+import { ENDPOINTS } from "@/utils/config";
 
 import Input from "@/UI/input";
 import Button from "@/UI/button";
@@ -18,8 +19,6 @@ import { ModalMessage } from "@/components/Modal";
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
-import { ENDPOINTS } from "@/utils/config";
-import axios from "axios";
 
 type Props = {
     stepState: 'none' | 'change email' | 'confirm code',
@@ -51,13 +50,12 @@ export const FormEmail = () => {
     });
 
     const submit = (data: ProfileForm['FormEmail']) => {
-        axios({
-            ...ENDPOINTS.USERS.UPDATE_EMAIL_CONFIRM,
-            data: data,
-        }).then(res=>{
-            setStep('none')
+        ENDPOINTS.USERS.UPDATE_EMAIL_CONFIRM(data)
+        .then(res=>{
+            console.log(res);
             reset()
-            setCompleteMessage('Вы успешно изменили почту')
+            setStep('none')
+            setCompleteMessage(`Вы успешно изменили почту на ${data.email}`)
             if (userState) {
                 setUserState({...userState, email: data.email})
             }
@@ -73,10 +71,8 @@ export const FormEmail = () => {
     }, [userState])
 
     const sendCode = () => {
-        axios({
-            ...ENDPOINTS.USERS.UPDATE_EMAIL,
-            data: {"email": getValues('email')},
-        }).then(res=>{
+        ENDPOINTS.USERS.UPDATE_EMAIL(getValues('email'))
+        .then(res=>{
             console.log(res)
             setStep('confirm code')
             setCompleteMessage(`На адрес ${getValues('email')} выслано письмо подтверждения`)

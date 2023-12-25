@@ -24,16 +24,16 @@ export default function RootLayout({
 }) {
 
 	return (
-		<ContextLayout>
 			<html lang="ru">
 				<body className={FontOnest.className}>
 					<div className="page__wrapper">
-						<Header/>
+						<ContextLayout>
+							<Header/>
+						</ContextLayout>
 						{children}
 					</div>
 					<Footer/>
 				</body>
 			</html>
-		</ContextLayout>
 	)
 }

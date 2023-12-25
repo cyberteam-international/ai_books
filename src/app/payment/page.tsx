@@ -2,12 +2,14 @@
 
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useContext } from 'react';
+
+import { ContextUser } from '@/utils/context';
+import { dataPaymentHistory } from './data';
 
 import { FontUnbounded } from '@/fonts';
 import History from '@components/payment/History';
 
-import { dataPaymentHistory } from './data';
 import FormPayment from '@UI/forms/payment';
 
 import loading_1 from '@public/loading_1.svg'
@@ -16,11 +18,13 @@ import style from './style.module.scss'
 
 export default function PagePayment() {
 
-    const [balance, setBalance] = useState(2999000.49)
+    const [userState, setUserState] = useContext(ContextUser)
 
     const averageСharacters = () => {
         const price = 0.00299914995;
-        return Math.floor(balance / price).toLocaleString('ru-RU')
+        if (userState?.balance) {
+            return Math.floor(userState?.balance / price).toLocaleString('ru-RU')
+        }
     }
 
     return (
@@ -29,7 +33,7 @@ export default function PagePayment() {
                 <div className={style.payment__balance}>
                     <p className={style.payment__title}>Текущий баланс</p>
                     <p className={clsx(style.payment__balance__value, FontUnbounded.className)}>
-                        {balance.toLocaleString('ru-RU')} <span>₽</span>
+                        {userState?.balance.toLocaleString('ru-RU')} <span>₽</span>
                     </p>
                     <div className={style.payment__balance__subtitle}>
                         <Image {...loading_1} alt="loading_1"/>

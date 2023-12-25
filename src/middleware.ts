@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ENDPOINTS, ROUTES } from '@/utils/config'
-import { UserInfo } from '@/utils/interface'
+import { ROUTES } from '@/utils/config'
 
-//ROUTES not working in middleware
 export const config = {
-    matcher: ['/work', '/profile', '/payment', '/my-audio'],
-    // matcher: ['/:path*'],
+    matcher: ['/profile', '/payment', '/my-audio'],
 }
 
 export async function middleware(request: NextRequest) {

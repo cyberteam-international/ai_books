@@ -1,60 +1,61 @@
 import { useForm } from "react-hook-form";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Image from "next/image";
 
-import { Languages, MainForm } from "@utils/interface";
-import { SchemaMain } from "@utils/config/yupShemes";
+import { CreateWorks } from "@utils/interface";
+import { SchemaTextArea } from "@utils/config/yupShemes";
 
 import TextArea from "@/UI/textarea";
 import Button from "@/UI/button";
-
-import icon_trash from '@public/icon_trash.svg'
-
-import style from './style.module.scss'
 import Delete from "@/UI/delete";
 
+import icon_warning from '@public/warning.svg'
+
+import style from './style.module.scss'
+
 type Props = {
-    submit: (data: MainForm)=>void
+    submit: (data: {input_text: CreateWorks['input_text']}) => void
     canSubmit: boolean
 };
 
 export default function FormMain({ submit, canSubmit }: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
+    const maxCharacterCount = 5000;
 
     const {
         register,
-        formState: { touchedFields, isValid },
+        formState: { touchedFields, isValid, errors },
         handleSubmit,
         getValues,
         watch,
         setValue,
-    } = useForm<MainForm>({
-        resolver: yupResolver(SchemaMain),
+    } = useForm<{input_text: CreateWorks['input_text']}>({
+        resolver: yupResolver(SchemaTextArea),
         mode: 'all',
     });
 
     useEffect(() => {
-        if (getValues('data')?.length > 5000) {
-            setValue('data', getValues('data').slice(0, 5000))
-        }
-        setCharacterCount(getValues('data')?.length || 0);
-    }, [watch('data')]);
+        setCharacterCount(getValues('input_text')?.length || 0);
+    }, [watch('input_text')]);
 
     return (
         <form id={'mainForm'} className={style.form} onSubmit={handleSubmit(submit)}>
             <TextArea
                 placeholder={'Вставьте или введите сюда текст, можно озвучить до 5 000 символов'}
-                touched={touchedFields['data']}
-                {...register('data', { required: true })}
+                touched={touchedFields['input_text']}
+                {...register('input_text', { required: true })}
             />
             <div className={style.form__control}>
                 <div className={style.form__control__wrapper}>
+                    {characterCount > maxCharacterCount && (
+                        <Image {...icon_warning} alt="Вы ввели более 5000 символов" />
+                    )}
                     <p className={style.form__control__character}>
-                        <span>Символов</span> {characterCount.toLocaleString('ru')}/5 000
+                        <span>Символов</span> {characterCount.toLocaleString('ru')}/{maxCharacterCount}
                     </p>
-                    <Delete callback={()=>setValue('data', '')}>
+                    <Delete callback={() => setValue('input_text', '')}>
                         <p>Очистить</p>
                     </Delete>
                 </div>

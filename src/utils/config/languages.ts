@@ -19,78 +19,36 @@ export const LANGUAGES: Languages[] = [
         img: ru_img,
         title: 'Русский',
         inputValue: 'Русский',
-        value: 'ru'
+        value: 'ru-RU'
+    },
+    {
+        img: bg_img,
+        title: 'English',
+        inputValue: 'English',
+        value: 'en-US'
     },
     {
         img: by_img,
-        title: 'Беларускі',
-        inputValue: 'Беларускі',
-        value: 'by'
+        title: 'Deutsch',
+        inputValue: 'Deutsch',
+        value: 'de-DE'
     },
     {
         img: kz_img,
         title: 'Қазақша',
         inputValue: 'Қазақша',
-        value: 'kz'
-    },
-    {
-        img: bg_img,
-        title: 'Български',
-        inputValue: 'Български',
-        value: 'bg'
+        value: 'kk-KK'
     },
     {
         img: hu_img,
-        title: 'Magyar',
-        inputValue: 'Magyar',
-        value: 'hu'
+        title: "O'zbek",
+        inputValue: "o'zbek",
+        value: 'uz-UZ'
     },
     {
-        img: gr_img,
-        title: 'Ελληνική',
-        inputValue: 'Ελληνική',
-        value: 'gr'
-    },
-    {
-        img: dk_img,
-        title: 'Dansk',
-        inputValue: 'Dansk',
-        value: 'dk'
-    },
-    {
-        img: id_img,
-        title: 'Японский',
-        inputValue: 'Японский',
-        value: 'id'
-    },
-    {
-        img: es_img,
-        title: 'Испанский',
-        inputValue: 'Испанский',
-        value: 'es'
-    },
-    {
-        img: it_img,
-        title: 'Итальянский',
-        inputValue: 'Итальянский',
-        value: 'it'
-    },
-    {
-        img: cn_img,
-        title: 'Китайский',
-        inputValue: 'Китайский',
-        value: 'cn'
-    },
-    {
-        img: kr_img,
-        title: 'Корейский',
-        inputValue: 'Корейский',
-        value: 'kr'
-    },
-    {
-        img: fr_img,
-        title: 'Французкий',
-        inputValue: 'Французкий',
-        value: 'fr'
+        img: kz_img,
+        title: 'עִברִית',
+        inputValue: 'עִברִית',
+        value: 'he-IL'
     },
 ]

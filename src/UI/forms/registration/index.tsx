@@ -2,10 +2,9 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 import { ENDPOINTS, ROUTES } from "@/utils/config";
@@ -35,14 +34,10 @@ export default function FormRegistration({ }: Props) {
     });
 
     const submit = (data: RegistrationForm) => {
-        axios({
-           ...ENDPOINTS.AUTH.SIGNUP,
-           data: data
-        }).then(res => {
-            axios({
-                ...ENDPOINTS.AUTH.LOGIN,
-                data: data
-            }).then((res: AxiosResponse<{access_token: string}>) => {
+        ENDPOINTS.AUTH.SIGNUP(data)
+        .then(res => {
+            ENDPOINTS.AUTH.LOGIN(data)
+            .then((res: AxiosResponse<{access_token: string}>) => {
                 Cookies.set('token', res.data.access_token, {secure: true})
                 window.location.href = ROUTES.WORK;
             }).catch(err => {

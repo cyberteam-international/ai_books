@@ -5,12 +5,12 @@ import { ru } from 'date-fns/locale'
 import { format } from 'date-fns';
 import { useWindowWidth } from '@react-hook/window-size';
 
+import { useIsClient } from '@/utils/hooks';
+import { ResponseWork } from '@/utils/interface';
+import { ENDPOINTS } from '@/utils/config';
+
 import Button from '../button';
 import Delete from '../delete';
-
-import { IDataMyAudio } from '@/app/my-audio/data';
-
-import { useIsClient } from '@/utils/hooks';
 
 import change_white from '@public/change_white.svg'
 import play from '@public/player/play.svg'
@@ -19,19 +19,21 @@ import download from '@public/download.svg'
 
 import style from './ForFull.module.scss'
 
-interface Props extends IDataMyAudio {
+interface Props {
+    data: ResponseWork,
     index: number,
     canPlay: boolean,
-    setPlayingIndex: () => void
+    setPlayingIndex: () => void,
+    removeHandler: (data: ResponseWork) => void
 };
 
-export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay, setPlayingIndex }: Props) => {
+export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler }: Props) => {
 
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState<number | undefined>(0)
     const [currentTime, setCurrentTime] = useState<number>(0)
-    const [trackNameState, setTrackNameState] = useState<string>()
-    const [newTrackName, setNewTrackName] = useState<string>()
+    const [trackNameState, setTrackNameState] = useState<string>('')
+    const [newTrackName, setNewTrackName] = useState<string>('')
     const [menuOpen, setMenuOpen] = useState(false)
 
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -74,17 +76,21 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
 
     const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        const data = new FormData(e.currentTarget)
-        data.forEach((value, key) => {
-            console.log(`${key}: ${value}`);
+        ENDPOINTS.WORK.UPDATE_WORK(data.id, {name: newTrackName})
+        .then(res => {
+            console.log(res.data)
         })
-        setNewTrackName(`Аудиокнига «${trackName}»`)
+        .catch(err => {
+            console.error(err)
+        })
     }
 
     useEffect(()=>{
-        setTrackNameState(`Аудиокнига «${trackName}»`)
-        setNewTrackName(`Аудиокнига «${trackName}»`)
-    }, [trackName])
+        if (data) {
+            setTrackNameState(`${data.name}`)
+            setNewTrackName(`${data.name}`)
+        }
+    }, [data])
 
     useEffect(() => {
         if (isPlaying) {
@@ -147,7 +153,7 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={src}
+                        src={'test_audio.mp3'}
                     />
                     <form onSubmit={submitHandler} className={style.player__input}>
                         <input
@@ -164,8 +170,8 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                     </form>
                     {isClient && windowWidth > 1280 && (
                         <>
-                            <p className={style.player__text}>{voiceName}</p>
-                            <p className={style.player__text}>{formatDate(dateAdd)}</p>
+                            <p className={style.player__text}>{data.voice}</p>
+                            <p className={style.player__text}>{formatDate(new Date(data.created_at))}</p>
                             <p className={style.player__text}>{formatTime()}</p>
                         </>
                     )}
@@ -186,8 +192,8 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                 {isClient && windowWidth < 1280 && (
                     <div className={style.player__bottom}>
                         <div className={style.player__bottom__wrapper}>
-                            <p className={style.player__text}>{voiceName}</p>
-                            <p className={style.player__text}>{formatDate(dateAdd)}</p>
+                            <p className={style.player__text}>{data.voice}</p>
+                            <p className={style.player__text}>{formatDate(new Date(data.created_at))}</p>
                         </div>
                         <p className={style.player__text}>{formatTime()}</p>
                     </div>
@@ -198,7 +204,7 @@ export const PlayerFull = ({ index, src, trackName, voiceName, dateAdd, canPlay,
                             <Image {...download} alt='download' />
                             <p>Скачать</p>
                         </div>
-                        <Delete callback={() => { console.log('Удалить'); setMenuOpen(false) }}><p>Удалить</p></Delete>
+                        <Delete callback={() => { removeHandler(data); setMenuOpen(false) }}><p>Удалить</p></Delete>
                     </div>
                 )}
             </div>
