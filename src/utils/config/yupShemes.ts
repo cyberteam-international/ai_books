@@ -15,7 +15,8 @@ export const SchemaProfileEmail: Yup.ObjectSchema<ProfileForm['FormEmail']> = Yu
 })
 
 export const SchemaProfilePassword: Yup.ObjectSchema<ProfileForm['FormPassword']> = Yup.object({
-    password: Yup.string().min(6, 'Пароль должен содержать минимум 6 символов').required('Поле "Пароль" обязательно для заполнения'),
+    old_password: Yup.string().required('Поле "Пароль" обязательно для заполнения'),
+    password: Yup.string().min(6, 'Пароль должен содержать минимум 6 символов').notOneOf([Yup.ref('old_password')], 'Введите пароль, отличный от текущего').required('Поле "Пароль" обязательно для заполнения'),
     confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Пароли должны совпадать').required('Подтвердите пароль'),
 })
 // ----------
@@ -40,6 +41,7 @@ export const SchemaRegistration: Yup.ObjectSchema<RegistrationForm> = Yup.object
     email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
     name: Yup.string().required('Поле "Имя" обязательно для заполнения'),
     password: Yup.string().min(6, 'Пароль должен содержать минимум 6 символов').required('Поле "Пароль" обязательно для заполнения'),
+    code: Yup.string().min(5, 'Некорректный код подтверждения').max(5, 'Некорректный код подтверждения')
 })
 // ----------
 export const SchemaLogin: Yup.ObjectSchema<LoginForm> = Yup.object({

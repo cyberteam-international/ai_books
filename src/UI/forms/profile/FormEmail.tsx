@@ -43,7 +43,7 @@ export const FormEmail = () => {
         handleSubmit,
     } = useForm<ProfileForm['FormEmail']>({
         resolver: yupResolver(SchemaProfileEmail),
-        mode: 'all',
+        mode: 'onBlur',
         defaultValues: {
             email: userState?.email,
         },

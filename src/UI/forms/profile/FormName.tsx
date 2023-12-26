@@ -44,7 +44,7 @@ export const FormName = ({}: Props) => {
         formState: { errors, touchedFields, isValid },
     } = useForm<ProfileForm['FormName']>({
         resolver: yupResolver(SchemaProfileName),
-        mode: 'all',
+        mode: 'onBlur',
         defaultValues: {
             name: userState?.name,
         },
@@ -58,7 +58,7 @@ export const FormName = ({}: Props) => {
             setStep('none');
             setCompleteMessage(`Ваше имя изменено на ${data.name}`)
             if (userState) {
-                setUserState({...userState, name: data.name})
+                setUserState({...userState, name: data.name});
             }
         }).catch(err=>{
             console.log(err)

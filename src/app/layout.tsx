@@ -29,8 +29,8 @@ export default function RootLayout({
 					<div className="page__wrapper">
 						<ContextLayout>
 							<Header/>
-						</ContextLayout>
 						{children}
+						</ContextLayout>
 					</div>
 					<Footer/>
 				</body>

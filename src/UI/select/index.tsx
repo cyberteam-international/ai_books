@@ -5,6 +5,7 @@ import Image from "next/image";
 import clsx from "clsx";
 
 import { Banks, Languages, Voices } from "@utils/interface";
+import { useOutsideClick } from "@/utils/hooks";
 
 import { PlayerSelect } from "../audioPlayer";
 
@@ -60,8 +61,10 @@ export default function Select({value, onChange, placeholder, options, type, inp
         })
     }
 
+    const ref = useOutsideClick(()=>setIsOpen(false))
+
     return (
-        <div className={clsx(style.select, inputStyle === 'withForm' && style.select_form)}>
+        <div ref={ref} className={clsx(style.select, inputStyle === 'withForm' && style.select_form)}>
             <div className={style.select__input} onClick={()=>setIsOpen(!isOpen)}>
                 {type === 'languages' && (value as Languages)?.img && 
                     <Image 

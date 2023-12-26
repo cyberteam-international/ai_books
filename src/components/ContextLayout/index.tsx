@@ -23,6 +23,7 @@ export default function ContextLayout({
                 console.log(err)
             })
         }
+        else console.log(userInfo)
     }, [userInfo])
 
     return (

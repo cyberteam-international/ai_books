@@ -33,7 +33,7 @@ export default function FormMain({ submit, canSubmit }: Props) {
         setValue,
     } = useForm<{input_text: CreateWorks['input_text']}>({
         resolver: yupResolver(SchemaTextArea),
-        mode: 'all',
+        mode: 'onBlur',
     });
 
     useEffect(() => {

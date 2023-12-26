@@ -18,14 +18,15 @@ import Button from "@/UI/button";
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
+import { AxiosError } from "axios";
 
 type Props = {
-    stepState: 'change password' | 'confirm password',
+    stepState: 'new password' | 'old password' | 'confirm password',
 };
 
 export const FormPassword = () => {
 
-    const [step, setStep] = useState<Props['stepState']>('change password')
+    const [step, setStep] = useState<Props['stepState']>('new password')
     const [completeMessage, setCompleteMessage] = useState<string>()
 
     const isClient = useIsClient()
@@ -37,9 +38,11 @@ export const FormPassword = () => {
         formState: { errors, touchedFields, isValid },
         handleSubmit,
         reset,
+        setError,
+        trigger,
     } = useForm<ProfileForm['FormPassword']>({
         resolver: yupResolver(SchemaProfilePassword),
-        mode: 'all',
+        mode: 'onBlur',
     });
 
     const submit = (data: ProfileForm['FormPassword']) => {
@@ -48,10 +51,13 @@ export const FormPassword = () => {
         .then(res=>{
             if (res.status === 204) {
                 reset()
-                setStep('change password');
+                setStep('new password');
                 setCompleteMessage(`Пароль успешно изменен на ${data.password}`)
             }
-        }).catch(err=>{
+        }).catch((err: AxiosError<{message: string, key: string, statusCode: number}>)=>{
+            if (err.response?.status === 400) {
+                setError('old_password', {message: err.response.data.message})
+            }
             console.log(err)
         })       
     }
@@ -66,32 +72,50 @@ export const FormPassword = () => {
                         touched={touchedFields['password']}
                         error={errors['password']?.message}
                         onSubmit={handleSubmit(submit)}
-                        {...register('password', { required: false })}
+                        {...register('password', { required: true, onBlur: ()=> touchedFields['confirm_password']? trigger('confirm_password') : null })}
                     >
                         {touchedFields['password'] && !errors['password']?.message && (
-                            <Image onClick={() => setStep(step === 'change password' ? 'confirm password' : 'change password')} src={arrow_right} alt="change password" />
+                            <Image onClick={() => setStep(step === 'new password' ? 'confirm password' : 'new password')} src={arrow_right} alt="new password" />
                         )}
                     </Input>
                 </div>
-                {step === 'change password' && isClient && windowWidth < 768 && (
-                    <Button 
-                        isActive={Boolean(touchedFields['password']) && !errors['password']?.message} 
-                        callback={() => setStep('confirm password')}
-                    >Изменить пароль</Button>
-                )}
-                {step === 'confirm password' && (
+                {step !== 'new password' && (
                     <div className={style.form__block}>
                         <Input
-                            placeholder='Повторите пароль'
+                            placeholder='Повторите новый пароль'
                             type="password"
                             touched={touchedFields['confirm_password']}
                             error={errors['confirm_password']?.message}
                             onSubmit={handleSubmit(submit)}
-                            {...register('confirm_password', { required: false })}
-                        />
+                            {...register('confirm_password', { required: true })}
+                        >
+                            {touchedFields['confirm_password'] && !errors['confirm_password']?.message && (
+                                <Image onClick={() => {setStep(step === 'confirm password' ? 'old password' : 'confirm password'); trigger('password')}} src={arrow_right} alt="change password" />
+                            )}
+                        </Input>
                     </div>
                 )}
                 {step === 'confirm password' && isClient && windowWidth < 768 && (
+                    <Button 
+                        isActive={Boolean(touchedFields['confirm_password']) && !errors['confirm_password']?.message} 
+                        callback={() => setStep('old password')}
+                    >Подтвердить пароль</Button>
+                )}
+                {step === 'old password' && (
+                    <div className={style.form__block}>
+                        <Input
+                            placeholder='Текущий пароль'
+                            type="password"
+                            touched={touchedFields['old_password']}
+                            error={errors['old_password']?.message}
+                            onSubmit={handleSubmit(submit)}
+                            {...register('old_password', { required: true, onBlur: ()=> trigger('password') })}
+                        >
+                            
+                        </Input>
+                    </div>
+                )}
+                {step === 'old password' && isClient && windowWidth < 768 && (
                     <Button isActive={isValid} type="submit">Применить изменения</Button>
                 )}
             </form>

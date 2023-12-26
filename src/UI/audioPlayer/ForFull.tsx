@@ -5,10 +5,11 @@ import { ru } from 'date-fns/locale'
 import { format } from 'date-fns';
 import { useWindowWidth } from '@react-hook/window-size';
 
-import { useIsClient } from '@/utils/hooks';
+import { useIsClient, useOutsideClick } from '@/utils/hooks';
 import { ResponseWork } from '@/utils/interface';
 import { ENDPOINTS } from '@/utils/config';
 
+import DownloadFile from '@/components/DownloadFile';
 import Button from '../button';
 import Delete from '../delete';
 
@@ -16,8 +17,10 @@ import change_white from '@public/change_white.svg'
 import play from '@public/player/play.svg'
 import pause from '@public/player/pause.svg'
 import download from '@public/download.svg'
+import checkmark from '@public/checkmark_square.svg'
 
 import style from './ForFull.module.scss'
+import Label from './Label';
 
 interface Props {
     data: ResponseWork,
@@ -32,7 +35,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState<number | undefined>(0)
     const [currentTime, setCurrentTime] = useState<number>(0)
-    const [trackNameState, setTrackNameState] = useState<string>('')
+    const [trackName, setTrackName] = useState<string>('')
     const [newTrackName, setNewTrackName] = useState<string>('')
     const [menuOpen, setMenuOpen] = useState(false)
 
@@ -43,10 +46,12 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
 
     const windowWidth = useWindowWidth()
 
+    const ref = useOutsideClick(()=>setMenuOpen(false))
+
     const onLoadedMetadata = () => {
-        if (audioRef.current && audioRef.current.duration) {
-            setDuration(audioRef.current.duration);
-        }
+        // if (audioRef.current && audioRef.current.duration) {
+        //     setDuration(audioRef.current.duration);
+        // }
     };
 
     const handleChangeRange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +84,8 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
         ENDPOINTS.WORK.UPDATE_WORK(data.id, {name: newTrackName})
         .then(res => {
             console.log(res.data)
+            setTrackName(newTrackName)
+            setNewTrackName(newTrackName)
         })
         .catch(err => {
             console.error(err)
@@ -87,8 +94,9 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
 
     useEffect(()=>{
         if (data) {
-            setTrackNameState(`${data.name}`)
-            setNewTrackName(`${data.name}`)
+            setTrackName(data.name)
+            setNewTrackName(data.name)
+            setDuration(data.completed_seconds)
         }
     }, [data])
 
@@ -101,11 +109,11 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
         }
     }, [isPlaying])
 
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.volume = 0.1
-        }
-    }, [audioRef])
+    // useEffect(() => {
+    //     if (audioRef.current) {
+    //         audioRef.current.volume = 0.1
+    //     }
+    // }, [audioRef])
 
     useEffect(() => {
         if (!canPlay && audioRef.current) {
@@ -122,7 +130,6 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
     }, [currentTime])
 
     useEffect(()=>{
-        console.log('duration')
         progressBarRef.current?.style.setProperty('--min', `${0}`);
         progressBarRef.current?.style.setProperty('--max', `${duration}`);
     }, [duration, progressBarRef.current])
@@ -153,20 +160,18 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={'test_audio.mp3'}
+                        src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file}
                     />
                     <form onSubmit={submitHandler} className={style.player__input}>
                         <input
                             type="text"
                             name='track_name'
-                            id='track_name'
-                            defaultValue={trackNameState}
+                            id={`track_name ${data.id}`}
+                            defaultValue={trackName}
                             value={newTrackName}
                             onChange={(e) => { setNewTrackName(e.currentTarget.value) }}
                         />
-                        <label htmlFor="track_name">
-                            <Image {...change_white} />
-                        </label>
+                        <Label isSubmit={trackName !== newTrackName} htmlFor={`track_name ${data.id}`}/>
                     </form>
                     {isClient && windowWidth > 1280 && (
                         <>
@@ -199,10 +204,10 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                     </div>
                 )}
                 {menuOpen && (
-                    <div className={style.player__options}>
+                    <div ref={ref} className={style.player__options}>
                         <div className={style.player__options__download} onClick={() => { console.log('Скачать'); setMenuOpen(false) }}>
                             <Image {...download} alt='download' />
-                            <p>Скачать</p>
+                            <DownloadFile fileName={data.completed_file}><p>Скачать</p></DownloadFile>
                         </div>
                         <Delete callback={() => { removeHandler(data); setMenuOpen(false) }}><p>Удалить</p></Delete>
                     </div>

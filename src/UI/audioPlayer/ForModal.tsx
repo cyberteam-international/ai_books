@@ -3,13 +3,14 @@
 import Image from 'next/image';
 import { ChangeEvent, FormEventHandler, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
+import Cookies from 'js-cookie'
 
 import { ResponseWork } from '@/utils/interface';
 import { ENDPOINTS } from '@/utils/config';
 
 import Button from '../button';
+import Label from './Label';
 
-import change_black from '@public/change_black.svg'
 import play from '@public/player/play.svg'
 import pause from '@public/player/pause.svg'
 
@@ -31,7 +32,7 @@ export const PlayerModal = ({ data }: Props) => {
     const progressBarRef = useRef<HTMLInputElement>(null);
 
     const onLoadedMetadata = () => {
-        setDuration(audioRef.current?.duration)
+        // setDuration(audioRef.current?.duration)
     };
 
     const handleChangeRange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,11 +58,21 @@ export const PlayerModal = ({ data }: Props) => {
         ENDPOINTS.WORK.UPDATE_WORK(data.id, {name: newTrackName})
         .then(res => {
             console.log(res.data)
+            setTrackName(newTrackName)
+            setNewTrackName(newTrackName)
         })
         .catch(err => {
             console.error(err)
         })
     }
+
+    useEffect(() => {
+        if (data) {
+            setTrackName(data.name)
+            setNewTrackName(data.name)
+            setDuration(data.completed_seconds)
+        }
+    }, [data]);
 
     useEffect(() => {
         if (isPlaying) {
@@ -82,13 +93,7 @@ export const PlayerModal = ({ data }: Props) => {
     useEffect(()=>{
         progressBarRef.current?.style.setProperty('--min', `${0}`);
         progressBarRef.current?.style.setProperty('--max', `${duration}`);
-    }, [duration, progressBarRef.current])
-
-    useEffect(() => {
-        setTrackName(data.name)
-        setNewTrackName(data.name)
-    }, [data]);
-    
+    }, [duration, progressBarRef.current])    
 
     return (
         <div className={style.player}>
@@ -114,20 +119,19 @@ export const PlayerModal = ({ data }: Props) => {
                         onEnded={()=>setIsPlaying(false)}
                         onLoadedMetadataCapture={()=>{onLoadedMetadata()}}
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={'test_audio.mp3'}
+                        src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file}
                     />
                     <form onSubmit={submitHandler}  className={style.player__input}>
                         <input 
                             type="text"
                             name='track_name'
-                            id='track_name'
+                            id={`track_name ${data.id}`}
                             defaultValue={trackName}
                             value={newTrackName}
-                            onChange={(e)=>{setNewTrackName(e.currentTarget.value)}} 
+                            onChange={(e)=>{setNewTrackName(e.currentTarget.value)}}
+                            readOnly={Cookies.get('token')? false : true}
                         />
-                        <label htmlFor="track_name">
-                            <Image {...change_black} />
-                        </label>
+                        {Cookies.get('token') && <Label htmlFor={`track_name ${data.id}`} isSubmit={trackName !== newTrackName}/>}
                     </form>
                     <div className={style.player__wrapper_info__wrapper}>
                         <p>{data?.voice}</p>

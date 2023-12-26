@@ -174,17 +174,23 @@
                 cursor: pointer;
             }
         }
-        img{
+        label{
             cursor: pointer;
             display: block;
             position: absolute;
             top: 50%;
             right: -10px;
             transform: translateY(-50%);
-            width: 17px;
-            height: 17px;
-            opacity: 0;
-            transition: 0.3s opacity;
+            width: 18px;
+            height: 18px;
+            img, button{
+                width: inherit;
+                height: inherit;
+            }
+            img{
+                opacity: 0;
+                transition: 0.3s opacity;
+            }
         }
     }
 

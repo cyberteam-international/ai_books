@@ -13,6 +13,7 @@ import settings from '@public/settings.svg'
 import close_white from '@public/close_white.svg'
 
 import style from './style.module.scss'
+import { useOutsideClick } from '@/utils/hooks';
 
 type Props = {
     data: History[]
@@ -23,6 +24,8 @@ export default function History({ data }: Props) {
     const [settingsOpen, setSettingsOpen] = useState(false)
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
+
+    const ref = useOutsideClick(()=>setSettingsOpen(false))
 
     const resetRange = () => {
         setStartDate(null)
@@ -74,7 +77,7 @@ export default function History({ data }: Props) {
 
     return (
         <div className={style.history}>
-            <div className={style.history__header}>
+            <div ref={ref} className={style.history__header}>
                 <p className={style.history__header__title}>История</p>
                 <button className={style.history__header__settings} onClick={() => { setSettingsOpen(!settingsOpen) }}>
                     <p>

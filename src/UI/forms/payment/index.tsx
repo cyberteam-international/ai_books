@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChangeHandler } from "react-hook-form";
 
 import Select from "@UI/select";
@@ -59,6 +59,9 @@ export default function FormPayment({ }: Props) {
 			setAmountTouched(true)
 			setAmountValue(event.target.value)
 			resolve(true)
+			SchemaPaymentAmountValue.validate(amountValue)
+				.then(() => setAmountError(''))
+				.catch((error: { message: string }) => setAmountError(error.message))
 		})
 	};
 
@@ -66,18 +69,6 @@ export default function FormPayment({ }: Props) {
 		console.log(data);
 		setCompleteMessage(`Оплата прошла успешно, вы пополнили счет на ${amountValue}`)
 	};
-
-	useEffect(() => {
-		if (amountTouched) {
-			SchemaPaymentAmountValue.validate(amountValue)
-				.then(() => setAmountError(''))
-				.catch((error: { message: string }) => setAmountError(error.message))
-		}
-	}, [amountValue, amountTouched])
-
-	// useEffect(() => {
-	// 	console.log('formValid', formValid)
-	// }, [formValid])
 
 	return (
 		<>

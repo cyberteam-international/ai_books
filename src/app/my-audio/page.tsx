@@ -101,7 +101,11 @@ export default function PageMyAudio() {
                     );
                     break;
                 case 'time':
-                    newAudioList = [...defaultAudioList]
+                    newAudioList = [...defaultAudioList].sort((a, b) => 
+                        filterMode === 'up' ?
+                        a.completed_seconds - b.completed_seconds 
+                        : b.completed_seconds - a.completed_seconds
+                    );
                     break;
                 default:
                     break;

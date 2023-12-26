@@ -29,7 +29,7 @@ export default function FormLogin({ }: Props) {
         handleSubmit,
     } = useForm<LoginForm>({
         resolver: yupResolver(SchemaLogin),
-        mode: 'all',
+        mode: 'onBlur',
     });
 
     const submit = (data: LoginForm) => {

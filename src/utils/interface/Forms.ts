@@ -25,6 +25,7 @@ export type ProfileForm = {
         code: string
     },
     FormPassword: {
+        old_password: string,
         password: string,
         confirm_password: string,
     }
@@ -33,7 +34,8 @@ export type ProfileForm = {
 export type RegistrationForm = {
     email: string,
     name: string,
-    password: string
+    password: string,
+    code?: string
 }
 
 export type CreateWorks = {

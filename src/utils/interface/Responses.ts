@@ -4,6 +4,7 @@ export type ResponseWork = {
 	"lang": string,
 	"voice": string,
 	"input_text": string,
-	"output_file": string,
-	"created_at": Date
+	"completed_file": string,
+	"created_at": Date,
+	"completed_seconds": number,
 }

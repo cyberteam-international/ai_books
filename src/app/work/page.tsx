@@ -1,14 +1,16 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import Cookies from 'js-cookie'
 
 import { ENDPOINTS, LANGUAGES, VOICES } from '@utils/config'
 import { useIsClient } from '@/utils/hooks'
+
 import { Languages, CreateWorks, Voices, ResponseWork } from '@utils/interface'
+import { ContextUser } from '@/utils/context'
 
 import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
 import Select from '@UI/select'
@@ -31,14 +33,15 @@ export default function PageWork() {
 
 	const [responseData, setRresponseData] = useState<ResponseWork>()
 
+	const [userState, setUserState] = useContext(ContextUser)
+
 	const isClient = useIsClient()
 
 	const windowWidth = useWindowWidth()
 
 
 	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
-		if (Cookies.get('token')) {
-			setLoading(true)
+		setLoading(true)
 			ENDPOINTS.WORK.CREATE_WORK({
 				...data,
 				lang: language.value as string,
@@ -49,13 +52,15 @@ export default function PageWork() {
 				setRresponseData(res.data)
 				setLoading(false)
 				setModalResultOpen(true)
-				setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
+				if (userState?.id) {
+					setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
+				}
 			})
-			.catch(err => {
-				console.error(err)
+			.catch((err: AxiosError) => {
+				console.log(err)
+				setCompleteMessage(err.message)
+				setLoading(false)
 			})
-		}
-		else setModalEnoughBalanceOpen(true)
 	};
 
 	const handleRemoveClose = () => {
@@ -91,7 +96,7 @@ export default function PageWork() {
 						options={voiceArray}
 						value={voice}
 						onChange={(data) => setVoice((data as unknown as Voices))}
-						type={'voices'}
+						type={'banks'}
 						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
 					/>
 				</div>

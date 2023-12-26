@@ -1,4 +1,3 @@
-import ContextLayout from "@/components/ContextLayout"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -10,9 +9,5 @@ export default function Layout({
 }: {
 	children: React.ReactNode
 }) {
-	return (
-		<ContextLayout>
-			{children}
-		</ContextLayout>
-	)
+	return children
 }

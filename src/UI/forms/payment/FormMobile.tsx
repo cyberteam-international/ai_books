@@ -22,7 +22,7 @@ export default function FormMobile({ setValid, onSubmit }: Props) {
         handleSubmit,
     } = useForm<PaymentForm['FormMobile']>({
         resolver: yupResolver(SchemaPaymentMobile),
-        mode: 'all',
+        mode: 'onBlur',
     });
 
     // const submit = (data: PaymentForm['FormMobile']) => {

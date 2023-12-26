@@ -17,14 +17,14 @@ export const ENDPOINTS = {
                 }
             })
         },
-        UPDATE_INFO: (data: { name?: ProfileForm['FormName']['name'], password?: ProfileForm['FormPassword']['password'] }) => {
+        UPDATE_INFO: (data: { name?: ProfileForm['FormName']['name'], password?: ProfileForm['FormPassword']['password'], old_password?: ProfileForm['FormPassword']['old_password']}) => {
             return axios({
                 url: BASE_URL + '/users',
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-                data: data.name ? { "name": data.name } : data.password ? { "password": data.password } : console.error('Введите данные')
+                data: data.name ? { "name": data.name } : data.password ? { "password": data.password, "old_password": data.old_password } : console.error('Введите данные')
             })
         },
         UPDATE_EMAIL: (email: string) => {
@@ -66,6 +66,13 @@ export const ENDPOINTS = {
                 data: data
             })
         },
+        SIGNUP_CONFIRM: (data: RegistrationForm) => {
+            return axios({
+                url: BASE_URL + '/auth/signup/confirm',
+                method: 'POST',
+                data: data
+            })
+        }
     },
     WORK: {
         GET_WORKS: () => {
@@ -91,7 +98,7 @@ export const ENDPOINTS = {
                 url: BASE_URL + '/works',
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: token? `Bearer ${token}` : undefined,
                 },
                 data: data
             })
@@ -116,4 +123,7 @@ export const ENDPOINTS = {
             })
         },
     },
+    AUDIO: {
+        GET_FILE: BASE_URL + '/uploads/'
+    }
 }
