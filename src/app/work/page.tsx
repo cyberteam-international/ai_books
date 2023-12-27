@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size'
 import { AxiosError, AxiosResponse } from 'axios'
-import Cookies from 'js-cookie'
 
 import { ENDPOINTS, LANGUAGES, VOICES } from '@utils/config'
 import { useIsClient } from '@/utils/hooks'

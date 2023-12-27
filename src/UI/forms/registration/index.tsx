@@ -32,7 +32,7 @@ export default function FormRegistration({ }: Props) {
         reset,
     } = useForm<RegistrationForm>({
         resolver: yupResolver(SchemaRegistration),
-        mode: 'all',
+        mode: 'onBlur',
     });
 
     const sendCode = (data: RegistrationForm) => {
