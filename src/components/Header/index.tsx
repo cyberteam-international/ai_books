@@ -58,7 +58,7 @@ export default function Header({ }: Props) {
                                         </>
                                     )}
                                     <li className={style.header__menu__item}>
-                                        <a href={ROUTES.HOME}>Справка</a>
+                                        <a href={ROUTES.POLICY}>Справка</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -124,7 +124,7 @@ export default function Header({ }: Props) {
                                         <a onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></a>
                                     </li>
                                     <li className={style.header__menu__item}>
-                                        <a onClick={() => setIsOpen(false)} href={ROUTES.HOME}><span>Справка</span></a>
+                                        <a onClick={() => setIsOpen(false)} href={ROUTES.POLICY}><span>Справка</span></a>
                                     </li>
                                     <li className={style.header__menu__item}>
                                         <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US} scroll={true}><span>О проекте</span></Link>

@@ -7,6 +7,10 @@
     border-radius: 32px;
     border: 2px solid rgba(var(--color-white), 0.06);
     gap: 16px;
+    height: fit-content;
+    @media (max-width: 1649.99px){
+        height: auto;
+    }
     @include media-down(md) {
         flex-direction: row;
         border: none;

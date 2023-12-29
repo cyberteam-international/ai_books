@@ -50,6 +50,7 @@ export default function PageMyAudio() {
     }
 
     const removeHandler = (data: ResponseWork) => {
+        setRemoveMessage('')
         ENDPOINTS.WORK.DELETE_WORK(data.id)
         .then(res => {
             if (res.status === 200) {
@@ -64,10 +65,24 @@ export default function PageMyAudio() {
         })
     }
 
+    const setCurrentDataListTime = (id: number, duration: number) => {
+        if (defaultAudioList) {
+            const newList = [...defaultAudioList]
+            if (newList[newList.findIndex((el)=>el.id === id)].completed_seconds !== duration) {
+                newList[newList.findIndex((el)=>el.id === id)].completed_seconds = 10
+                setDefaultAudioList([...newList])
+            }
+        }
+    }
+
+    useEffect(()=>{
+        console.log('defaultAudioList', defaultAudioList)
+    }, [defaultAudioList])
+
     useEffect(()=> {
         ENDPOINTS.WORK.GET_WORKS()
         .then((res: AxiosResponse<ResponseWork[]>) => {
-            console.log(res.data)
+            // console.log(res.data)
             setDefaultAudioList(res.data)
         })
         .catch(err => {
@@ -168,6 +183,7 @@ export default function PageMyAudio() {
                                 data={item}
                                 removeHandler={removeHandler}
                                 index={index + 1}
+                                handleDuration={setCurrentDataListTime}
                             />
                         )
                     })}

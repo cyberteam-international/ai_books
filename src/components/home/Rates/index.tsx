@@ -1,5 +1,5 @@
 import { FontUnbounded } from "@/fonts";
-import React from "react";
+import { ROUTES } from "@/utils/config";
 
 type Props = {};
 
@@ -20,7 +20,7 @@ export default function Rates({ }: Props) {
                         <li>Можете редактировать тексты, чтобы добиться эталонного звучания</li>
                         <li>Выбираете голос диктора и скачиваете готовый аудиофайл</li>
                     </ul>
-                    <a className="button registration">Зарегистрироваться</a>
+                    <a href={ROUTES.REGISTRATION} className="button registration">Зарегистрироваться</a>
                 </div>
                 <div>
                     <span className="label">под ключ</span>

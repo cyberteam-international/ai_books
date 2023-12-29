@@ -24,6 +24,7 @@ export default function ContextLayout({
             })
         }
         else console.log(userInfo)
+        console.log('userInfo', userInfo)
     }, [userInfo])
 
     return (

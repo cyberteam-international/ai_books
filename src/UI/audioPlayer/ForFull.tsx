@@ -1,83 +1,56 @@
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useState, useRef, ChangeEvent, FormEventHandler, useEffect } from 'react';
-import { ru } from 'date-fns/locale'
-import { format } from 'date-fns';
+import { useState, FormEventHandler, useEffect } from 'react';
 import { useWindowWidth } from '@react-hook/window-size';
 
 import { useIsClient, useOutsideClick } from '@/utils/hooks';
 import { ResponseWork } from '@/utils/interface';
+import { useAudio } from '@/utils/hooks';
 import { ENDPOINTS } from '@/utils/config';
 
 import DownloadFile from '@/components/DownloadFile';
 import Button from '../button';
 import Delete from '../delete';
 
-import change_white from '@public/change_white.svg'
 import play from '@public/player/play.svg'
 import pause from '@public/player/pause.svg'
 import download from '@public/download.svg'
-import checkmark from '@public/checkmark_square.svg'
 
 import style from './ForFull.module.scss'
 import Label from './Label';
+
 
 interface Props {
     data: ResponseWork,
     index: number,
     canPlay: boolean,
     setPlayingIndex: () => void,
-    removeHandler: (data: ResponseWork) => void
+    removeHandler: (data: ResponseWork) => void,
+    handleDuration: (id: number, duration: number) => void
 };
 
-export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler }: Props) => {
+export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler, handleDuration }: Props) => {
 
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [duration, setDuration] = useState<number | undefined>(0)
-    const [currentTime, setCurrentTime] = useState<number>(0)
-    const [trackName, setTrackName] = useState<string>('')
-    const [newTrackName, setNewTrackName] = useState<string>('')
     const [menuOpen, setMenuOpen] = useState(false)
 
-    const audioRef = useRef<HTMLAudioElement>(null);
-    const progressBarRef = useRef<HTMLInputElement>(null);
+    const {
+        audioRef,
+        progressBarRef,
+        isPlaying, setIsPlaying,
+        duration,
+        currentTime, setCurrentTime,
+        trackName, setTrackName,
+        newTrackName, setNewTrackName,
+        formatTime,
+        formatDate,
+        setVoice
+    } = useAudio(data)
 
     const isClient = useIsClient()
 
     const windowWidth = useWindowWidth()
 
     const ref = useOutsideClick(()=>setMenuOpen(false))
-
-    const onLoadedMetadata = () => {
-        // if (audioRef.current && audioRef.current.duration) {
-        //     setDuration(audioRef.current.duration);
-        // }
-    };
-
-    const handleChangeRange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (audioRef.current) {
-            audioRef.current.currentTime = Number(e.target.value)
-        }
-    }
-
-    const formatTime = () => {
-        if (duration) {
-            const timeRemaning = duration - currentTime
-            const minutes = Math.floor(timeRemaning / 60);
-            const formatMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
-            const seconds = Math.floor(timeRemaning % 60);
-            const formatSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
-            return `${formatMinutes}:${formatSeconds}`;
-        }
-        else return '00:00';
-    };
-
-    const formatDate = (date: Date) => {
-        const day = format(date, 'd', { locale: ru });
-        const month = format(date, 'MMMM', { locale: ru });
-        const year = format(date, 'yyyy', { locale: ru });
-        return `${day} ${month.slice(0, 4)}. ${year}`;
-    };
 
     const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -92,28 +65,11 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
         })
     }
 
-    useEffect(()=>{
-        if (data) {
-            setTrackName(data.name)
-            setNewTrackName(data.name)
-            setDuration(data.completed_seconds)
-        }
-    }, [data])
-
     useEffect(() => {
-        if (isPlaying) {
-            audioRef.current?.play()
+        if (duration) {
+            handleDuration(data.id, duration)
         }
-        else {
-            audioRef.current?.pause()
-        }
-    }, [isPlaying])
-
-    // useEffect(() => {
-    //     if (audioRef.current) {
-    //         audioRef.current.volume = 0.1
-    //     }
-    // }, [audioRef])
+    }, [duration])
 
     useEffect(() => {
         if (!canPlay && audioRef.current) {
@@ -121,18 +77,6 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
             audioRef.current.currentTime = 0
         }
     }, [canPlay])
-
-    useEffect(()=>{
-        if (currentTime < 1) {
-            progressBarRef.current?.style.setProperty('--value', `${0}`);
-        }
-        else progressBarRef.current?.style.setProperty('--value', `${currentTime}`);
-    }, [currentTime])
-
-    useEffect(()=>{
-        progressBarRef.current?.style.setProperty('--min', `${0}`);
-        progressBarRef.current?.style.setProperty('--max', `${duration}`);
-    }, [duration, progressBarRef.current])
 
     return (
         <div className={clsx(style.player, isPlaying && style.player_active)}>
@@ -155,7 +99,6 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                 <div className={style.player__wrapper_info}>
                     <audio
                         ref={audioRef}
-                        onCanPlayThrough={() => onLoadedMetadata()}
                         onEnded={()=>setIsPlaying(false)}
                         controls
                         hidden
@@ -175,8 +118,8 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                     </form>
                     {isClient && windowWidth > 1280 && (
                         <>
-                            <p className={style.player__text}>{data.voice}</p>
-                            <p className={style.player__text}>{formatDate(new Date(data.created_at))}</p>
+                            <p className={style.player__text}>{setVoice()}</p>
+                            <p className={style.player__text}>{formatDate()}</p>
                             <p className={style.player__text}>{formatTime()}</p>
                         </>
                     )}
@@ -189,8 +132,8 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                             type="range"
                             value={currentTime}
                             defaultValue="0"
+                            step={0.01}
                             max={duration}
-                            onChange={handleChangeRange}
                         />
                     </div>
                 )}
@@ -198,7 +141,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                     <div className={style.player__bottom}>
                         <div className={style.player__bottom__wrapper}>
                             <p className={style.player__text}>{data.voice}</p>
-                            <p className={style.player__text}>{formatDate(new Date(data.created_at))}</p>
+                            <p className={style.player__text}>{formatDate()}</p>
                         </div>
                         <p className={style.player__text}>{formatTime()}</p>
                     </div>

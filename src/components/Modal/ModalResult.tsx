@@ -19,7 +19,7 @@ type Props = {
 
 export const ModalResult = ({ data, closeModal }: Props) => {
 
-    const [userState, setUserState] = useContext(ContextUser)
+    const [userState, _setUserState] = useContext(ContextUser)
 
     const removeHandler = () => {
         ENDPOINTS.WORK.DELETE_WORK(data.id)

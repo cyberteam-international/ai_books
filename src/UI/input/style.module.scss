@@ -16,6 +16,10 @@
         position: relative;
         width: 100%;
         z-index: 0;
+        img{
+            width: 22px;
+            opacity: 0.6;
+        }
     }
     &__label{
         position: absolute;

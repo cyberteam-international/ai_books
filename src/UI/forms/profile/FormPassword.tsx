@@ -46,7 +46,7 @@ export const FormPassword = () => {
     });
 
     const submit = (data: ProfileForm['FormPassword']) => {
-        setCompleteMessage(undefined) // Если обновляется тот же самый пароль, т.к. на фронте мы не можем проверить
+        setCompleteMessage(undefined)
         ENDPOINTS.USERS.UPDATE_INFO(data)
         .then(res=>{
             if (res.status === 204) {

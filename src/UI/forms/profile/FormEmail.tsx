@@ -50,6 +50,7 @@ export const FormEmail = () => {
     });
 
     const submit = (data: ProfileForm['FormEmail']) => {
+        setCompleteMessage('')
         ENDPOINTS.USERS.UPDATE_EMAIL_CONFIRM(data)
         .then(res=>{
             console.log(res);
@@ -71,6 +72,7 @@ export const FormEmail = () => {
     }, [userState])
 
     const sendCode = () => {
+        setCompleteMessage('')
         ENDPOINTS.USERS.UPDATE_EMAIL(getValues('email'))
         .then(res=>{
             console.log(res)

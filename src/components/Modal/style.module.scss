@@ -1,7 +1,7 @@
 @import "@styles/spec";
 
 .modal{
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
@@ -12,6 +12,7 @@
     color: rgb(var(--сolor-grey));
     z-index: 2;
     @include media-down(sm){
+        position: fixed;
         width: calc(100% - 15px - 15px);
     }
     
@@ -70,7 +71,7 @@
         flex-direction: column;
         gap: 32px;
         @include media-down(sm){
-            width: 100%;
+            width: auto;
         }
         &__options{
             padding-top: 16px;
@@ -93,12 +94,12 @@
 }
 
 .message{
-    position: fixed;
-    top: 80%;
+    position: absolute;
+    bottom: 75px;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 24px;
-    border: 1px solid #FFF;
+    border: 1px solid rgba(var(--color-white), 0.3);
     background: rgba(var(--color-white), 0.12);
     backdrop-filter: blur(32px);
     display: flex;
@@ -117,6 +118,8 @@
     max-width: 620px;
     width: 100%;
     @include media-down(sm){
+        position: fixed;
+        top: 80%;
         max-width: calc(100% - 15px - 15px);
         font-size: 16px;
         font-style: normal;

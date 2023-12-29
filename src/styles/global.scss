@@ -10,12 +10,12 @@
 
 html{
     overflow-y: auto;
-    scroll-behavior: smooth;
+    scroll-behavior: smooth !important;
 }
 
 body{
-    overflow: hidden;
     min-height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     color: rgb(var(--color-white));
@@ -24,6 +24,7 @@ body{
 .page__wrapper{
     background: url('../../public/background_1.png') center center/cover no-repeat;
     flex: 1 0;
+    position: relative;
 }
 
 main{

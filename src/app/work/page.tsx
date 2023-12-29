@@ -30,7 +30,7 @@ export default function PageWork() {
 	const [completeMessage, setCompleteMessage] = useState<string>()
 	const [loading, setLoading] = useState<boolean>(false)
 
-	const [responseData, setRresponseData] = useState<ResponseWork>()
+	const [responseData, setResponseData] = useState<ResponseWork>()
 
 	const [userState, setUserState] = useContext(ContextUser)
 
@@ -41,6 +41,7 @@ export default function PageWork() {
 
 	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
 		setLoading(true)
+		setCompleteMessage('')
 			ENDPOINTS.WORK.CREATE_WORK({
 				...data,
 				lang: language.value as string,
@@ -48,7 +49,7 @@ export default function PageWork() {
 			})
 			.then((res: AxiosResponse<ResponseWork>) => {
 				console.log(res.data)
-				setRresponseData(res.data)
+				setResponseData(res.data)
 				setLoading(false)
 				setModalResultOpen(true)
 				if (userState?.id) {

@@ -51,6 +51,7 @@ export const FormName = ({}: Props) => {
     });
 
     const submit = (data: ProfileForm['FormName']) => {
+        setCompleteMessage('')
         ENDPOINTS.USERS.UPDATE_INFO(data)
         .then(res=>{
             console.log(res)

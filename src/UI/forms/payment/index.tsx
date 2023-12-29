@@ -67,6 +67,7 @@ export default function FormPayment({ }: Props) {
 
 	const submit = (data: object) => {
 		console.log(data);
+		setCompleteMessage('')
 		setCompleteMessage(`Оплата прошла успешно, вы пополнили счет на ${amountValue}`)
 	};
 

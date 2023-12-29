@@ -3,7 +3,8 @@ import clsx from "clsx";
 import { ChangeHandler } from "react-hook-form";
 import Image from "next/image";
 
-import password_eye from '@public/password_eye.svg'
+import password_eye_open from '@public/password_eye_open.svg'
+import password_eye_close from '@public/password_eye_close.svg'
 import checkmark from '@public/checkmark.svg'
 
 import style from './style.module.scss'
@@ -49,12 +50,23 @@ const Input: FC<Props> = forwardRef((
                     <label className={style.input__label} htmlFor={name}>{label}</label>
                 )}
                 {type === 'password' && (
-                    <Image
-                        className={style.input__toggle}
-                        onClick={() => setPasswordVisible(!passwordVisible)}
-                        {...password_eye}
-                        alt="toggle password visible"
-                    />
+                    <>
+                        {!passwordVisible ? (
+                            <Image
+                                className={style.input__toggle}
+                                onClick={() => setPasswordVisible(true)}
+                                {...password_eye_open}
+                                alt="toggle password visible"
+                            />
+                        ) : (
+                            <Image
+                                className={style.input__toggle}
+                                onClick={() => setPasswordVisible(false)}
+                                {...password_eye_close}
+                                alt="toggle password visible"
+                            />
+                        )}
+                    </>
                 )}
                 <input
                     className={clsx(style.input__field, style[`input__field_${type}`], error && style.input__field_error)}

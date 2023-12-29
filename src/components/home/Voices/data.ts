@@ -13,12 +13,12 @@ export const data: DataVoices[][] = [
     [
         {
             title: 'Оксана',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Oksana.mp3',
         },
         {
             title: 'Джейн',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Jane.mp3',
         },
         {
@@ -38,7 +38,7 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Алёна',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Alena.mp3',
         },
         {
@@ -48,12 +48,12 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Оксана',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Oksana.mp3',
         },
         {
             title: 'Джейн',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Jane.mp3',
         },
         {
@@ -75,7 +75,7 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Алёна',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Alena.mp3',
         },
         {
@@ -85,12 +85,12 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Оксана',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Oksana.mp3',
         },
         {
             title: 'Джейн',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Jane.mp3',
         },
         {
@@ -110,14 +110,14 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Алёна',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Alena.mp3',
         },
     ],
     [
         {
             title: 'Джейн',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Jane.mp3',
         },
         {
@@ -127,7 +127,7 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Алёна',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Alena.mp3',
         },
         {
@@ -142,12 +142,12 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Оксана',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Oksana.mp3',
         },
         {
             title: 'Джейн',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Jane.mp3',
         },
         {
@@ -162,7 +162,7 @@ export const data: DataVoices[][] = [
         },
         {
             title: 'Алёна',
-            gender: 'Мужской',
+            gender: 'Женский',
             audio: 'Alena.mp3',
         },
     ]
