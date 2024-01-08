@@ -3,7 +3,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 
@@ -21,7 +21,7 @@ type Props = {};
 
 export default function FormLogin({ }: Props) {
 
-    const [fetchError, setFetchError] = useState<AxiosError<{message: string}>>()
+    const [fetchError, setFetchError] = useState<string>()
     
     const {
         register,
@@ -38,11 +38,15 @@ export default function FormLogin({ }: Props) {
             Cookies.set('token', res.data.access_token)
             console.log(Cookies.get('token'))
             window.location.href = ROUTES.WORK;
-        }).catch(err => {
-            console.error(err)
-            setFetchError(err)
+        }).catch((err: AxiosError) => {
+            if (err.response?.status === 401) {
+                setFetchError('Неправильный логин или пароль')
+            }
+            else setFetchError('Ошибка сервера, попробуйте позже')
         })
     }
+
+    useEffect(()=> {console.log(fetchError)}, [fetchError])
 
     return (
         <form className={style.form} onSubmit={handleSubmit(submit)}>
@@ -60,7 +64,7 @@ export default function FormLogin({ }: Props) {
                 {...register('password', { required: true })}
             />
             <Button isActive={isValid} type="submit">Войти</Button>
-            {fetchError && <p className={style.form__error}>{fetchError.response?.data.message}</p>}
+            {fetchError && <p className={style.form__error}>{fetchError}</p>}
             <p className={style.form__description}>Нажимая на кнопку “Войти”, Вы подтверждаете свое согласие с <Link href={ROUTES.POLICY}>Правилами использования сервиса и Политикой конфиденциальности</Link></p>
         </form>
     )
