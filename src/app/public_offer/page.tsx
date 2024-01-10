@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { useIsClient } from "@/utils/hooks";
 
 import style from './style.module.scss'
+import { PRICE } from "@/utils/config";
 
 type Props = {};
 
@@ -66,7 +67,7 @@ export default function page({ }: Props) {
             <section>
                 <h2>4. Стоимость работ и порядок расчетов</h2>
                 <ol className={clsx(style.offer__ordered, style.offer__ordered_number)}>
-                    <li>4.1. Стоимость услуг составляет 0.00132 руб. за 1 символ.</li>
+                    <li>4.1. Стоимость услуг составляет {PRICE} руб. за 1 символ.</li>
                     <li>4.2. Оплата производится в рублях перечислением на расчетный счет Исполнителя или платежной картой на сайте <a href={data.href}>{data.href}</a>.</li>
                 </ol>
             </section>
