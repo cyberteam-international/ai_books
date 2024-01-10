@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useContext } from 'react';
 
 import { ContextUser } from '@/utils/context';
+import { PRICE } from '@/utils/config';
 import { dataPaymentHistory } from './data';
 
 import { FontUnbounded } from '@/fonts';
@@ -21,9 +22,8 @@ export default function PagePayment() {
     const [userState, setUserState] = useContext(ContextUser)
 
     const averageСharacters = () => {
-        const price = 0.00299914995;
         if (userState?.balance) {
-            return Math.floor(userState?.balance / price).toLocaleString('ru-RU')
+            return Math.floor(userState?.balance / PRICE).toLocaleString('ru-RU')
         }
     }
 

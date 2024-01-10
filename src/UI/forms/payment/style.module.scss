@@ -59,4 +59,23 @@
             line-height: 150%;
         }
     }
+    &__checkbox{
+        color: rgba(var(--color-white), 0.60);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+        @include media-down(sm) {
+            font-size: 13px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 120%;
+        }
+        a{
+            color: rgb(var(--color-white));
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
 }

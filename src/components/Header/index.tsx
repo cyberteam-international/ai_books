@@ -138,6 +138,12 @@ export default function Header({ }: Props) {
                                     <li className={style.header__menu__item}>
                                         <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT} scroll={true}><span>Поддержка</span></Link>
                                     </li>
+                                    <li className={style.header__menu__item}>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT} scroll={true}><span>Поддержка</span></Link>
+                                    </li>
+                                    <li className={style.header__menu__item}>
+                                        <Link onClick={() => setIsOpen(false)} href={ROUTES.PUBLIC_OFFER} scroll={true}><span>Договор оферты</span></Link>
+                                    </li>
                                 </ul>
                                 <div className={style.header__social}>
                                     <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk' /></a>

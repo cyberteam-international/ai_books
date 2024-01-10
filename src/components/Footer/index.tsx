@@ -43,6 +43,9 @@ export default function Footer({ }: Props) {
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={LINKS.SUPPORT} scroll={true}>Поддержка</Link>
                             </li>
+                            <li className={style.footer__nav__menu__item}>
+                                <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
+                            </li>
                         </ul>
                     </nav>
                     <div className={style.footer__nav__social}>

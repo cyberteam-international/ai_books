@@ -1,21 +1,22 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChangeHandler } from "react-hook-form";
 
 import Select from "@UI/select";
 import Input from "@UI/input";
 import Button from "@UI/button";
+import CheckBox from "@/UI/checkbox";
 import FormMobile from "./FormMobile";
 import FormBank from "./FormBank";
+import { ModalMessage } from "@/components/Modal";
 
 import { SchemaPaymentAmountValue } from "@utils/config/yupShemes";
 
-import { BANKS, BANKS_BULLETS } from "@utils/config";
+import { BANKS, BANKS_BULLETS, PRICE, ROUTES } from "@utils/config";
 import { Banks } from "@utils/interface";
 
 import style from './style.module.scss'
-import { ModalMessage } from "@/components/Modal";
 
 type Props = {};
 
@@ -29,6 +30,7 @@ export default function FormPayment({ }: Props) {
 	const [amountTouched, setAmountTouched] = useState<boolean>(false)
 	const [formValid, setFormValid] = useState<boolean>(false)
 	const [completeMessage, setCompleteMessage] = useState<string>()
+	const [agreePolicy, setAgreePolicy] = useState<boolean>(false)
 
 	const setAmountBullets = () => {
 		return BANKS_BULLETS.map((item, index) => {
@@ -39,6 +41,7 @@ export default function FormPayment({ }: Props) {
 					onClick={() => {
 						setAmountValue(item);
 						setAmountTouched(true);
+						setAmountError('')
 					}}
 				>{item.toLocaleString('ru')} <span>₽</span></p>
 			)
@@ -54,6 +57,12 @@ export default function FormPayment({ }: Props) {
 		})
 	};
 
+	const agreePolicyChangeHandler: ChangeHandler = (event) => { 
+		return new Promise((resolve, reject) => {
+			setAgreePolicy(event.target.checked)
+		})
+	}
+
 	const amountBlurHandler: ChangeHandler = (event) => {
 		return new Promise((resolve, reject) => {
 			setAmountTouched(true)
@@ -68,8 +77,12 @@ export default function FormPayment({ }: Props) {
 	const submit = (data: object) => {
 		console.log(data);
 		setCompleteMessage('')
-		setCompleteMessage(`Оплата прошла успешно, вы пополнили счет на ${amountValue}`)
+		setCompleteMessage(`Оплата прошла успешно, вы пополнили счет на ${amountValue}₽`)
 	};
+
+	useEffect(()=>{
+		console.log('agreePolicy', agreePolicy);
+	}, [agreePolicy])
 
 	return (
 		<>
@@ -102,15 +115,18 @@ export default function FormPayment({ }: Props) {
 					<Button
 						type="submit"
 						id="paymentForm"
-						isActive={formValid}
+						isActive={formValid && agreePolicy}
 					>
 						<p>Пополнить</p>
 						{amountValue &&
 							<p className={style.form__submit_amount}>
-								~{Math.floor(amountValue / 0.00299914995).toLocaleString('ru-RU')} символов
+								~{Math.floor(amountValue / PRICE).toLocaleString('ru-RU')} символов
 							</p>
 						}
 					</Button>
+					<CheckBox name="agreePolicy" value={agreePolicy} onChange={agreePolicyChangeHandler}>
+						<p className={style.form__checkbox}>Я соглашаюсь с <a href={ROUTES.POLICY}>политикой конфиденциальности</a> и <a href={ROUTES.PUBLIC_OFFER}>договором офреты</a></p>
+					</CheckBox>
 				</div>
 			</div>
 			<ModalMessage message={completeMessage} />

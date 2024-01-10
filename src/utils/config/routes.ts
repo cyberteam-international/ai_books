@@ -9,4 +9,5 @@ export const ROUTES = {
     REGISTRATION: '/registration',
     LOGIN: '/login',
     POLICY: '/policy',
+    PUBLIC_OFFER: '/public_offer'
 }

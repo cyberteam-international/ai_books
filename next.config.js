@@ -9,7 +9,7 @@ const nextConfig = {
         }
     },
     env: {
-        BACKEND_URL: 'http://158.160.114.5:3000'
+        BACKEND_URL: 'http://185.251.89.86:3000'
     }
 }
 
