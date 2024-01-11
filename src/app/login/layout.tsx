@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-	title: 'Регистрация',
+	title: 'Войти',
 }
 
 export default function Layout({

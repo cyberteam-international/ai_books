@@ -39,51 +39,51 @@ export default function Header({ }: Props) {
                 <>
                     {windowWidth > 768 ? (
                         <>
-                            <a href={ROUTES.HOME}>
+                            <Link href={ROUTES.HOME} onClick={() => setIsOpen(false)}>
                                 <Image {...logo} alt='AI Books logo' />
-                            </a>
+                            </Link>
                             <nav>
                                 <ul className={style.header__menu}>
                                     <li className={style.header__menu__item}>
-                                        <a href={ROUTES.WORK}>Озвучить</a>
+                                        <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}>Озвучить</Link>
                                     </li>
                                     {userState && (
                                         <>
                                             <li className={style.header__menu__item}>
-                                                <a href={ROUTES.MY_AUDIO}>Мои аудио</a>
+                                                <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}>Мои аудио</Link>
                                             </li>
                                             <li className={style.header__menu__item}>
-                                                <a href={ROUTES.PAYMENT}>Баланс <span>{userState.balance}</span> ₽</a>
+                                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userState.balance}</span> ₽</Link>
                                             </li>
                                         </>
                                     )}
                                     <li className={style.header__menu__item}>
-                                        <a href={ROUTES.POLICY}>Справка</a>
+                                        <Link href={ROUTES.POLICY}>Справка</Link>
                                     </li>
                                 </ul>
                             </nav>
                             {userState ? (
-                                <a href={ROUTES.PROFILE} className={style.header__profile}>
+                                <Link href={ROUTES.PROFILE} className={style.header__profile}>
                                     <p className={style.header__profile__name}>{userState.name}</p>
                                     <Image {...profile} alt={'profile image'} />
-                                </a>
+                                </Link>
                             ) : (
                                 <div className={style.header__block}>
-                                    <a href={ROUTES.REGISTRATION} className={style.header__profile}>
+                                    <Link onClick={() => setIsOpen(false)} href={ROUTES.REGISTRATION} className={style.header__profile}>
                                         Регистрация
-                                    </a>
-                                    <a href={ROUTES.LOGIN} className={style.header__profile}>
+                                    </Link>
+                                    <Link onClick={() => setIsOpen(false)} href={ROUTES.LOGIN} className={style.header__profile}>
                                         Войти
-                                    </a>
+                                    </Link>
                                 </div>
                             )}
                         </>
                     ) : (
                         <div className={clsx(style.header__wrapper, 'container')}>
                             <div className={style.header__top}>
-                                <a onClick={() => setIsOpen(false)} href={ROUTES.HOME}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.HOME}>
                                     <Image {...logo} alt='AI Books logo' />
-                                </a>
+                                </Link>
                                 {isOpen ? (
                                     <Image {...burger_open} onClick={() => setIsOpen(false)} alt='close menu' />
                                 ) : (
@@ -96,24 +96,24 @@ export default function Header({ }: Props) {
                                         <>
                                             <li className={style.header__menu__item}>
                                                 <p>Личный кабинет</p>
-                                                <a onClick={() => setIsOpen(false)} href={ROUTES.PROFILE}>{userState.name}</a>
+                                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PROFILE}>{userState.name}</Link>
                                             </li>
                                             <li className={style.header__menu__item}>
                                                 <p>Баланс</p>
-                                                <a onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userState.balance} ₽</a>
+                                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userState.balance} ₽</Link>
                                             </li>
                                             <li className={style.header__menu__item}>
-                                                <a onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></a>
+                                                <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
                                             </li>
                                         </>
                                     ) : (
                                         <>
                                             <li className={style.header__menu__item}>
-                                                <Link href={ROUTES.REGISTRATION} className={style.header__profile}>
+                                                <Link onClick={() => setIsOpen(false)} href={ROUTES.REGISTRATION} className={style.header__profile}>
                                                     <span>Регистрация</span>
                                                 </Link>
                                             </li>
-                                            <li className={style.header__menu__item}>
+                                            <li onClick={() => setIsOpen(false)} className={style.header__menu__item}>
                                                 <Link href={ROUTES.LOGIN} className={style.header__profile}>
                                                     <span>Войти</span>
                                                 </Link>
@@ -121,10 +121,10 @@ export default function Header({ }: Props) {
                                         </>
                                     )}
                                     <li className={style.header__menu__item}>
-                                        <a onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></a>
+                                        <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                                     </li>
                                     <li className={style.header__menu__item}>
-                                        <a onClick={() => setIsOpen(false)} href={ROUTES.POLICY}><span>Справка</span></a>
+                                        <Link onClick={() => setIsOpen(false)} href={ROUTES.POLICY}><span>Справка</span></Link>
                                     </li>
                                     <li className={style.header__menu__item}>
                                         <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US} scroll={true}><span>О проекте</span></Link>
