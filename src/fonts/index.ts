@@ -2,7 +2,7 @@ import { Unbounded, Onest } from 'next/font/google'
 
 export const FontUnbounded = Unbounded({
     subsets: ['latin'] ,
-    display: 'swap', 
+    display: 'swap',
     adjustFontFallback: false
 })
 

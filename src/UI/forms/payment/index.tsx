@@ -30,7 +30,7 @@ export default function FormPayment({ }: Props) {
 	const [amountTouched, setAmountTouched] = useState<boolean>(false)
 	const [formValid, setFormValid] = useState<boolean>(false)
 	const [completeMessage, setCompleteMessage] = useState<string>()
-	const [agreePolicy, setAgreePolicy] = useState<boolean>(false)
+	const [agreePolicy, setAgreePolicy] = useState<boolean>(true)
 
 	const setAmountBullets = () => {
 		return BANKS_BULLETS.map((item, index) => {

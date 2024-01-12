@@ -6,12 +6,12 @@ type Props = {};
 export default function Rates({ }: Props) {
     return (
         <div className="container excavation_content">
-            <h2 className={FontUnbounded.className}>Тарифы</h2>
+            <h2 className={FontUnbounded.className} id="rates_h">Тарифы</h2>
             <div className="double-rblock">
                 <div>
                     <h6 className={FontUnbounded.className}>Самостоятельное озвучивание</h6>
                     <div className="price">
-                        <h3 className={FontUnbounded.className}>3 500 ₽</h3>
+                        <h3 className={FontUnbounded.className}>1 320 ₽</h3>
                         <span>за 1 млн символов</span>
                     </div>
                     <ul className="list">

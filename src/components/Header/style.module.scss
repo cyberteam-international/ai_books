@@ -3,7 +3,7 @@
 .header{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     font-size: 18px;
     font-weight: 400;
     line-height: 150%;
@@ -26,6 +26,10 @@
         backdrop-filter: blur(32px);
         padding: 15px 0;
         flex-direction: column;
+        justify-content: flex-start;
+    }
+    &__home{
+        margin-right: auto;
     }
     &__menu{
         display: flex;
@@ -41,6 +45,12 @@
         }
         &__item{
             display: block;
+            &_active{
+                a{
+                    color: rgba(var(--color-white), 1) !important;
+                    text-decoration: underline;
+                }
+            }
             @include media-down(sm) {
                 width: 100%;
                 &:nth-child(1), &:nth-child(2), &:nth-child(3){
@@ -69,6 +79,7 @@
         align-items: center;
         gap: 8px;
         color: rgba(var(--color-white), 1);
+        margin-left: auto;
     }
     &__block{
         display: flex;

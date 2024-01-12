@@ -1,10 +1,11 @@
 'use client'
 
 import Image from 'next/image';
-import Link from 'next/link';
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size';
+import Link from 'next/link';
 import { useContext, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 import { LINKS, ROUTES } from '@utils/config';
 import { useIsClient } from '@/utils/hooks';
@@ -27,10 +28,11 @@ type Props = {
 export default function Header({ }: Props) {
 
     const [isOpen, setIsOpen] = useState(false);
-    const isClient = useIsClient()
 
     const [userState, _setUserState] = useContext(ContextUser)
-
+    
+    const isClient = useIsClient()
+    const pathname = usePathname()
     const windowWidth = useWindowWidth()
 
     return (
@@ -39,27 +41,32 @@ export default function Header({ }: Props) {
                 <>
                     {windowWidth > 768 ? (
                         <>
-                            <Link href={ROUTES.HOME} onClick={() => setIsOpen(false)}>
+                            <Link href={ROUTES.HOME} className={style.header__home} onClick={() => setIsOpen(false)}>
                                 <Image {...logo} alt='AI Books logo' />
                             </Link>
                             <nav>
                                 <ul className={style.header__menu}>
-                                    <li className={style.header__menu__item}>
+                                    <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}>Озвучить</Link>
                                     </li>
                                     {userState && (
                                         <>
-                                            <li className={style.header__menu__item}>
+                                            <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}>Мои аудио</Link>
                                             </li>
-                                            <li className={style.header__menu__item}>
+                                            <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userState.balance}</span> ₽</Link>
                                             </li>
                                         </>
                                     )}
-                                    <li className={style.header__menu__item}>
+                                    <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
                                         <Link href={ROUTES.POLICY}>Справка</Link>
                                     </li>
+                                    {/* {userState && (
+                                        <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
+                                            <Link href={ROUTES.STATISTIC}>Статистика</Link>
+                                        </li>
+                                    )} */}
                                 </ul>
                             </nav>
                             {userState ? (
@@ -94,56 +101,58 @@ export default function Header({ }: Props) {
                                 <ul className={style.header__menu}>
                                     {userState ? (
                                         <>
-                                            <li className={style.header__menu__item}>
+                                            <li className={clsx(style.header__menu__item, pathname === ROUTES.PROFILE && style.header__menu__item_active)}>
                                                 <p>Личный кабинет</p>
                                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.PROFILE}>{userState.name}</Link>
                                             </li>
-                                            <li className={style.header__menu__item}>
+                                            <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                                 <p>Баланс</p>
                                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userState.balance} ₽</Link>
                                             </li>
-                                            <li className={style.header__menu__item}>
+                                            <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
                                             </li>
                                         </>
                                     ) : (
                                         <>
-                                            <li className={style.header__menu__item}>
+                                            <li className={clsx(style.header__menu__item, pathname === ROUTES.REGISTRATION && style.header__menu__item_active)}>
                                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.REGISTRATION} className={style.header__profile}>
                                                     <span>Регистрация</span>
                                                 </Link>
                                             </li>
-                                            <li onClick={() => setIsOpen(false)} className={style.header__menu__item}>
+                                            <li onClick={() => setIsOpen(false)} className={clsx(style.header__menu__item, pathname === ROUTES.LOGIN && style.header__menu__item_active)}>
                                                 <Link href={ROUTES.LOGIN} className={style.header__profile}>
                                                     <span>Войти</span>
                                                 </Link>
                                             </li>
                                         </>
                                     )}
-                                    <li className={style.header__menu__item}>
+                                    <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                                     </li>
-                                    <li className={style.header__menu__item}>
+                                    <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
                                         <Link onClick={() => setIsOpen(false)} href={ROUTES.POLICY}><span>Справка</span></Link>
                                     </li>
-                                    <li className={style.header__menu__item}>
-                                        <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US} scroll={true}><span>О проекте</span></Link>
+                                    <li className={clsx(style.header__menu__item)}>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US}><span>О проекте</span></Link>
                                     </li>
-                                    <li className={style.header__menu__item}>
-                                        <Link onClick={() => setIsOpen(false)} href={'##'}><span>Тарифы</span></Link>
+                                    <li className={clsx(style.header__menu__item)}>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.RATES}><span>Тарифы</span></Link>
                                     </li>
-                                    <li className={style.header__menu__item}>
-                                        <Link onClick={() => setIsOpen(false)} href={LINKS.VOICES} scroll={true}><span>Голоса</span></Link>
+                                    <li className={clsx(style.header__menu__item)}>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.VOICES}><span>Голоса</span></Link>
                                     </li>
-                                    <li className={style.header__menu__item}>
-                                        <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT} scroll={true}><span>Поддержка</span></Link>
+                                    <li className={clsx(style.header__menu__item)}>
+                                        <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT}><span>Поддержка</span></Link>
                                     </li>
-                                    <li className={style.header__menu__item}>
-                                        <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT} scroll={true}><span>Поддержка</span></Link>
+                                    <li className={clsx(style.header__menu__item, pathname === ROUTES.PUBLIC_OFFER && style.header__menu__item_active)}>
+                                        <Link onClick={() => setIsOpen(false)} href={ROUTES.PUBLIC_OFFER}><span>Договор оферты</span></Link>
                                     </li>
-                                    <li className={style.header__menu__item}>
-                                        <Link onClick={() => setIsOpen(false)} href={ROUTES.PUBLIC_OFFER} scroll={true}><span>Договор оферты</span></Link>
-                                    </li>
+                                    {userState && (
+                                        <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
+                                            <Link onClick={() => setIsOpen(false)} href={ROUTES.STATISTIC}><span>Статистика</span></Link>
+                                        </li>
+                                    )}
                                 </ul>
                                 <div className={style.header__social}>
                                     <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk' /></a>

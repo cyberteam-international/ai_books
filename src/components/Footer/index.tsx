@@ -32,19 +32,22 @@ export default function Footer({ }: Props) {
                     <nav>
                         <ul className={style.footer__nav__menu}>
                             <li className={style.footer__nav__menu__item}>
-                                <Link href={LINKS.ABOUT_US} scroll={true}>О проекте</Link>
+                                <Link href={LINKS.ABOUT_US}>О проекте</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
-                                <a href={'##'} target="_blank" rel="noopener noreferrer">Тарифы</a>
+                                <Link href={LINKS.RATES}>Тарифы</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
-                                <Link href={LINKS.VOICES} scroll={true}>Голоса</Link>
+                                <Link href={LINKS.VOICES}>Голоса</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
-                                <Link href={LINKS.SUPPORT} scroll={true}>Поддержка</Link>
+                                <Link href={LINKS.SUPPORT}>Поддержка</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
+                            </li>
+                            <li className={style.footer__nav__menu__item}>
+                                <Link href={ROUTES.STATISTIC}>Статистика</Link>
                             </li>
                         </ul>
                     </nav>

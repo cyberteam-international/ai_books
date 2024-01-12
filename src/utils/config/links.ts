@@ -7,4 +7,5 @@ export const LINKS = {
     ABOUT_US: ROUTES.HOME + '#about_h',
     VOICES: ROUTES.HOME + '#voices_h',
     SUPPORT: ROUTES.HOME + '#support_h',
+    RATES: ROUTES.HOME + '#rates_h'
 }

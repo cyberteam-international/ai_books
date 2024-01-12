@@ -3,7 +3,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { AxiosError, AxiosResponse } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 
@@ -27,6 +27,8 @@ export default function FormRegistration({ }: Props) {
     const {
         register,
         formState: { errors, touchedFields, isValid },
+        trigger,
+        setValue,
         getValues,
         handleSubmit,
         reset,
@@ -100,7 +102,7 @@ export default function FormRegistration({ }: Props) {
                         placeholder='Код подтверждения'
                         error={errors['code']?.message}
                         touched={touchedFields['code']}
-                        {...register('code', { required: true })}
+                        {...register('code', { required: true, onChange(event) {setValue('code', event.target.value.trim()); trigger()} })}
                     />
                 </>
             )}

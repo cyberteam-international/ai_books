@@ -2,7 +2,6 @@
 
 import clsx from 'clsx';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/utils/config';
 
@@ -29,7 +28,7 @@ export default function PageProfile() {
                 <FormEmail/>
                 <FormPassword/>
             </div>
-            <Button className={style.profile__exit} callback={handleLogout}>Выход</Button>
+            <Button className={style.profile__exit} callback={()=>{handleLogout()}}>Выход</Button>
         </main>
     );
 }
