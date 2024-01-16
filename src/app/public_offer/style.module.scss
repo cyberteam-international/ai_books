@@ -1,0 +1,159 @@
+@import "spec/index";
+
+.offer{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    @include media-down(sm) {
+        margin-top: 0;
+    }
+    a{
+        color: #0F9FE4;
+    }
+    p, ol{
+        max-width: 950px;
+    }
+    p, li, &__quote{
+        margin-top: 16px;
+    }
+    h1, h2, h3, h4, h5, h6{
+        max-width: 1065px;
+        text-align: left;
+        margin: 0;
+    }
+    h1{
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 110%;
+        letter-spacing: -0.96px;
+        @include media-down(sm) {
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 110%; /* 30.8px */
+            letter-spacing: -0.56px;
+        }
+    }
+    h2{
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%; /* 38.4px */
+        letter-spacing: -0.64px;
+        @include media-down(sm) {
+            font-size: 26px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 31.2px */
+            letter-spacing: -0.52px;
+        }
+    }
+    h3{
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%; /* 28.8px */
+        @include media-down(sm) {
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 26.4px */
+        }
+    }
+    h4{
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%; /* 24px */
+        @include media-down(sm) {
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%; /* 21.6px */
+        }
+    }
+    h5{
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%; /* 21.6px */
+        @include media-down(sm) {
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 120%; /* 19.2px */
+        }
+    }
+    h6{
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 120%; /* 19.2px */
+        text-transform: uppercase;
+        @include media-down(sm) {
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 900;
+            line-height: 120%; /* 16.8px */
+            text-transform: uppercase;
+        }
+    }
+    &__ordered{
+        padding-left: 20px;
+        &_dot{
+            list-style-type: disc;
+        }
+        &_number{
+            list-style-type: decimal;
+            counter-reset: item;
+            li{
+                display: block;
+            }
+        }
+    }
+    &__quote{
+        display: flex;
+        gap: 10px;
+        img{
+            @include media-down(sm) {
+                width: 18px;
+                transform: translateY(-5px);
+            }
+        }
+        p{
+            margin: 0;
+            &:first-child{
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 300;
+                line-height: 120%;
+                @include media-down(sm) {
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 200;
+                    line-height: 110%; /* 19.8px */
+                }
+            }
+            &:last-child{
+                font-size: 13px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 120%; /* 15.6px */
+                margin-top: 10px;
+                color: rgba(var(--color-white), 0.6);
+                @include media-down(sm) {
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 120%; /* 14.4px */
+                }
+            }
+        }
+    }
+}

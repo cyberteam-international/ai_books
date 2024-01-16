@@ -1,0 +1,64 @@
+@import "spec/index";
+
+.rules{
+    padding: 18px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 32px;
+    border: 2px solid rgba(var(--color-white), 0.06);
+    gap: 16px;
+    height: fit-content;
+    @media (max-width: 1649.99px){
+        height: auto;
+    }
+    @include media-down(md) {
+        flex-direction: row;
+        border: none;
+        padding: 0;
+        gap: 12px;
+        overflow-x: scroll;
+        border-radius: 0;
+        padding-bottom: 10px;
+    }
+    &__item{
+        display: flex;
+        gap: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(var(--color-white), 0.06);
+        @include media-down(md) {
+            padding: 16px 5px 33px 20px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.15);
+            min-width: 280px;
+        }
+        &:last-child{
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        img{
+            margin-top: 14px;
+        }
+        &__wrapper{
+            p{
+                font-style: normal;
+                font-weight: 400;
+                &:first-child{
+                    font-size: 22px;
+                    line-height: 135%;
+                    @include media-down(md) {
+                        font-size: 14px;
+                    }
+                }
+                &:last-child{
+                    font-size: 18px;
+                    line-height: 150%;
+                    letter-spacing: 0.36px;
+                    color: rgba(var(--color-white), 0.6);
+                    @include media-down(md) {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

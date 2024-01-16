@@ -1,0 +1,19 @@
+@import "spec/index";
+
+.delete{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    color: rgb(var(--color-red));
+    @include media-down(sm) {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+}

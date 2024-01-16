@@ -1,0 +1,17 @@
+@import "spec/index";
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    &__wrapper{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+        @include media-down(md) {
+            gap: 16px;
+        }
+    }
+}

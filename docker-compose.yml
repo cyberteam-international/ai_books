@@ -4,7 +4,7 @@ services:
     container_name: nextjs
     build:
       context: .
-      dockerfile: frontend/Dockerfile
+      dockerfile: Dockerfile
     restart: always
     ports:
       - 3000:3000
@@ -17,57 +17,6 @@ services:
       - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.redirs.entrypoints=web"
       - "traefik.http.routers.redirs.middlewares=redirect-to-https"
-  api:
-    container_name: aibooks_api
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-    depends_on:
-      - postgres
-    ports:
-      - 3001:${PORT}
-    env_file:
-      - backend/.env
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_DB: aibooks
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.node-server.rule=Host(`go.aibooks.ru:3001`)"
-      - "traefik.http.routers.node-server.entrypoints=websecure"
-      - "traefik.http.routers.node-server.tls.certresolver=myresolver"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.redirs.entrypoints=web"
-      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
-    restart: always
-  postgres:
-    container_name: aibooks_postgres
-    image: postgres:13-alpine
-    restart: always
-    environment:
-      POSTGRES_DB: aibooks
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./volumes/postgres-13:/var/lib/postgresql/data
-  pgadmin:
-    container_name: aibooks_pgadmin
-    image: dpage/pgadmin4
-    restart: always
-    ports:
-      - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    depends_on:
-      - postgres
   reverse-proxy:
     image: traefik:v2.4
     container_name: "traefik"

@@ -1,0 +1,28 @@
+@import "spec/index";
+
+.main{
+    display: block;
+    &__options{
+        display: grid;
+        grid-template-columns: 200px 400px;
+        align-items: center;
+        gap: 24px;
+        @include media-down(md) {
+            grid-template-columns: 1fr 1fr;
+        }
+        @include media-down(sm) {
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+        }
+    }
+    &__wrapper{
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+        @include media-down(md) {
+            grid-template-rows: auto;
+            grid-template-columns: 1fr;
+        }
+    }
+}
