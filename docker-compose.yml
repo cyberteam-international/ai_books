@@ -4,7 +4,7 @@ services:
     container_name: nextjs
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: frontend/Dockerfile
     restart: always
     ports:
       - 3000:3000
@@ -20,13 +20,13 @@ services:
   api:
     container_name: aibooks_api
     build:
-      dockerfile: /backend/Dockerfile
+      dockerfile: backend/Dockerfile
     depends_on:
       - postgres
     ports:
       - 3001:${PORT}
     env_file:
-      - ./backend/.env
+      - backend/.env
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_DB: aibooks
