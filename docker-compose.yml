@@ -26,7 +26,7 @@ services:
     ports:
       - 3001:${PORT}
     env_file:
-      - .env
+      - backend/.env
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_DB: aibooks
