@@ -1,9 +1,7 @@
 services:
   nextjs:
     container_name: nextjs
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    build: .
     restart: always
     ports:
       - 3000:3000
@@ -30,7 +28,7 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.myresolver.acme.email=smiledie-hub@yandex.ru"
+      - "--certificatesresolvers.myresolver.acme.email=hello@paularah.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "443:443"
