@@ -1,0 +1,25 @@
+
+
+.profile{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        &__title{
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 150%;
+            letter-spacing: -0.44px;
+            margin-bottom: 4px;
+        }
+    }
+
+    &__exit{
+        max-width: 200px;
+    }
+}
