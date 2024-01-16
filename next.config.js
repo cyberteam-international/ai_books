@@ -10,7 +10,7 @@ const nextConfig = {
     },
     env: {
         BACKEND_URL: 'http://185.251.89.86:3000'
-    }
+    },
 }
 
 module.exports = nextConfig
