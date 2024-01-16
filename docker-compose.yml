@@ -3,7 +3,7 @@ services:
   nextjs:
     container_name: nextjs
     build:
-      context: ./
+      context: .
       dockerfile: frontend/Dockerfile
     restart: always
     ports:
@@ -20,6 +20,7 @@ services:
   api:
     container_name: aibooks_api
     build:
+      context: .
       dockerfile: backend/Dockerfile
     depends_on:
       - postgres
