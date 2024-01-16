@@ -1,1 +1,0 @@
-export const PRICE = 0.00132
