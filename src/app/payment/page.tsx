@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useContext } from 'react';
 
-import { ContextUser } from '@utils/context';
-import { PRICE } from '@utils/config';
+import { ContextUser } from '@/utils/context';
+import { PRICE } from '@/utils/config';
 import { dataPaymentHistory } from './data';
 
 import { FontUnbounded } from '@/fonts';

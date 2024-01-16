@@ -1,4 +1,4 @@
-import { ROUTES } from './index'
+import { ROUTES } from '.'
 
 export const LINKS = {
     VK: 'http://vk.com',

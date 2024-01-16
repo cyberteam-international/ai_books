@@ -6,13 +6,13 @@ import { useEffect, useState } from 'react'
 import { useWindowWidth } from '@react-hook/window-size'
 import { AxiosResponse } from 'axios'
 
-import { useIsClient } from '@utils/hooks'
-import { ENDPOINTS } from '@utils/config'
-import { ResponseWork } from '@utils/interface'
+import { useIsClient } from '@/utils/hooks'
+import { ENDPOINTS } from '@/utils/config'
+import { ResponseWork } from '@/utils/interface'
 
-import { ModalMessage } from '@components/Modal'
+import { ModalMessage } from '@/components/Modal'
 import { PlayerFull } from '@UI/audioPlayer'
-import Select from '@UI/select'
+import Select from '@/UI/select'
 
 import { IDataFilter, filter, filterOptionsMyAudio, filterType } from './data'
 

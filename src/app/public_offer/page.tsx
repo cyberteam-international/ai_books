@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { headers } from "next/headers";
 import Link from "next/link";
 
-import { PRICE, ROUTES } from "@utils/config";
+import { PRICE, ROUTES } from "@/utils/config";
 
 import style from './style.module.scss'
 import { NextResponse } from "next/server";

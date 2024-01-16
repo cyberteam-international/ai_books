@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { LINKS, ROUTES } from '@utils/config';
-import { ContextUser } from '@utils/context';
+import { ContextUser } from '@/utils/context';
 
 import logo from '@public/logo.svg'
 import profile from '@public/profile.svg'

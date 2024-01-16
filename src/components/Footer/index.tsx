@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { useContext } from 'react';
 
 import { LINKS, ROUTES } from '@utils/config';
-import { ContextUser } from '@utils/context';
+import { ContextUser } from '@/utils/context';
 
-import ButtonUp from '@UI/buttonUp';
+import ButtonUp from '@/UI/buttonUp';
 
 import logo from '@public/logo.svg'
 import vk from '@public/vk.svg'

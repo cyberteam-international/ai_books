@@ -5,7 +5,7 @@ import Image from "next/image";
 import clsx from "clsx";
 
 import { Banks, Languages, Voices } from "@utils/interface";
-import { useOutsideClick } from "@utils/hooks";
+import { useOutsideClick } from "@/utils/hooks";
 
 import { PlayerSelect } from "../audioPlayer";
 

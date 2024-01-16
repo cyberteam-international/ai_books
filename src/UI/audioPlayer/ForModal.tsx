@@ -5,9 +5,9 @@ import { ChangeEvent, FormEventHandler, useEffect, useRef, useState } from 'reac
 import clsx from 'clsx';
 import Cookies from 'js-cookie'
 
-import { ResponseWork } from '@utils/interface';
-import { useAudio } from '@utils/hooks';
-import { ENDPOINTS } from '@utils/config';
+import { ResponseWork } from '@/utils/interface';
+import { useAudio } from '@/utils/hooks';
+import { ENDPOINTS } from '@/utils/config';
 
 import Button from '../button';
 import Label from './Label';

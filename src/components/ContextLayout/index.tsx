@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 
-import { ContextUser } from "@utils/context"
-import { UserInfo } from "@utils/interface"
-import { ENDPOINTS } from "@utils/config"
+import { ContextUser } from "@/utils/context"
+import { UserInfo } from "@/utils/interface"
+import { ENDPOINTS } from "@/utils/config"
 
 export default function ContextLayout({
     children,

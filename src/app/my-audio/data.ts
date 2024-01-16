@@ -1,4 +1,4 @@
-import { SelectValue } from "@utils/interface/SelectValue"
+import { SelectValue } from "@/utils/interface/SelectValue"
 
 export interface IDataMyAudio{
     src: string,

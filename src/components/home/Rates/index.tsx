@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { FontUnbounded } from "@/fonts";
 
-import { ROUTES } from "@utils/config";
+import { ROUTES } from "@/utils/config";
 
 type Props = {};
 

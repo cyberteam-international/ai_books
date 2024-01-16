@@ -8,13 +8,13 @@ import { useWindowWidth } from "@react-hook/window-size";
 
 import { SchemaProfileName } from "@utils/config/yupShemes";
 import { ProfileForm } from "@utils/interface";
-import { useIsClient } from "@utils/hooks";
-import { ENDPOINTS } from "@utils/config";
-import { ContextUser } from "@utils/context";
+import { useIsClient } from "@/utils/hooks";
+import { ENDPOINTS } from "@/utils/config";
+import { ContextUser } from "@/utils/context";
 
-import Input from "@UI/input";
-import { ModalMessage } from "@components/Modal";
-import Button from "@UI/button";
+import Input from "@/UI/input";
+import { ModalMessage } from "@/components/Modal";
+import Button from "@/UI/button";
 
 import arrow_right from '@public/arrow_right.svg'
 

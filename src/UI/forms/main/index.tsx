@@ -6,9 +6,9 @@ import Image from "next/image";
 import { CreateWorks } from "@utils/interface";
 import { SchemaTextArea } from "@utils/config/yupShemes";
 
-import TextArea from "@UI/textarea";
-import Button from "@UI/button";
-import Delete from "@UI/delete";
+import TextArea from "@/UI/textarea";
+import Button from "@/UI/button";
+import Delete from "@/UI/delete";
 
 import icon_warning from '@public/warning.svg'
 

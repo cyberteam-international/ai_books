@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "@utils/config";
+import { ENDPOINTS } from "@/utils/config";
 import { ReactNode } from "react";
 
 type Props = {

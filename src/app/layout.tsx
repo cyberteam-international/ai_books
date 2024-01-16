@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
-import { FontOnest } from '@/fonts'
+import { FontOnest } from '@fonts/index'
 
-import ContextLayout from '@components/ContextLayout'
+import ContextLayout from '@/components/ContextLayout'
 import Header from '@components/Header'
 import Footer from '@components/Footer'
 

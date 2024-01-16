@@ -13,7 +13,7 @@ import settings from '@public/settings.svg'
 import close_white from '@public/close_white.svg'
 
 import style from './style.module.scss'
-import { useOutsideClick } from '@utils/hooks';
+import { useOutsideClick } from '@/utils/hooks';
 
 type Props = {
     data: History[]

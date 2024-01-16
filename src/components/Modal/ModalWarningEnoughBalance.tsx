@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-import { ROUTES } from '@utils/config';
+import { ROUTES } from '@/utils/config';
 
-import Button from '@UI/button';
+import Button from '@/UI/button';
 
 import style from './style.module.scss'
 

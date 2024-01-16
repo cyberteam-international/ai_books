@@ -6,14 +6,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
 
-import { SchemaProfilePassword } from "@utils/config/yupShemes";
-import { ProfileForm } from "@utils/interface";
-import { useIsClient } from "@utils/hooks";
-import { ENDPOINTS } from "@utils/config";
+import { SchemaProfilePassword } from "@/utils/config/yupShemes";
+import { ProfileForm } from "@/utils/interface";
+import { useIsClient } from "@/utils/hooks";
+import { ENDPOINTS } from "@/utils/config";
 
-import { ModalMessage } from "@components/Modal";
-import Input from "@UI/input";
-import Button from "@UI/button";
+import { ModalMessage } from "@/components/Modal";
+import Input from "@/UI/input";
+import Button from "@/UI/button";
 
 import arrow_right from '@public/arrow_right.svg'
 

@@ -6,10 +6,10 @@ import { ChangeHandler } from "react-hook-form";
 import Select from "@UI/select";
 import Input from "@UI/input";
 import Button from "@UI/button";
-import CheckBox from "@UI/checkbox";
+import CheckBox from "@/UI/checkbox";
 import FormMobile from "./FormMobile";
 import FormBank from "./FormBank";
-import { ModalMessage } from "@components/Modal";
+import { ModalMessage } from "@/components/Modal";
 
 import { SchemaPaymentAmountValue } from "@utils/config/yupShemes";
 

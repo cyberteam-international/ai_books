@@ -6,12 +6,12 @@ import { useWindowWidth } from '@react-hook/window-size'
 import { AxiosError, AxiosResponse } from 'axios'
 
 import { ENDPOINTS, LANGUAGES, VOICES } from '@utils/config'
-import { useIsClient } from '@utils/hooks'
+import { useIsClient } from '@/utils/hooks'
 
 import { Languages, CreateWorks, Voices, ResponseWork } from '@utils/interface'
-import { ContextUser } from '@utils/context'
+import { ContextUser } from '@/utils/context'
 
-import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@components/Modal'
+import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
 import Select from '@UI/select'
 import FormMain from '@UI/forms/main'
 import Rules from '@components/work/Rules'

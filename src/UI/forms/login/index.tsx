@@ -8,14 +8,14 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 
-import { ENDPOINTS, ROUTES } from "@utils/config";
-import { ContextUser } from "@utils/context";
+import { ENDPOINTS, ROUTES } from "@/utils/config";
+import { ContextUser } from "@/utils/context";
 
-import { SchemaLogin } from "@utils/config/yupShemes";
-import { LoginForm, UserInfo } from "@utils/interface";
+import { SchemaLogin } from "@/utils/config/yupShemes";
+import { LoginForm, UserInfo } from "@/utils/interface";
 
-import Input from "@UI/input";
-import Button from "@UI/button";
+import Input from "@/UI/input";
+import Button from "@/UI/button";
 
 import style from './style.module.scss'
 

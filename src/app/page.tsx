@@ -2,10 +2,10 @@ import clsx from 'clsx'
 
 import { FontUnbounded } from '@/fonts'
 
-import About from '@components/home/About'
-import Voices from '@components/home/Voices'
-import Rates from '@components/home/Rates'
-import Support from '@components/home/Support'
+import About from '@/components/home/About'
+import Voices from '@/components/home/Voices'
+import Rates from '@/components/home/Rates'
+import Support from '@/components/home/Support'
 
 import './style.scss'
 

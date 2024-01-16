@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ROUTES } from '@utils/config'
+import { ROUTES } from '@/utils/config'
 
 export const config = {
     matcher: ['/profile', '/payment', '/my-audio'],

@@ -20,10 +20,10 @@ import { Bar } from 'react-chartjs-2';
 
 import { FontOnest } from '@/fonts';
 
-import { useOutsideClick } from '@utils/hooks';
-import { ENDPOINTS } from '@utils/config';
-import { Statistics } from '@utils/config/endpoints';
-import { ResponseStatistic } from '@utils/interface';
+import { useOutsideClick } from '@/utils/hooks';
+import { ENDPOINTS } from '@/utils/config';
+import { Statistics } from '@/utils/config/endpoints';
+import { ResponseStatistic } from '@/utils/interface';
 
 import settings from '@public/settings.svg'
 import close_white from '@public/close_white.svg'

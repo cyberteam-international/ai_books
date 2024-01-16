@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 
-import { useIsClient } from "@utils/hooks";
+import { useIsClient } from "@/utils/hooks";
 
 import img_quote from '@public/images/quote.svg'
 

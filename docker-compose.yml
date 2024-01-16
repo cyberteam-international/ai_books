@@ -1,9 +1,8 @@
-version: '3.8'
 services:
   nextjs:
     container_name: nextjs
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile
     restart: always
     ports:
@@ -40,5 +39,3 @@ services:
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-volumes:
-  pgadmin-data:

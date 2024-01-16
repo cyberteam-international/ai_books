@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 
-import { ResponseWork } from '@utils/interface';
-import { ENDPOINTS } from '@utils/config';
-import { ContextUser } from '@utils/context';
+import { ResponseWork } from '@/utils/interface';
+import { ENDPOINTS } from '@/utils/config';
+import { ContextUser } from '@/utils/context';
 
 import Delete from '@UI/delete';
 import Button from '@UI/button';

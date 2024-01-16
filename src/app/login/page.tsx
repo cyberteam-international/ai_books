@@ -2,9 +2,9 @@ import clsx from "clsx";
 import Link from "next/link";
 
 import { FontUnbounded } from "@/fonts";
-import { ROUTES } from "@utils/config";
+import { ROUTES } from "@/utils/config";
 
-import FormLogin from "@UI/forms/login";
+import FormLogin from "@/UI/forms/login";
 
 import style from './style.module.scss'
 

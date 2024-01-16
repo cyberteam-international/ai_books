@@ -8,7 +8,7 @@ import { FontUnbounded } from "@/fonts";
 import VoiceItem from "./VoiceItem";
 
 import { data } from "./data";
-import { useIsClient } from "@utils/hooks";
+import { useIsClient } from "@/utils/hooks";
 type Props = {};
 
 export default function Voices({ }: Props) {

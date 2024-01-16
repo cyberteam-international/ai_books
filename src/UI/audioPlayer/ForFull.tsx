@@ -3,12 +3,12 @@ import Image from 'next/image';
 import { useState, FormEventHandler, useEffect } from 'react';
 import { useWindowWidth } from '@react-hook/window-size';
 
-import { useIsClient, useOutsideClick } from '@utils/hooks';
-import { ResponseWork } from '@utils/interface';
-import { useAudio } from '@utils/hooks';
-import { ENDPOINTS } from '@utils/config';
+import { useIsClient, useOutsideClick } from '@/utils/hooks';
+import { ResponseWork } from '@/utils/interface';
+import { useAudio } from '@/utils/hooks';
+import { ENDPOINTS } from '@/utils/config';
 
-import DownloadFile from '@components/DownloadFile';
+import DownloadFile from '@/components/DownloadFile';
 import Button from '../button';
 import Delete from '../delete';
 
