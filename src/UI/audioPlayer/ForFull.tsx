@@ -103,8 +103,10 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file}
-                    />
+                        // src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file}
+                    >
+                        <source src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file} type="audio/mp3"/>
+                    </audio>
                     <form onSubmit={submitHandler} className={style.player__input}>
                         <input
                             type="text"

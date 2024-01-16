@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 import { FontUnbounded } from "@/fonts";
+
 import { ROUTES } from "@/utils/config";
 
 type Props = {};
@@ -20,7 +23,7 @@ export default function Rates({ }: Props) {
                         <li>Можете редактировать тексты, чтобы добиться эталонного звучания</li>
                         <li>Выбираете голос диктора и скачиваете готовый аудиофайл</li>
                     </ul>
-                    <a href={ROUTES.REGISTRATION} className="button registration">Зарегистрироваться</a>
+                    <Link href={ROUTES.REGISTRATION} className="button registration">Зарегистрироваться</Link>
                 </div>
                 <div>
                     <span className="label">под ключ</span>

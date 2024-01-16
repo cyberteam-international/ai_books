@@ -88,7 +88,7 @@ export default function VoiceItem({audio, title, gender, canPlay, setPlayIndex}:
                     max={duration}
                     onChange={handleChangeRange}
                 />
-                <input type='range' className="track" max="100" value="0" />
+                {/* <input type='range' className="track" max="100" value="0" /> */}
             </div>
         </div>
     );

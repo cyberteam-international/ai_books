@@ -6,14 +6,27 @@ const BASE_URL = process.env.BACKEND_URL
 
 const token = Cookies.get('token')
 
+export type Statistics = {
+    start_date?: {
+        year: string | number,
+        day: string | number,
+        month: string | number,
+    },
+    end_date?: {
+        year: string | number,
+        day: string | number,
+        month: string | number,
+    },
+}
+
 export const ENDPOINTS = {
     USERS: {
-        GET_iNFO: () => {
+        GET_iNFO: (newToken?: string) => {
             return axios({
                 url: BASE_URL + '/users',
                 method: 'GET',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${newToken?? token}`,
                 }
             })
         },
@@ -125,5 +138,36 @@ export const ENDPOINTS = {
     },
     AUDIO: {
         GET_FILE: BASE_URL + '/uploads/'
+    },
+    STATISTIC: {
+        GET_STATISTIC: (start_date: Statistics['start_date']=undefined, end_date: Statistics['end_date']=undefined) => {
+            const setParams = () => {
+                const paramsObject: {start_date: string | undefined, end_date: string | undefined} = {
+                    start_date: undefined,
+                    end_date: undefined
+                }
+                if (start_date) {
+                    paramsObject.start_date = start_date.day? `${start_date.year}-${start_date.month}-${start_date.day}` : undefined
+                }
+                if (end_date) {
+                    paramsObject.end_date = end_date.day? `${end_date.year}-${end_date.month}-${end_date.day}` : undefined
+                }
+                return paramsObject
+            }
+            return axios({
+                url: BASE_URL + '/statistics',
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                params: setParams()
+            })
+        },
+        UPDATE_STATISTIC: () => {
+            return axios({
+                url: BASE_URL + '/statistics/visit',
+                method: 'POST',
+            })
+        },
     }
 }

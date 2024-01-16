@@ -6,6 +6,7 @@ export type { CreateWorks } from './Forms'
 export type { UpdateWorks } from './Forms'
 
 export type { ResponseWork } from './Responses'
+export type { ResponseStatistic } from './Responses'
 
 export type { History } from './History'
 export type { Languages } from './Languages'

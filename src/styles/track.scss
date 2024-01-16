@@ -1,5 +1,6 @@
 input[type=range].track {
 	height: 4px;
+	width: 100%;
 	-webkit-appearance: none;
 	background: transparent;
 	/*progress support*/
@@ -17,7 +18,7 @@ input[type=range].track {
 		width: 12px;
 		height: 12px;
 		border-radius: 50%;
-		background: linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
+		background: -webkit-linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
 		border: 2px solid #F4F2FC;
 		box-shadow: none;
 		margin-top: calc(4px * 0.5 - max(12px * 0.5,2px));
@@ -36,14 +37,14 @@ input[type=range].track {
 		box-shadow: none;
 	}
 	&::-webkit-slider-runnable-track {
-		background: linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%) 0/var(--sx) 100% no-repeat, #5c5c5c3a;
+		background: -webkit-linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%) 0/var(--sx) 100% no-repeat, #5c5c5c3a;
 	}
 	/*mozilla*/
 	&::-moz-range-thumb {
 		width: max(calc(12px - 2px - 2px),0px);
 		height: max(calc(12px - 2px - 2px),0px);
 		border-radius: 50%;
-		background: linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
+		background: -webkit-linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
 		border: 2px solid #F4F2FC;
 		box-shadow: none;
 		cursor: pointer;
@@ -61,7 +62,7 @@ input[type=range].track {
 		box-shadow: none;
 	}
 	&::-moz-range-track {
-		background: linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%) 0/var(--sx) 100% no-repeat, #F4F2FC1A;
+		background: -webkit-linear-gradient-webkit-linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%) 0/var(--sx) 100% no-repeat, #F4F2FC1A;
 	}
 	/*ms*/
 	&::-ms-fill-upper {
@@ -76,7 +77,7 @@ input[type=range].track {
 		width: 12px;
 		height: 12px;
 		border-radius: 50%;
-		background: linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
+		background: -webkit-linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
 		border: 2px solid #F4F2FC;
 		box-shadow: none;
 		margin-top: 0;
@@ -100,7 +101,7 @@ input[type=range].track {
 		height: 4px;
 		border-radius: 0.5em 0 0 0.5em;
 		margin: -undefined 0 -undefined -undefined;
-		background: linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
+		background: -webkit-linear-gradient(117.57deg, #BC0AB8 25.97%, #8E1BE8 109.01%, #8E1BE8 109.02%);
 		border: none;
 		border-right-width: 0;
 	}

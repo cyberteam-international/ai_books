@@ -1,8 +1,12 @@
+'use client'
+
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useContext } from 'react';
 
 import { LINKS, ROUTES } from '@utils/config';
+import { ContextUser } from '@/utils/context';
 
 import ButtonUp from '@/UI/buttonUp';
 
@@ -16,6 +20,8 @@ import style from './style.module.scss'
 type Props = {};
 
 export default function Footer({ }: Props) {
+
+    const [userState, _setUserState] = useContext(ContextUser)
 
     return (
         <footer className={style.footer}>
@@ -46,9 +52,11 @@ export default function Footer({ }: Props) {
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
                             </li>
-                            <li className={style.footer__nav__menu__item}>
-                                <Link href={ROUTES.STATISTIC}>Статистика</Link>
-                            </li>
+                            {userState?.is_admin && (
+                                <li className={style.footer__nav__menu__item}>
+                                    <Link href={ROUTES.STATISTIC}>Статистика</Link>
+                                </li>
+                            )}
                         </ul>
                     </nav>
                     <div className={style.footer__nav__social}>

@@ -11,6 +11,8 @@ import '@styles/global.scss'
 import '@styles/datepicker.scss'
 import '@styles/slick-theme.scss'
 import '@styles/slick.scss'
+import { Suspense } from 'react'
+import Loading from './loading'
 
 export const metadata: Metadata = {
 	title: 'Создание аудиокниг. Озвучивание текстов. AIBooks',
@@ -26,13 +28,15 @@ export default function RootLayout({
 	return (
 			<html lang="ru">
 				<body className={FontOnest.className}>
+				<ContextLayout>
 					<div className="page__wrapper">
-						<ContextLayout>
-							<Header/>
-						{children}
-						</ContextLayout>
+						<Header/>
+						<Suspense fallback={<Loading/>}>
+							{children}
+						</Suspense>
 					</div>
 					<Footer/>
+				</ContextLayout>
 				</body>
 			</html>
 	)

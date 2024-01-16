@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
 
 import { ContextUser } from "@/utils/context"
 import { UserInfo } from "@/utils/interface"
@@ -15,7 +16,7 @@ export default function ContextLayout({
     const [userInfo, setUserInfo] = useState<UserInfo>()
 
     useEffect(() => {
-        if (!userInfo) {
+        if (!userInfo && Cookies.get('token')) {
             ENDPOINTS.USERS.GET_iNFO()
             .then((res) => {
                 setUserInfo(res.data as UserInfo)
@@ -25,6 +26,10 @@ export default function ContextLayout({
         }
         console.log('userInfo', userInfo)
     }, [userInfo])
+
+    useEffect(()=>{
+        ENDPOINTS.STATISTIC.UPDATE_STATISTIC()
+    }, [])
 
     return (
         <ContextUser.Provider value={[userInfo, setUserInfo]}>
