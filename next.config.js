@@ -9,7 +9,8 @@ const nextConfig = {
         }
     },
     env: {
-        BACKEND_URL: 'http://185.251.89.86:3001'
+        BACKEND_URL: 'https://lp.aibooks.ru'
+
     },
 }
 
