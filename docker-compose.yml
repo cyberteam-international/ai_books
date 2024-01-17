@@ -8,9 +8,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextjs.rule=Host(`go.aibooks.ru`)"
-      - "traefik.http.routers.nextjs.entrypoints=web"
-      - "traefik.http.routers.nextjs.service=nextjs_service"
-      - "traefik.http.services.nextjs_service.loadbalancer.server.port=3000"
+      - "traefik.http.routers.nextjs.entrypoints=websecure"
+      - "traefik.http.routers.nextjs.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.redirs.entrypoints=web"
+      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
   reverse-proxy:
     image: traefik:v2.4
     container_name: aibooks_traefik
