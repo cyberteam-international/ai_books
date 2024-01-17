@@ -8,6 +8,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextjs.rule=Host(`go.aibooks.ru`)"
+      - "traefik.http.routers.nextjs.entrypoints=web"
+      - "traefik.http.routers.nextjs.service=nextjs_service"
+      - "traefik.http.services.nextjs_service.loadbalancer.server.port=3000"
   reverse-proxy:
     image: traefik:v2.4
     container_name: aibooks_traefik
