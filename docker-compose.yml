@@ -9,3 +9,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.nextjs.rule=Host(`go.aibooks.ru`)"
       - "traefik.http.services.nextjs.loadbalancer.server.port=3000"
+      - "traefik.http.routers.nextjs.rule=Host(`lp.aibooks.ru`)"
+      - "traefik.http.services.nextjs.loadbalancer.server.port=5555"
+      - "traefik.http.routers.nextjs.middlewares=mywwwredirect"
+      - "traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}"
