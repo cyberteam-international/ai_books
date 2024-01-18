@@ -5,11 +5,35 @@ services:
     restart: always
     ports:
       - 3000:3000
-    networks:
-      - proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nextjs.rule=Host(`go.aibooks.ru`)"
-      - "traefik.http.services.nextjs.loadbalancer.server.port=3000"
-      - "traefik.http.routers.nextjs.middlewares=mywwwredirect"
-      - "traefik.http.middlewares.mywwwredirect.redirectregex.replacement=https://$${1}"
+      - "traefik.http.routers.nextjs.entrypoints=websecure"
+      - "traefik.http.routers.nextjs.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.redirs.entrypoints=web"
+      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
+  reverse-proxy:
+    image: traefik:v2.4
+    container_name: aibooks_traefik
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--api.debug=true"
+      - "--providers.docker=true"
+      - "--log.LEVEL=DEBUG"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--providers.docker.exposedbydefault=false"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email=hello@paularah.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
