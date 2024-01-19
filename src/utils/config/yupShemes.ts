@@ -34,7 +34,10 @@ export const SchemaPaymentMobile: Yup.ObjectSchema<PaymentForm['FormMobile']> = 
 // ----------
 
 export const SchemaTextArea: Yup.ObjectSchema<{input_text: CreateWorks['input_text']}> = Yup.object({
-    input_text: Yup.string().required('Заполните поле').max(5000, 'Введите не более 5000 символов')
+    input_text: Yup.string().required('Заполните поле').test('max-length', 'Введите не более ${max} символов', function(value) {
+        const max = this.options.context?.maxCharacterCount; // Получение значения maxCharacterCount из контекста
+        return value.length <= max;
+    })
 })
 // ----------
 export const SchemaRegistration: Yup.ObjectSchema<RegistrationForm> = Yup.object({

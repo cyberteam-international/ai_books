@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 
 import { CreateWorks } from "@utils/interface";
 import { SchemaTextArea } from "@utils/config/yupShemes";
+import { ContextUser } from "@/utils/context";
 
 import TextArea from "@/UI/textarea";
 import Button from "@/UI/button";
@@ -13,6 +14,8 @@ import Delete from "@/UI/delete";
 import icon_warning from '@public/warning.svg'
 
 import style from './style.module.scss'
+import Link from "next/link";
+import { ROUTES } from "@/utils/config";
 
 type Props = {
     submit: (data: {input_text: CreateWorks['input_text']}) => void
@@ -22,7 +25,10 @@ type Props = {
 export default function FormMain({ submit, canSubmit }: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
-    const maxCharacterCount = 5000;
+
+    const [userState, _setUserState] = useContext(ContextUser)
+
+    const [maxCharacterCount, setMaxCharacterCount] = useState(200)
 
     const {
         register,
@@ -34,11 +40,18 @@ export default function FormMain({ submit, canSubmit }: Props) {
     } = useForm<{input_text: CreateWorks['input_text']}>({
         resolver: yupResolver(SchemaTextArea),
         mode: 'onBlur',
+        context: { maxCharacterCount },
     });
 
     useEffect(() => {
         setCharacterCount(getValues('input_text')?.length || 0);
     }, [watch('input_text')]);
+
+    useEffect(()=>{
+        if (userState?.id) {
+            setMaxCharacterCount(5000)
+        }
+    }, [userState])
 
     return (
         <form id={'mainForm'} className={style.form} onSubmit={handleSubmit(submit)}>
@@ -55,12 +68,17 @@ export default function FormMain({ submit, canSubmit }: Props) {
                     <p className={style.form__control__character}>
                         <span>Символов</span> {characterCount.toLocaleString('ru')}/{maxCharacterCount}
                     </p>
-                    <Delete callback={() => setValue('input_text', '')}>
-                        <p>Очистить</p>
-                    </Delete>
+                    <div className={style.form__control__delete}>
+                        <Delete callback={() => setValue('input_text', '')}>
+                            <p>Очистить</p>
+                        </Delete>
+                    </div>
                 </div>
                 <Button type="submit" isActive={Boolean(canSubmit && isValid)}>Озвучить</Button>
             </div>
+            {!userState?.id && (
+                <p className={style.form__info}>Для озвучки большего количесто символов необходимо пройти <Link href={ROUTES.REGISTRATION}>регистрацию</Link></p>
+            )}
         </form>
     );
 }

@@ -67,6 +67,9 @@ export default function FormRegistration({ }: Props) {
                 ENDPOINTS.USERS.GET_iNFO(res.data.access_token)
                     .then((resInfo: AxiosResponse<UserInfo>) => {
                         setUserState(resInfo.data)
+                        if (!Cookies.get('is_admin') && resInfo.data.is_admin) {
+                            Cookies.set('is_admin', resInfo.data.is_admin? '1' : '0')
+                        }
                         console.log(Cookies.get('token'))
                     })
                     .catch((err: AxiosError<{ message: string }>) => {

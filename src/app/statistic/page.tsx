@@ -7,21 +7,21 @@ import { ru } from 'date-fns/locale'
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { AxiosError, AxiosResponse } from 'axios';
-import {
-    Chart,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+// import {
+//     Chart,
+//     CategoryScale,
+//     LinearScale,
+//     BarElement,
+//     Title,
+//     Tooltip,
+//     Legend,
+// } from 'chart.js';
+// import { Bar } from 'react-chartjs-2';
 
-import { FontOnest } from '@/fonts';
+// import { FontOnest } from '@/fonts';
 
 import { useOutsideClick } from '@/utils/hooks';
-import { ENDPOINTS } from '@/utils/config';
+import { ENDPOINTS, ROUTES } from '@/utils/config';
 import { Statistics } from '@/utils/config/endpoints';
 import { ResponseStatistic } from '@/utils/interface';
 
@@ -204,6 +204,10 @@ export default function PageStatistic({ }: Props) {
                 <div className={style.statistic__section__column}>
                     <h4>Посещения</h4>
                     <h4>{`${data?.number_visits}`}</h4>
+                </div>
+                <div className={style.statistic__section__column}>
+                    <h4>Уникальные посещения</h4>
+                    <h4>{`${data?.unique_number_visits}`}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Озвучивания</h4>

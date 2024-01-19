@@ -6,6 +6,7 @@ import Cookies from "js-cookie"
 import { ContextUser } from "@/utils/context"
 import { UserInfo } from "@/utils/interface"
 import { ENDPOINTS } from "@/utils/config"
+import { AxiosResponse } from "axios"
 
 export default function ContextLayout({
     children,
@@ -18,8 +19,8 @@ export default function ContextLayout({
     useEffect(() => {
         if (!userInfo && Cookies.get('token')) {
             ENDPOINTS.USERS.GET_iNFO()
-            .then((res) => {
-                setUserInfo(res.data as UserInfo)
+            .then((res: AxiosResponse<UserInfo>) => {
+                setUserInfo(res.data)
             }).catch(err => {
                 console.log(err)
             })

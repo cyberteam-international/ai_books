@@ -166,6 +166,21 @@
 		max-width: none;
 		width: auto;
 	}
+
+	&__button{
+		display: block;
+		margin: 0 auto;
+		margin-top: 30px;
+		a{
+			color: rbg(var(--color-white));
+			&:hover{
+				color: rbg(var(--color-white));
+			}
+			h5{
+				margin: 0;
+			}
+		}
+	}
 	
 	.container.modal {
 		margin: 0;

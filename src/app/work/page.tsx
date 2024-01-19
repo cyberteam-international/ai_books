@@ -32,12 +32,11 @@ export default function PageWork() {
 
 	const [responseData, setResponseData] = useState<ResponseWork>()
 
-	const [userState, setUserState] = useContext(ContextUser)
+	const [userState, _setUserState] = useContext(ContextUser)
 
 	const isClient = useIsClient()
 
 	const windowWidth = useWindowWidth()
-
 
 	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
 		setLoading(true)

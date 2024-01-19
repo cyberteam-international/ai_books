@@ -15,5 +15,6 @@ export type ResponseStatistic = {
 	"number_voiced_characters": Number,
 	"number_payments": Number,
 	"amount_payments": Number,
-	"number_repeated_payments": Number
+	"number_repeated_payments": Number,
+	"unique_number_visits": Number
 }
