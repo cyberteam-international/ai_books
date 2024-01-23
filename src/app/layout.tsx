@@ -27,6 +27,9 @@ export default function RootLayout({
 
 	return (
 			<html lang="ru">
+				<head>
+					<script src="https://static.yoomoney.ru/checkout-js/v1/checkout.js"></script>
+				</head>
 				<body className={FontOnest.className}>
 				<ContextLayout>
 					<div className="page__wrapper">

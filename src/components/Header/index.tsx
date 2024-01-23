@@ -66,9 +66,9 @@ export default function Header({ }: Props) {
                             </li>
                         </>
                     )}
-                    <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
+                    {/* <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
                         <Link href={ROUTES.POLICY}>Справка</Link>
-                    </li>
+                    </li> */}
                 </ul>
                 <ul className={clsx(style.header__menu, style.header__menu_mobile)}>
                     {userState ? (
@@ -102,9 +102,6 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                     </li>
-                    <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
-                        <Link onClick={() => setIsOpen(false)} href={ROUTES.POLICY}><span>Справка</span></Link>
-                    </li>
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US}><span>О проекте</span></Link>
                     </li>
@@ -116,6 +113,9 @@ export default function Header({ }: Props) {
                     </li>
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT}><span>Поддержка</span></Link>
+                    </li>
+                    <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
+                        <Link onClick={() => setIsOpen(false)} href={ROUTES.POLICY}><span>Политика конфиденциальности</span></Link>
                     </li>
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.PUBLIC_OFFER && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.PUBLIC_OFFER}><span>Договор оферты</span></Link>

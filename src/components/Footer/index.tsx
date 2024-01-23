@@ -50,6 +50,9 @@ export default function Footer({ }: Props) {
                                 <Link href={LINKS.SUPPORT}>Поддержка</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
+                                <Link href={ROUTES.POLICY}>Политика конфиденциальности</Link>
+                            </li>
+                            <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
                             </li>
                             {userState?.is_admin && (

@@ -6,8 +6,9 @@ export type LoginForm = {
 export type PaymentForm = {
     FormBank: {
         card_number: string,
-        day_year: string,
         cvv: string,
+        month: string,
+        year: string,
     },
     FormMobile: {
         phone: string

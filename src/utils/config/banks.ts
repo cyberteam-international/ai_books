@@ -10,31 +10,31 @@ export const BANKS: Banks[] = [
     {
         title: 'Банковская карта',
         inputValue: 'Банковская карта',
-        value: 'bank',
+        value: 'bank_card',
         img: bank_card,
     },
     {
         title: 'Mir Pay',
         inputValue: 'Mir Pay',
-        value: 'bank',
+        value: 'bank_card',
         img: mir_pay,
     },
     {
         title: 'ЮMoney',
         inputValue: 'ЮMoney',
-        value: 'mobile',
+        value: 'yoo_money',
         img: you_money,
     },
     {
         title: 'Tinkoff Pay',
         inputValue: 'Tinkoff Pay',
-        value: 'bank',
+        value: 'tinkoff_bank',
         img: tinkoff,
     },
     {
         title: 'СБП (Система быстрых платежей)',
         inputValue: 'СБП',
-        value: 'mobile',
+        value: 'sbp',
         img: spb,
     },
 ]

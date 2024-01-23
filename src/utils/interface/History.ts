@@ -1,5 +1,5 @@
 export type History = {
-    date: Date,
+    date: string,
     items: {
         cost: number,
         time: string,

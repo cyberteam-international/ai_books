@@ -22,7 +22,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 import { useOutsideClick } from '@/utils/hooks';
 import { ENDPOINTS, ROUTES } from '@/utils/config';
-import { Statistics } from '@/utils/config/endpoints';
 import { ResponseStatistic } from '@/utils/interface';
 
 import settings from '@public/settings.svg'
@@ -34,20 +33,20 @@ type Props = {};
 
 export default function PageStatistic({ }: Props) {
 
-    const [startDate, setStartDate] = useState<Date | null>();
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [startDate, setStartDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date>();
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [data, setData] = useState<ResponseStatistic>()
 
     const ref = useOutsideClick(() => setSettingsOpen(false))
 
     const resetRange = () => {
-        setStartDate(null)
-        setEndDate(null)
+        setStartDate(undefined)
+        setEndDate(undefined)
         setSettingsOpen(false)
     }
 
-    const onChange = (dates: [Date | null, Date | null]) => {
+    const onChange = (dates: [Date, Date]) => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
@@ -63,19 +62,7 @@ export default function PageStatistic({ }: Props) {
     };
 
     useEffect(()=>{
-        const fetchProps: Statistics = {
-            end_date: {
-                day: endDate? String(endDate?.getDate()).padStart(2, '0') : '',
-                month: endDate? String(endDate?.getMonth() + 1).padStart(2, '0') : '',
-                year: endDate? endDate?.getFullYear() : ''
-            },
-            start_date: {
-                day: startDate? String(startDate?.getDate()).padStart(2, '0') : '',
-                month: startDate? String(startDate?.getMonth() + 1).padStart(2, '0') : '',
-                year: startDate? startDate?.getFullYear() : ''
-            }
-        }
-        ENDPOINTS.STATISTIC.GET_STATISTIC(fetchProps.start_date, fetchProps.end_date)
+        ENDPOINTS.STATISTIC.GET_STATISTIC(startDate, endDate)
         .then((res: AxiosResponse<ResponseStatistic>)=> {
             console.log('statistic', res)
             setData(res.data)
@@ -84,17 +71,6 @@ export default function PageStatistic({ }: Props) {
             console.log(err)
         })
     }, [startDate, endDate])
-
-    useEffect(()=>{
-        ENDPOINTS.STATISTIC.GET_STATISTIC()
-            .then((res: AxiosResponse<ResponseStatistic>)=> {
-                console.log('statistic', res)
-                setData(res.data)
-            })
-            .catch((err: AxiosError)=>{
-                console.log(err)
-            })
-    }, [])
 
     useEffect(()=>{
         console.log('data', data)
@@ -203,31 +179,31 @@ export default function PageStatistic({ }: Props) {
             <section className={style.statistic__section}>
                 <div className={style.statistic__section__column}>
                     <h4>Посещения</h4>
-                    <h4>{`${data?.number_visits}`}</h4>
+                    <h4>{data? data.number_visits : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Уникальные посещения</h4>
-                    <h4>{`${data?.unique_number_visits}`}</h4>
+                    <h4>{data? data.unique_number_visits : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Озвучивания</h4>
-                    <h4>{`${data?.clicks_voice_button}`}</h4>
+                    <h4>{data? data.clicks_voice_button : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Озвученные символы</h4>
-                    <h4>{`${data?.number_voiced_characters}`}</h4>
+                    <h4>{data? data.number_voiced_characters : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Пополнение счета</h4>
-                    <h4>{`${data?.number_payments}`}</h4>
+                    <h4>{data? data.number_payments : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Сумма пополнений</h4>
-                    <h4>{`${data?.amount_payments}`}</h4>
+                    <h4>{data? data.amount_payments : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Повторные пополнения</h4>
-                    <h4>{`${data?.number_repeated_payments}`}</h4>
+                    <h4>{data? data.number_repeated_payments : 0}</h4>
                 </div>
             </section>
             {/* <Bar options={options} data={data} /> */}

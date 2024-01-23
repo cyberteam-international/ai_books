@@ -1,7 +1,10 @@
+'use client'
+
 import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
+import Cookies from 'js-cookie'
 
 import { CreateWorks } from "@utils/interface";
 import { SchemaTextArea } from "@utils/config/yupShemes";
@@ -16,6 +19,7 @@ import icon_warning from '@public/warning.svg'
 import style from './style.module.scss'
 import Link from "next/link";
 import { ROUTES } from "@/utils/config";
+import { useIsClient } from "@/utils/hooks";
 
 type Props = {
     submit: (data: {input_text: CreateWorks['input_text']}) => void
@@ -27,6 +31,8 @@ export default function FormMain({ submit, canSubmit }: Props) {
     const [characterCount, setCharacterCount] = useState(0);
 
     const [userState, _setUserState] = useContext(ContextUser)
+
+    const isCient = useIsClient()
 
     const [maxCharacterCount, setMaxCharacterCount] = useState(200)
 
@@ -45,7 +51,16 @@ export default function FormMain({ submit, canSubmit }: Props) {
 
     useEffect(() => {
         setCharacterCount(getValues('input_text')?.length || 0);
+        if (getValues('input_text').length !== 0) {
+            localStorage.setItem('textareaValue', getValues('input_text'))
+        }
     }, [watch('input_text')]);
+
+    useEffect(()=>{
+        if (isCient && window.localStorage.getItem('textareaValue')){
+            setValue('input_text', String(localStorage.getItem('textareaValue')))
+        }
+    }, [isCient])
 
     useEffect(()=>{
         if (userState?.id) {

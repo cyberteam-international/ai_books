@@ -13,8 +13,8 @@ import { ModalMessage } from "@/components/Modal";
 
 import { SchemaPaymentAmountValue } from "@utils/config/yupShemes";
 
-import { BANKS, BANKS_BULLETS, PRICE, ROUTES } from "@utils/config";
-import { Banks } from "@utils/interface";
+import { BANKS, BANKS_BULLETS, ENDPOINTS, PRICE, ROUTES } from "@utils/config";
+import { Banks, PaymentForm } from "@utils/interface";
 
 import style from './style.module.scss'
 
@@ -74,15 +74,34 @@ export default function FormPayment({ }: Props) {
 		})
 	};
 
-	const submit = (data: object) => {
+	const submit = (data?: PaymentForm['FormMobile']) => {
 		console.log(data);
-		setCompleteMessage('')
-		setCompleteMessage(`Оплата прошла успешно, вы пополнили счет на ${amountValue}₽`)
+		// setCompleteMessage('')
+		// setCompleteMessage(`Оплата прошла успешно, вы пополнили счет на ${amountValue}₽`)
+		if (paymentMethod) {
+			ENDPOINTS.PAYMENT.SET_PAYMENT(
+				{
+					payment_type: paymentMethod.value,
+					payment_phone: data?.phone?? undefined,
+					amount_value: String(amountValue),
+					amount_currency: "RUB"
+	
+				}
+			)
+			.then((res: any)=>{
+				console.log(res)
+			})
+		}
+		
 	};
 
 	useEffect(()=>{
-		console.log('agreePolicy', agreePolicy);
-	}, [agreePolicy])
+		if (paymentMethod && paymentMethod?.value !== 'yoo_money') {
+			if (agreePolicy && amountTouched && !amountError) {
+				setFormValid(true)
+			}
+		}
+	}, [paymentMethod, agreePolicy, amountError])
 
 	return (
 		<>
@@ -110,12 +129,13 @@ export default function FormPayment({ }: Props) {
 						</Input>
 						<div className={style.form__amount__bullets}>{setAmountBullets()}</div>
 					</div>
-					{paymentMethod?.value === 'bank' && <FormBank onSubmit={submit} setValid={setFormValid} />}
-					{paymentMethod?.value === 'mobile' && <FormMobile onSubmit={submit} setValid={setFormValid} />}
+					{/* {paymentMethod?.value === 'bank' && <FormBank onSubmit={submit} setValid={setFormValid} />} */}
+					{paymentMethod?.value === 'yoo_money' && <FormMobile onSubmit={submit} setValid={setFormValid} />}
 					<Button
 						type="submit"
 						id="paymentForm"
 						isActive={formValid && agreePolicy}
+						callback={paymentMethod?.value !== 'yoo_money'? submit : undefined}
 					>
 						<p>Пополнить</p>
 						{amountValue &&

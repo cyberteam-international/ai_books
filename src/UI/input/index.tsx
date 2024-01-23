@@ -79,6 +79,7 @@ const Input: FC<Props> = forwardRef((
                     onChange={onChange}
                     onBlur={onBlur}
                     ref={ref}
+                    onSubmit={onSubmit}
                 />
                 <div className={style.input__children}>{children}</div>
                 {!error && touched && status !== 'disable' && !children &&

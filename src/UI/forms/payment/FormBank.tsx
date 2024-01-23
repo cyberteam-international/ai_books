@@ -11,7 +11,7 @@ import style from './forms.module.scss'
 
 type Props = {
     setValid: (val: boolean)=>void,
-    onSubmit: (data: object)=>void
+    onSubmit: (data: PaymentForm['FormBank'])=>void
 };
 
 export default function FormBank({ setValid, onSubmit }: Props) {
@@ -24,10 +24,6 @@ export default function FormBank({ setValid, onSubmit }: Props) {
         resolver: yupResolver(SchemaPaymentBank),
         mode: 'onBlur',
     });
-
-    // const submit = (data: PaymentForm['FormBank']) => {
-    //     console.log(data);
-    // };
 
     useEffect(()=>{
         setValid(isValid)
@@ -43,17 +39,23 @@ export default function FormBank({ setValid, onSubmit }: Props) {
             ></Input>
             <div className={style.form__wrapper}>
                 <Input
-                    placeholder="ММ / ГГ"
-                    touched={touchedFields['day_year']}
-                    error={errors['day_year']?.message}
-                    {...register('day_year', { required: true })}
-                ></Input>
+                    placeholder="ММ"
+                    touched={touchedFields['month']}
+                    error={errors['month']?.message}
+                    {...register('month', { required: true })}
+                />
+                <Input
+                    placeholder="ГГ"
+                    touched={touchedFields['year']}
+                    error={errors['year']?.message}
+                    {...register('year', { required: true })}
+                />
                 <Input
                     placeholder="CVV"
                     touched={touchedFields['cvv']}
                     error={errors['cvv']?.message}
                     {...register('cvv', { required: true })}
-                ></Input>
+                />
             </div>
         </form>
     );

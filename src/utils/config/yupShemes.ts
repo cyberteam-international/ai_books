@@ -24,7 +24,8 @@ export const SchemaPaymentAmountValue = Yup.string().required('Поле обяз
 
 export const SchemaPaymentBank: Yup.ObjectSchema<PaymentForm['FormBank']> = Yup.object({
     card_number: Yup.string().matches(/[0-9]{16}/, 'Введите 16 цифр карты банка').min(16, 'Введите 16 цифр карты банка').max(16, 'Введите 16 цифр карты банка').required('Заполните поле'),
-    day_year: Yup.string().min(4, 'Введите месяц и год').max(4, 'Введите месяц и год').required('Заполните поле'),
+    month: Yup.string().min(2, 'Введите месяц').max(2, 'Введите месяц').required('Заполните поле'),
+    year: Yup.string().min(2, 'Введите год').max(2, 'Введите год').required('Заполните поле'),
     cvv: Yup.string().min(3, 'Введите CVV код').matches(/[0-9]{3}/, 'Введите CVV код').max(3, 'Введите CVV код').required('Заполните поле')
 })
 

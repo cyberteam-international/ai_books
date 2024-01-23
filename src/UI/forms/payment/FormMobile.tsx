@@ -11,7 +11,7 @@ import style from './forms.module.scss'
 
 type Props = {
     setValid: (val: boolean)=>void,
-    onSubmit: (data: object)=>void
+    onSubmit: (data: PaymentForm['FormMobile'])=>void
 };
 
 export default function FormMobile({ setValid, onSubmit }: Props) {

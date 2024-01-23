@@ -63,6 +63,11 @@
         &:hover, &:focus{
             border: 2px solid rgba(var(--color-white), 0.6);
         }
+        &:-webkit-autofill {
+            -webkit-text-fill-color: rgb(var(--color-white));
+            -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+            transition: background-color 5000s ease-in-out 0s;
+        }
         &_password{
             padding-left: calc(24px + 24px + 16px);
             // -webkit-text-security: disc;
@@ -84,3 +89,10 @@
         color: rgb(var(--color-red));
     }
 }
+
+@keyframes autofill {
+    to {
+      color: inherit;
+      background: transparent;
+    }
+  }

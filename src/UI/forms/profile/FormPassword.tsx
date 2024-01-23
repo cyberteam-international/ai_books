@@ -74,8 +74,8 @@ export const FormPassword = () => {
                         onSubmit={handleSubmit(submit)}
                         {...register('password', { required: true, onBlur: ()=> touchedFields['confirm_password']? trigger('confirm_password') : null })}
                     >
-                        {touchedFields['password'] && !errors['password']?.message && (
-                            <Image onClick={() => setStep(step === 'new password' ? 'confirm password' : 'new password')} src={arrow_right} alt="new password" />
+                        {!errors['password']?.message && (
+                            <Image onClick={() => {trigger('password'); setStep(step === 'new password' ? 'confirm password' : 'new password')}} src={arrow_right} alt="new password" />
                         )}
                     </Input>
                 </div>
@@ -89,8 +89,8 @@ export const FormPassword = () => {
                             onSubmit={handleSubmit(submit)}
                             {...register('confirm_password', { required: true })}
                         >
-                            {touchedFields['confirm_password'] && !errors['confirm_password']?.message && (
-                                <Image onClick={() => {setStep(step === 'confirm password' ? 'old password' : 'confirm password'); trigger('password')}} src={arrow_right} alt="change password" />
+                            {!errors['confirm_password']?.message && (
+                                <Image onClick={() => {trigger('confirm_password'); setStep(step === 'confirm password' ? 'old password' : 'confirm password'); trigger('password')}} src={arrow_right} alt="change password" />
                             )}
                         </Input>
                     </div>

@@ -1,38 +1,43 @@
 'use client'
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
 import { ru } from 'date-fns/locale'
 import { format } from 'date-fns';
 import clsx from 'clsx';
+import { DateTime } from 'luxon'
 
-import { History } from '@utils/interface';
+import { useOutsideClick } from '@/utils/hooks';
+
+import { History, ResponsesHistory } from '@utils/interface';
+import { ENDPOINTS } from '@/utils/config';
 
 import settings from '@public/settings.svg'
 import close_white from '@public/close_white.svg'
 
 import style from './style.module.scss'
-import { useOutsideClick } from '@/utils/hooks';
+import { AxiosError, AxiosResponse } from 'axios';
 
 type Props = {
-    data: History[]
+    // data: History[]
 };
 
-export default function History({ data }: Props) {
+export default function History({ }: Props) {
 
     const [settingsOpen, setSettingsOpen] = useState(false)
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [startDate, setStartDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date>();
+    const [data, setData] = useState<ResponsesHistory[]>()
 
-    const ref = useOutsideClick(()=>setSettingsOpen(false))
+    const ref = useOutsideClick(() => setSettingsOpen(false))
 
     const resetRange = () => {
-        setStartDate(null)
-        setEndDate(null)
+        setStartDate(undefined)
+        setEndDate(undefined)
     }
 
-    const onChange = (dates: [Date | null, Date | null]) => {
+    const onChange = (dates: [Date, Date]) => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
@@ -49,31 +54,49 @@ export default function History({ data }: Props) {
     };
 
     const setHistory = () => {
-        const currentData = startDate ?
-            data.filter(
-                (el) => endDate ?
-                    el.date.getTime() >= startDate.getTime() && el.date.getTime() <= endDate.getTime()
-                    : el.date.getTime() === startDate.getTime()
-            )
-            : data
-        return currentData.map((item, index) => {
-            return (
-                <div key={index} className={style.history__date}>
-                    <p className={style.history__date__title}>{formatDate(item.date)}</p>
-                    <ul className={style.history__date__list}>
-                        {item.items.map((target, key) => {
-                            return (
-                                <li key={key} className={style.history__date__list__item}>
-                                    <p className={style.history__date__list__item_cost}>–{target.cost} <span>₽</span></p>
-                                    <p className={style.history__date__list__item_time}>{target.time}</p>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </div>
-            )
-        })
+        if (data) {
+            const histories: {[key:string]: ResponsesHistory[]} = {}
+
+            data.forEach((item) => {
+                if (!histories[DateTime.fromISO(item.created_at).toFormat('yyyy.MM.dd')]) {
+                    histories[DateTime.fromISO(item.created_at).toFormat('yyyy.MM.dd')]=[item]
+                }
+                else{
+                    histories[DateTime.fromISO(item.created_at).toFormat('yyyy.MM.dd')].push(item)
+                }
+            })
+
+            return Object.keys(histories).map((item, index)=>{               
+                const target: ResponsesHistory[] = histories[item]
+                return (
+                    <div key={index} className={style.history__date}>
+                        <p className={style.history__date__title}>{DateTime.fromFormat(item, 'yyyy.MM.dd').setLocale('ru-RU').toFormat('dd LLLL')}</p>
+                        <ul className={style.history__date__list}>
+                            {target.map((point, key) => {
+                                return (
+                                    <li key={key} className={style.history__date__list__item}>
+                                        <p className={style.history__date__list__item_cost}>–{point.amount} <span>₽</span></p>
+                                        <p className={style.history__date__list__item_time}>{DateTime.fromISO(point.created_at).toFormat('HH:mm')}</p>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                )
+            })
+        }
     }
+
+    useEffect(() => {
+        ENDPOINTS.PAYMENT.GET_HISTORY(startDate, endDate)
+            .then((res: AxiosResponse<ResponsesHistory[]>) => {
+                console.log('statistic', res.data)
+                setData(res.data)
+            })
+            .catch((err: AxiosError) => {
+                console.log(err)
+            })
+    }, [startDate, endDate])
 
     return (
         <div className={style.history}>

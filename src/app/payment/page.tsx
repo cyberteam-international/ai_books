@@ -6,7 +6,6 @@ import { useContext } from 'react';
 
 import { ContextUser } from '@/utils/context';
 import { PRICE } from '@/utils/config';
-import { dataPaymentHistory } from './data';
 
 import { FontUnbounded } from '@/fonts';
 import History from '@components/payment/History';
@@ -29,6 +28,10 @@ export default function PagePayment() {
 
     return (
         <main className={clsx(style.payment, 'container')}>
+            {/* <script src="https://static.yoomoney.ru/checkout-js/v1/checkout.js"></script> */}
+            {/* <script>
+                const checkout = new YooMoneyCheckout(305875, { language: 'ru' });
+            </script> */}
             <div className={style.payment__wrapper}>
                 <div className={style.payment__balance}>
                     <p className={style.payment__title}>Текущий баланс</p>
@@ -46,7 +49,7 @@ export default function PagePayment() {
                 </div>
             </div>
             <div className={style.payment__wrapper}>
-                <History data={dataPaymentHistory}/>
+                <History/>
             </div>
         </main>
     );

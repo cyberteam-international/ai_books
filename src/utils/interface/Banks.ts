@@ -3,8 +3,10 @@ import { SelectValue } from "./SelectValue";
 
 
 enum BanksType{
-    'bank',
-    'mobile',
+    'bank_card',
+    'yoo_money',
+    'sbp',
+    'tinkoff_bank',
 }
 
 export interface Banks extends SelectValue {

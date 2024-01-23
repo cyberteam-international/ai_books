@@ -1,3 +1,5 @@
+import { LanguageValue } from "./Languages"
+
 export type ResponseWork = {
 	"id": number,
 	"name": string,
@@ -10,11 +12,26 @@ export type ResponseWork = {
 }
 
 export type ResponseStatistic = {
-	"number_visits": Number,
-	"clicks_voice_button": Number,
-	"number_voiced_characters": Number,
-	"number_payments": Number,
-	"amount_payments": Number,
-	"number_repeated_payments": Number,
-	"unique_number_visits": Number
+	"number_visits": number,
+	"clicks_voice_button": number,
+	"number_voiced_characters": number,
+	"number_payments": number,
+	"amount_payments": number,
+	"number_repeated_payments": number,
+	"unique_number_visits": number
+}
+
+export type ResponseVoices = {
+	gender: 1 | 0,
+	lang: keyof typeof LanguageValue,
+	target: string,
+	voice: string,
+	voiceRu: string
+}[]
+
+export type ResponsesHistory = {
+	id: number,
+	amount: string,
+	currency: string,
+	created_at: string
 }

@@ -7,9 +7,10 @@ import { AxiosError, AxiosResponse } from 'axios'
 
 import { ENDPOINTS, LANGUAGES, VOICES } from '@utils/config'
 import { useIsClient } from '@/utils/hooks'
+import { ContextUser } from '@/utils/context'
 
 import { Languages, CreateWorks, Voices, ResponseWork } from '@utils/interface'
-import { ContextUser } from '@/utils/context'
+import { ResponseVoices } from '@/utils/interface/Responses'
 
 import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
 import Select from '@UI/select'
@@ -79,6 +80,24 @@ export default function PageWork() {
 			setVoice(currentVoiceArray[0])
 		}
 	}, [language])
+
+	useEffect(()=> {
+		ENDPOINTS.VOICES.GET_VOICES()
+		.then((res: AxiosResponse<ResponseVoices>)=>{
+			const languagesSet = new Set()
+			console.log(res.data)
+			res.data.forEach((item, index)=>{
+				languagesSet.add(item.lang)
+			})
+			// const setLanguages = (): Languages[] => {
+			// 	return Array.from(languagesSet).map((item, index)=>{
+			// 		return {
+						
+			// 		}
+			// 	})
+			// }
+		})
+	}, [])
 
 	return (
 		<>
