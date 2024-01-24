@@ -66,9 +66,11 @@ export default function Header({ }: Props) {
                             </li>
                         </>
                     )}
-                    {/* <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
-                        <Link href={ROUTES.POLICY}>Справка</Link>
-                    </li> */}
+                    {userState?.is_admin && (
+                        <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
+                            <Link href={ROUTES.STATISTIC}>Статистика</Link>
+                        </li>
+                    )}
                 </ul>
                 <ul className={clsx(style.header__menu, style.header__menu_mobile)}>
                     {userState ? (

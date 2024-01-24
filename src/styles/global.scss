@@ -33,6 +33,7 @@ main{
     &.modal{
         transition: 0.3s opacity;
         opacity: 0.1;
+        pointer-events: none;
     }
     @include media-down(sm) {
         padding: 24px 0;

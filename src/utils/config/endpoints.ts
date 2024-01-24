@@ -194,5 +194,14 @@ export const ENDPOINTS = {
                 }
             })
         },
+        GET_PAYMENT_ID: (id: string) => {
+            return axios({
+                url: BASE_URL + `/payment/${id}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+        }
     },
 }

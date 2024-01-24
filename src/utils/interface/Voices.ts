@@ -23,6 +23,7 @@ enum VoiceValue {
     'kirill',
     'anton',
     'nigora',
+    'b1gs9a5ant07jps2s9d8'
 }
 
 export interface Voices extends SelectValue {

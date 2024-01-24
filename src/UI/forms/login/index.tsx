@@ -25,7 +25,7 @@ export default function FormLogin({ }: Props) {
 
     const [fetchError, setFetchError] = useState<string>()
 
-    const [userState, setUserState] = useContext(ContextUser)
+    const [_userState, setUserState] = useContext(ContextUser)
 
     const router = useRouter()
     
@@ -46,6 +46,7 @@ export default function FormLogin({ }: Props) {
             .then((resInfo: AxiosResponse<UserInfo>)=>{
                 setUserState(resInfo.data)
                 console.log(Cookies.get('token'))
+                router.push(ROUTES.WORK);
             })
             .catch((err: AxiosError)=>{
                 setFetchError('Ошибка сервера, попробуйте позже')
@@ -60,12 +61,6 @@ export default function FormLogin({ }: Props) {
     }
 
     useEffect(()=> {console.log(fetchError)}, [fetchError])
-
-    useEffect(()=> {
-        if (userState) {
-            router.push(ROUTES.WORK);
-        }
-    }, [userState])
 
     return (
         <form className={style.form} onSubmit={handleSubmit(submit)}>
@@ -82,6 +77,7 @@ export default function FormLogin({ }: Props) {
                 touched={touchedFields['password']}
                 {...register('password', { required: true })}
             />
+            <Link className={style.form__fogot} href={ROUTES.RESET_PASSWORD}>Забыли пароль?</Link>
             <Button isActive={isValid} type="submit">Войти</Button>
             {fetchError && <p className={style.form__error}>{fetchError}</p>}
             <p className={style.form__description}>Нажимая на кнопку “Войти”, Вы подтверждаете свое согласие с <Link href={ROUTES.POLICY}>Правилами использования сервиса и Политикой конфиденциальности</Link></p>

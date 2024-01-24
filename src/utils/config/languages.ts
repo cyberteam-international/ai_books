@@ -6,6 +6,7 @@ import en_img from '@public/languages/en.png'
 import uz_img from '@public/languages/uz.png'
 import kz_img from '@public/languages/kz.svg'
 import hu_img from '@public/languages/hu.svg'
+import he_img from '@public/languages/he.png'
 // import bg_img from '@public/languages/bg.svg'
 // import by_img from '@public/languages/by.svg'
 // import gr_img from '@public/languages/gr.svg'
@@ -48,10 +49,10 @@ export const LANGUAGES: Languages[] = [
         inputValue: "o'zbek",
         value: 'uz-UZ'
     },
-    // {
-    //     img: kz_img,
-    //     title: 'עִברִית',
-    //     inputValue: 'עִברִית',
-    //     value: 'he-IL'
-    // },
+    {
+        img: he_img,
+        title: 'עִברִית',
+        inputValue: 'עִברִית',
+        value: 'he-IL'
+    },
 ]

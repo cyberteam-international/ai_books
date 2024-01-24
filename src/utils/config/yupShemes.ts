@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { LoginForm, CreateWorks, PaymentForm, ProfileForm, RegistrationForm } from '../interface'
+import { LoginForm, CreateWorks, PaymentForm, ProfileForm, RegistrationForm, ResetPasswordForm } from '../interface'
 
 const phone_REG_EXP = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
 // ----------
@@ -33,7 +33,6 @@ export const SchemaPaymentMobile: Yup.ObjectSchema<PaymentForm['FormMobile']> = 
     phone: Yup.string().required('Заполните поле').matches(phone_REG_EXP, 'Введите корректный номер')
 })
 // ----------
-
 export const SchemaTextArea: Yup.ObjectSchema<{input_text: CreateWorks['input_text']}> = Yup.object({
     input_text: Yup.string().required('Заполните поле').test('max-length', 'Введите не более ${max} символов', function(value) {
         const max = this.options.context?.maxCharacterCount; // Получение значения maxCharacterCount из контекста
@@ -51,6 +50,13 @@ export const SchemaRegistration: Yup.ObjectSchema<RegistrationForm> = Yup.object
 export const SchemaLogin: Yup.ObjectSchema<LoginForm> = Yup.object({
     email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
     password: Yup.string().required('Поле "Пароль" обязательно для заполнения'),
+})
+// ----------
+export const SchemaResetPassword: Yup.ObjectSchema<ResetPasswordForm> = Yup.object({
+    email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
+    confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
+    code: Yup.string().min(5, 'Некорректный код подтверждения').max(5, 'Некорректный код подтверждения'),
+    password: Yup.string().min(6, 'Пароль должен содержать минимум 6 символов'),
 })
 
 

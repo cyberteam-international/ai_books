@@ -18,7 +18,7 @@ import style from './style.module.scss'
 
 export default function PagePayment() {
 
-    const [userState, setUserState] = useContext(ContextUser)
+    const [userState, _setUserState] = useContext(ContextUser)
 
     const averageСharacters = () => {
         if (userState?.balance) {
@@ -28,10 +28,6 @@ export default function PagePayment() {
 
     return (
         <main className={clsx(style.payment, 'container')}>
-            {/* <script src="https://static.yoomoney.ru/checkout-js/v1/checkout.js"></script> */}
-            {/* <script>
-                const checkout = new YooMoneyCheckout(305875, { language: 'ru' });
-            </script> */}
             <div className={style.payment__wrapper}>
                 <div className={style.payment__balance}>
                     <p className={style.payment__title}>Текущий баланс</p>

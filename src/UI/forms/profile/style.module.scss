@@ -23,4 +23,13 @@
             width: 100%;
         }
     }
+    &__fogot{
+        display: block;
+        margin: 10px 0 0 10px;
+        font-weight: 800;
+        transition: 0.3s all;
+        &:hover{
+            color: #0F9FE4 !important;
+        }
+    }
 }

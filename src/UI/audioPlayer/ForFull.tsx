@@ -26,10 +26,11 @@ interface Props {
     canPlay: boolean,
     setPlayingIndex: () => void,
     removeHandler: (data: ResponseWork) => void,
-    handleDuration: (id: number, duration: number) => void
+    handleDuration: (id: number, duration: number) => void,
+    handleChangeAudioName: (newName: string) => void
 };
 
-export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler, handleDuration }: Props) => {
+export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler, handleDuration, handleChangeAudioName }: Props) => {
 
     const [menuOpen, setMenuOpen] = useState(false)
 
@@ -59,6 +60,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
             console.log(res.data)
             setTrackName(newTrackName)
             setNewTrackName(newTrackName)
+            handleChangeAudioName(newTrackName)
         })
         .catch(err => {
             console.error(err)

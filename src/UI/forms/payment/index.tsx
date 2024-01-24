@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { ChangeHandler } from "react-hook-form";
+import { AxiosResponse } from "axios";
+import Cookies from 'js-cookie'
+
+import { ResponsePayment } from "@/utils/interface/Responses";
 
 import Select from "@UI/select";
 import Input from "@UI/input";
@@ -76,8 +80,6 @@ export default function FormPayment({ }: Props) {
 
 	const submit = (data?: PaymentForm['FormMobile']) => {
 		console.log(data);
-		// setCompleteMessage('')
-		// setCompleteMessage(`Оплата прошла успешно, вы пополнили счет на ${amountValue}₽`)
 		if (paymentMethod) {
 			ENDPOINTS.PAYMENT.SET_PAYMENT(
 				{
@@ -88,8 +90,9 @@ export default function FormPayment({ }: Props) {
 	
 				}
 			)
-			.then((res: any)=>{
-				console.log(res)
+			.then((res: AxiosResponse<ResponsePayment>)=>{
+				Cookies.set('payment_id', res.data.id, {secure: true})
+				window.open(res.data.link, '_blank');
 			})
 		}
 		

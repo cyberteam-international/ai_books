@@ -1,0 +1,28 @@
+@import "@styles/spec";
+
+.reset{
+    max-width: 50%;
+    @include media-down(lg) {
+        max-width: 70%;
+    }
+    @include media-down(sm) {
+        max-width: none;
+    }
+    &__wrapper{
+        border-radius: 32px;
+        border: 2px solid rgba(var(--color-white), 0.06);
+        backdrop-filter: blur(32px);
+        padding: 32px;
+        @include media-down(sm) {
+            padding: 0;
+            border: none;
+            border-radius: 0;
+        }
+    }
+    h4{
+        margin: 0;
+    }
+    h6{
+        margin-top: 20px;
+    }
+}

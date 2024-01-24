@@ -30,6 +30,13 @@
             }
         }
     }
+    &__fogot{
+        font-weight: 800;
+        transition: 0.3s all;
+        &:hover{
+            color: #0F9FE4 !important;
+        }
+    }
     &__error{
         text-align: center;
         color: rgb(var(--color-red));

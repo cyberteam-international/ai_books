@@ -9,7 +9,7 @@ import { useWindowWidth } from "@react-hook/window-size";
 import { SchemaProfilePassword } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
 import { useIsClient } from "@/utils/hooks";
-import { ENDPOINTS } from "@/utils/config";
+import { ENDPOINTS, ROUTES } from "@/utils/config";
 
 import { ModalMessage } from "@/components/Modal";
 import Input from "@/UI/input";
@@ -19,6 +19,7 @@ import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
 import { AxiosError } from "axios";
+import Link from "next/link";
 
 type Props = {
     stepState: 'new password' | 'old password' | 'confirm password',
@@ -111,8 +112,8 @@ export const FormPassword = () => {
                             onSubmit={handleSubmit(submit)}
                             {...register('old_password', { required: true, onBlur: ()=> trigger('password') })}
                         >
-                            
                         </Input>
+                        <Link className={style.form__fogot} href={ROUTES.RESET_PASSWORD}>Забыли пароль?</Link>
                     </div>
                 )}
                 {step === 'old password' && isClient && windowWidth < 768 && (

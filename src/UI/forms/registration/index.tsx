@@ -3,7 +3,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { AxiosError, AxiosResponse } from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
@@ -28,7 +28,7 @@ export default function FormRegistration({ }: Props) {
 
     const router = useRouter()
 
-    const [userState, setUserState] = useContext(ContextUser)
+    const [_userState, setUserState] = useContext(ContextUser)
 
     const {
         register,
@@ -67,10 +67,8 @@ export default function FormRegistration({ }: Props) {
                 ENDPOINTS.USERS.GET_iNFO(res.data.access_token)
                     .then((resInfo: AxiosResponse<UserInfo>) => {
                         setUserState(resInfo.data)
-                        if (!Cookies.get('is_admin') && resInfo.data.is_admin) {
-                            Cookies.set('is_admin', resInfo.data.is_admin? '1' : '0')
-                        }
                         console.log(Cookies.get('token'))
+                        router.push(ROUTES.WORK);
                     })
                     .catch((err: AxiosError<{ message: string }>) => {
                         setFetchError({...err, message: 'Ошибка сервера, попробуйте позже'})
@@ -83,11 +81,6 @@ export default function FormRegistration({ }: Props) {
             setFetchError(err)
         })
     }
-    useEffect(() => {
-        if (userState) {
-            router.push(ROUTES.WORK);
-        }
-    }, [userState])
 
     return (
         <form className={style.form} onSubmit={step === 0 ? handleSubmit(sendCode) : handleSubmit(submit)}>

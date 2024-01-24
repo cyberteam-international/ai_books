@@ -55,11 +55,11 @@ export default function Footer({ }: Props) {
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
                             </li>
-                            {userState?.is_admin && (
+                            {/* {userState?.is_admin && (
                                 <li className={style.footer__nav__menu__item}>
                                     <Link href={ROUTES.STATISTIC}>Статистика</Link>
                                 </li>
-                            )}
+                            )} */}
                         </ul>
                     </nav>
                     <div className={style.footer__nav__social}>

@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode, useState, forwardRef, FC, Ref } from "react";
+import { InputHTMLAttributes, ReactNode, useState, forwardRef, FC, Ref, Dispatch, SetStateAction } from "react";
 import clsx from "clsx";
 import { ChangeHandler } from "react-hook-form";
 import Image from "next/image";
@@ -22,7 +22,8 @@ type Props = {
     children?: ReactNode,
     touched: boolean | undefined,
     ref?: Ref<any>,
-    value?: string | number | readonly string[] | undefined
+    value?: string | number | readonly string[] | undefined,
+    passwordVisibleState?: [boolean, Dispatch<SetStateAction<boolean>>]
 };
 
 const Input: FC<Props> = forwardRef((
@@ -38,10 +39,11 @@ const Input: FC<Props> = forwardRef((
         error,
         onSubmit,
         touched,
-        value
+        value,
+        passwordVisibleState
     }, ref): JSX.Element => {
 
-    const [passwordVisible, setPasswordVisible] = useState(false)
+    const [passwordVisible, setPasswordVisible] = passwordVisibleState?? useState<boolean>(false)
 
     return (
         <div className={clsx(style.input, style[`input_${status}`])}>

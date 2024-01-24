@@ -35,3 +35,8 @@ export type ResponsesHistory = {
 	currency: string,
 	created_at: string
 }
+
+export type ResponsePayment = {
+	id: string,
+	link: string
+}

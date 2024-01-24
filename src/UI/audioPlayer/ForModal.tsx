@@ -18,10 +18,11 @@ import pause from '@public/player/pause.svg'
 import style from './ForModal.module.scss'
 
 type Props = {
-    data: ResponseWork
+    data: ResponseWork,
+    handleChangeAudioName: (newName: string) => void
 };
 
-export const PlayerModal = ({ data }: Props) => {
+export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
 
     const {
         audioRef,
@@ -42,6 +43,7 @@ export const PlayerModal = ({ data }: Props) => {
             console.log(res.data)
             setTrackName(newTrackName)
             setNewTrackName(newTrackName)
+            handleChangeAudioName(newTrackName)
         })
         .catch(err => {
             console.error(err)

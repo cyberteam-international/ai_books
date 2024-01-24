@@ -44,11 +44,11 @@ export const PlayerSelect = ({ src, setPlayingOption, canPlay }: Props) => {
         }
     }, [canPlay])
 
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.volume = 0.1
-        }
-    }, [audioRef])
+    // useEffect(() => {
+    //     if (audioRef.current) {
+    //         audioRef.current.volume = 0.1
+    //     }
+    // }, [audioRef])
 
     return (
         <Button className={style.player} callback={() => clickHandler()}>

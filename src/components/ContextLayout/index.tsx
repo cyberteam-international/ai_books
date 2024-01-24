@@ -25,7 +25,7 @@ export default function ContextLayout({
                 console.log(err)
             })
         }
-        console.log('userInfo', userInfo)
+        // console.log('userInfo', userInfo)
     }, [userInfo])
 
     useEffect(()=>{

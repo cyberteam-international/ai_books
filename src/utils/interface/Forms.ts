@@ -39,6 +39,13 @@ export type RegistrationForm = {
     code?: string
 }
 
+export type ResetPasswordForm = {
+    email: string,
+    password?: string,
+    confirm_password?: string,
+    code?: string
+}
+
 export type CreateWorks = {
     lang: string,
     voice: string,

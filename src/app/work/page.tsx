@@ -4,15 +4,15 @@ import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size'
 import { AxiosError, AxiosResponse } from 'axios'
+import Cookies from 'js-cookie'
 
 import { ENDPOINTS, LANGUAGES, VOICES } from '@utils/config'
 import { useIsClient } from '@/utils/hooks'
 import { ContextUser } from '@/utils/context'
 
-import { Languages, CreateWorks, Voices, ResponseWork } from '@utils/interface'
-import { ResponseVoices } from '@/utils/interface/Responses'
+import { Languages, CreateWorks, Voices, ResponseWork, ResponsesHistory } from '@utils/interface'
 
-import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWrapper } from '@/components/Modal'
+import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWarningRegistration, ModalWrapper } from '@/components/Modal'
 import Select from '@UI/select'
 import FormMain from '@UI/forms/main'
 import Rules from '@components/work/Rules'
@@ -28,8 +28,11 @@ export default function PageWork() {
 
 	const [modalResultOpen, setModalResultOpen] = useState<boolean>(false)
 	const [modalEnoughBalanceOpen, setModalEnoughBalanceOpen] = useState<boolean>(false)
+	const [modalRegistrationOpen, setModalRegistrationOpen] = useState<boolean>(false)
 	const [completeMessage, setCompleteMessage] = useState<string>()
 	const [loading, setLoading] = useState<boolean>(false)
+
+	const [requestPaymentLength, setRequestPaymentLength] = useState(0)
 
 	const [responseData, setResponseData] = useState<ResponseWork>()
 
@@ -68,10 +71,23 @@ export default function PageWork() {
 		setModalResultOpen(false)
 	}
 
-	useEffect(() => {
-		console.log('language', language)
-		console.log('voice', voice)
-	}, [language, voice])
+	const handleEnoughBalance = () => {
+		return setModalEnoughBalanceOpen(true)
+	}
+
+	const handleRegistration = () => {
+		return setModalRegistrationOpen(true)
+	}
+
+	const handleChangeAudioName = (newName: string) => {
+		setCompleteMessage('')
+		setCompleteMessage(`Имя успешно изменено на ${newName}`)
+	}
+
+	// useEffect(() => {
+	// 	console.log('language', language)
+	// 	console.log('voice', voice)
+	// }, [language, voice])
 
 	useEffect(() => {
 		if (language) {
@@ -81,27 +97,30 @@ export default function PageWork() {
 		}
 	}, [language])
 
-	useEffect(()=> {
-		ENDPOINTS.VOICES.GET_VOICES()
-		.then((res: AxiosResponse<ResponseVoices>)=>{
-			const languagesSet = new Set()
-			console.log(res.data)
-			res.data.forEach((item, index)=>{
-				languagesSet.add(item.lang)
-			})
-			// const setLanguages = (): Languages[] => {
-			// 	return Array.from(languagesSet).map((item, index)=>{
-			// 		return {
-						
-			// 		}
-			// 	})
-			// }
-		})
-	}, [])
+	useEffect(()=>{
+		if (Cookies.get('payment_id') && requestPaymentLength < 100) {
+			const paymentId = Cookies.get('payment_id')
+			if (paymentId) {
+				ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
+				.then((res: AxiosResponse<ResponsesHistory>)=>{
+					console.log(res.data);
+					setCompleteMessage('')
+					setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`)
+					setRequestPaymentLength(0)
+					Cookies.remove('payment_id')
+				})
+				.catch((err)=> {
+					console.log('error')
+					setRequestPaymentLength((prev)=>prev+1)
+				})
+			}
+			console.log(requestPaymentLength);
+		}
+	}, [requestPaymentLength])
 
 	return (
 		<>
-			<main className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen) || loading) && 'modal')}>
+			<main className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen) || loading) && 'modal')}>
 				<div className={style.main__options}>
 					<Select
 						options={LANGUAGES}
@@ -114,7 +133,7 @@ export default function PageWork() {
 						options={voiceArray}
 						value={voice}
 						onChange={(data) => setVoice((data as unknown as Voices))}
-						type={'banks'}
+						type={'voices'}
 						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
 					/>
 				</div>
@@ -125,7 +144,12 @@ export default function PageWork() {
 
 				)}
 				<div className={style.main__wrapper}>
-					<FormMain submit={submit} canSubmit={language.value && voice.value ? true : false} />
+					<FormMain 
+						submit={submit} 
+						handleRegistration={handleRegistration} 
+						handleEnoughBalance={handleEnoughBalance} 
+						canSubmit={language.value && voice.value ? true : false} 
+					/>
 					{isClient && windowWidth > 768 && (
 						<Rules />
 					)}
@@ -137,8 +161,11 @@ export default function PageWork() {
 			<ModalWrapper state={[modalEnoughBalanceOpen, setModalEnoughBalanceOpen]}>
 				<ModalWarningEnoughBalance />
 			</ModalWrapper>
+			<ModalWrapper state={[modalRegistrationOpen, setModalRegistrationOpen]}>
+				<ModalWarningRegistration />
+			</ModalWrapper>
 			<ModalWrapper state={[modalResultOpen, setModalResultOpen]}>
-				{responseData && <ModalResult data={responseData} closeModal={()=>handleRemoveClose()}/>}
+				{responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData} closeModal={()=>handleRemoveClose()}/>}
 			</ModalWrapper>
 			<ModalMessage message={completeMessage} />
 		</>

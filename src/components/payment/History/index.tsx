@@ -75,7 +75,7 @@ export default function History({ }: Props) {
                             {target.map((point, key) => {
                                 return (
                                     <li key={key} className={style.history__date__list__item}>
-                                        <p className={style.history__date__list__item_cost}>–{point.amount} <span>₽</span></p>
+                                        <p className={style.history__date__list__item_cost}>+{point.amount} <span>₽</span></p>
                                         <p className={style.history__date__list__item_time}>{DateTime.fromISO(point.created_at).toFormat('HH:mm')}</p>
                                     </li>
                                 )

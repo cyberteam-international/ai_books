@@ -33,7 +33,7 @@ export default function PageMyAudio() {
     const [defaultAudioList, setDefaultAudioList] = useState<ResponseWork[]>()
     const [filterAudioList, setFilterAudioList] = useState<ResponseWork[]>()
 
-    const [removeMessage, setRemoveMessage] = useState<string>()
+    const [completeMessage, setCompleteMessage] = useState<string>()
 
     const isClient = useIsClient()
 
@@ -50,13 +50,13 @@ export default function PageMyAudio() {
     }
 
     const removeHandler = (data: ResponseWork) => {
-        setRemoveMessage('')
+        setCompleteMessage('')
         ENDPOINTS.WORK.DELETE_WORK(data.id)
         .then(res => {
             if (res.status === 200) {
                 if (filterAudioList) {
                     setFilterAudioList([...filterAudioList].filter((el) => el.id !== data.id))
-                    setRemoveMessage(`Аудиозапись "${data.name}" с id:${data.id} удалена`)
+                    setCompleteMessage(`Аудиозапись "${data.name}" с id:${data.id} удалена`)
                 }
             }
         })
@@ -75,9 +75,10 @@ export default function PageMyAudio() {
         }
     }
 
-    useEffect(()=>{
-        console.log('defaultAudioList', defaultAudioList)
-    }, [defaultAudioList])
+    const handleChangeAudioName = (newName: string) => {
+		setCompleteMessage('')
+		setCompleteMessage(`Имя успешно изменено на ${newName}`)
+	}
 
     useEffect(()=> {
         ENDPOINTS.WORK.GET_WORKS()
@@ -178,6 +179,7 @@ export default function PageMyAudio() {
                     {filterAudioList?.map((item, index) => {
                         return (
                             <PlayerFull
+                                handleChangeAudioName={handleChangeAudioName}
                                 setPlayingIndex={() => { setPlayingIndex(index) }}
                                 canPlay={playingIndex === index}
                                 data={item}
@@ -189,7 +191,7 @@ export default function PageMyAudio() {
                     })}
                 </div>
             </div>
-            <ModalMessage message={removeMessage} />
+            <ModalMessage message={completeMessage} />
         </main>
     )
 }
