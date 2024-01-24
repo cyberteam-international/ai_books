@@ -68,7 +68,8 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
 
     useEffect(()=>{
         if (userState?.id) {
-            setMaxCharacterCount(Math.floor(userState.balance / PRICE) > 200? Math.floor(userState.balance / PRICE) + 200 : 200)
+            // setMaxCharacterCount(Math.floor(userState.balance / PRICE) > 200? Math.floor(userState.balance / PRICE) + 200 : 200)
+            setMaxCharacterCount(5000)
         }
     }, [userState])
 
