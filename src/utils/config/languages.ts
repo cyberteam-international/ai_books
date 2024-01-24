@@ -49,10 +49,10 @@ export const LANGUAGES: Languages[] = [
         inputValue: "o'zbek",
         value: 'uz-UZ'
     },
-    {
-        img: he_img,
-        title: 'עִברִית',
-        inputValue: 'עִברִית',
-        value: 'he-IL'
-    },
+    // {
+    //     img: he_img,
+    //     title: 'עִברִית',
+    //     inputValue: 'עִברִית',
+    //     value: 'he-IL'
+    // },
 ]
