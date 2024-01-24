@@ -36,7 +36,7 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
 
     const isCient = useIsClient()
 
-    const [maxCharacterCount, setMaxCharacterCount] = useState(200)
+    const [maxCharacterCount, setMaxCharacterCount] = useState(5000)
 
     const {
         register,
