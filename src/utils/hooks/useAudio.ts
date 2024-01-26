@@ -20,6 +20,8 @@ export const useAudio = (data: ResponseWork) => {
 
     const formatTime = () => {
         if (duration) {
+            // console.log('duration', typeof duration)
+            console.log('currentTime', currentTime)
             const timeRemaining = duration - currentTime
 
             const hours = Math.floor(timeRemaining / 3600);
@@ -48,7 +50,10 @@ export const useAudio = (data: ResponseWork) => {
 
     const onLoadedMetadata = (e: Event) => {
         const target = e.target as HTMLAudioElement
-        setDuration(target.duration);
+        if(target){
+            setDuration(data.completed_seconds);
+            
+        }
     };
 
     const handleChangeRange = (e: Event) => {
