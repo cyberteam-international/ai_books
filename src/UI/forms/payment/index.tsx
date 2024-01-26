@@ -92,6 +92,7 @@ export default function FormPayment({ }: Props) {
 			)
 			.then((res: AxiosResponse<ResponsePayment>)=>{
 				Cookies.set('payment_id', res.data.id, {secure: true})
+				// window.location.href = res.data.link
 				window.open(res.data.link, '_blank');
 			})
 		}

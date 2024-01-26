@@ -2,15 +2,15 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { AxiosError, AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { ENDPOINTS, ROUTES } from "@/utils/config";
 
-import { SchemaResetPassword } from "@/utils/config/yupShemes";
-import { ResetPasswordForm } from "@/utils/interface";
+import { SchemaFogotPassword } from "@/utils/config/yupShemes";
+import { FogotPasswordForm } from "@/utils/interface";
 
 import Input from "@/UI/input";
 import Button from "@/UI/button";
@@ -19,7 +19,7 @@ import style from './style.module.scss'
 
 type Props = {};
 
-export default function FormResetPassword({ }: Props) {
+export default function FormFogotPassword({ }: Props) {
 
     const [fetchError, setFetchError] = useState<AxiosError<{ message: string }>>()
     const [step, setStep] = useState<number>(0)
@@ -43,68 +43,40 @@ export default function FormResetPassword({ }: Props) {
         getValues,
         handleSubmit,
         reset,
-    } = useForm<ResetPasswordForm>({
-        resolver: yupResolver(SchemaResetPassword),
+    } = useForm<FogotPasswordForm>({
+        resolver: yupResolver(SchemaFogotPassword),
         mode: 'onBlur',
     });
 
-    const sendEmail = (data: ResetPasswordForm) => {
+    const sendEmail = (data: FogotPasswordForm) => {
         console.log(data)
-        setStep(1)
-        // ENDPOINTS.AUTH.SIGNUP(data)
-        //     .then(res => {
-        //         if (res.status === 204) {
-        //             console.log('send code', data)
-        //             setStep(1)
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.error(err)
-        //         setFetchError(err)
-        //     })
+        ENDPOINTS.AUTH.FORGOT_PASSWORD(data)
+            .then(res => {
+                if (res.status === 204) {
+                    console.log('send code', data)
+                    setStep(1)
+                }
+            })
+            .catch(err => {
+                console.error(err)
+                setFetchError(err)
+            })
     }
 
-    const sendCode = (data: ResetPasswordForm) => {
+    const sendCode = (data: FogotPasswordForm) => {
         setStep(2)
-        // ENDPOINTS.AUTH.SIGNUP(data)
-        //     .then(res => {
-        //         if (res.status === 204) {
-        //             console.log('send code', data)
-        //             setStep(1)
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.error(err)
-        //         setFetchError(err)
-        //     })
     }
 
-    const submit = (data: ResetPasswordForm) => {
+    const submit = (data: FogotPasswordForm) => {
         console.log(data)
-        // ENDPOINTS.AUTH.SIGNUP_CONFIRM(data)
-        // .then(res => {
-        //     console.log('submit', data)
-        //     ENDPOINTS.AUTH.LOGIN(data)
-        //     .then((res: AxiosResponse<{ access_token: string }>) => {
-        //         Cookies.set('token', res.data.access_token, { secure: true })
-        //         ENDPOINTS.USERS.GET_iNFO(res.data.access_token)
-        //             .then((resInfo: AxiosResponse<UserInfo>) => {
-        //                 setUserState(resInfo.data)
-        //                 if (!Cookies.get('is_admin') && resInfo.data.is_admin) {
-        //                     Cookies.set('is_admin', resInfo.data.is_admin? '1' : '0')
-        //                 }
-        //                 console.log(Cookies.get('token'))
-        //             })
-        //             .catch((err: AxiosError<{ message: string }>) => {
-        //                 setFetchError({...err, message: 'Ошибка сервера, попробуйте позже'})
-        //             })
-        //     }).catch(err => {
-        //         setFetchError(err)
-        //     })
-        // }).catch(err => {
-        //     console.error(err)
-        //     setFetchError(err)
-        // })
+        ENDPOINTS.AUTH.FORGOT_PASSWORD_CONFIRM(data)
+            .then(res => {
+                router.push(ROUTES.LOGIN)
+            })
+            .catch(err => {
+                console.error(err)
+                setFetchError(err)
+            })
     }
 
     return (
@@ -154,8 +126,8 @@ export default function FormResetPassword({ }: Props) {
             {fetchError && <p className={style.form__error}>{fetchError.response?.data.message}</p>}
             {step === 0 && (
                 <div className={style.form__links}>
-                    <Link href={ROUTES.REGISTRATION}><Button>Регистрация</Button></Link>
-                    <Link href={ROUTES.LOGIN}><Button>Авторизация</Button></Link>
+                    <Link href={ROUTES.REGISTRATION}>Регистрация</Link>
+                    <Link href={ROUTES.LOGIN}>Авторизация</Link>
                 </div>
             )}
         </form>

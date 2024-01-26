@@ -2,14 +2,13 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
 
 import { SchemaProfileEmail } from "@/utils/config/yupShemes";
 import { ProfileForm } from "@/utils/interface";
-import { useIsClient } from "@/utils/hooks";
-import { ContextUser } from "@/utils/context";
+import { useGETUser, useIsClient } from "@/utils/hooks";
 import { ENDPOINTS } from "@/utils/config";
 
 import Input from "@/UI/input";
@@ -28,7 +27,8 @@ export const FormEmail = () => {
 
     const [step, setStep] = useState<Props['stepState']>('none')
     const [completeMessage, setCompleteMessage] = useState<string>()
-    const [userState, setUserState] = useContext(ContextUser)
+
+    const { userInfo, mutate } = useGETUser()
 
     const windowWidth = useWindowWidth();
 
@@ -45,7 +45,7 @@ export const FormEmail = () => {
         resolver: yupResolver(SchemaProfileEmail),
         mode: 'onBlur',
         defaultValues: {
-            email: userState?.email,
+            email: userInfo?.email,
         },
     });
 
@@ -54,22 +54,25 @@ export const FormEmail = () => {
         ENDPOINTS.USERS.UPDATE_EMAIL_CONFIRM(data)
         .then(res=>{
             console.log(res);
-            reset()
-            setStep('none')
-            setCompleteMessage(`Вы успешно изменили почту на ${data.email}`)
-            if (userState) {
-                setUserState({...userState, email: data.email})
-            }
+            mutate()
+            .then((res)=>{
+                reset()
+                setStep('none')
+                setCompleteMessage(`Вы успешно изменили почту на ${res?.email}`)
+                if (res) {
+                    setValue('old_email', res.email)
+                }
+            })
         }).catch(err=>{
             console.log(err)
         })
     }
 
     useEffect(()=>{
-        if (userState?.name) {
-            setValue('old_email', userState?.email)
+        if (userInfo?.email) {
+            setValue('old_email', userInfo?.email)
         }
-    }, [userState])
+    }, [userInfo])
 
     const sendCode = () => {
         setCompleteMessage('')

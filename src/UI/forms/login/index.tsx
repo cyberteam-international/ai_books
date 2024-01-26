@@ -3,16 +3,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { AxiosError, AxiosResponse } from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 
 import { ENDPOINTS, ROUTES } from "@/utils/config";
-import { ContextUser } from "@/utils/context";
+import { useGETUser } from "@/utils/hooks";
 
 import { SchemaLogin } from "@/utils/config/yupShemes";
-import { LoginForm, UserInfo } from "@/utils/interface";
+import { LoginForm } from "@/utils/interface";
 
 import Input from "@/UI/input";
 import Button from "@/UI/button";
@@ -25,10 +25,10 @@ export default function FormLogin({ }: Props) {
 
     const [fetchError, setFetchError] = useState<string>()
 
-    const [_userState, setUserState] = useContext(ContextUser)
+    const { mutate } = useGETUser()
 
     const router = useRouter()
-    
+
     const {
         register,
         formState: { errors, touchedFields, isValid },
@@ -38,19 +38,17 @@ export default function FormLogin({ }: Props) {
         mode: 'onBlur',
     });
 
-    const submit = (data: LoginForm) => {
-        ENDPOINTS.AUTH.LOGIN(data)
-        .then((res: AxiosResponse<{access_token: string}>) => {
+    const submit = async (data: LoginForm) => {
+        await ENDPOINTS.AUTH.LOGIN(data)
+        .then(async(res: AxiosResponse<{ access_token: string }>) => {
             Cookies.set('token', res.data.access_token, { secure: true })
-            ENDPOINTS.USERS.GET_iNFO(res.data.access_token)
-            .then((resInfo: AxiosResponse<UserInfo>)=>{
-                setUserState(resInfo.data)
-                console.log(Cookies.get('token'))
-                router.push(ROUTES.WORK);
-            })
-            .catch((err: AxiosError)=>{
-                setFetchError('Ошибка сервера, попробуйте позже')
-            })
+            await mutate()
+                .then((res)=>{
+                    router.push(ROUTES.WORK)
+                })
+                .catch((err)=>{
+                    setFetchError('Ошибка сервера, попробуйте позже')
+                })
         })
         .catch((err: AxiosError) => {
             if (err.response?.status === 401) {
@@ -60,7 +58,7 @@ export default function FormLogin({ }: Props) {
         })
     }
 
-    useEffect(()=> {console.log(fetchError)}, [fetchError])
+    useEffect(() => { console.log(fetchError) }, [fetchError])
 
     return (
         <form className={style.form} onSubmit={handleSubmit(submit)}>

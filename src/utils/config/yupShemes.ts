@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { LoginForm, CreateWorks, PaymentForm, ProfileForm, RegistrationForm, ResetPasswordForm } from '../interface'
+import { LoginForm, CreateWorks, PaymentForm, ProfileForm, RegistrationForm, FogotPasswordForm } from '../interface'
 
 const phone_REG_EXP = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
 // ----------
@@ -52,7 +52,7 @@ export const SchemaLogin: Yup.ObjectSchema<LoginForm> = Yup.object({
     password: Yup.string().required('Поле "Пароль" обязательно для заполнения'),
 })
 // ----------
-export const SchemaResetPassword: Yup.ObjectSchema<ResetPasswordForm> = Yup.object({
+export const SchemaFogotPassword: Yup.ObjectSchema<FogotPasswordForm> = Yup.object({
     email: Yup.string().email('Некорректный адрес электронной почты').required('Поле "Почта" обязательно для заполнения'),
     confirm_password: Yup.string().oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
     code: Yup.string().min(5, 'Некорректный код подтверждения').max(5, 'Некорректный код подтверждения'),

@@ -6,7 +6,7 @@ import { useWindowWidth } from '@react-hook/window-size';
 import { useIsClient, useOutsideClick } from '@/utils/hooks';
 import { ResponseWork } from '@/utils/interface';
 import { useAudio } from '@/utils/hooks';
-import { ENDPOINTS } from '@/utils/config';
+import { ENDPOINTS, ENDPOINTS_URL } from '@/utils/config';
 
 import DownloadFile from '@/components/DownloadFile';
 import Button from '../button';
@@ -18,6 +18,7 @@ import download from '@public/download.svg'
 
 import style from './ForFull.module.scss'
 import Label from './Label';
+import axios from 'axios';
 
 
 interface Props {
@@ -80,6 +81,14 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
         }
     }, [canPlay])
 
+    // axios({
+    //     url: `https://lp.aibooks.ru/files/audio/${data.completed_file}`,
+    //     method: 'GET',
+    //     // headers: {
+    //     //     Authorization: `Bearer ${getToken()}`,
+    //     // }
+    // }).then((res)=>console.log(res))
+
     return (
         <div className={clsx(style.player, isPlaying && style.player_active)}>
             {isClient && windowWidth > 1280 && (
@@ -105,10 +114,8 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file}
-                    >
-                        {/* <source src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file} type="audio/mp3"/> */}
-                    </audio>
+                        src={ENDPOINTS_URL.AUDIO + data.completed_file}
+                    />
                     <form onSubmit={submitHandler} className={style.player__input}>
                         <input
                             type="text"

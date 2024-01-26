@@ -4,9 +4,8 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useWindowWidth } from '@react-hook/window-size'
-import { AxiosResponse } from 'axios'
 
-import { useIsClient } from '@/utils/hooks'
+import { useGETWorks, useIsClient } from '@/utils/hooks'
 import { ENDPOINTS } from '@/utils/config'
 import { ResponseWork } from '@/utils/interface'
 
@@ -36,6 +35,8 @@ export default function PageMyAudio() {
     const [completeMessage, setCompleteMessage] = useState<string>()
 
     const isClient = useIsClient()
+
+    const { data } = useGETWorks()
 
     const windowWidth = useWindowWidth()
 
@@ -81,15 +82,10 @@ export default function PageMyAudio() {
 	}
 
     useEffect(()=> {
-        ENDPOINTS.WORK.GET_WORKS()
-        .then((res: AxiosResponse<ResponseWork[]>) => {
-            // console.log(res.data)
-            setDefaultAudioList(res.data)
-        })
-        .catch(err => {
-            console.error(err)
-        })
-    }, [])
+        if (data) {
+            setDefaultAudioList(data)
+        }
+    }, [data])
 
     useEffect(() => {
         if (defaultAudioList) {

@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 import clsx from 'clsx';
 import { DateTime } from 'luxon'
 
-import { useOutsideClick } from '@/utils/hooks';
+import { useGETHistory, useOutsideClick } from '@/utils/hooks';
 
 import { History, ResponsesHistory } from '@utils/interface';
 import { ENDPOINTS } from '@/utils/config';
@@ -28,7 +28,7 @@ export default function History({ }: Props) {
     const [settingsOpen, setSettingsOpen] = useState(false)
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
-    const [data, setData] = useState<ResponsesHistory[]>()
+    // const [data, setData] = useState<ResponsesHistory[]>()
 
     const ref = useOutsideClick(() => setSettingsOpen(false))
 
@@ -87,16 +87,18 @@ export default function History({ }: Props) {
         }
     }
 
-    useEffect(() => {
-        ENDPOINTS.PAYMENT.GET_HISTORY(startDate, endDate)
-            .then((res: AxiosResponse<ResponsesHistory[]>) => {
-                console.log('statistic', res.data)
-                setData(res.data)
-            })
-            .catch((err: AxiosError) => {
-                console.log(err)
-            })
-    }, [startDate, endDate])
+    const { data } = useGETHistory({startDate, endDate})
+
+    // useEffect(() => {
+    //     ENDPOINTS.PAYMENT.GET_HISTORY(startDate, endDate)
+    //         .then((res: AxiosResponse<ResponsesHistory[]>) => {
+    //             console.log('statistic', res.data)
+    //             setData(res.data)
+    //         })
+    //         .catch((err: AxiosError) => {
+    //             console.log(err)
+    //         })
+    // }, [startDate, endDate])
 
     return (
         <div className={style.history}>

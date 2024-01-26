@@ -13,6 +13,7 @@ import '@styles/slick-theme.scss'
 import '@styles/slick.scss'
 import { Suspense } from 'react'
 import Loading from './loading'
+import { ENDPOINTS } from '@/utils/config'
 
 export const metadata: Metadata = {
 	title: 'Создание аудиокниг. Озвучивание текстов. AIBooks',

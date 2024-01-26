@@ -39,7 +39,7 @@ export type RegistrationForm = {
     code?: string
 }
 
-export type ResetPasswordForm = {
+export type FogotPasswordForm = {
     email: string,
     password?: string,
     confirm_password?: string,

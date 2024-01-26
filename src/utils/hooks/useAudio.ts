@@ -48,9 +48,7 @@ export const useAudio = (data: ResponseWork) => {
 
     const onLoadedMetadata = (e: Event) => {
         const target = e.target as HTMLAudioElement
-        if(target.readyState >= 2){
-            setDuration(target.duration);
-        }
+        setDuration(target.duration);
     };
 
     const handleChangeRange = (e: Event) => {

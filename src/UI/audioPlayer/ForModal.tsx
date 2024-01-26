@@ -7,7 +7,7 @@ import Cookies from 'js-cookie'
 
 import { ResponseWork } from '@/utils/interface';
 import { useAudio } from '@/utils/hooks';
-import { ENDPOINTS } from '@/utils/config';
+import { ENDPOINTS, ENDPOINTS_URL } from '@/utils/config';
 
 import Button from '../button';
 import Label from './Label';
@@ -72,7 +72,7 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
                         hidden
                         onEnded={()=>setIsPlaying(false)}
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file}
+                        src={ENDPOINTS_URL.AUDIO + data.completed_file}
                     >
                         {/* <source src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file} type="audio/mp3"/> */}
                     </audio>

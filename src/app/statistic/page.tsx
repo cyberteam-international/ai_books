@@ -20,7 +20,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 // import { FontOnest } from '@/fonts';
 
-import { useOutsideClick } from '@/utils/hooks';
+import { useGETStatistic, useOutsideClick } from '@/utils/hooks';
 import { ENDPOINTS, ROUTES } from '@/utils/config';
 import { ResponseStatistic } from '@/utils/interface';
 
@@ -36,9 +36,11 @@ export default function PageStatistic({ }: Props) {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
     const [settingsOpen, setSettingsOpen] = useState(false);
-    const [data, setData] = useState<ResponseStatistic>()
+    // const [data, setData] = useState<ResponseStatistic>()
 
     const ref = useOutsideClick(() => setSettingsOpen(false))
+
+    const { data } = useGETStatistic({startDate, endDate})
 
     const resetRange = () => {
         setStartDate(undefined)
@@ -48,9 +50,11 @@ export default function PageStatistic({ }: Props) {
 
     const onChange = (dates: [Date, Date]) => {
         const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
+        if (start) {
+            setStartDate(start);
+        }
         if (end) {
+            setEndDate(end);
             setSettingsOpen(false)
         }
     };
@@ -61,16 +65,16 @@ export default function PageStatistic({ }: Props) {
         return `${day} ${month}`;
     };
 
-    useEffect(()=>{
-        ENDPOINTS.STATISTIC.GET_STATISTIC(startDate, endDate)
-        .then((res: AxiosResponse<ResponseStatistic>)=> {
-            console.log('statistic', res)
-            setData(res.data)
-        })
-        .catch((err: AxiosError)=>{
-            console.log(err)
-        })
-    }, [startDate, endDate])
+    // useEffect(()=>{
+    //     ENDPOINTS.STATISTIC.GET_STATISTIC(startDate, endDate)
+    //     .then((res: AxiosResponse<ResponseStatistic>)=> {
+    //         console.log('statistic', res)
+    //         setData(res.data)
+    //     })
+    //     .catch((err: AxiosError)=>{
+    //         console.log(err)
+    //     })
+    // }, [endDate])
 
     useEffect(()=>{
         console.log('data', data)

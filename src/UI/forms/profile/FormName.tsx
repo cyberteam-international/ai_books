@@ -2,15 +2,14 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
 
 import { SchemaProfileName } from "@utils/config/yupShemes";
 import { ProfileForm } from "@utils/interface";
-import { useIsClient } from "@/utils/hooks";
+import { useGETUser, useIsClient } from "@/utils/hooks";
 import { ENDPOINTS } from "@/utils/config";
-import { ContextUser } from "@/utils/context";
 
 import Input from "@/UI/input";
 import { ModalMessage } from "@/components/Modal";
@@ -30,9 +29,10 @@ export const FormName = ({}: Props) => {
 
     const [step, setStep] = useState<Steps>('none');
     const [completeMessage, setCompleteMessage] = useState<string>()
-    const [userState, setUserState] = useContext(ContextUser)
 
     const isClient = useIsClient()
+
+    const { userInfo, mutate } = useGETUser()
 
     const windowWidth = useWindowWidth();
 
@@ -46,7 +46,7 @@ export const FormName = ({}: Props) => {
         resolver: yupResolver(SchemaProfileName),
         mode: 'onBlur',
         defaultValues: {
-            name: userState?.name,
+            name: userInfo?.name,
         },
     });
 
@@ -55,22 +55,25 @@ export const FormName = ({}: Props) => {
         ENDPOINTS.USERS.UPDATE_INFO(data)
         .then(res=>{
             console.log(res)
-            reset()
-            setStep('none');
-            setCompleteMessage(`Ваше имя изменено на ${data.name}`)
-            if (userState) {
-                setUserState({...userState, name: data.name});
-            }
+            mutate()
+            .then((res)=>{
+                reset()
+                setStep('none')
+                setCompleteMessage(`Ваше имя изменено на ${data.name}`)
+                if (res) {
+                    setValue('old_name', res.name)
+                }
+            })
         }).catch(err=>{
             console.log(err)
         })
     };
 
     useEffect(()=>{
-        if (userState?.name) {
-            setValue('old_name', userState?.name)
+        if (userInfo?.name) {
+            setValue('old_name', userInfo?.name)
         }
-    }, [userState])
+    }, [userInfo])
 
     return (
         <div className={style.form}>

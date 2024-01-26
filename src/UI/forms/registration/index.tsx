@@ -7,8 +7,9 @@ import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { mutate } from "swr";
 
-import { ENDPOINTS, ROUTES } from "@/utils/config";
+import { ENDPOINTS, ENDPOINTS_URL, ROUTES } from "@/utils/config";
 
 import { SchemaRegistration } from "@/utils/config/yupShemes";
 import { RegistrationForm, UserInfo } from "@/utils/interface";
@@ -62,17 +63,15 @@ export default function FormRegistration({ }: Props) {
         .then(res => {
             console.log('submit', data)
             ENDPOINTS.AUTH.LOGIN(data)
-            .then((res: AxiosResponse<{ access_token: string }>) => {
+            .then(async(res: AxiosResponse<{ access_token: string }>) => {
                 Cookies.set('token', res.data.access_token, { secure: true })
-                ENDPOINTS.USERS.GET_iNFO(res.data.access_token)
-                    .then((resInfo: AxiosResponse<UserInfo>) => {
-                        setUserState(resInfo.data)
-                        console.log(Cookies.get('token'))
-                        router.push(ROUTES.WORK);
-                    })
-                    .catch((err: AxiosError<{ message: string }>) => {
-                        setFetchError({...err, message: 'Ошибка сервера, попробуйте позже'})
-                    })
+                await mutate(ENDPOINTS_URL.USERS)
+                .then((res)=>{
+                    router.push(ROUTES.WORK)
+                })
+                .catch((err: AxiosError<{ message: string }>)=>{
+                    setFetchError({...err, message:'Ошибка авторизации, авторизуйтесь на странице "Войти"'})
+                })
             }).catch(err => {
                 setFetchError(err)
             })

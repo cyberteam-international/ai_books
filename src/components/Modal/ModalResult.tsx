@@ -1,8 +1,6 @@
-import { useContext } from 'react';
-
 import { ResponseWork } from '@/utils/interface';
 import { ENDPOINTS, ROUTES } from '@/utils/config';
-import { ContextUser } from '@/utils/context';
+import { useGETUser } from '@/utils/hooks';
 
 import Delete from '@UI/delete';
 import Button from '@UI/button';
@@ -21,7 +19,7 @@ type Props = {
 
 export const ModalResult = ({ data, closeModal, handleChangeAudioName }: Props) => {
 
-    const [userState, _setUserState] = useContext(ContextUser)
+    const { userInfo } = useGETUser()
 
     const removeHandler = () => {
         ENDPOINTS.WORK.DELETE_WORK(data.id)
@@ -40,12 +38,12 @@ export const ModalResult = ({ data, closeModal, handleChangeAudioName }: Props) 
             <p className={style.modal__title}>Результат</p>
             {data && <PlayerModal handleChangeAudioName={handleChangeAudioName} data={data} />}
             <div className={style.modal__result__options}>
-                {userState?.id && (
+                {userInfo?.id && (
                     <Delete callback={removeHandler}>
                         <p>Удалить</p>
                     </Delete>
                 )}
-                {userState?.id ? (
+                {userInfo?.id ? (
                     <Button>
                         <DownloadFile fileName={data.completed_file}>Скачать</DownloadFile>
                     </Button>

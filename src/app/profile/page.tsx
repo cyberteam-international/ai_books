@@ -3,10 +3,9 @@
 import clsx from 'clsx';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
 
 import { ROUTES } from '@/utils/config';
-import { ContextUser } from '@/utils/context';
+import { useGETUser } from '@/utils/hooks';
 
 import Button from '@/UI/button';
 import {FormName, FormEmail, FormPassword} from '@/UI/forms/profile';
@@ -15,14 +14,15 @@ import style from './style.module.scss'
 
 export default function PageProfile() {
 
-    const [userState, setUserState] = useContext(ContextUser)
+    const { userInfo, mutate } = useGETUser()
 
     const router = useRouter()
 
-    const handleLogout = () => {
+    const handleLogout = async() => {
         Cookies.remove('token')
-        setUserState(undefined)
-        router.push(ROUTES.LOGIN);
+        await mutate(undefined).then(()=>{
+            return router.push(ROUTES.LOGIN);
+        })
     }
 
     return (

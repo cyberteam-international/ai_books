@@ -4,7 +4,7 @@ export type { RegistrationForm } from './Forms'
 export type { LoginForm } from './Forms'
 export type { CreateWorks } from './Forms'
 export type { UpdateWorks } from './Forms'
-export type { ResetPasswordForm } from './Forms'
+export type { FogotPasswordForm } from './Forms'
 
 export type { ResponseWork } from './Responses'
 export type { ResponseStatistic } from './Responses'

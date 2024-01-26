@@ -4,11 +4,12 @@ import Image from 'next/image';
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { LINKS, ROUTES } from '@utils/config';
 import { ContextUser } from '@/utils/context';
+import { useGETUser } from '@/utils/hooks';
 
 import logo from '@public/logo.svg'
 import profile from '@public/profile.svg'
@@ -28,7 +29,7 @@ export default function Header({ }: Props) {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const [userState, _setUserState] = useContext(ContextUser)
+    const { userInfo } = useGETUser()
 
     const pathname = usePathname()
     const windowWidth = useWindowWidth()
@@ -56,32 +57,32 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}>Озвучить</Link>
                     </li>
-                    {userState && (
+                    {userInfo && (
                         <>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}>Мои аудио</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userState.balance}</span> ₽</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userInfo.balance}</span> ₽</Link>
                             </li>
                         </>
                     )}
-                    {userState?.is_admin && (
+                    {userInfo?.is_admin && (
                         <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
                             <Link href={ROUTES.STATISTIC}>Статистика</Link>
                         </li>
                     )}
                 </ul>
                 <ul className={clsx(style.header__menu, style.header__menu_mobile)}>
-                    {userState ? (
+                    {userInfo ? (
                         <>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PROFILE && style.header__menu__item_active)}>
                                 <p>Личный кабинет</p>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PROFILE}>{userState.name}</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PROFILE}>{userInfo.name}</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                 <p>Баланс</p>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userState.balance} ₽</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userInfo.balance} ₽</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
@@ -122,7 +123,7 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.PUBLIC_OFFER && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.PUBLIC_OFFER}><span>Договор оферты</span></Link>
                     </li>
-                    {userState && (
+                    {userInfo && (
                         <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
                             <Link onClick={() => setIsOpen(false)} href={ROUTES.STATISTIC}><span>Статистика</span></Link>
                         </li>
@@ -135,9 +136,9 @@ export default function Header({ }: Props) {
                 </div>
                 <p className={style.header__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>
             </nav>
-            {userState ? (
+            {userInfo ? (
                 <Link href={ROUTES.PROFILE} className={style.header__profile}>
-                    <p className={style.header__profile__name}>{userState.name}</p>
+                    <p className={style.header__profile__name}>{userInfo.name}</p>
                     <Image {...profile} alt={'profile image'} />
                 </Link>
             ) : (
