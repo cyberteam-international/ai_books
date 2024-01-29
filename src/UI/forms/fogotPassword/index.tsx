@@ -24,15 +24,6 @@ export default function FormFogotPassword({ }: Props) {
     const [fetchError, setFetchError] = useState<AxiosError<{ message: string }>>()
     const [step, setStep] = useState<number>(0)
 
-    // const [passwordVisibleNew, setPasswordVisibleNew] = useState(false)
-    // const [passwordVisibleConfirm, setPasswordVisibleConfirm] = useState(false)
-    // const [visibleConfirm, setVisibleConfirm] = useState(false)
-
-    // useEffect(()=>{
-    //     console.log('passwordVisibleNew', passwordVisibleNew)
-    //     console.log('passwordVisibleConfirm', passwordVisibleConfirm)
-    // }, [passwordVisibleNew, passwordVisibleConfirm])
-
     const router = useRouter()
 
     const {
@@ -63,7 +54,7 @@ export default function FormFogotPassword({ }: Props) {
             })
     }
 
-    const sendCode = (data: FogotPasswordForm) => {
+    const sendCode = () => {
         setStep(2)
     }
 
@@ -108,14 +99,14 @@ export default function FormFogotPassword({ }: Props) {
                 <>
                     <Input  
                         placeholder='Новый пароль'
-                        type={'text'}
+                        type={'password'}
                         error={errors['password']?.message}
                         touched={touchedFields['password']}
                         {...register('password')}
                     />
                     <Input
                         placeholder='Подтверждение пароля'
-                        type={'text'}
+                        type={'password'}
                         error={errors['confirm_password']?.message}
                         touched={touchedFields['confirm_password']}
                         {...register('confirm_password')}

@@ -25,12 +25,12 @@ export const BANKS: Banks[] = [
         value: 'yoo_money',
         img: you_money,
     },
-    {
-        title: 'Tinkoff Pay',
-        inputValue: 'Tinkoff Pay',
-        value: 'tinkoff_bank',
-        img: tinkoff,
-    },
+    // {
+    //     title: 'Tinkoff Pay',
+    //     inputValue: 'Tinkoff Pay',
+    //     value: 'tinkoff_bank',
+    //     img: tinkoff,
+    // },
     {
         title: 'СБП (Система быстрых платежей)',
         inputValue: 'СБП',

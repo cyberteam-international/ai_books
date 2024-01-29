@@ -23,7 +23,6 @@ type Props = {
     touched: boolean | undefined,
     ref?: Ref<any>,
     value?: string | number | readonly string[] | undefined,
-    passwordVisibleState?: [boolean, Dispatch<SetStateAction<boolean>>]
 };
 
 const Input: FC<Props> = forwardRef((
@@ -40,10 +39,9 @@ const Input: FC<Props> = forwardRef((
         onSubmit,
         touched,
         value,
-        passwordVisibleState
     }, ref): JSX.Element => {
 
-    const [passwordVisible, setPasswordVisible] = passwordVisibleState?? useState<boolean>(false)
+    const [passwordVisible, setPasswordVisible] = useState<boolean>(false)
 
     return (
         <div className={clsx(style.input, style[`input_${status}`])}>
