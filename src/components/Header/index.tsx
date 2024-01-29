@@ -4,12 +4,11 @@ import Image from 'next/image';
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { LINKS, ROUTES } from '@utils/config';
 import { ContextUser } from '@/utils/context';
-import { useGETUser } from '@/utils/hooks';
 
 import logo from '@public/logo.svg'
 import profile from '@public/profile.svg'
@@ -29,7 +28,7 @@ export default function Header({ }: Props) {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const { userInfo } = useGETUser()
+    const { userInfo } = useContext(ContextUser)
 
     const pathname = usePathname()
     const windowWidth = useWindowWidth()
@@ -63,7 +62,7 @@ export default function Header({ }: Props) {
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}>Мои аудио</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userInfo.balance}</span> ₽</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userInfo.balance.toLocaleString('ru-RU')}</span> ₽</Link>
                             </li>
                         </>
                     )}

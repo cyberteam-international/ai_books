@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useContext } from 'react';
 
 import { LINKS, ROUTES } from '@utils/config';
-import { ContextUser } from '@/utils/context';
+// import { ContextUser } from '@/utils/context';
 
 import ButtonUp from '@/UI/buttonUp';
 
@@ -21,7 +21,7 @@ type Props = {};
 
 export default function Footer({ }: Props) {
 
-    const [userState, _setUserState] = useContext(ContextUser)
+    // const [userState, _setUserState] = useContext(ContextUser)
 
     return (
         <footer className={style.footer}>

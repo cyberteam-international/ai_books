@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { ru } from 'date-fns/locale'
 import { format } from 'date-fns';
 
@@ -56,10 +56,12 @@ export const useAudio = (data: ResponseWork) => {
         }
     };
 
-    const handleChangeRange = (e: Event) => {
+    const handleChangeRange = (e: Event | ChangeEvent<HTMLInputElement>) => {
         if (audioRef.current) {
             const target = e.target as HTMLInputElement;
+            audioRef.current.load()
             audioRef.current.currentTime = Number(target.value)
+            setCurrentTime(Number(target.value))
         }
     }
 
@@ -96,15 +98,12 @@ export const useAudio = (data: ResponseWork) => {
     }, [isPlaying])
 
     useEffect(()=>{
-        progressBarRef.current?.style.setProperty('--value', `${currentTime}`);
-    }, [currentTime])
-
-    useEffect(()=>{
-        if (duration) {
-            progressBarRef.current?.style.setProperty('--min', `${0}`);
-            progressBarRef.current?.style.setProperty('--max', `${duration}`);
+        if (duration && progressBarRef.current ) {
+            progressBarRef.current.style.setProperty('--min', `${0}`);
+            progressBarRef.current.style.setProperty('--max', `${duration}`);
+            progressBarRef.current.style.setProperty('--value', `${currentTime}`);
         }
-    }, [duration, progressBarRef.current])
+    }, [duration, progressBarRef, currentTime])
 
 	return {
         audioRef,
@@ -116,6 +115,7 @@ export const useAudio = (data: ResponseWork) => {
         newTrackName, setNewTrackName,
         formatTime,
         formatDate,
-        setVoice
+        setVoice,
+        handleChangeRange
     };
 };

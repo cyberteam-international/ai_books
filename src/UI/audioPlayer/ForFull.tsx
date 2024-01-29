@@ -45,7 +45,8 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
         newTrackName, setNewTrackName,
         formatTime,
         formatDate,
-        setVoice
+        setVoice,
+        handleChangeRange
     } = useAudio(data)
 
     const isClient = useIsClient()
@@ -80,14 +81,6 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
             audioRef.current.currentTime = 0
         }
     }, [canPlay])
-
-    // axios({
-    //     url: `https://lp.aibooks.ru/files/audio/${data.completed_file}`,
-    //     method: 'GET',
-    //     // headers: {
-    //     //     Authorization: `Bearer ${getToken()}`,
-    //     // }
-    // }).then((res)=>console.log(res))
 
     return (
         <div className={clsx(style.player, isPlaying && style.player_active)}>
@@ -135,7 +128,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                         </>
                     )}
                 </div>
-                {isPlaying && (
+                {1 && (
                     <div className={style.player__wrapper_range}>
                         <input
                             className={clsx(style.player__range, 'track', 'play')}
@@ -145,6 +138,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                             defaultValue="0"
                             step={0.01}
                             max={duration}
+                            onChange={(e)=>{handleChangeRange(e); setIsPlaying(false)}}
                         />
                     </div>
                 )}

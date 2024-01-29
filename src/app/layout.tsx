@@ -13,7 +13,7 @@ import '@styles/slick-theme.scss'
 import '@styles/slick.scss'
 import { Suspense } from 'react'
 import Loading from './loading'
-import { ENDPOINTS } from '@/utils/config'
+import { ENDPOINTS_URL } from '@/utils/config'
 
 export const metadata: Metadata = {
 	title: 'Создание аудиокниг. Озвучивание текстов. AIBooks',
@@ -28,6 +28,9 @@ export default function RootLayout({
 
 	return (
 			<html lang="ru">
+				<head>
+					<link rel="preload" href={ENDPOINTS_URL.USERS} as="fetch" crossOrigin="anonymous"/>
+				</head>
 				<body className={FontOnest.className}>
 				<ContextLayout>
 					<div className="page__wrapper">

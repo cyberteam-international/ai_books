@@ -3,13 +3,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { AxiosError, AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation'
 
 import { ENDPOINTS, ROUTES } from "@/utils/config";
-import { useGETUser } from "@/utils/hooks";
+import { ContextUser } from "@/utils/context";
 
 import { SchemaLogin } from "@/utils/config/yupShemes";
 import { LoginForm } from "@/utils/interface";
@@ -25,7 +25,7 @@ export default function FormLogin({ }: Props) {
 
     const [fetchError, setFetchError] = useState<string>()
 
-    const { mutate } = useGETUser()
+    const { mutate } = useContext(ContextUser)
 
     const router = useRouter()
 

@@ -7,9 +7,8 @@ import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { mutate } from "swr";
 
-import { ENDPOINTS, ENDPOINTS_URL, ROUTES } from "@/utils/config";
+import { ENDPOINTS, ROUTES } from "@/utils/config";
 
 import { SchemaRegistration } from "@/utils/config/yupShemes";
 import { RegistrationForm, UserInfo } from "@/utils/interface";
@@ -29,7 +28,7 @@ export default function FormRegistration({ }: Props) {
 
     const router = useRouter()
 
-    const [_userState, setUserState] = useContext(ContextUser)
+    const { mutate } = useContext(ContextUser)
 
     const {
         register,
@@ -38,7 +37,6 @@ export default function FormRegistration({ }: Props) {
         setValue,
         getValues,
         handleSubmit,
-        reset,
     } = useForm<RegistrationForm>({
         resolver: yupResolver(SchemaRegistration),
         mode: 'onBlur',
@@ -65,7 +63,7 @@ export default function FormRegistration({ }: Props) {
             ENDPOINTS.AUTH.LOGIN(data)
             .then(async(res: AxiosResponse<{ access_token: string }>) => {
                 Cookies.set('token', res.data.access_token, { secure: true })
-                await mutate(ENDPOINTS_URL.USERS)
+                await mutate()
                 .then((res)=>{
                     router.push(ROUTES.WORK)
                 })

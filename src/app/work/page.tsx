@@ -36,7 +36,7 @@ export default function PageWork() {
 
 	const [responseData, setResponseData] = useState<ResponseWork>()
 
-	const [userState, _setUserState] = useContext(ContextUser)
+	const { userInfo } = useContext(ContextUser)
 
 	const isClient = useIsClient()
 
@@ -55,7 +55,7 @@ export default function PageWork() {
 				setResponseData(res.data)
 				setLoading(false)
 				setModalResultOpen(true)
-				if (userState?.id) {
+				if (userInfo?.id) {
 					setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
 				}
 			})

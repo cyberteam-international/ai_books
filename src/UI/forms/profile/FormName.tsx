@@ -2,13 +2,14 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
 
 import { SchemaProfileName } from "@utils/config/yupShemes";
 import { ProfileForm } from "@utils/interface";
-import { useGETUser, useIsClient } from "@/utils/hooks";
+import { useIsClient } from "@/utils/hooks";
+import { ContextUser } from "@/utils/context";
 import { ENDPOINTS } from "@/utils/config";
 
 import Input from "@/UI/input";
@@ -32,7 +33,7 @@ export const FormName = ({}: Props) => {
 
     const isClient = useIsClient()
 
-    const { userInfo, mutate } = useGETUser()
+    const { userInfo, mutate } = useContext(ContextUser)
 
     const windowWidth = useWindowWidth();
 

@@ -33,7 +33,8 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
         trackName, setTrackName,
         newTrackName, setNewTrackName,
         formatTime,
-        setVoice
+        setVoice,
+        handleChangeRange
     } = useAudio(data)
 
     const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
@@ -71,7 +72,7 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
                         controls
                         hidden
                         onEnded={()=>setIsPlaying(false)}
-                        onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
+                        onTimeUpdateCapture={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
                         src={ENDPOINTS_URL.AUDIO + data.completed_file}
                     >
                         {/* <source src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file} type="audio/mp3"/> */}
@@ -102,6 +103,7 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
                         defaultValue="0"
                         step={0.01}
                         max={duration}
+                        onChange={(e)=>{handleChangeRange(e)}}
                     />
                 </div>
             </div>

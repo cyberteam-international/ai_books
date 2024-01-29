@@ -1,6 +1,9 @@
+import { useContext } from 'react';
+import Link from 'next/link';
+
 import { ResponseWork } from '@/utils/interface';
 import { ENDPOINTS, ROUTES } from '@/utils/config';
-import { useGETUser } from '@/utils/hooks';
+import { ContextUser } from '@/utils/context';
 
 import Delete from '@UI/delete';
 import Button from '@UI/button';
@@ -8,7 +11,6 @@ import { PlayerModal } from '@UI/audioPlayer';
 import DownloadFile from '../DownloadFile';
 
 import style from './style.module.scss'
-import Link from 'next/link';
 
 
 type Props = {
@@ -19,7 +21,7 @@ type Props = {
 
 export const ModalResult = ({ data, closeModal, handleChangeAudioName }: Props) => {
 
-    const { userInfo } = useGETUser()
+    const { userInfo } = useContext(ContextUser)
 
     const removeHandler = () => {
         ENDPOINTS.WORK.DELETE_WORK(data.id)

@@ -32,7 +32,10 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
 
     const [characterCount, setCharacterCount] = useState(0);
 
-    const [userState, _setUserState] = useContext(ContextUser)
+    // const [userState, _setUserState] = useContext(ContextUser)
+
+	const { userInfo } = useContext(ContextUser)
+
 
     const isCient = useIsClient()
 
@@ -67,15 +70,15 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
     }, [isCient])
 
     useEffect(()=>{
-        if (userState?.id) {
-            // setMaxCharacterCount(Math.floor(userState.balance / PRICE) > 200? Math.floor(userState.balance / PRICE) + 200 : 200)
-            setMaxCharacterCount(5000)
+        if (userInfo?.id) {
+            setMaxCharacterCount(Math.floor(userInfo.balance / PRICE) > 200? Math.floor(userInfo.balance / PRICE) : 200)
+            // setMaxCharacterCount(5000)
         }
-    }, [userState])
+    }, [userInfo])
 
     const buttonCallback = () => {
         if(!isValid){
-            if (!userState?.id) {
+            if (!userInfo?.id) {
                 return handleRegistration()
             }
             else{
@@ -109,7 +112,7 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
                 <Button 
                     type={isValid? 'submit' : 'button'} 
                     callback={buttonCallback} 
-                    isActive={canSubmit && (characterCount < maxCharacterCount && Boolean(getValues('input_text')))}
+                    isActive={canSubmit && Boolean(getValues('input_text'))}
                 >Озвучить</Button>
             </div>
         </form>

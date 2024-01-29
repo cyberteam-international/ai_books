@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useContext } from 'react';
 
-import { useGETUser } from '@/utils/hooks';
 import { ContextUser } from '@/utils/context';
 import { PRICE } from '@/utils/config';
 
@@ -19,7 +18,7 @@ import style from './style.module.scss'
 
 export default function PagePayment() {
 
-    const { userInfo } = useGETUser()
+    const { userInfo } = useContext(ContextUser)
 
     const averageСharacters = () => {
         if (userInfo?.balance) {
