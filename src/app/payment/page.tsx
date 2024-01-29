@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useContext } from 'react';
 
+import { useGETUser } from '@/utils/hooks';
 import { ContextUser } from '@/utils/context';
 import { PRICE } from '@/utils/config';
 
@@ -18,11 +19,11 @@ import style from './style.module.scss'
 
 export default function PagePayment() {
 
-    const [userState, _setUserState] = useContext(ContextUser)
+    const { userInfo } = useGETUser()
 
     const averageСharacters = () => {
-        if (userState?.balance) {
-            return Math.floor(userState?.balance / PRICE).toLocaleString('ru-RU')
+        if (userInfo?.balance) {
+            return Math.floor(userInfo?.balance / PRICE).toLocaleString('ru-RU')
         }
     }
 
@@ -32,7 +33,7 @@ export default function PagePayment() {
                 <div className={style.payment__balance}>
                     <p className={style.payment__title}>Текущий баланс</p>
                     <p className={clsx(style.payment__balance__value, FontUnbounded.className)}>
-                        {userState?.balance.toLocaleString('ru-RU')} <span>₽</span>
+                        {userInfo?.balance? userInfo?.balance.toLocaleString('ru-RU'): 0} <span>₽</span>
                     </p>
                     <div className={style.payment__balance__subtitle}>
                         <Image {...loading_1} alt="loading_1"/>

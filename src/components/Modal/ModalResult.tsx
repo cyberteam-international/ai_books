@@ -48,7 +48,10 @@ export const ModalResult = ({ data, closeModal, handleChangeAudioName }: Props) 
                         <DownloadFile fileName={data.completed_file}>Скачать</DownloadFile>
                     </Button>
                 ) : (
-                    <p className={style.modal__result__options__registration}>Для сохранения аудио нужно пройти <Link href={ROUTES.REGISTRATION}>регистрацию</Link></p>
+                    <div className={style.modal__result__options__registration}>
+                        <p className={style.modal__result__options__registration__title}>Для сохранения аудио нужно пройти регистрацию</p>
+                        <Button className={style.modal__result__options__registration__button}><Link href={ROUTES.REGISTRATION}>Регистрация</Link></Button>
+                    </div>
                 )}
             </div>
         </div>
