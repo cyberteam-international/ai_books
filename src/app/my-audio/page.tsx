@@ -57,7 +57,7 @@ export default function PageMyAudio() {
             if (res.status === 200) {
                 if (filterAudioList) {
                     setFilterAudioList([...filterAudioList].filter((el) => el.id !== data.id))
-                    setCompleteMessage(`Аудиозапись "${data.name}" с id:${data.id} удалена`)
+                    setCompleteMessage(`Аудиозапись "${data.name}" удалена`)
                 }
             }
         })

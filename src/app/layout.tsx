@@ -1,19 +1,20 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 
 import { FontOnest } from '@fonts/index'
+
+import { ENDPOINTS_URL } from '@/utils/config'
 
 import ContextLayout from '@/components/ContextLayout'
 import Header from '@components/Header'
 import Footer from '@components/Footer'
+import Loading from './loading'
 
 import "normalize.css"
-import '@styles/global.scss'
 import '@styles/datepicker.scss'
 import '@styles/slick-theme.scss'
 import '@styles/slick.scss'
-import { Suspense } from 'react'
-import Loading from './loading'
-import { ENDPOINTS_URL } from '@/utils/config'
+import '@styles/global.scss'
 
 export const metadata: Metadata = {
 	title: 'Создание аудиокниг. Озвучивание текстов. AIBooks',

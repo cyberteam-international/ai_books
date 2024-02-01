@@ -47,7 +47,7 @@ export default function Footer({ }: Props) {
                                 <Link href={LINKS.VOICES}>Голоса</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
-                                <Link href={LINKS.SUPPORT}>Поддержка</Link>
+                                <Link href={LINKS.SUPPORT}>Обратная связь</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.POLICY}>Политика конфиденциальности</Link>

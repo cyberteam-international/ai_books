@@ -14,7 +14,7 @@ export const ModalWarningEnoughBalance = ({}: Props) => {
         <div className={style.modal__error}>
             <p className={style.modal__title}>Внимание!</p>
             <p className={style.modal__text}>Вы не сможете озвучить, то, количество символов, которое вы ввели. Так как у вас недостаточно баланса. Пополните или сократите количество символов</p>
-            <Link href={ROUTES.PAYMENT}><Button>Пополнить</Button></Link>
+            <Button><Link href={ROUTES.PAYMENT}>Пополнить</Link></Button>
         </div>
     );
 }

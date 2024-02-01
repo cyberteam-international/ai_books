@@ -67,7 +67,7 @@ export default function PageWork() {
 	};
 
 	const handleRemoveClose = () => {
-		setCompleteMessage(`Аудиозапись "${responseData?.name}" с id:${responseData?.id} удалена`)
+		setCompleteMessage(`Аудиозапись "${responseData?.name}" удалена`)
 		setModalResultOpen(false)
 	}
 

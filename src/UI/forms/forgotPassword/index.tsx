@@ -19,7 +19,7 @@ import style from './style.module.scss'
 
 type Props = {};
 
-export default function FormFogotPassword({ }: Props) {
+export default function FormForgotPassword({ }: Props) {
 
     const [fetchError, setFetchError] = useState<AxiosError<{ message: string }>>()
     const [step, setStep] = useState<number>(0)
@@ -50,12 +50,13 @@ export default function FormFogotPassword({ }: Props) {
             })
             .catch(err => {
                 console.error(err)
-                setFetchError(err)
+                setFetchError({...err, response: { data: { message: 'Аккаунт с указаной почтной не найден' } }})
             })
     }
 
     const sendCode = () => {
         setStep(2)
+        setFetchError(undefined)
     }
 
     const submit = (data: FogotPasswordForm) => {
@@ -66,7 +67,8 @@ export default function FormFogotPassword({ }: Props) {
             })
             .catch(err => {
                 console.error(err)
-                setFetchError(err)
+                setStep(1)
+                setFetchError({...err, response: { data: { message: 'Неверный код подтверждения' } }})
             })
     }
 

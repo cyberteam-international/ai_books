@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useState, FormEventHandler, useEffect } from 'react';
+import { useState, FormEventHandler, useEffect, ChangeEvent } from 'react';
 import { useWindowWidth } from '@react-hook/window-size';
 
 import { useIsClient, useOutsideClick } from '@/utils/hooks';
@@ -69,6 +69,17 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
         })
     }
 
+    const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+        if (value.length <= 100) {
+            setNewTrackName(value)
+        }
+        else{
+            const currentValue = value.split('').slice(0, 100).join('')
+            setNewTrackName(currentValue)
+        }
+    }
+
     useEffect(() => {
         if (duration) {
             handleDuration(data.id, duration)
@@ -116,7 +127,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                             id={`track_name ${data.id}`}
                             defaultValue={trackName}
                             value={newTrackName}
-                            onChange={(e) => { setNewTrackName(e.currentTarget.value) }}
+                            onChange={handleChangeName}
                         />
                         <Label isSubmit={trackName !== newTrackName} htmlFor={`track_name ${data.id}`}/>
                     </form>

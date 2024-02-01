@@ -59,8 +59,8 @@ export const useAudio = (data: ResponseWork) => {
     const handleChangeRange = (e: Event | ChangeEvent<HTMLInputElement>) => {
         if (audioRef.current) {
             const target = e.target as HTMLInputElement;
-            audioRef.current.load()
-            audioRef.current.currentTime = Number(target.value)
+            console.log(audioRef.current.duration)
+            // audioRef.current.currentTime = Number(target.value)
             setCurrentTime(Number(target.value))
         }
     }

@@ -3,7 +3,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { AxiosError, AxiosResponse } from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
@@ -52,31 +52,33 @@ export default function FormRegistration({ }: Props) {
             })
             .catch(err => {
                 console.error(err)
-                setFetchError(err)
+                setFetchError({ ...err, response: { data: { message: 'Пользователь с таким e-mail уже зарегистрирован' } } })
             })
     }
 
+    useEffect(() => { console.log(fetchError) }, [fetchError])
+
     const submit = (data: RegistrationForm) => {
         ENDPOINTS.AUTH.SIGNUP_CONFIRM(data)
-        .then(res => {
-            console.log('submit', data)
-            ENDPOINTS.AUTH.LOGIN(data)
-            .then(async(res: AxiosResponse<{ access_token: string }>) => {
-                Cookies.set('token', res.data.access_token, { secure: true })
-                await mutate()
-                .then((res)=>{
-                    router.push(ROUTES.WORK)
-                })
-                .catch((err: AxiosError<{ message: string }>)=>{
-                    setFetchError({...err, message:'Ошибка авторизации, авторизуйтесь на странице "Войти"'})
-                })
+            .then(res => {
+                // console.log('submit', data)
+                ENDPOINTS.AUTH.LOGIN(data)
+                    .then(async (res: AxiosResponse<{ access_token: string }>) => {
+                        Cookies.set('token', res.data.access_token, { secure: true })
+                        await mutate()
+                            .then((res) => {
+                                router.push(ROUTES.WORK)
+                            })
+                            .catch(err => {
+                                setFetchError({ ...err, response: { data: { message: 'Ошибка авторизации, авторизуйтесь на странице "Войти"' } } })
+                            })
+                    }).catch(err => {
+                        setFetchError({ ...err, response: { data: { message: 'Ошибка авторизации, авторизуйтесь на странице "Войти"' } } })
+                    })
             }).catch(err => {
-                setFetchError(err)
+                console.error(err)
+                setFetchError({ ...err, response: { data: { message: 'Неверный код код подтверждения' } } })
             })
-        }).catch(err => {
-            console.error(err)
-            setFetchError(err)
-        })
     }
 
     return (

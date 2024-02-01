@@ -148,6 +148,9 @@
 	* {
 		box-sizing: border-box;
 		transition: color .5s, background-color .5s, background-size .1s .1s, transform .1s, left .5s, opacity .7s;
+		.slick-track{
+			transition: none;
+		}
 	}
 	
 	sup {
@@ -854,7 +857,10 @@
 		border-radius: 2.5em;
 		padding: 6.875em 2.5em 2.5em;
 		position: relative;
-		overflow: hidden
+		overflow: hidden;
+		display: flex !important;
+		flex-direction: column;
+		gap: 20px;
 	}
 	
 	.quote-block .quote-block-item:before {
@@ -884,8 +890,9 @@
 	
 	.quote-block .quote-block-item>div {
 		display: flex;
-		margin-top: 2.5em;
-		align-items: flex-start
+		margin-top: auto;
+		align-items: flex-start;
+		height: fit-content;
 	}
 
 	.quote-block .quote-block-item>div>img {

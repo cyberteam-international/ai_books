@@ -60,10 +60,10 @@
         p{
             text-align: center;
         }
-        a{
-            display: block;
-            margin-top: 20px;
-        }
+        // a{
+        //     display: block;
+        //     margin-top: 20px;
+        // }
     }
     &__result{
         width: calc(620px - 24px - 24px);
@@ -155,6 +155,7 @@
     transition: 0.3s opacity;
     max-width: 620px;
     width: 100%;
+    word-wrap: anywhere;
     @include media-down(sm){
         position: fixed;
         top: 80%;

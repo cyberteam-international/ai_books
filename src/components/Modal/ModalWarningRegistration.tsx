@@ -14,7 +14,7 @@ export const ModalWarningRegistration = ({}: Props) => {
         <div className={style.modal__error}>
             <p className={style.modal__title}>Внимание!</p>
             <p className={style.modal__text}>Для озвучки большего количесто символов необходимо пройти регистрацию</p>
-            <Link href={ROUTES.REGISTRATION}><Button>Зарегистрироваться</Button></Link>
+            <Button><Link href={ROUTES.REGISTRATION}>Зарегистрироваться</Link></Button>
         </div>
     );
 }

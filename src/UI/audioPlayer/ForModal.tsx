@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image';
-import { ChangeEvent, FormEventHandler, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, ChangeEventHandler, FormEventHandler, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Cookies from 'js-cookie'
 
@@ -49,7 +49,18 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
         .catch(err => {
             console.error(err)
         })
-    }    
+    }
+
+    const handleChangeName = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+        if (value.length <= 100) {
+            setNewTrackName(value)
+        }
+        else{
+            const currentValue = value.split('').slice(0, 100).join('')
+            setNewTrackName(currentValue)
+        }
+    }
 
     return (
         <div className={style.player}>
@@ -77,14 +88,16 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
                     >
                         {/* <source src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file} type="audio/mp3"/> */}
                     </audio>
-                    <form onSubmit={submitHandler}  className={style.player__input}>
+                    <form onSubmit={submitHandler} className={style.player__input}>
                         <input 
                             type="text"
                             name='track_name'
+                            required
                             id={`track_name ${data.id}`}
                             defaultValue={trackName}
                             value={newTrackName}
-                            onChange={(e)=>{setNewTrackName(e.currentTarget.value)}}
+                            max={100}
+                            onChange={handleChangeName}
                             readOnly={Cookies.get('token')? false : true}
                         />
                         {Cookies.get('token') && <Label htmlFor={`track_name ${data.id}`} isSubmit={trackName !== newTrackName}/>}

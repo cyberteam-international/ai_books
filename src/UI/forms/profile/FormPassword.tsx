@@ -43,7 +43,7 @@ export const FormPassword = () => {
         trigger,
     } = useForm<ProfileForm['FormPassword']>({
         resolver: yupResolver(SchemaProfilePassword),
-        mode: 'onBlur',
+        mode: 'all',
     });
 
     const submit = (data: ProfileForm['FormPassword']) => {
@@ -51,13 +51,14 @@ export const FormPassword = () => {
         ENDPOINTS.USERS.UPDATE_INFO(data)
         .then(res=>{
             if (res.status === 204) {
-                reset()
                 setStep('new password');
+                reset()
                 setCompleteMessage(`Пароль успешно изменен на ${data.password}`)
             }
         }).catch((err: AxiosError<{message: string, key: string, statusCode: number}>)=>{
             if (err.response?.status === 400) {
-                setError('old_password', {message: err.response.data.message})
+                // setError('old_password', {message: err.response.data.message})
+                setError('old_password', {message: "Неверный пароль"})
             }
             console.log(err)
         })       

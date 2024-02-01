@@ -14,6 +14,8 @@ export default function Support({ }: Props) {
         speed: 300,
         slidesToShow: 3,
         slidesToScroll: 1,
+        // variableWidth: true,
+        // centerMode: true,
         responsive: [{
             breakpoint: 1280,
             settings: {

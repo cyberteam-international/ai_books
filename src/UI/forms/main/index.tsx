@@ -39,7 +39,7 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
 
     const isCient = useIsClient()
 
-    const [maxCharacterCount, setMaxCharacterCount] = useState(5000)
+    const [maxCharacterCount, setMaxCharacterCount] = useState(200)
 
     const {
         register,
@@ -49,6 +49,7 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
         watch,
         setValue,
         trigger,
+        setError
     } = useForm<{input_text: CreateWorks['input_text']}>({
         resolver: yupResolver(SchemaTextArea),
         mode: 'onBlur',
@@ -72,7 +73,6 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
     useEffect(()=>{
         if (userInfo?.id) {
             setMaxCharacterCount(Math.floor(userInfo.balance / PRICE) > 200? Math.floor(userInfo.balance / PRICE) : 200)
-            // setMaxCharacterCount(5000)
         }
     }, [userInfo])
 

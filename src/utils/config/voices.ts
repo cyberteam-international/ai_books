@@ -51,9 +51,9 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
-        title: 'Ермиль',
+        title: 'Ермил',
         value: 'ermil',
-        inputValue: 'Ермиль',
+        inputValue: 'Ермил',
         audio: '/testAudio/ermil.mp3',
         language: 'ru-RU'
     },

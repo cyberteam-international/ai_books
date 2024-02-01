@@ -45,7 +45,7 @@ export const FormName = ({}: Props) => {
         formState: { errors, touchedFields, isValid },
     } = useForm<ProfileForm['FormName']>({
         resolver: yupResolver(SchemaProfileName),
-        mode: 'onBlur',
+        mode: 'all',
         defaultValues: {
             name: userInfo?.name,
         },
