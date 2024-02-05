@@ -96,13 +96,14 @@ export const FormName = ({}: Props) => {
                             placeholder='Новое имя'
                             touched={touchedFields['name']}
                             error={errors['name']?.message}
-                            onSubmit={handleSubmit(submit)}
+                            // onSubmit={handleSubmit(submit)}
                             {...register('name', { required: true })}
                         />
                     </div>
                 )}
-                {step === 'change name' && isClient && windowWidth < 768 && (
-                    <Button isActive={isValid} type="submit">Применить изменения</Button>
+                {/* {step === 'change name' && isClient && windowWidth < 768 && ( */}
+                {step === 'change name' && (
+                    <Button isActive={isValid} className={style.form__wrapper__button} type="submit">Применить изменения</Button>
                 )}
             </form>
             <ModalMessage message={completeMessage}/>

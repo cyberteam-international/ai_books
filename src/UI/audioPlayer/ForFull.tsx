@@ -11,14 +11,13 @@ import { ENDPOINTS, ENDPOINTS_URL } from '@/utils/config';
 import DownloadFile from '@/components/DownloadFile';
 import Button from '../button';
 import Delete from '../delete';
+import Label from './Label';
 
 import play from '@public/player/play.svg'
 import pause from '@public/player/pause.svg'
 import download from '@public/download.svg'
 
 import style from './ForFull.module.scss'
-import Label from './Label';
-import axios from 'axios';
 
 
 interface Props {
@@ -139,7 +138,8 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                         </>
                     )}
                 </div>
-                {1 && (
+                {/* {isPlaying && ( */}
+                {isPlaying && (
                     <div className={style.player__wrapper_range}>
                         <input
                             className={clsx(style.player__range, 'track', 'play')}

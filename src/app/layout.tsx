@@ -29,9 +29,6 @@ export default function RootLayout({
 
 	return (
 			<html lang="ru">
-				<head>
-					<link rel="preload" href={ENDPOINTS_URL.USERS} as="fetch" crossOrigin="anonymous"/>
-				</head>
 				<body className={FontOnest.className}>
 				<ContextLayout>
 					<div className="page__wrapper">

@@ -67,13 +67,13 @@ export default function PageMyAudio() {
     }
 
     const setCurrentDataListTime = (id: number, duration: number) => {
-        if (defaultAudioList) {
-            const newList = [...defaultAudioList]
-            if (newList[newList.findIndex((el)=>el.id === id)].completed_seconds !== duration) {
-                newList[newList.findIndex((el)=>el.id === id)].completed_seconds = 10
-                setDefaultAudioList([...newList])
-            }
-        }
+        // if (defaultAudioList) {
+        //     const newList = [...defaultAudioList]
+        //     if (newList[newList.findIndex((el)=>el.id === id)].completed_seconds !== duration) {
+        //         newList[newList.findIndex((el)=>el.id === id)].completed_seconds = 10
+        //         setDefaultAudioList([...newList])
+        //     }
+        // }
     }
 
     const handleChangeAudioName = (newName: string) => {
@@ -122,6 +122,8 @@ export default function PageMyAudio() {
                 default:
                     break;
             }
+            console.log(newAudioList)
+            setFilterAudioList(undefined)
             setFilterAudioList(newAudioList)
         }
     }, [defaultAudioList, activeFilter, filterMode]);
@@ -132,6 +134,24 @@ export default function PageMyAudio() {
             setFilterMode(selectFilterValue.filterType)
         }
     }, [selectFilterValue])
+
+    const setList = () => {
+        if (filterAudioList) {
+            return filterAudioList.map((item, index) => {
+                return (
+                    <PlayerFull
+                        handleChangeAudioName={handleChangeAudioName}
+                        setPlayingIndex={() => { setPlayingIndex(index) }}
+                        canPlay={playingIndex === index}
+                        data={item}
+                        removeHandler={removeHandler}
+                        index={index + 1}
+                        handleDuration={setCurrentDataListTime}
+                    />
+                )
+            })
+        }
+    }
 
     return (
         <main className={clsx(style.page, 'container')}>
@@ -171,8 +191,8 @@ export default function PageMyAudio() {
                         </>
                     )}
                 </div>
-                <div className={style.page__table__body}>
-                    {filterAudioList?.map((item, index) => {
+                <div className={clsx('scroll', style.page__table__body)}>
+                    {/* {filterAudioList?.map((item, index) => {
                         return (
                             <PlayerFull
                                 handleChangeAudioName={handleChangeAudioName}
@@ -184,7 +204,8 @@ export default function PageMyAudio() {
                                 handleDuration={setCurrentDataListTime}
                             />
                         )
-                    })}
+                    })} */}
+                    {setList()}
                 </div>
             </div>
             <ModalMessage message={completeMessage} />

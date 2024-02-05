@@ -109,19 +109,21 @@ export const FormEmail = () => {
                             type="email"
                             touched={touchedFields['email']}
                             error={errors['email']?.message}
-                            onSubmit={handleSubmit(submit)}
+                            // onSubmit={handleSubmit(submit)}
                             {...register('email', { required: false })}
                         >
-                            {touchedFields['email'] && !errors['email']?.message && (
+                            {/* {touchedFields['email'] && !errors['email']?.message && (
                                 <Image onClick={() => sendCode()} src={arrow_right} alt="change email" />
-                            )}
+                            )} */}
                         </Input>
                     </div>
                 )}
-                {step === 'change email' && isClient && windowWidth < 768 && (
+                {step === 'change email' && (
+                // {step === 'change email' && isClient && windowWidth < 768 && (
                     <Button
                         isActive={Boolean(touchedFields['email']) && !errors['email']?.message}
                         callback={() => sendCode()}
+                        className={style.form__wrapper__button}
                     >Отправить код</Button>
                 )}
                 {step === 'confirm code' && (
@@ -130,13 +132,14 @@ export const FormEmail = () => {
                             placeholder='Введите код из письма'
                             touched={touchedFields['code']}
                             error={errors['code']?.message}
-                            onSubmit={handleSubmit(submit)}
+                            // onSubmit={handleSubmit(submit)}
                             {...register('code', { required: false })}
                         />
                     </div>
                 )}
-                {step === 'confirm code' && isClient && windowWidth < 768 && (
-                    <Button isActive={isValid} type="submit">Применить изменения</Button>
+                {step === 'confirm code' && (
+                // {step === 'confirm code' && isClient && windowWidth < 768 && (
+                    <Button isActive={isValid} className={style.form__wrapper__button} type="submit">Применить изменения</Button>
                 )}
             </form>
             <ModalMessage message={completeMessage} />

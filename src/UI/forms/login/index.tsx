@@ -33,6 +33,7 @@ export default function FormLogin({ }: Props) {
         register,
         formState: { errors, touchedFields, isValid },
         handleSubmit,
+        getFieldState,
     } = useForm<LoginForm>({
         resolver: yupResolver(SchemaLogin),
         mode: 'onBlur',

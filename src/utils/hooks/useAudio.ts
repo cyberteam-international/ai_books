@@ -21,7 +21,7 @@ export const useAudio = (data: ResponseWork) => {
     const formatTime = () => {
         if (duration) {
             // console.log('duration', typeof duration)
-            console.log('currentTime', currentTime)
+            // console.log('currentTime', currentTime)
             const timeRemaining = duration - currentTime
 
             const hours = Math.floor(timeRemaining / 3600);
@@ -48,18 +48,18 @@ export const useAudio = (data: ResponseWork) => {
         return `${day} ${month.slice(0, 3)}. ${year}`;
     };
 
-    const onLoadedMetadata = (e: Event) => {
-        const target = e.target as HTMLAudioElement
-        if(target){
-            setDuration(data.completed_seconds);
+    // const onLoadedMetadata = (e: Event) => {
+    //     const target = e.target as HTMLAudioElement
+    //     if(target){
+    //         setDuration(data.completed_seconds);
             
-        }
-    };
+    //     }
+    // };
 
     const handleChangeRange = (e: Event | ChangeEvent<HTMLInputElement>) => {
         if (audioRef.current) {
             const target = e.target as HTMLInputElement;
-            console.log(audioRef.current.duration)
+            // console.log(audioRef.current.duration)
             // audioRef.current.currentTime = Number(target.value)
             setCurrentTime(Number(target.value))
         }
@@ -74,18 +74,19 @@ export const useAudio = (data: ResponseWork) => {
 		};
     }, [progressBarRef])
 
-    useEffect(()=>{
-        if (audioRef.current) {
-            audioRef.current.addEventListener('loadedmetadata', onLoadedMetadata)
-        }
-        return () => {
-			audioRef.current?.removeEventListener('loadedmetadata', onLoadedMetadata)
-		};
-    }, [audioRef])
+    // useEffect(()=>{
+    //     if (audioRef.current) {
+    //         audioRef.current.addEventListener('loadedmetadata', onLoadedMetadata)
+    //     }
+    //     return () => {
+	// 		audioRef.current?.removeEventListener('loadedmetadata', onLoadedMetadata)
+	// 	};
+    // }, [audioRef])
 
     useEffect(() => {
         setTrackName(data.name)
         setNewTrackName(data.name)
+        setDuration(data.completed_seconds)
     }, [data]);
 
     useEffect(() => {

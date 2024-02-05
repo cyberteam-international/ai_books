@@ -2,7 +2,7 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useWindowWidth } from "@react-hook/window-size";
 
@@ -41,6 +41,7 @@ export const FormPassword = () => {
         reset,
         setError,
         trigger,
+        getFieldState,
     } = useForm<ProfileForm['FormPassword']>({
         resolver: yupResolver(SchemaProfilePassword),
         mode: 'all',
@@ -64,6 +65,19 @@ export const FormPassword = () => {
         })       
     }
 
+    useEffect(()=>{
+        const password = getFieldState('password')
+        const confirmPassword = getFieldState('confirm_password')
+        const oldPassword = getFieldState('old_password')
+        if (password.isDirty && !password.invalid && !confirmPassword.isDirty && !oldPassword.isDirty) {
+            setStep('confirm password')
+        }
+
+        if (confirmPassword.isDirty && !confirmPassword.invalid && !oldPassword.isDirty) {
+            setStep('old password')
+        }
+    }, [getFieldState('password'), getFieldState('confirm_password'), getFieldState('old_password')])
+
     return (
         <div className={style.form}>
             <form className={style.form__wrapper} onSubmit={handleSubmit(submit)}>
@@ -71,14 +85,13 @@ export const FormPassword = () => {
                     <Input
                         placeholder='Новый пароль'
                         type="password"
-                        touched={touchedFields['password']}
+                        touched={!getFieldState('password').invalid && getFieldState('password').isDirty}
                         error={errors['password']?.message}
-                        onSubmit={handleSubmit(submit)}
-                        {...register('password', { required: true, onBlur: ()=> touchedFields['confirm_password']? trigger('confirm_password') : null })}
+                        {...register('password', { required: true, onChange: ()=> touchedFields['confirm_password']? trigger('confirm_password') : null })}
                     >
-                        {!errors['password']?.message && (
+                        {/* {!errors['password']?.message && (
                             <Image onClick={() => {trigger('password'); setStep(step === 'new password' ? 'confirm password' : 'new password')}} src={arrow_right} alt="new password" />
-                        )}
+                        )} */}
                     </Input>
                 </div>
                 {step !== 'new password' && (
@@ -86,14 +99,13 @@ export const FormPassword = () => {
                         <Input
                             placeholder='Повторите новый пароль'
                             type="password"
-                            touched={touchedFields['confirm_password']}
+                            touched={!getFieldState('confirm_password').invalid && getFieldState('confirm_password').isDirty}
                             error={errors['confirm_password']?.message}
-                            onSubmit={handleSubmit(submit)}
                             {...register('confirm_password', { required: true })}
                         >
-                            {!errors['confirm_password']?.message && (
+                            {/* {!errors['confirm_password']?.message && (
                                 <Image onClick={() => {trigger('confirm_password'); setStep(step === 'confirm password' ? 'old password' : 'confirm password'); trigger('password')}} src={arrow_right} alt="change password" />
-                            )}
+                            )} */}
                         </Input>
                     </div>
                 )}
@@ -108,17 +120,18 @@ export const FormPassword = () => {
                         <Input
                             placeholder='Текущий пароль'
                             type="password"
-                            touched={touchedFields['old_password']}
+                            touched={!getFieldState('old_password').invalid && getFieldState('old_password').isDirty}
                             error={errors['old_password']?.message}
-                            onSubmit={handleSubmit(submit)}
-                            {...register('old_password', { required: true, onBlur: ()=> trigger('password') })}
+                            // onSubmit={handleSubmit(submit)}
+                            {...register('old_password', { required: true, onChange: ()=> trigger('password') })}
                         >
                         </Input>
                         <Link className={style.form__fogot} href={ROUTES.RESET_PASSWORD}>Забыли пароль?</Link>
                     </div>
                 )}
-                {step === 'old password' && isClient && windowWidth < 768 && (
-                    <Button isActive={isValid} type="submit">Применить изменения</Button>
+                {/* {step === 'old password' && isClient && windowWidth < 768 && ( */}
+                {step === 'old password' && (
+                    <Button isActive={isValid} className={style.form__wrapper__button} type="submit">Применить изменения</Button>
                 )}
             </form>
             <ModalMessage message={completeMessage} />

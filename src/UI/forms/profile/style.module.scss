@@ -13,6 +13,12 @@
             gap: 16px;
             align-items: stretch;
         }
+        &__button{
+            margin-top: 4px;
+            @include media-down(sm){
+                margin-top: 0;
+            }
+        }
     }
     &__block{
         width: 400px;

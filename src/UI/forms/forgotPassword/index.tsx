@@ -33,7 +33,7 @@ export default function FormForgotPassword({ }: Props) {
         setValue,
         getValues,
         handleSubmit,
-        reset,
+        getFieldState,
     } = useForm<FogotPasswordForm>({
         resolver: yupResolver(SchemaFogotPassword),
         mode: 'onBlur',
@@ -104,14 +104,14 @@ export default function FormForgotPassword({ }: Props) {
                         type={'password'}
                         error={errors['password']?.message}
                         touched={touchedFields['password']}
-                        {...register('password')}
+                        {...register('password', {onChange(event) { getFieldState('confirm_password').isDirty? trigger('confirm_password') : null }})}
                     />
                     <Input
                         placeholder='Подтверждение пароля'
                         type={'password'}
                         error={errors['confirm_password']?.message}
                         touched={touchedFields['confirm_password']}
-                        {...register('confirm_password')}
+                        {...register('confirm_password', {onChange(event) { trigger('password') }})}
                     />
                 </>
             )}

@@ -45,11 +45,11 @@ export default function PageWork() {
 	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
 		setLoading(true)
 		setCompleteMessage('')
-			ENDPOINTS.WORK.CREATE_WORK({
-				...data,
-				lang: language.value as string,
-				voice: voice.value as string
-			})
+		ENDPOINTS.WORK.CREATE_WORK({
+			...data,
+			lang: language.value as string,
+			voice: voice.value as string
+		})
 			.then((res: AxiosResponse<ResponseWork>) => {
 				console.log(res.data)
 				setResponseData(res.data)
@@ -97,26 +97,59 @@ export default function PageWork() {
 		}
 	}, [language])
 
-	useEffect(()=>{
-		if (Cookies.get('payment_id') && requestPaymentLength < 100) {
-			const paymentId = Cookies.get('payment_id')
-			if (paymentId) {
-				ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
-				.then((res: AxiosResponse<ResponsesHistory>)=>{
-					console.log(res.data);
-					setCompleteMessage('')
-					setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`)
-					setRequestPaymentLength(0)
-					Cookies.remove('payment_id')
-				})
-				.catch((err)=> {
-					console.log('error')
-					setRequestPaymentLength((prev)=>prev+1)
-				})
-			}
-			console.log(requestPaymentLength);
+	// useEffect(()=>{
+	// 	if (Cookies.get('payment_id') && requestPaymentLength < 100) {
+	// 		const paymentId = Cookies.get('payment_id')
+	// 		if (paymentId) {
+	// 			ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
+	// 			.then((res: AxiosResponse<ResponsesHistory>)=>{
+	// 				console.log(res.data);
+	// 				setCompleteMessage('')
+	// 				setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`)
+	// 				setRequestPaymentLength(0)
+	// 				Cookies.remove('payment_id')
+	// 			})
+	// 			.catch((err)=> {
+	// 				console.log('error')
+	// 				setRequestPaymentLength((prev)=>prev+1)
+	// 			})
+	// 		}
+	// 		console.log(requestPaymentLength);
+	// 	}
+	// }, [requestPaymentLength])
+
+	useEffect(() => {
+		let intervalId: NodeJS.Timeout;
+
+		const paymentId = Cookies.get('payment_id');
+		if (paymentId) {
+			intervalId = setInterval(() => {
+				if (requestPaymentLength < 30) {
+					ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
+					.then((res: AxiosResponse<ResponsesHistory>) => {
+						console.log(res.data);
+						setCompleteMessage('');
+						setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`);
+						Cookies.remove('payment_id');
+						clearInterval(intervalId);
+					})
+					.catch((err: any) => {
+						console.log('error', err);
+						setRequestPaymentLength((prev) => prev + 1);
+					});
+				}
+				else {
+					clearInterval(intervalId);
+				}
+			}, 3000);
+				
 		}
-	}, [requestPaymentLength])
+
+		return () => {
+			clearInterval(intervalId);
+		};
+		
+	}, [Cookies.get('payment_id'), requestPaymentLength]);
 
 	return (
 		<>
@@ -144,11 +177,11 @@ export default function PageWork() {
 
 				)}
 				<div className={style.main__wrapper}>
-					<FormMain 
-						submit={submit} 
-						handleRegistration={handleRegistration} 
-						handleEnoughBalance={handleEnoughBalance} 
-						canSubmit={language.value && voice.value ? true : false} 
+					<FormMain
+						submit={submit}
+						handleRegistration={handleRegistration}
+						handleEnoughBalance={handleEnoughBalance}
+						canSubmit={language.value && voice.value ? true : false}
 					/>
 					{isClient && windowWidth > 768 && (
 						<Rules />
@@ -165,7 +198,7 @@ export default function PageWork() {
 				<ModalWarningRegistration />
 			</ModalWrapper>
 			<ModalWrapper state={[modalResultOpen, setModalResultOpen]}>
-				{responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData} closeModal={()=>handleRemoveClose()}/>}
+				{responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData} closeModal={() => handleRemoveClose()} />}
 			</ModalWrapper>
 			<ModalMessage message={completeMessage} />
 		</>

@@ -129,9 +129,9 @@ export default function Header({ }: Props) {
                     )}
                 </ul>
                 <div className={style.header__social}>
-                    <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk' /></a>
+                    {/* <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk' /></a> */}
                     <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image {...telegram} alt='telegram' /></a>
-                    <a href={LINKS.WHATSAPP} target="_blank" rel="noopener noreferrer"><Image {...whatsapp} alt='whatsapp' /></a>
+                    {/* <a href={LINKS.WHATSAPP} target="_blank" rel="noopener noreferrer"><Image {...whatsapp} alt='whatsapp' /></a> */}
                 </div>
                 <p className={style.header__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>
             </nav>
