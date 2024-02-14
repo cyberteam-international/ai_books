@@ -36,7 +36,7 @@ export default function PageWork() {
 
 	const [responseData, setResponseData] = useState<ResponseWork>()
 
-	const { userInfo } = useContext(ContextUser)
+	const { userInfo, mutate } = useContext(ContextUser)
 
 	const isClient = useIsClient()
 
@@ -50,12 +50,13 @@ export default function PageWork() {
 			lang: language.value as string,
 			voice: voice.value as string
 		})
-			.then((res: AxiosResponse<ResponseWork>) => {
+			.then(async (res: AxiosResponse<ResponseWork>) => {
 				console.log(res.data)
 				setResponseData(res.data)
 				setLoading(false)
 				setModalResultOpen(true)
 				if (userInfo?.id) {
+					await mutate();
 					setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
 				}
 			})

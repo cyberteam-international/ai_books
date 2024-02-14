@@ -11,5 +11,6 @@ export const ROUTES = {
     POLICY: '/policy',
     PUBLIC_OFFER: '/public_offer',
     STATISTIC: '/statistic',
-    RESET_PASSWORD: '/forgot_password'
+    RESET_PASSWORD: '/forgot_password',
+    PREPARATION: '/preparation'
 }

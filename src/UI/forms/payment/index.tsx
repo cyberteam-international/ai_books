@@ -56,6 +56,10 @@ export default function FormPayment({ }: Props) {
 		return new Promise((resolve, reject) => {
 			if (onlyNumberReg.test(event.target.value) || event.target.value === '') {
 				setAmountValue(event.target.value)
+				setAmountTouched(true)
+				SchemaPaymentAmountValue.validate(amountValue)
+					.then(() => setAmountError(''))
+					.catch((error: { message: string }) => setAmountError(error.message))
 			}
 			resolve(true)
 		})

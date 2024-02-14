@@ -209,6 +209,10 @@ export default function PageStatistic({ }: Props) {
                     <h4>Повторные пополнения</h4>
                     <h4>{data? data.number_repeated_payments : 0}</h4>
                 </div>
+                <div className={style.statistic__section__column}>
+                    <h4>Себестоимость</h4>
+                    <h4>{data? data.cost_price : 0}</h4>
+                </div>
             </section>
             {/* <Bar options={options} data={data} /> */}
         </main>

@@ -1,6 +1,7 @@
 import * as Yup from 'yup'
 import { LoginForm, CreateWorks, PaymentForm, ProfileForm, RegistrationForm, FogotPasswordForm } from '../interface'
 import isEmail from 'validator/lib/isEmail';
+import { PreparationGPTForm } from '../interface/Forms';
 
 const phone_REG_EXP = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
 const password_REG_EXP = /^[a-zA-Z0-9_*:^!@"#№$;%?&()-+=.,/|']+$/
@@ -69,6 +70,10 @@ export const SchemaFogotPassword: Yup.ObjectSchema<FogotPasswordForm> = Yup.obje
     confirm_password: Yup.string().matches(password_REG_EXP, 'Некорректный пароль').oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
     code: Yup.string().min(5, 'Некорректный код подтверждения').max(5, 'Некорректный код подтверждения'),
     password: Yup.string().matches(password_REG_EXP, 'Некорректный пароль').min(6, 'Пароль должен содержать минимум 6 символов'),
+})
+// ----------
+export const SchemaPreparationGPT: Yup.ObjectSchema<PreparationGPTForm> = Yup.object({
+    input_text: Yup.string().required('Заполните поле')
 })
 
 

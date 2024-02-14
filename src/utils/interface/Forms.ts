@@ -56,3 +56,7 @@ export type CreateWorks = {
 export type UpdateWorks = {
     name: string
 }
+
+export type PreparationGPTForm = {
+    input_text: string
+}

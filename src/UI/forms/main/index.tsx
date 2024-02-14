@@ -36,7 +36,6 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
 
 	const { userInfo } = useContext(ContextUser)
 
-
     const isCient = useIsClient()
 
     const [maxCharacterCount, setMaxCharacterCount] = useState(200)
@@ -48,8 +47,7 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
         getValues,
         watch,
         setValue,
-        trigger,
-        setError
+        trigger
     } = useForm<{input_text: CreateWorks['input_text']}>({
         resolver: yupResolver(SchemaTextArea),
         mode: 'onBlur',
@@ -59,16 +57,26 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
     useEffect(() => {
         setCharacterCount(getValues('input_text')?.length || 0);
         if (getValues('input_text').length !== 0) {
-            localStorage.setItem('textareaValue', getValues('input_text'))
+            if (userInfo?.id) {
+                localStorage.setItem(`textareaValue_${userInfo?.id}`, getValues('input_text'))
+            }
+            else localStorage.setItem('textareaValue_default', getValues('input_text'))
         }
-    }, [watch('input_text')]);
+    }, [watch('input_text'), userInfo]);
 
     useEffect(()=>{
-        if (isCient && window.localStorage.getItem('textareaValue')){
-            setValue('input_text', String(localStorage.getItem('textareaValue')))
-            trigger('input_text')
+        if (isCient){
+            if (userInfo?.id) {
+                if (window.localStorage.getItem(`textareaValue_${userInfo?.id}`)) {
+                    setValue('input_text', String(localStorage.getItem(`textareaValue_${userInfo?.id}`)), {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+                }
+            }
+            else if (window.localStorage.getItem(`textareaValue_default`)) {
+                setValue('input_text', String(localStorage.getItem('textareaValue_default')), {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+            }
+            trigger()
         }
-    }, [isCient])
+    }, [isCient, userInfo, maxCharacterCount])
 
     useEffect(()=>{
         if (userInfo?.id) {

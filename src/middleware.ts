@@ -3,7 +3,7 @@ import { ROUTES } from '@/utils/config'
 import { UserInfo } from './utils/interface'
 
 export const config = {
-    matcher: ['/profile', '/payment', '/my-audio', '/statistic'],
+    matcher: ['/profile', '/payment', '/my-audio', '/statistic', '/preparation'],
 }
 
 export async function middleware(request: NextRequest) {
@@ -26,6 +26,9 @@ export async function middleware(request: NextRequest) {
         });
         const data: UserInfo = await response.json();
         if (request.nextUrl.pathname === '/statistic' && !data.is_admin) {
+            return NextResponse.redirect(work, 302);
+        }
+        if (request.nextUrl.pathname === '/preparation' && !data.balance) {
             return NextResponse.redirect(work, 302);
         }
     }

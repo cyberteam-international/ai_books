@@ -64,6 +64,11 @@ export default function Header({ }: Props) {
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userInfo.balance.toLocaleString('ru-RU')}</span> ₽</Link>
                             </li>
+                            {userInfo?.balance > 0 && (
+                                <li className={clsx(style.header__menu__item, pathname === ROUTES.PREPARATION && style.header__menu__item_active)}>
+                                    <Link href={ROUTES.PREPARATION}>Подготовка</Link>
+                                </li>
+                            )}
                         </>
                     )}
                     {userInfo?.is_admin && (
@@ -81,7 +86,7 @@ export default function Header({ }: Props) {
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                 <p>Баланс</p>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userInfo.balance} ₽</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userInfo.balance.toLocaleString('ru-RU')} ₽</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
@@ -104,6 +109,11 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                     </li>
+                    {userInfo && userInfo.balance > 0 && (
+                        <li className={clsx(style.header__menu__item)}>
+                            <Link onClick={() => setIsOpen(false)} href={ROUTES.PREPARATION}><span>Подготовка</span></Link>
+                        </li>
+                    )}
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US}><span>О проекте</span></Link>
                     </li>

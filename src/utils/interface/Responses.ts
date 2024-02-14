@@ -18,7 +18,8 @@ export type ResponseStatistic = {
 	"number_payments": number,
 	"amount_payments": number,
 	"number_repeated_payments": number,
-	"unique_number_visits": number
+	"unique_number_visits": number,
+	"cost_price": number,
 }
 
 export type ResponseVoices = {
