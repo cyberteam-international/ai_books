@@ -19,6 +19,7 @@ import Rules from '@components/work/Rules'
 import Loader from '@UI/loader'
 
 import style from './style.module.scss'
+import Button from '@/UI/button'
 
 export default function PageWork() {
 
@@ -85,11 +86,6 @@ export default function PageWork() {
 		setCompleteMessage(`Имя успешно изменено на ${newName}`)
 	}
 
-	// useEffect(() => {
-	// 	console.log('language', language)
-	// 	console.log('voice', voice)
-	// }, [language, voice])
-
 	useEffect(() => {
 		if (language) {
 			const currentVoiceArray = [...VOICES].filter((item) => item.language === language.value)
@@ -97,27 +93,6 @@ export default function PageWork() {
 			setVoice(currentVoiceArray[0])
 		}
 	}, [language])
-
-	// useEffect(()=>{
-	// 	if (Cookies.get('payment_id') && requestPaymentLength < 100) {
-	// 		const paymentId = Cookies.get('payment_id')
-	// 		if (paymentId) {
-	// 			ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
-	// 			.then((res: AxiosResponse<ResponsesHistory>)=>{
-	// 				console.log(res.data);
-	// 				setCompleteMessage('')
-	// 				setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`)
-	// 				setRequestPaymentLength(0)
-	// 				Cookies.remove('payment_id')
-	// 			})
-	// 			.catch((err)=> {
-	// 				console.log('error')
-	// 				setRequestPaymentLength((prev)=>prev+1)
-	// 			})
-	// 		}
-	// 		console.log(requestPaymentLength);
-	// 	}
-	// }, [requestPaymentLength])
 
 	useEffect(() => {
 		let intervalId: NodeJS.Timeout;
@@ -183,9 +158,12 @@ export default function PageWork() {
 						handleRegistration={handleRegistration}
 						handleEnoughBalance={handleEnoughBalance}
 						canSubmit={language.value && voice.value ? true : false}
+						setLoading={setLoading}
 					/>
 					{isClient && windowWidth > 768 && (
-						<Rules />
+						<div className={style.main__rules}>
+							<Rules />
+						</div>
 					)}
 				</div>
 			</main>

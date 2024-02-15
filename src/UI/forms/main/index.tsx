@@ -11,7 +11,11 @@ import { useIsClient } from "@/utils/hooks";
 import { CreateWorks } from "@utils/interface";
 import { SchemaTextArea } from "@utils/config/yupShemes";
 import { ContextUser } from "@/utils/context";
-import { PRICE, ROUTES } from "@/utils/config";
+import { ENDPOINTS, PRICE, ROUTES } from "@/utils/config";
+
+import abbreviations_img from '@public/decipher_abbreviations.svg'
+import numbers_img from '@public/decipher_numbers.svg'
+import reset from '@public/reset.svg'
 
 import TextArea from "@/UI/textarea";
 import Button from "@/UI/button";
@@ -20,21 +24,22 @@ import Delete from "@/UI/delete";
 import icon_warning from '@public/warning.svg'
 
 import style from './style.module.scss'
+import { AxiosResponse } from "axios";
 
 type Props = {
-    submit: (data: {input_text: CreateWorks['input_text']}) => void
+    submit: (data: { input_text: CreateWorks['input_text'] }) => void
     canSubmit: boolean,
-    handleEnoughBalance: ()=>void,
-    handleRegistration: ()=>void
+    handleEnoughBalance: () => void,
+    handleRegistration: () => void,
+    setLoading: (val: boolean)=>void
 };
 
-export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration }: Props) {
+export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, setLoading }: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
+    const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
 
-    // const [userState, _setUserState] = useContext(ContextUser)
-
-	const { userInfo } = useContext(ContextUser)
+    const { userInfo } = useContext(ContextUser)
 
     const isCient = useIsClient()
 
@@ -48,15 +53,57 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
         watch,
         setValue,
         trigger
-    } = useForm<{input_text: CreateWorks['input_text']}>({
+    } = useForm<{ input_text: CreateWorks['input_text'] }>({
         resolver: yupResolver(SchemaTextArea),
         mode: 'onBlur',
         context: { maxCharacterCount },
     });
 
+    const buttonCallback = () => {
+        if (!isValid) {
+            if (!userInfo?.id) {
+                return handleRegistration()
+            }
+            else {
+                return handleEnoughBalance()
+            }
+        }
+        else return undefined
+    }
+
+    const decipher_abbreviations = () => {
+        const textValue = getValues('input_text')
+        setLoading(true)
+        ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(textValue)
+            .then((res: AxiosResponse<{text: string}>)=>{
+                setLoading(false)
+                setValueBeforeDecipher(textValue)
+                setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+            })
+    }
+
+    const decipher_numbers = () => {
+        const textValue = getValues('input_text')
+        setLoading(true)
+        ENDPOINTS.GPT.REMOVE_NUMBERS(textValue)
+            .then((res: AxiosResponse<{text: string}>)=>{
+                setLoading(false)
+                setValueBeforeDecipher(textValue)
+                setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+            })
+    }
+
+    const handleReset = () => {
+        if (valueBeforeDecipher) {
+            setValue('input_text', valueBeforeDecipher, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+            setValueBeforeDecipher(undefined)
+        }
+        
+    }
+
     useEffect(() => {
         setCharacterCount(getValues('input_text')?.length || 0);
-        if (getValues('input_text').length !== 0) {
+        if (getValues('input_text').length > 0) {
             if (userInfo?.id) {
                 localStorage.setItem(`textareaValue_${userInfo?.id}`, getValues('input_text'))
             }
@@ -64,37 +111,25 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
         }
     }, [watch('input_text'), userInfo]);
 
-    useEffect(()=>{
-        if (isCient){
+    useEffect(() => {
+        if (isCient) {
             if (userInfo?.id) {
                 if (window.localStorage.getItem(`textareaValue_${userInfo?.id}`)) {
-                    setValue('input_text', String(localStorage.getItem(`textareaValue_${userInfo?.id}`)), {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+                    setValue('input_text', String(localStorage.getItem(`textareaValue_${userInfo?.id}`)), { shouldDirty: true, shouldTouch: true, shouldValidate: true })
                 }
             }
             else if (window.localStorage.getItem(`textareaValue_default`)) {
-                setValue('input_text', String(localStorage.getItem('textareaValue_default')), {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+                setValue('input_text', String(localStorage.getItem('textareaValue_default')), { shouldDirty: true, shouldTouch: true, shouldValidate: true })
             }
             trigger()
         }
     }, [isCient, userInfo, maxCharacterCount])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (userInfo?.id) {
-            setMaxCharacterCount(Math.floor(userInfo.balance / PRICE) > 200? Math.floor(userInfo.balance / PRICE) : 200)
+            setMaxCharacterCount(Math.floor(userInfo.balance / PRICE) > 200 ? Math.floor(userInfo.balance / PRICE) : 200)
         }
     }, [userInfo])
-
-    const buttonCallback = () => {
-        if(!isValid){
-            if (!userInfo?.id) {
-                return handleRegistration()
-            }
-            else{
-                return handleEnoughBalance()
-            }
-        }
-        else return undefined
-    }
 
     return (
         <form id={'mainForm'} className={style.form} onSubmit={handleSubmit(submit)}>
@@ -104,24 +139,42 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
                 {...register('input_text', { required: true })}
             />
             <div className={style.form__control}>
-                <div className={style.form__control__wrapper}>
-                    {characterCount > maxCharacterCount && (
-                        <Image {...icon_warning} alt="Вы ввели более 5000 символов" />
-                    )}
-                    <p className={style.form__control__character}>
-                        <span>Символов</span> {characterCount.toLocaleString('ru')}/{maxCharacterCount.toLocaleString('ru')}
-                    </p>
-                    <div className={style.form__control__delete}>
-                        <Delete callback={() => setValue('input_text', '')}>
-                            <p>Очистить</p>
-                        </Delete>
+                <div className={style.form__control__buttons}>
+                    <div className={style.form__control__buttons__wrapper}>
+                        <button onClick={decipher_abbreviations} type="button" className={style.form__control__buttons__item}>
+                            <Image {...abbreviations_img} alt={'abbreviations_img'}/>
+                            <p>Расшифровать аббревиатуры</p>
+                        </button>
+                        <button onClick={decipher_numbers} type="button" className={style.form__control__buttons__item}>
+                            <Image {...numbers_img} alt={'numbers_img'}/>
+                            <p>Расшифровать числительные</p>
+                        </button>
                     </div>
+                    <button className={style.form__control__buttons__item} type="button" onClick={handleReset}>
+                        <p>Сбросить</p>
+                        <Image {...reset} alt={'reset'} />
+                    </button>
                 </div>
-                <Button 
-                    type={isValid? 'submit' : 'button'} 
-                    callback={buttonCallback} 
-                    isActive={canSubmit && Boolean(getValues('input_text'))}
-                >Озвучить</Button>
+                <div className={style.form__control__block}>
+                    <div className={style.form__control__wrapper}>
+                        {characterCount > maxCharacterCount && (
+                            <Image {...icon_warning} alt="Вы ввели более 5000 символов" />
+                        )}
+                        <p className={style.form__control__character}>
+                            <span>Символов</span> {characterCount.toLocaleString('ru')}/{maxCharacterCount.toLocaleString('ru')}
+                        </p>
+                        <div className={style.form__control__delete}>
+                            <Delete callback={() => setValue('input_text', '')}>
+                                <p>Очистить</p>
+                            </Delete>
+                        </div>
+                    </div>
+                    <Button
+                        type={isValid ? 'submit' : 'button'}
+                        callback={buttonCallback}
+                        isActive={canSubmit && Boolean(getValues('input_text'))}
+                    >Озвучить</Button>
+                </div>
             </div>
         </form>
     );

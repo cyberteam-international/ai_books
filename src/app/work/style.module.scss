@@ -23,6 +23,23 @@
         @include media-down(md) {
             grid-template-rows: auto;
             grid-template-columns: 1fr;
+            gap: 16px;
         }
+    }
+    &__rules{
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        overflow: hidden;
+        // &__buttons{
+        //     display: flex;
+        //     flex-direction: column;
+        //     align-items: flex-start;
+        //     justify-content: space-between;
+        //     gap: 10px;
+        //     @include media-down(md) {
+        //         align-items: center;
+        //     }
+        // }
     }
 }

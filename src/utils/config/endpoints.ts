@@ -21,6 +21,7 @@ export const ENDPOINTS_URL = {
     STATISTIC: BASE_URL + '/statistics',
     VOICES: BASE_URL + '/voices',
     PAYMENT: BASE_URL + '/payment',
+    GPT: BASE_URL + '/gpt/decode',
 }
 
 export const ENDPOINTS = {
@@ -241,22 +242,6 @@ export const ENDPOINTS = {
             .catch((err: any)=>{
                 throw err
             })
-
-            // return axios({
-            //     url: ENDPOINTS_URL.PAYMENT,
-            //     method: 'GET',
-            //     headers: {
-            //         Authorization: `Bearer ${getToken()}`,
-            //     },
-            //     params: {
-            //         start_date: startDate? 
-            //             `${startDate.getFullYear()}-${String(startDate?.getMonth() + 1).padStart(2, '0')}-${String(startDate?.getDate()).padStart(2, '0')}` 
-            //             : undefined, 
-            //         end_date: endDate? 
-            //             `${endDate.getFullYear()}-${String(endDate?.getMonth() + 1).padStart(2, '0')}-${String(endDate?.getDate()).padStart(2, '0')}` 
-            //             : undefined
-            //     }
-            // })
         },
         GET_PAYMENT_ID: (id: string) => {
             return axios({
@@ -268,4 +253,24 @@ export const ENDPOINTS = {
             })
         }
     },
+    GPT: {
+        REMOVE_ABBREVIATIONS: (text: string) => {
+            return axios({
+                url: ENDPOINTS_URL.GPT + '/abbreviations',
+                method: 'POST',
+                data: {
+                    text: text
+                }
+            })
+        },
+        REMOVE_NUMBERS: (text: string) => {
+            return axios({
+                url: ENDPOINTS_URL.GPT + '/numbers',
+                method: 'POST',
+                data: {
+                    text: text
+                }
+            })
+        }
+    }
 }
