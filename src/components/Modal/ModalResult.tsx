@@ -47,7 +47,7 @@ export const ModalResult = ({ data, closeModal, handleChangeAudioName }: Props) 
                 )}
                 {userInfo?.id ? (
                     <Button>
-                        <DownloadFile fileName={data.completed_file}>Скачать</DownloadFile>
+                        <DownloadFile textName={data.input_text} fileName={data.completed_file}>Скачать</DownloadFile>
                     </Button>
                 ) : (
                     <div className={style.modal__result__options__registration}>

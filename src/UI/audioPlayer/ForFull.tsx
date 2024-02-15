@@ -166,7 +166,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                     <div ref={ref} className={style.player__options}>
                         <div className={style.player__options__download} onClick={() => { console.log('Скачать'); setMenuOpen(false) }}>
                             <Image {...download} alt='download' />
-                            <DownloadFile fileName={data.completed_file}><p>Скачать</p></DownloadFile>
+                            <DownloadFile textName={data.input_text} fileName={data.completed_file}><p>Скачать</p></DownloadFile>
                         </div>
                         <Delete callback={() => { removeHandler(data); setMenuOpen(false) }}><p>Удалить</p></Delete>
                     </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useForm } from "react-hook-form";
-import { useContext, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,24 +24,26 @@ import Delete from "@/UI/delete";
 import icon_warning from '@public/warning.svg'
 
 import style from './style.module.scss'
-import { AxiosResponse } from "axios";
 
 type Props = {
     submit: (data: { input_text: CreateWorks['input_text'] }) => void
     canSubmit: boolean,
     handleEnoughBalance: () => void,
     handleRegistration: () => void,
-    setLoading: (val: boolean)=>void
+    valueBeforeDecipherState: [string | undefined, (val:string)=>void],
+    valueState: [string | undefined, (val:string)=>void],
+    children?: ReactNode
 };
 
-export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, setLoading }: Props) {
+export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, valueState, valueBeforeDecipherState, children }: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
-    const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
+    const [valueBeforeDecipher, setValueBeforeDecipher] = valueBeforeDecipherState
+    const [valueProps, setValueProps] = valueState
 
     const { userInfo } = useContext(ContextUser)
 
-    const isCient = useIsClient()
+    const isClient = useIsClient()
 
     const [maxCharacterCount, setMaxCharacterCount] = useState(200)
 
@@ -71,59 +73,54 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
         else return undefined
     }
 
-    const decipher_abbreviations = () => {
-        const textValue = getValues('input_text')
-        setLoading(true)
-        ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(textValue)
-            .then((res: AxiosResponse<{text: string}>)=>{
-                setLoading(false)
-                setValueBeforeDecipher(textValue)
-                setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-            })
-    }
+    // const decipher_abbreviations = () => {
+    //     const textValue = getValues('input_text')
+    //     setLoading(true)
+    //     ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(textValue)
+    //         .then((res: AxiosResponse<{text: string}>)=>{
+    //             setLoading(false)
+    //             setValueBeforeDecipher(textValue)
+    //             setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+    //         })
+    // }
 
-    const decipher_numbers = () => {
-        const textValue = getValues('input_text')
-        setLoading(true)
-        ENDPOINTS.GPT.REMOVE_NUMBERS(textValue)
-            .then((res: AxiosResponse<{text: string}>)=>{
-                setLoading(false)
-                setValueBeforeDecipher(textValue)
-                setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-            })
-    }
+    // const decipher_numbers = () => {
+    //     const textValue = getValues('input_text')
+    //     setLoading(true)
+    //     ENDPOINTS.GPT.REMOVE_NUMBERS(textValue)
+    //         .then((res: AxiosResponse<{text: string}>)=>{
+    //             setLoading(false)
+    //             setValueBeforeDecipher(textValue)
+    //             setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+    //         })
+    // }
 
-    const handleReset = () => {
-        if (valueBeforeDecipher) {
-            setValue('input_text', valueBeforeDecipher, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-            setValueBeforeDecipher(undefined)
-        }
+    // const handleReset = () => {
+    //     if (valueBeforeDecipher) {
+    //         setValue('input_text', valueBeforeDecipher, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+    //         setValueBeforeDecipher(undefined)
+    //     }
         
-    }
+    // }
 
     useEffect(() => {
-        setCharacterCount(getValues('input_text')?.length || 0);
-        if (getValues('input_text').length > 0) {
+        const currentValue = getValues('input_text')
+        setCharacterCount(currentValue?.length || 0);
+        if (currentValue.length > 0 && valueState) {
             if (userInfo?.id) {
-                localStorage.setItem(`textareaValue_${userInfo?.id}`, getValues('input_text'))
+                setValueProps(currentValue)
+                localStorage.setItem(`textareaValue_${userInfo?.id}`, currentValue)
             }
-            else localStorage.setItem('textareaValue_default', getValues('input_text'))
+            else localStorage.setItem('textareaValue_default', currentValue)
         }
     }, [watch('input_text'), userInfo]);
 
     useEffect(() => {
-        if (isCient) {
-            if (userInfo?.id) {
-                if (window.localStorage.getItem(`textareaValue_${userInfo?.id}`)) {
-                    setValue('input_text', String(localStorage.getItem(`textareaValue_${userInfo?.id}`)), { shouldDirty: true, shouldTouch: true, shouldValidate: true })
-                }
-            }
-            else if (window.localStorage.getItem(`textareaValue_default`)) {
-                setValue('input_text', String(localStorage.getItem('textareaValue_default')), { shouldDirty: true, shouldTouch: true, shouldValidate: true })
-            }
+        if (valueProps) {
+            setValue('input_text', valueProps, { shouldDirty: true, shouldTouch: true, shouldValidate: true })
             trigger()
         }
-    }, [isCient, userInfo, maxCharacterCount])
+    }, [isClient, userInfo, maxCharacterCount, valueState, valueBeforeDecipherState, valueState])
 
     useEffect(() => {
         if (userInfo?.id) {
@@ -139,7 +136,8 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
                 {...register('input_text', { required: true })}
             />
             <div className={style.form__control}>
-                <div className={style.form__control__buttons}>
+                {children}
+                {/* <div className={style.form__control__buttons}>
                     <div className={style.form__control__buttons__wrapper}>
                         <button onClick={decipher_abbreviations} type="button" className={style.form__control__buttons__item}>
                             <Image {...abbreviations_img} alt={'abbreviations_img'}/>
@@ -154,7 +152,7 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
                         <p>Сбросить</p>
                         <Image {...reset} alt={'reset'} />
                     </button>
-                </div>
+                </div> */}
                 <div className={style.form__control__block}>
                     <div className={style.form__control__wrapper}>
                         {characterCount > maxCharacterCount && (

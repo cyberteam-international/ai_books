@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size'
 import { AxiosError, AxiosResponse } from 'axios'
 import Cookies from 'js-cookie'
+import Image from 'next/image'
 
 import { ENDPOINTS, LANGUAGES, VOICES } from '@utils/config'
 import { useIsClient } from '@/utils/hooks'
@@ -18,8 +19,11 @@ import FormMain from '@UI/forms/main'
 import Rules from '@components/work/Rules'
 import Loader from '@UI/loader'
 
+import abbreviations_img from '@public/decipher_abbreviations.svg'
+import numbers_img from '@public/decipher_numbers.svg'
+import reset from '@public/reset.svg'
+
 import style from './style.module.scss'
-import Button from '@/UI/button'
 
 export default function PageWork() {
 
@@ -36,6 +40,9 @@ export default function PageWork() {
 	const [requestPaymentLength, setRequestPaymentLength] = useState(0)
 
 	const [responseData, setResponseData] = useState<ResponseWork>()
+
+	const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
+	const [value, setValue] = useState<string>()
 
 	const { userInfo, mutate } = useContext(ContextUser)
 
@@ -86,6 +93,53 @@ export default function PageWork() {
 		setCompleteMessage(`Имя успешно изменено на ${newName}`)
 	}
 
+	const handleDecipher_abbreviations = () => {
+		console.log(value)
+		if (value) {
+			setLoading(true)
+			ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(value)
+				.then((res: AxiosResponse<{ text: string }>) => {
+					setLoading(false)
+					setValueBeforeDecipher(value)
+					setValue(res.data.text)
+				})
+		}
+	}
+
+	const handleDecipher_numbers = () => {
+		if (value) {
+			setLoading(true)
+			ENDPOINTS.GPT.REMOVE_NUMBERS(value)
+				.then((res: AxiosResponse<{ text: string }>) => {
+					setLoading(false)
+					setValueBeforeDecipher(value)
+					setValue(res.data.text)
+				})
+		}
+
+	}
+
+	const handleReset = () => {
+		if (valueBeforeDecipher) {
+			setValue(valueBeforeDecipher)
+			setValueBeforeDecipher(undefined)
+		}
+
+	}
+
+	useEffect(() => {
+        if (isClient) {
+            if (userInfo?.id) {
+                if (window.localStorage.getItem(`textareaValue_${userInfo?.id}`)) {
+                    setValue(String(localStorage.getItem(`textareaValue_${userInfo?.id}`)))
+                }
+            }
+            else if (window.localStorage.getItem(`textareaValue_default`)) {
+                setValue(String(localStorage.getItem('textareaValue_default')))
+            }
+        }
+    }, [isClient ,userInfo])
+
 	useEffect(() => {
 		if (language) {
 			const currentVoiceArray = [...VOICES].filter((item) => item.language === language.value)
@@ -102,29 +156,29 @@ export default function PageWork() {
 			intervalId = setInterval(() => {
 				if (requestPaymentLength < 30) {
 					ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
-					.then((res: AxiosResponse<ResponsesHistory>) => {
-						console.log(res.data);
-						setCompleteMessage('');
-						setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`);
-						Cookies.remove('payment_id');
-						clearInterval(intervalId);
-					})
-					.catch((err: any) => {
-						console.log('error', err);
-						setRequestPaymentLength((prev) => prev + 1);
-					});
+						.then((res: AxiosResponse<ResponsesHistory>) => {
+							console.log(res.data);
+							setCompleteMessage('');
+							setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`);
+							Cookies.remove('payment_id');
+							clearInterval(intervalId);
+						})
+						.catch((err: any) => {
+							console.log('error', err);
+							setRequestPaymentLength((prev) => prev + 1);
+						});
 				}
 				else {
 					clearInterval(intervalId);
 				}
 			}, 3000);
-				
+
 		}
 
 		return () => {
 			clearInterval(intervalId);
 		};
-		
+
 	}, [Cookies.get('payment_id'), requestPaymentLength]);
 
 	return (
@@ -147,10 +201,9 @@ export default function PageWork() {
 					/>
 				</div>
 				{isClient && windowWidth < 768 && (
-					<div className={style.main__wrapper}>
+					<div className={style.main__rules}>
 						<Rules />
 					</div>
-
 				)}
 				<div className={style.main__wrapper}>
 					<FormMain
@@ -158,13 +211,57 @@ export default function PageWork() {
 						handleRegistration={handleRegistration}
 						handleEnoughBalance={handleEnoughBalance}
 						canSubmit={language.value && voice.value ? true : false}
-						setLoading={setLoading}
-					/>
-					{isClient && windowWidth > 768 && (
+						valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
+						valueState={[value, setValue]}
+					>
+						{
+							<>
+								{isClient && windowWidth < 1024 && (
+									<div className={style.main__rules__buttons}>
+										<div className={style.main__rules__buttons__wrapper}>
+											<button onClick={handleDecipher_abbreviations} type="button" className={style.main__rules__buttons__item}>
+												<Image {...abbreviations_img} alt={'abbreviations_img'} />
+												<p>Расшифровать аббревиатуры</p>
+											</button>
+											<button onClick={handleDecipher_numbers} type="button" className={style.main__rules__buttons__item}>
+												<Image {...numbers_img} alt={'numbers_img'} />
+												<p>Расшифровать числительные</p>
+											</button>
+										</div>
+										<button className={style.main__rules__buttons__item} type="button" onClick={handleReset}>
+											<p>Сбросить</p>
+											<Image {...reset} alt={'reset'} />
+										</button>
+									</div>
+								)}
+							</>
+						}
+					</FormMain>
+					{isClient && (
 						<div className={style.main__rules}>
-							<Rules />
+							{ windowWidth > 1024 && (
+								<div className={style.main__rules__buttons}>
+									<div className={style.main__rules__buttons__wrapper}>
+										<button onClick={handleDecipher_abbreviations} type="button" className={style.main__rules__buttons__item}>
+											<Image {...abbreviations_img} alt={'abbreviations_img'} />
+											<p>Расшифровать аббревиатуры</p>
+										</button>
+										<button onClick={handleDecipher_numbers} type="button" className={style.main__rules__buttons__item}>
+											<Image {...numbers_img} alt={'numbers_img'} />
+											<p>Расшифровать числительные</p>
+										</button>
+									</div>
+									<button className={style.main__rules__buttons__item} type="button" onClick={handleReset}>
+										<p>Сбросить</p>
+										<Image {...reset} alt={'reset'} />
+									</button>
+								</div>
+							)}
+							{windowWidth > 768 && (
+								<Rules />
+							)}
 						</div>
-					)}
+					)} 
 				</div>
 			</main>
 			{loading && (

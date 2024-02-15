@@ -81,11 +81,14 @@
         z-index: 2;
         top: calc(100% + 6px);
         left: 0;
-        width: 100%;
+        width: fit-content;
         max-height: 250px;
         background: rgb(var(--color-white));
         border-radius: 24px;
         padding: 16px;
+        @include media-down(sm) {
+            width: 100%;
+        }
         &__list{
             display: flex;
             flex-direction: column;
