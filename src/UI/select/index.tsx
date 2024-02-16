@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import { Banks, Languages, Voices } from "@utils/interface";
+import { Banks, DecipherMode, Languages, Voices } from "@utils/interface";
 import { useOutsideClick } from "@/utils/hooks";
 
 import { PlayerSelect } from "../audioPlayer";
@@ -13,14 +13,15 @@ import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
 import { IDataFilter } from "@/app/my-audio/data";
+import { SelectValue } from "@/utils/interface/SelectValue";
 
 type Props = {
-    value: Banks | Languages | Voices | IDataFilter | undefined,
+    value: Banks | Languages | Voices | IDataFilter | DecipherMode | undefined,
     onChange: (value: Props['value'])=>void,
     placeholder?: string,
     type: 'banks' | 'languages' | 'voices',
     inputStyle?: 'withForm' | 'default',
-    options: (Banks | Languages | Voices | IDataFilter)[],
+    options: (Banks | Languages | Voices | IDataFilter | DecipherMode)[],
 }
 
 export default function Select({value, onChange, placeholder, options, type, inputStyle='withForm' }: Props) {

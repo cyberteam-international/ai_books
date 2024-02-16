@@ -108,11 +108,11 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
         setCharacterCount(currentValue?.length || 0);
         if (currentValue.length > 0 && valueState) {
             if (userInfo?.id) {
-                setValueProps(currentValue)
                 localStorage.setItem(`textareaValue_${userInfo?.id}`, currentValue)
             }
             else localStorage.setItem('textareaValue_default', currentValue)
         }
+        setValueProps(currentValue)
     }, [watch('input_text'), userInfo]);
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size'
 import { AxiosError, AxiosResponse } from 'axios'
@@ -24,6 +24,7 @@ import numbers_img from '@public/decipher_numbers.svg'
 import reset from '@public/reset.svg'
 
 import style from './style.module.scss'
+import { DecipherMode } from '@utils/interface'
 
 export default function PageWork() {
 
@@ -44,11 +45,26 @@ export default function PageWork() {
 	const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
 	const [value, setValue] = useState<string>()
 
+	const [decipherMode, setDecipherMode] =useState<DecipherMode>()
+
 	const { userInfo, mutate } = useContext(ContextUser)
 
 	const isClient = useIsClient()
 
 	const windowWidth = useWindowWidth()
+
+	const decipherOption: DecipherMode[] = [
+		{
+			title: 'Расшифровать аббревиатуры',
+			inputValue: 'Расшифровать аббревиатуры',
+			value: 'abbreviations'
+		},
+		{
+			title: 'Расшифровать числительные',
+			inputValue: 'Расшифровать числительные',
+			value: 'numbers'
+		},
+	]
 
 	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
 		setLoading(true)
@@ -123,6 +139,10 @@ export default function PageWork() {
 		if (valueBeforeDecipher) {
 			setValue(valueBeforeDecipher)
 			setValueBeforeDecipher(undefined)
+			setDecipherMode ({
+				title: 'Выберите преобработку',
+				inputValue: 'Выберите преобработку',
+			})
 		}
 
 	}
@@ -181,6 +201,30 @@ export default function PageWork() {
 
 	}, [Cookies.get('payment_id'), requestPaymentLength]);
 
+	useEffect(()=>{
+		if (value && value.length > 0) {
+			if (!decipherMode?.value) {
+				setDecipherMode ({
+					title: 'Выберите преобработку',
+					inputValue: 'Выберите преобработку',
+				})
+			}
+		}
+		else setDecipherMode ({
+			title: 'Для преобработки введите текст',
+			inputValue: 'Для преобработки введите текст',
+		})
+	}, [value])
+
+	useEffect(()=>{
+		if (decipherMode?.value === 'numbers') {
+			handleDecipher_numbers()
+		}
+		else if (decipherMode?.value === 'abbreviations') {
+			handleDecipher_abbreviations()
+		}
+	}, [decipherMode])
+
 	return (
 		<>
 			<main className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen) || loading) && 'modal')}>
@@ -199,6 +243,17 @@ export default function PageWork() {
 						type={'voices'}
 						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
 					/>
+					<Select
+						options={decipherOption}
+						value={decipherMode}
+						onChange={(data) => {
+							if (value) {
+								setDecipherMode((data as DecipherMode))
+							}
+						}}
+						type={'banks'}
+						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+					/>
 				</div>
 				{isClient && windowWidth < 768 && (
 					<div className={style.main__rules}>
@@ -214,49 +269,19 @@ export default function PageWork() {
 						valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
 						valueState={[value, setValue]}
 					>
-						{
-							<>
-								{isClient && windowWidth < 1024 && (
-									<div className={style.main__rules__buttons}>
-										<div className={style.main__rules__buttons__wrapper}>
-											<button onClick={handleDecipher_abbreviations} type="button" className={style.main__rules__buttons__item}>
-												<Image {...abbreviations_img} alt={'abbreviations_img'} />
-												<p>Расшифровать аббревиатуры</p>
-											</button>
-											<button onClick={handleDecipher_numbers} type="button" className={style.main__rules__buttons__item}>
-												<Image {...numbers_img} alt={'numbers_img'} />
-												<p>Расшифровать числительные</p>
-											</button>
-										</div>
-										<button className={style.main__rules__buttons__item} type="button" onClick={handleReset}>
-											<p>Сбросить</p>
-											<Image {...reset} alt={'reset'} />
-										</button>
-									</div>
-								)}
-							</>
-						}
-					</FormMain>
-					{isClient && (
-						<div className={style.main__rules}>
-							{ windowWidth > 1024 && (
+						{<>
+							{valueBeforeDecipher && (
 								<div className={style.main__rules__buttons}>
-									<div className={style.main__rules__buttons__wrapper}>
-										<button onClick={handleDecipher_abbreviations} type="button" className={style.main__rules__buttons__item}>
-											<Image {...abbreviations_img} alt={'abbreviations_img'} />
-											<p>Расшифровать аббревиатуры</p>
-										</button>
-										<button onClick={handleDecipher_numbers} type="button" className={style.main__rules__buttons__item}>
-											<Image {...numbers_img} alt={'numbers_img'} />
-											<p>Расшифровать числительные</p>
-										</button>
-									</div>
 									<button className={style.main__rules__buttons__item} type="button" onClick={handleReset}>
 										<p>Сбросить</p>
 										<Image {...reset} alt={'reset'} />
 									</button>
 								</div>
 							)}
+						</>}
+					</FormMain>
+					{isClient && (
+						<div className={style.main__rules}>
 							{windowWidth > 768 && (
 								<Rules />
 							)}
