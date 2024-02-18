@@ -157,7 +157,7 @@ export default function FormPayment({ }: Props) {
 					</CheckBox>
 				</div>
 			</div>
-			<ModalMessage message={completeMessage} />
+			<ModalMessage message={completeMessage} setMesage={setCompleteMessage} />
 		</>
 	);
 }

@@ -208,7 +208,7 @@ export default function PageMyAudio() {
                     {setList()}
                 </div>
             </div>
-            <ModalMessage message={completeMessage} />
+            <ModalMessage message={completeMessage} setMesage={setCompleteMessage} />
         </main>
     )
 }

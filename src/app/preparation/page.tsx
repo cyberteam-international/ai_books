@@ -46,7 +46,7 @@ export default function PreparationGPT() {
 			{loading && (
 				<Loader />
 			)}
-			<ModalMessage message={completeMessage} />
+			<ModalMessage message={completeMessage} setMesage={setCompleteMessage} />
 		</>
 	)
 

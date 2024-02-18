@@ -205,14 +205,14 @@ export default function PageWork() {
 		if (value && value.length > 0) {
 			if (!decipherMode?.value) {
 				setDecipherMode ({
-					title: 'Выберите преобработку',
-					inputValue: 'Выберите преобработку',
+					title: 'Подготовка текста',
+					inputValue: 'Подготовка текста',
 				})
 			}
 		}
 		else setDecipherMode ({
-			title: 'Для преобработки введите текст',
-			inputValue: 'Для преобработки введите текст',
+			title: 'Подготовка текста',
+			inputValue: 'Подготовка текста',
 		})
 	}, [value])
 
@@ -249,6 +249,10 @@ export default function PageWork() {
 						onChange={(data) => {
 							if (value) {
 								setDecipherMode((data as DecipherMode))
+							}
+							else {
+								setCompleteMessage('')
+								setCompleteMessage('Для подготовки введите текст')
 							}
 						}}
 						type={'banks'}
@@ -301,7 +305,7 @@ export default function PageWork() {
 			<ModalWrapper state={[modalResultOpen, setModalResultOpen]}>
 				{responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData} closeModal={() => handleRemoveClose()} />}
 			</ModalWrapper>
-			<ModalMessage message={completeMessage} />
+			<ModalMessage message={completeMessage} setMesage={setCompleteMessage} />
 		</>
 	)
 }

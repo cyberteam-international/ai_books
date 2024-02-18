@@ -142,7 +142,7 @@ export const FormEmail = () => {
                     <Button isActive={isValid} className={style.form__wrapper__button} type="submit">Применить изменения</Button>
                 )}
             </form>
-            <ModalMessage message={completeMessage} />
+            <ModalMessage message={completeMessage} setMesage={setCompleteMessage} />
         </div>
     )
 }
