@@ -1,39 +1,36 @@
+version: '3.8'
+name: 'ai_books_client'
+
 services:
-  nextjs:
-    container_name: aibooks_nextjs
+  web:
+    container_name: "app"
     build: .
     restart: always
-    ports:
-      - 3000:3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nextjs.rule=Host(`go.aibooks.ru`)"
-      - "traefik.http.routers.nextjs.entrypoints=websecure"
-      - "traefik.http.routers.nextjs.tls.certresolver=myresolver"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.redirs.entrypoints=web"
-      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
-  reverse-proxy:
-    image: traefik:v2.4
-    container_name: aibooks_traefik
+      - "traefik.http.services.web.loadbalancer.server.port=3000"
+      - "traefik.http.routers.web.service=web"
+      - "traefik.http.routers.web.rule=Host(`go.aibooks.ru`)"
+      - "traefik.http.routers.web.entrypoints=web-secure"
+      - "traefik.http.routers.web.tls.certresolver=le"
+  proxy:
+    image: "traefik:v2.10"
+    container_name: "proxy"
     command:
       - "--api.insecure=true"
-      - "--api.dashboard=true"
-      - "--api.debug=true"
       - "--providers.docker=true"
-      - "--log.LEVEL=DEBUG"
-      - "--entryPoints.web.address=:80"
-      - "--entryPoints.websecure.address=:443"
       - "--providers.docker.exposedbydefault=false"
-      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
-      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.myresolver.acme.email=hello@paularah.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web-secure.address=:443"
+      - "--certificatesresolvers.le.acme.email=smiledie-hub@yandex.ru"
+      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      - "--entrypoints.web.http.redirections.entrypoint.to=web-secure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     ports:
       - "443:443"
       - "80:80"
       - "8080:8080"
     volumes:
-      - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt"
