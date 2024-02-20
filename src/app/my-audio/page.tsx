@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useWindowWidth } from '@react-hook/window-size'
 
 import { useGETWorks, useIsClient } from '@/utils/hooks'
@@ -135,7 +135,7 @@ export default function PageMyAudio() {
         }
     }, [selectFilterValue])
 
-    const setList = () => {
+    const setList = useCallback(() => {
         if (filterAudioList) {
             return filterAudioList.map((item, index) => {
                 return (
@@ -146,13 +146,13 @@ export default function PageMyAudio() {
                         data={item}
                         removeHandler={removeHandler}
                         index={index + 1}
-                        isOptionTop={filterAudioList.length - (index + 1) < 2}
+                        isOptionTop={filterAudioList.length > 3 && filterAudioList.length - (index + 1) < 2}
                         handleDuration={setCurrentDataListTime}
                     />
                 )
             })
         }
-    }
+    }, [filterAudioList])
 
     return (
         <main className={clsx(style.page, 'container')}>
