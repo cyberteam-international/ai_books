@@ -34,7 +34,8 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
         newTrackName, setNewTrackName,
         formatTime,
         setVoice,
-        handleChangeRange
+        handleChangeRange,
+        audioUrl
     } = useAudio(data)
 
     const submitHandler: FormEventHandler<HTMLFormElement> = (e) => {
@@ -84,10 +85,8 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
                         hidden
                         onEnded={()=>setIsPlaying(false)}
                         onTimeUpdateCapture={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={ENDPOINTS_URL.AUDIO + data.completed_file}
-                    >
-                        {/* <source src={ENDPOINTS.AUDIO.GET_FILE + data.completed_file} type="audio/mp3"/> */}
-                    </audio>
+                        src={audioUrl}
+                    />
                     <form onSubmit={submitHandler} className={style.player__input}>
                         <input 
                             type="text"
@@ -103,7 +102,7 @@ export const PlayerModal = ({ data, handleChangeAudioName }: Props) => {
                         {Cookies.get('token') && <Label htmlFor={`track_name ${data.id}`} isSubmit={trackName !== newTrackName}/>}
                     </form>
                     <div className={style.player__wrapper_info__wrapper}>
-                        <p>{setVoice()}</p>
+                        <p>{setVoice}</p>
                         <p>{formatTime()}</p>
                     </div>
                 </div>

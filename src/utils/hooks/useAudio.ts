@@ -1,9 +1,9 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ru } from 'date-fns/locale'
 import { format } from 'date-fns';
 
 import { ResponseWork } from '../interface';
-import { VOICES } from '../config';
+import { ENDPOINTS_URL, VOICES } from '../config';
 
 export const useAudio = (data: ResponseWork) => {
 
@@ -12,6 +12,7 @@ export const useAudio = (data: ResponseWork) => {
     const [currentTime, setCurrentTime] = useState<number>(0)
     const [trackName, setTrackName] = useState('')
     const [newTrackName, setNewTrackName] = useState('')
+    const [audioUrl, setAudioUrl] = useState<string>('');
 
 	const audioRef = useRef<HTMLAudioElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
@@ -36,31 +37,31 @@ export const useAudio = (data: ResponseWork) => {
         return '00:00:00';
     };
 
-    const setVoice = () => {
+    const setVoice = useMemo(() => {
         return VOICES.filter((el)=>el.value === data.voice)[0].title
-    }
+    }, [data])
 
-    const formatDate = () => {
+    const formatDate = useMemo(() => {
         const date = new Date(data.created_at)
         const day = format(date, 'd', { locale: ru });
         const month = format(date, 'MMMM', { locale: ru });
         const year = format(date, 'yyyy', { locale: ru });
         return `${day} ${month.slice(0, 3)}. ${year}`;
-    };
+    }, [data])
 
-    // const onLoadedMetadata = (e: Event) => {
-    //     const target = e.target as HTMLAudioElement
-    //     if(target){
-    //         setDuration(data.completed_seconds);
-            
-    //     }
-    // };
+    const fetchAudioUrl = useCallback(async () => {
+        const response = await fetch(ENDPOINTS_URL.AUDIO + data.completed_file);
+        const blob = await response.blob();
+        const newBlob = new Blob([blob], { type: 'audio/mpeg' });
+        const url = URL.createObjectURL(newBlob);
+        setAudioUrl(url);
+    }, [data])
 
     const handleChangeRange = (e: Event | ChangeEvent<HTMLInputElement>) => {
         if (audioRef.current) {
             const target = e.target as HTMLInputElement;
             // console.log(audioRef.current.duration)
-            // audioRef.current.currentTime = Number(target.value)
+            audioRef.current.currentTime = Number(target.value)
             setCurrentTime(Number(target.value))
         }
     }
@@ -84,9 +85,14 @@ export const useAudio = (data: ResponseWork) => {
     // }, [audioRef])
 
     useEffect(() => {
-        setTrackName(data.name)
-        setNewTrackName(data.name)
-        setDuration(data.completed_seconds)
+        setTrackName(data.name);
+        setNewTrackName(data.name);
+        setDuration(data.completed_seconds);
+        fetchAudioUrl();
+
+        return () => {
+            URL.revokeObjectURL(audioUrl);
+        };
     }, [data]);
 
     useEffect(() => {
@@ -117,6 +123,7 @@ export const useAudio = (data: ResponseWork) => {
         formatTime,
         formatDate,
         setVoice,
-        handleChangeRange
+        handleChangeRange,
+        audioUrl
     };
 };

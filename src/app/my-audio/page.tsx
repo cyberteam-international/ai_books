@@ -146,6 +146,7 @@ export default function PageMyAudio() {
                         data={item}
                         removeHandler={removeHandler}
                         index={index + 1}
+                        isOptionTop={filterAudioList.length - (index + 1) < 2}
                         handleDuration={setCurrentDataListTime}
                     />
                 )

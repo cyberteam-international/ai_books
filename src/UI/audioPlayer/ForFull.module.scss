@@ -83,6 +83,10 @@
         border-radius: 12px;
         background: #090B1B;
         z-index: 2;
+        &_top{
+            top: -90%;
+            transform: translateY(-50%);
+        }
         &__download{
             cursor: pointer;
             display: flex;

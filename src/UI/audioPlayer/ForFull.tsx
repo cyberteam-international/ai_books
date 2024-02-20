@@ -27,10 +27,11 @@ interface Props {
     setPlayingIndex: () => void,
     removeHandler: (data: ResponseWork) => void,
     handleDuration: (id: number, duration: number) => void,
-    handleChangeAudioName: (newName: string) => void
+    handleChangeAudioName: (newName: string) => void,
+    isOptionTop: boolean
 };
 
-export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler, handleDuration, handleChangeAudioName }: Props) => {
+export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler, handleDuration, handleChangeAudioName, isOptionTop }: Props) => {
 
     const [menuOpen, setMenuOpen] = useState(false)
 
@@ -45,7 +46,8 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
         formatTime,
         formatDate,
         setVoice,
-        handleChangeRange
+        handleChangeRange,
+        audioUrl
     } = useAudio(data)
 
     const isClient = useIsClient()
@@ -117,7 +119,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                         controls
                         hidden
                         onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
-                        src={ENDPOINTS_URL.AUDIO + data.completed_file}
+                        src={audioUrl}
                     />
                     <form onSubmit={submitHandler} className={style.player__input}>
                         <input
@@ -132,14 +134,14 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                     </form>
                     {isClient && windowWidth > 1280 && (
                         <>
-                            <p className={style.player__text}>{setVoice()}</p>
-                            <p className={style.player__text}>{formatDate()}</p>
+                            <p className={style.player__text}>{setVoice}</p>
+                            <p className={style.player__text}>{formatDate}</p>
                             <p className={style.player__text}>{formatTime()}</p>
                         </>
                     )}
                 </div>
                 {/* {isPlaying && ( */}
-                {isPlaying && (
+                {1 && (
                     <div className={style.player__wrapper_range}>
                         <input
                             className={clsx(style.player__range, 'track', 'play')}
@@ -156,14 +158,14 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                 {isClient && windowWidth < 1280 && (
                     <div className={style.player__bottom}>
                         <div className={style.player__bottom__wrapper}>
-                            <p className={style.player__text}>{data.voice}</p>
-                            <p className={style.player__text}>{formatDate()}</p>
+                            <p className={style.player__text}>{setVoice}</p>
+                            <p className={style.player__text}>{formatDate}</p>
                         </div>
                         <p className={style.player__text}>{formatTime()}</p>
                     </div>
                 )}
                 {menuOpen && (
-                    <div ref={ref} className={style.player__options}>
+                    <div ref={ref} className={clsx(style.player__options, isOptionTop && style.player__options_top)}>
                         <div className={style.player__options__download} onClick={() => { console.log('Скачать'); setMenuOpen(false) }}>
                             <Image {...download} alt='download' />
                             <DownloadFile textName={data.input_text} fileName={data.completed_file}><p>Скачать</p></DownloadFile>
