@@ -12,5 +12,6 @@ export const ROUTES = {
     PUBLIC_OFFER: '/public_offer',
     STATISTIC: '/statistic',
     RESET_PASSWORD: '/forgot_password',
-    PREPARATION: '/preparation'
+    PREPARATION: '/preparation',
+    HELP: '/help'
 }

@@ -47,7 +47,7 @@ export default function Footer({ }: Props) {
                                 <Link href={LINKS.VOICES}>Голоса</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
-                                <Link href={LINKS.SUPPORT}>Обратная связь</Link>
+                                <Link href={ROUTES.HELP}>Тех. поддержка</Link>
                             </li>
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.POLICY}>Политика конфиденциальности</Link>
@@ -55,6 +55,9 @@ export default function Footer({ }: Props) {
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
                             </li>
+                            {/* <li className={style.footer__nav__menu__item}>
+                                <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
+                            </li> */}
                             {/* {userState?.is_admin && (
                                 <li className={style.footer__nav__menu__item}>
                                     <Link href={ROUTES.STATISTIC}>Статистика</Link>

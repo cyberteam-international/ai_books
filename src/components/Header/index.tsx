@@ -123,8 +123,8 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.VOICES}><span>Голоса</span></Link>
                     </li>
-                    <li className={clsx(style.header__menu__item)}>
-                        <Link onClick={() => setIsOpen(false)} href={LINKS.SUPPORT}><span>Обратная связь</span></Link>
+                    <li className={clsx(style.header__menu__item, pathname === ROUTES.HELP && style.header__menu__item_active)}>
+                        <Link onClick={() => setIsOpen(false)} href={ROUTES.HELP}><span>Тех.поддержка</span></Link>
                     </li>
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.POLICY && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.POLICY}><span>Политика конфиденциальности</span></Link>
