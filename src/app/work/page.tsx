@@ -276,7 +276,7 @@ export default function PageWork() {
 						valueState={[value, setValue]}
 					>
 						{<>
-							{(valueBeforeDecipher && language.inputValue === 'ru-Ru')  && (
+							{(language.inputValue === 'ru-Ru' || valueBeforeDecipher)  && (
 								<div className={style.main__rules__buttons}>
 									<button className={style.main__rules__buttons__item} type="button" onClick={handleReset}>
 										<p>Сбросить</p>
