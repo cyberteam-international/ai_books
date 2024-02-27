@@ -8,7 +8,7 @@ import Link from "next/link";
 
 import { useIsClient } from "@/utils/hooks";
 
-import { CreateWorks } from "@utils/interface";
+import { CreateWorks, Languages } from "@utils/interface";
 import { SchemaTextArea } from "@utils/config/yupShemes";
 import { ContextUser } from "@/utils/context";
 import { ENDPOINTS, PRICE, ROUTES } from "@/utils/config";
@@ -32,7 +32,7 @@ type Props = {
     handleRegistration: () => void,
     valueBeforeDecipherState: [string | undefined, (val:string)=>void],
     valueState: [string | undefined, (val:string)=>void],
-    children?: ReactNode
+    children?: ReactNode,
 };
 
 export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, valueState, valueBeforeDecipherState, children }: Props) {
@@ -137,22 +137,6 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
             />
             <div className={style.form__control}>
                 {children}
-                {/* <div className={style.form__control__buttons}>
-                    <div className={style.form__control__buttons__wrapper}>
-                        <button onClick={decipher_abbreviations} type="button" className={style.form__control__buttons__item}>
-                            <Image {...abbreviations_img} alt={'abbreviations_img'}/>
-                            <p>Расшифровать аббревиатуры</p>
-                        </button>
-                        <button onClick={decipher_numbers} type="button" className={style.form__control__buttons__item}>
-                            <Image {...numbers_img} alt={'numbers_img'}/>
-                            <p>Расшифровать числительные</p>
-                        </button>
-                    </div>
-                    <button className={style.form__control__buttons__item} type="button" onClick={handleReset}>
-                        <p>Сбросить</p>
-                        <Image {...reset} alt={'reset'} />
-                    </button>
-                </div> */}
                 <div className={style.form__control__block}>
                     <div className={style.form__control__wrapper}>
                         {characterCount > maxCharacterCount && (

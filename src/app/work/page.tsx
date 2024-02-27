@@ -243,21 +243,23 @@ export default function PageWork() {
 						type={'voices'}
 						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
 					/>
-					<Select
-						options={decipherOption}
-						value={decipherMode}
-						onChange={(data) => {
-							if (value) {
-								setDecipherMode((data as DecipherMode))
-							}
-							else {
-								setCompleteMessage('')
-								setCompleteMessage('Для подготовки введите текст')
-							}
-						}}
-						type={'banks'}
-						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
-					/>
+					{language.value === 'ru-RU' && (
+						<Select
+							options={decipherOption}
+							value={decipherMode}
+							onChange={(data) => {
+								if (value) {
+									setDecipherMode((data as DecipherMode))
+								}
+								else {
+									setCompleteMessage('')
+									setCompleteMessage('Для подготовки введите текст')
+								}
+							}}
+							type={'banks'}
+							inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+						/>
+					)}
 				</div>
 				{isClient && windowWidth < 768 && (
 					<div className={style.main__rules}>
@@ -274,7 +276,7 @@ export default function PageWork() {
 						valueState={[value, setValue]}
 					>
 						{<>
-							{valueBeforeDecipher && (
+							{(valueBeforeDecipher && language.inputValue === 'ru-Ru')  && (
 								<div className={style.main__rules__buttons}>
 									<button className={style.main__rules__buttons__item} type="button" onClick={handleReset}>
 										<p>Сбросить</p>

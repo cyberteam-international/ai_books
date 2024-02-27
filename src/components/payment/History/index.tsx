@@ -85,6 +85,11 @@ export default function History({ }: Props) {
                 )
             })
         }
+        else return (
+            <div className={style.history__date}>
+
+            </div>
+        )
     }
 
     const { data } = useGETHistory({startDate, endDate})
