@@ -146,6 +146,14 @@ export default function PageStatistic({ }: Props) {
     //     ],
     // };
 
+    useEffect(()=>{
+        if (data) {
+            console.log(Number.isInteger(data.cost_price))
+        }
+    }, [data])
+
+    
+
     return (
         <main className={clsx(style.statistic, 'container')}>
             <h2>Статистика</h2>
@@ -183,35 +191,36 @@ export default function PageStatistic({ }: Props) {
             <section className={style.statistic__section}>
                 <div className={style.statistic__section__column}>
                     <h4>Посещения</h4>
-                    <h4>{data? data.number_visits : 0}</h4>
+                    <h4>{data? Number.isInteger(data.number_visits)? data.number_visits : data.number_visits.toFixed(2) : 0}</h4>
+
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Уникальные посещения</h4>
-                    <h4>{data? data.unique_number_visits : 0}</h4>
+                    <h4>{data? Number.isInteger(data.unique_number_visits)? data.unique_number_visits : data.unique_number_visits.toFixed(2) : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Озвучивания</h4>
-                    <h4>{data? data.clicks_voice_button : 0}</h4>
+                    <h4>{data? Number.isInteger(data.clicks_voice_button)? data.clicks_voice_button : data.clicks_voice_button.toFixed(2) : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Озвученные символы</h4>
-                    <h4>{data? data.number_voiced_characters : 0}</h4>
+                    <h4>{data? Number.isInteger(data.number_voiced_characters)? data.number_voiced_characters : data.number_voiced_characters.toFixed(2) : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Пополнение счета</h4>
-                    <h4>{data? data.number_payments : 0}</h4>
+                    <h4>{data? Number.isInteger(data.number_payments)? data.number_payments : data.number_payments.toFixed(2) : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Сумма пополнений</h4>
-                    <h4>{data? data.amount_payments : 0}</h4>
+                    <h4>{data? Number.isInteger(data.amount_payments)? data.amount_payments : data.amount_payments.toFixed(2) : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Повторные пополнения</h4>
-                    <h4>{data? data.number_repeated_payments : 0}</h4>
+                    <h4>{data? Number.isInteger(data.number_repeated_payments)? data.number_repeated_payments : data.number_repeated_payments.toFixed(2) : 0}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Себестоимость</h4>
-                    <h4>{data? data.cost_price : 0}</h4>
+                    <h4>{data? Number.isInteger(data.cost_price)? data.cost_price : data.cost_price.toFixed(2) : 0}</h4>
                 </div>
             </section>
             {/* <Bar options={options} data={data} /> */}
