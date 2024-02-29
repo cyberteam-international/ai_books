@@ -32,7 +32,7 @@ export default function PagePayment() {
                 <div className={style.payment__balance}>
                     <p className={style.payment__title}>Текущий баланс</p>
                     <p className={clsx(style.payment__balance__value, FontUnbounded.className)}>
-                        {userInfo?.balance? userInfo?.balance.toLocaleString('ru-RU'): 0} <span>₽</span>
+                        {userInfo?.balance? Number(userInfo?.balance.toFixed(2)).toLocaleString('ru-RU') : 0} <span>₽</span>
                     </p>
                     <div className={style.payment__balance__subtitle}>
                         <Image {...loading_1} alt="loading_1"/>

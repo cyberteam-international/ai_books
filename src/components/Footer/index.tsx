@@ -30,7 +30,7 @@ export default function Footer({ }: Props) {
                     <Image {...logo} alt='AI Books logo'/>
                 </Link>
                 <div className={style.footer__info}>
-                    <p className={style.footer__info__adress}>ООО “Директ-Медиа” г. Москва, ул. Обручева, д. 34-63, стр. 3, этаж 1 пом I, ком 1</p>
+                    <p className={style.footer__info__adress}>ООО “Директ-Медиа” г. Москва, ул. Обручева, д. 34-63, стр. 3, этаж 1 пом 1, ком 1</p>
                     <a className={style.footer__info__phone} href="tel:+78003336845">8 800 333-68-45</a>
                     <a className={style.footer__info__email} href="mailto:info@directmedia.ru">info@directmedia.ru</a>
                 </div>

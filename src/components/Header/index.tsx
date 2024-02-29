@@ -62,7 +62,7 @@ export default function Header({ }: Props) {
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}>Мои аудио</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{userInfo.balance.toLocaleString('ru-RU')}</span> ₽</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{Number(userInfo?.balance.toFixed(2)).toLocaleString('ru-RU')}</span> ₽</Link>
                             </li>
                             {/* {userInfo?.balance > 0 && (
                                 <li className={clsx(style.header__menu__item, pathname === ROUTES.PREPARATION && style.header__menu__item_active)}>
@@ -86,7 +86,7 @@ export default function Header({ }: Props) {
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                 <p>Баланс</p>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{userInfo.balance.toLocaleString('ru-RU')} ₽</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>{Number(userInfo?.balance.toFixed(2)).toLocaleString('ru-RU')} ₽</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
