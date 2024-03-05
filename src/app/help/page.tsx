@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React from "react";
 
 import style from './style.module.scss'
+import { PRICE } from "@/utils/config";
 
 type PageHelperProps = {};
 
@@ -61,7 +62,7 @@ const PageHelper = ({}: PageHelperProps) => {
                 </div>
                 <div>
                     <p><h5><i>Какие цены?</i></h5></p>
-                    <p className={style.offer__p}>Все голоса стоят одинаково - 3200 рублей за миллион символов. То есть небольшой текст в 1000 символов обойдется в 32 рубля.</p>
+                    <p className={style.offer__p}>Все голоса стоят одинаково - 3200 рублей за миллион символов. То есть небольшой текст в 1000 символов обойдется в {PRICE * 1000} рубля.</p>
                     <p className={style.offer__p}>Подготовка текста на текущий момент бесплатная.</p>
                 </div>
             </section>
