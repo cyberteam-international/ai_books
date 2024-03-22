@@ -66,7 +66,7 @@ export default function Header({ }: Props) {
                             </li>
                         </>
                     )}
-                    {userInfo && (
+                    {userInfo?.is_admin && (
                         <>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
                                 <Link href={ROUTES.STATISTIC}>Статистика</Link>
@@ -121,7 +121,7 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.VOICES}><span>Голоса</span></Link>
                     </li>
-                    {userInfo && (
+                    {userInfo?.is_admin && (
                         <>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.STATISTIC}><span>Статистика</span></Link>
