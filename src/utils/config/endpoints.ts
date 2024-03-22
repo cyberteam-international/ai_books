@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from "axios"
 import Cookies from "js-cookie"
 import { CreateWorks, FogotPasswordForm, LoginForm, ProfileForm, RegistrationForm, ResponseStatistic, ResponseWork, ResponsesHistory, UpdateWorks, UserInfo } from "../interface"
+import { UserInfoExtended } from "../interface/UserInfo"
+import { ResponseEnvironment } from "../interface/Responses"
 
 const BASE_URL = process.env.BACKEND_URL
 
@@ -22,6 +24,7 @@ export const ENDPOINTS_URL = {
     VOICES: BASE_URL + '/voices',
     PAYMENT: BASE_URL + '/payment',
     GPT: BASE_URL + '/gpt/decode',
+    ENVIRONMENT: BASE_URL + '/environment'
 }
 
 export const ENDPOINTS = {
@@ -35,6 +38,21 @@ export const ENDPOINTS = {
                 }
             })
             .then((res: AxiosResponse<UserInfo>)=>{
+                return res.data
+            })
+            .catch((err: any)=>{
+                throw err
+            })
+        },
+        GET_iNFO_ALL: async () => {
+            return await axios({
+                url: ENDPOINTS_URL.USERS + '/all',
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
+            .then((res: AxiosResponse<UserInfoExtended[]>)=>{
                 return res.data
             })
             .catch((err: any)=>{
@@ -272,5 +290,33 @@ export const ENDPOINTS = {
                 }
             })
         }
+    },
+    ENVIRONMENT: {
+        GET_ALL: async () => {
+            return await axios({
+                url: ENDPOINTS_URL.ENVIRONMENT,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
+            .then((res: AxiosResponse<ResponseEnvironment[]>)=>{
+                return res.data
+            })
+            .catch((err: any)=>{
+                throw err
+            })
+        },
+        UPDATE: ( data: ResponseEnvironment) => {
+            return axios({
+                url: ENDPOINTS_URL.ENVIRONMENT,
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+                data: data
+            })
+        },
     }
+
 }

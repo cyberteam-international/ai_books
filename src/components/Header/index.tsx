@@ -64,17 +64,20 @@ export default function Header({ }: Props) {
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{Number(userInfo?.balance.toFixed(2)).toLocaleString('ru-RU')}</span> ₽</Link>
                             </li>
-                            {/* {userInfo?.balance > 0 && (
-                                <li className={clsx(style.header__menu__item, pathname === ROUTES.PREPARATION && style.header__menu__item_active)}>
-                                    <Link href={ROUTES.PREPARATION}>Подготовка</Link>
-                                </li>
-                            )} */}
                         </>
                     )}
-                    {userInfo?.is_admin && (
-                        <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
-                            <Link href={ROUTES.STATISTIC}>Статистика</Link>
-                        </li>
+                    {userInfo && (
+                        <>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
+                                <Link href={ROUTES.STATISTIC}>Статистика</Link>
+                            </li>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.USERS && style.header__menu__item_active)}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.USERS}>Пользователи</Link>
+                            </li>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.OPTIONS && style.header__menu__item_active)}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.OPTIONS}>Параметры</Link>
+                            </li>
+                        </>
                     )}
                 </ul>
                 <ul className={clsx(style.header__menu, style.header__menu_mobile)}>
@@ -109,11 +112,6 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                     </li>
-                    {/* {userInfo && userInfo.balance > 0 && (
-                        <li className={clsx(style.header__menu__item)}>
-                            <Link onClick={() => setIsOpen(false)} href={ROUTES.PREPARATION}><span>Подготовка</span></Link>
-                        </li>
-                    )} */}
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US}><span>О проекте</span></Link>
                     </li>
@@ -123,6 +121,19 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.VOICES}><span>Голоса</span></Link>
                     </li>
+                    {userInfo && (
+                        <>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.STATISTIC}><span>Статистика</span></Link>
+                            </li>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.USERS && style.header__menu__item_active)}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.USERS}><span>Пользователи</span></Link>
+                            </li>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.OPTIONS && style.header__menu__item_active)}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.OPTIONS}><span>Параметры</span></Link>
+                            </li>
+                        </>
+                    )}
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.HELP && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.HELP}><span>Тех.поддержка</span></Link>
                     </li>
@@ -132,11 +143,6 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.PUBLIC_OFFER && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.PUBLIC_OFFER}><span>Договор оферты</span></Link>
                     </li>
-                    {userInfo && (
-                        <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
-                            <Link onClick={() => setIsOpen(false)} href={ROUTES.STATISTIC}><span>Статистика</span></Link>
-                        </li>
-                    )}
                 </ul>
                 <div className={style.header__social}>
                     {/* <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk' /></a> */}

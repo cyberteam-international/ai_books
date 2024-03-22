@@ -42,7 +42,7 @@
                 //     justify-content: flex-end;
                 // }
                 &__image{
-                    transform: rotate(90deg) scale(1, -1);
+                    transform: rotate(90deg) scale(-1, 1);
                     &_up{
                         transform: rotate(90deg) scale(-1, 1);
                     }
@@ -58,7 +58,7 @@
             flex-direction: column;
             gap: 8px;
             height: 400px;
-            overflow-y: scroll;
+            overflow-y: auto;
             // &::-webkit-scrollbar {
             //     display: none;
             // }

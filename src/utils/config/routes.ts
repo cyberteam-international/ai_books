@@ -13,5 +13,7 @@ export const ROUTES = {
     STATISTIC: '/statistic',
     RESET_PASSWORD: '/forgot_password',
     PREPARATION: '/preparation',
-    HELP: '/help'
+    HELP: '/help',
+    USERS: '/users',
+    OPTIONS: '/options'
 }

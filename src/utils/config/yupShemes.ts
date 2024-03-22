@@ -75,5 +75,6 @@ export const SchemaFogotPassword: Yup.ObjectSchema<FogotPasswordForm> = Yup.obje
 export const SchemaPreparationGPT: Yup.ObjectSchema<PreparationGPTForm> = Yup.object({
     input_text: Yup.string().required('Заполните поле')
 })
+// ----------
 
 

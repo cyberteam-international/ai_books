@@ -23,6 +23,8 @@ type Props = {
     touched: boolean | undefined,
     ref?: Ref<any>,
     value?: string | number | readonly string[] | undefined,
+    className?: string,
+    defaultValue?: string | number | readonly string[] | undefined
 };
 
 const Input: FC<Props> = forwardRef((
@@ -39,12 +41,14 @@ const Input: FC<Props> = forwardRef((
         onSubmit,
         touched,
         value,
+        className,
+        defaultValue
     }, ref): JSX.Element => {
 
     const [passwordVisible, setPasswordVisible] = useState<boolean>(false)
 
     return (
-        <div className={clsx(style.input, style[`input_${status}`])}>
+        <div className={clsx(style.input, style[`input_${status}`], className)}>
             <div className={style.input__wrapper}>
                 {label && (
                     <label className={style.input__label} htmlFor={name}>{label}</label>
@@ -80,6 +84,7 @@ const Input: FC<Props> = forwardRef((
                     onBlur={onBlur}
                     ref={ref}
                     onSubmit={onSubmit}
+                    defaultValue={defaultValue}
                 />
                 <div className={style.input__children}>{children}</div>
                 {!error && touched && status !== 'disable' && !children &&

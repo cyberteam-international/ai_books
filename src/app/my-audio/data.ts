@@ -1,12 +1,5 @@
 import { SelectValue } from "@/utils/interface/SelectValue"
 
-export interface IDataMyAudio{
-    src: string,
-    trackName: string,
-    voiceName: string,
-    dateAdd: Date
-}
-
 export enum filter {
     'name',
     'voice',

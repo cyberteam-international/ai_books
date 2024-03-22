@@ -43,7 +43,7 @@ export default function PageMyAudio() {
     const changeFilterHandler = (filterName: keyof typeof filter) => {
         if (filterName !== activeFilter) {
             setActiveFilter(filterName)
-            setFilterMode('up')
+            setFilterMode('down')
         }
         else {
             setFilterMode(filterMode === 'down' ? 'up' : 'down')
@@ -67,13 +67,6 @@ export default function PageMyAudio() {
     }
 
     const setCurrentDataListTime = (id: number, duration: number) => {
-        // if (defaultAudioList) {
-        //     const newList = [...defaultAudioList]
-        //     if (newList[newList.findIndex((el)=>el.id === id)].completed_seconds !== duration) {
-        //         newList[newList.findIndex((el)=>el.id === id)].completed_seconds = 10
-        //         setDefaultAudioList([...newList])
-        //     }
-        // }
     }
 
     const handleChangeAudioName = (newName: string) => {

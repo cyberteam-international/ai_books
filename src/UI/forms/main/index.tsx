@@ -38,7 +38,6 @@ type Props = {
 export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, valueState, valueBeforeDecipherState, children }: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
-    const [valueBeforeDecipher, setValueBeforeDecipher] = valueBeforeDecipherState
     const [valueProps, setValueProps] = valueState
 
     const { userInfo } = useContext(ContextUser)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useWindowWidth } from '@react-hook/window-size'
 import { AxiosError, AxiosResponse } from 'axios'
@@ -19,8 +19,8 @@ import FormMain from '@UI/forms/main'
 import Rules from '@components/work/Rules'
 import Loader from '@UI/loader'
 
-import abbreviations_img from '@public/decipher_abbreviations.svg'
-import numbers_img from '@public/decipher_numbers.svg'
+// import abbreviations_img from '@public/decipher_abbreviations.svg'
+// import numbers_img from '@public/decipher_numbers.svg'
 import reset from '@public/reset.svg'
 
 import style from './style.module.scss'

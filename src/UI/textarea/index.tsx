@@ -9,9 +9,10 @@ type Props = {
     placeholder?: string,
     onChange?: ChangeHandler,
     onBlur?: ChangeHandler,
-    touched: boolean | undefined,
+    touched?: boolean | undefined,
     value?: string,
     ref?: Ref<any>,
+    defaultValue?: string
 };
 
 const TextArea: FC<Props> = forwardRef((
@@ -21,7 +22,8 @@ const TextArea: FC<Props> = forwardRef((
         onChange,
         onBlur,
         touched,
-        value
+        value,
+        defaultValue
     }, ref) => {
 
     return (
@@ -35,6 +37,7 @@ const TextArea: FC<Props> = forwardRef((
                 onBlur={onBlur}
                 ref={ref}
                 placeholder={placeholder}
+                defaultValue={defaultValue}
             ></textarea>
         </div>
     );

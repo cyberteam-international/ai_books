@@ -146,13 +146,18 @@ export default function PageStatistic({ }: Props) {
     //     ],
     // };
 
+    const transformValue = (val?: number) => {
+        if (val && data) {
+            return Number.isInteger(val)? val : val.toFixed(2)
+        }
+        else return 0
+    }
+
     useEffect(()=>{
         if (data) {
             console.log(Number.isInteger(data.cost_price))
         }
     }, [data])
-
-    
 
     return (
         <main className={clsx(style.statistic, 'container')}>
@@ -191,36 +196,51 @@ export default function PageStatistic({ }: Props) {
             <section className={style.statistic__section}>
                 <div className={style.statistic__section__column}>
                     <h4>Посещения</h4>
-                    <h4>{data? Number.isInteger(data.number_visits)? data.number_visits : data.number_visits.toFixed(2) : 0}</h4>
-
+                    <h4>{transformValue(data?.number_visits)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Уникальные посещения</h4>
-                    <h4>{data? Number.isInteger(data.unique_number_visits)? data.unique_number_visits : data.unique_number_visits.toFixed(2) : 0}</h4>
+                    <h4>{transformValue(data?.unique_number_visits)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Озвучивания</h4>
-                    <h4>{data? Number.isInteger(data.clicks_voice_button)? data.clicks_voice_button : data.clicks_voice_button.toFixed(2) : 0}</h4>
+                    <h4>{transformValue(data?.clicks_voice_button)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Озвученные символы</h4>
-                    <h4>{data? Number.isInteger(data.number_voiced_characters)? data.number_voiced_characters : data.number_voiced_characters.toFixed(2) : 0}</h4>
+                    <h4>{transformValue(data?.number_voiced_characters)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Пополнение счета</h4>
-                    <h4>{data? Number.isInteger(data.number_payments)? data.number_payments : data.number_payments.toFixed(2) : 0}</h4>
+                    <h4>{transformValue(data?.number_payments)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Сумма пополнений</h4>
-                    <h4>{data? Number.isInteger(data.amount_payments)? data.amount_payments : data.amount_payments.toFixed(2) : 0}</h4>
+                    <h4>{transformValue(data?.amount_payments)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Повторные пополнения</h4>
-                    <h4>{data? Number.isInteger(data.number_repeated_payments)? data.number_repeated_payments : data.number_repeated_payments.toFixed(2) : 0}</h4>
+                    <h4>{transformValue(data?.number_repeated_payments)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Себестоимость</h4>
-                    <h4>{data? Number.isInteger(data.cost_price)? data.cost_price : data.cost_price.toFixed(2) : 0}</h4>
+                    <h4>{transformValue(data?.cost_price)}</h4>
+                </div>
+                <div className={style.statistic__section__column}>
+                    <h4>Колличество токенов за ввод</h4>
+                    <h4>{transformValue(data?.gpt_request_tokens)}</h4>
+                </div>
+                <div className={style.statistic__section__column}>
+                    <h4>Цена за ввод</h4>
+                    <h4>{transformValue(data?.gpt_request_price)}</h4>
+                </div>
+                <div className={style.statistic__section__column}>
+                    <h4>Колличество токенов за вывод</h4>
+                    <h4>{transformValue(data?.gpt_response_tokens)}</h4>
+                </div>
+                <div className={style.statistic__section__column}>
+                    <h4>Цена за вывод</h4>
+                    <h4>{transformValue(data?.gpt_response_price)}</h4>
                 </div>
             </section>
             {/* <Bar options={options} data={data} /> */}
