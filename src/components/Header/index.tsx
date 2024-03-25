@@ -75,7 +75,7 @@ export default function Header({ }: Props) {
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.USERS}>Пользователи</Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.OPTIONS && style.header__menu__item_active)}>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.OPTIONS}>Параметры</Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.OPTIONS}>Конфигурация</Link>
                             </li>
                         </>
                     )}
@@ -130,7 +130,7 @@ export default function Header({ }: Props) {
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.USERS}><span>Пользователи</span></Link>
                             </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.OPTIONS && style.header__menu__item_active)}>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.OPTIONS}><span>Параметры</span></Link>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.OPTIONS}><span>Конфигурация</span></Link>
                             </li>
                         </>
                     )}

@@ -112,9 +112,8 @@ export default function PageMyAudio() {
             return filterUsersList.map((item, index) => {
                 return (
                     <div key={item.id} className={style.page__table__body__item}>
-                        <p className={style.page__table__body__item__index}><span>#</span>{index + 1}</p>
-                        <p className={style.page__table__body__item__name}>{item.name}</p>
                         <p className={style.page__table__body__item__id}><span>id: </span>{item.id}</p>
+                        <p className={style.page__table__body__item__name}>{item.name}</p>
                         <p className={style.page__table__body__item__email}>{item.email}</p>
                         <p className={style.page__table__body__item__date}>
                             {DateTime.fromISO(item.created_at).setLocale('ru').toLocaleString({ month: 'long', day: 'numeric', year: 'numeric' })}
@@ -141,14 +140,13 @@ export default function PageMyAudio() {
                         <>
                             {windowWidth > 1280 ? (
                                 <>
-                                    <p className={clsx(style.page__table__header__filter)}>#</p>
-                                    <div onClick={() => changeFilterHandler('name')} className={clsx(style.page__table__header__filter, activeFilter === 'name' && style.page__table__header__filter_active)}>
-                                        <p>Имя</p>
-                                        <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'name' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter name' />
-                                    </div>
                                     <div onClick={() => changeFilterHandler('id')} className={clsx(style.page__table__header__filter, activeFilter === 'id' && style.page__table__header__filter_active)}>
                                         <p>id</p>
                                         <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'id' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter id' />
+                                    </div>
+                                    <div onClick={() => changeFilterHandler('name')} className={clsx(style.page__table__header__filter, activeFilter === 'name' && style.page__table__header__filter_active)}>
+                                        <p>Имя</p>
+                                        <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'name' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter name' />
                                     </div>
                                     <div onClick={() => changeFilterHandler('email')} className={clsx(style.page__table__header__filter, activeFilter === 'email' && style.page__table__header__filter_active)}>
                                         <p>Почта</p>
