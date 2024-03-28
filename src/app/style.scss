@@ -785,8 +785,15 @@
 	.double-rblock {
 		display: flex;
 		flex-wrap: wrap;
-		margin-top: 2.375em
+		margin-top: 2.375em;
 	}
+	
+	.double-rblock > div {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	
 	
 	.double-rblock h3,
 	.double-rblock h6 {
