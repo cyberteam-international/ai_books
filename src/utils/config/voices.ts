@@ -155,6 +155,69 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/b1gs9a5ant07jps2s9d8.mp3',
         language: 'ru-RU'
     },
+    {
+        title: "Алёна",
+        language: 'ru-RU',
+        value: "alyona",
+        inputValue: 'Алёна',
+        audio: '/testAudio/alyona.wav',
+    },
+    {
+        title: "Алёна, грустное",
+        language: "ru-RU",
+        value: "alyona:sad",
+        inputValue: 'Алёна, грустное',
+        audio: '/testAudio/alyona-sad.wav',
+    },
+    {
+        title: "Алёна, веселое",
+        language: "ru-RU",
+        value: "alyona:funny",
+        inputValue: 'Алёна, веселое',
+        audio: '/testAudio/alyona-funny.wav',
+    },
+    {
+        title: "Алёна, флирт",
+        language: "ru-RU",
+        value: "alyona:flirt",
+        inputValue: 'Алёна, флирт',
+        audio: '/testAudio/alyona-flirt.wav',
+    },
+    {
+        title: "Дорофеев",
+        language: "ru-RU",
+        value: "dorofeev:neutral",
+        inputValue: 'Дорофеев',
+        audio: '/testAudio/dorofeev-neutral.wav',
+    },
+    {
+        title: "Дорофеев, драма",
+        language: "ru-RU",
+        value: "dorofeev:drama",
+        inputValue: 'Дорофеев, драма',
+        audio: '/testAudio/dorofeev-drama.wav',
+    },
+    {
+        title: "Дорофеев, комедия",
+        language: "ru-RU",
+        value: "dorofeev:comedy",
+        inputValue: 'Дорофеев, комедия',
+        audio: '/testAudio/dorofeev-comedy.wav',
+    },
+    {
+        title: "Дорофеев, инфо",
+        language: "ru-RU",
+        value: "dorofeev:info",
+        inputValue: 'Дорофеев, инфо',
+        audio: '/testAudio/dorofeev-info.wav',
+    },
+    {
+        title: "Дорофеев, трагедия",
+        language: "ru-RU",
+        value: "dorofeev:tragedy",
+        inputValue: 'Дорофеев, трагедия',
+        audio: '/testAudio/dorofeev-tragedy.wav',
+    },
     
     //-------------V1-------------------
 
