@@ -46,6 +46,12 @@ export type FogotPasswordForm = {
     code?: string
 }
 
+export type SendMessageForm = {
+    email: string | FormDataEntryValue,
+    name?: string  | FormDataEntryValue,
+    file?: File
+}
+
 export type CreateWorks = {
     lang: string,
     voice: string,

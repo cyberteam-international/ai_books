@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import {CSSProperties, Dispatch, ReactNode, SetStateAction} from 'react';
 import Image from 'next/image';
 import { CSSTransition } from 'react-transition-group'
 
@@ -8,10 +8,11 @@ import style from './style.module.scss'
 
 type Props = {
     state: [boolean, Dispatch<SetStateAction<boolean>>],
-    children: ReactNode
+    children: ReactNode,
+    styles?: CSSProperties
 };
 
-export const ModalWrapper = ({state, children}: Props) => {
+export const ModalWrapper = ({state, children, styles}: Props) => {
 
     const [modalOpenState, setModalOpenState] = state
 
@@ -28,7 +29,7 @@ export const ModalWrapper = ({state, children}: Props) => {
                 exitActive: style.modal_exit_active,
             }}
         >
-            <div className={style.modal__block}>
+            <div className={style.modal__block} style={styles}>
                 <Image 
                     className={style.modal__close} 
                     onClick={()=>setModalOpenState(false)} 

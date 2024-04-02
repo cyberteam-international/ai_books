@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import {CSSProperties, useEffect, useState} from "react";
 import { CSSTransition } from "react-transition-group";
 
 import style from "./style.module.scss";
 
 type Props = {
     message: string | undefined;
-    setMesage: (val: string | undefined) => void
+    setMesage: (val: string | undefined) => void,
 };
 
 export const ModalMessage = ({ message, setMesage }: Props) => {

@@ -1,8 +1,20 @@
-import axios, { AxiosResponse } from "axios"
+import axios, {AxiosResponse} from "axios"
 import Cookies from "js-cookie"
-import { CreateWorks, FogotPasswordForm, LoginForm, ProfileForm, RegistrationForm, ResponseStatistic, ResponseWork, ResponsesHistory, UpdateWorks, UserInfo } from "../interface"
-import { UserInfoExtended } from "../interface/UserInfo"
-import { ResponseEnvironment } from "../interface/Responses"
+import {
+    CreateWorks,
+    FogotPasswordForm,
+    LoginForm,
+    ProfileForm,
+    RegistrationForm,
+    ResponseStatistic,
+    ResponseWork,
+    ResponsesHistory,
+    UpdateWorks,
+    UserInfo
+} from "../interface"
+import {UserInfoExtended} from "../interface/UserInfo"
+import {ResponseEnvironment} from "../interface/Responses"
+import {SendMessageForm} from "@utils/interface/Forms";
 
 const BASE_URL = process.env.BACKEND_URL
 
@@ -37,12 +49,12 @@ export const ENDPOINTS = {
                     Authorization: `Bearer ${getToken()}`,
                 }
             })
-            .then((res: AxiosResponse<UserInfo>)=>{
-                return res.data
-            })
-            .catch((err: any)=>{
-                throw err
-            })
+                .then((res: AxiosResponse<UserInfo>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
         },
         GET_iNFO_ALL: async () => {
             return await axios({
@@ -52,21 +64,28 @@ export const ENDPOINTS = {
                     Authorization: `Bearer ${getToken()}`,
                 }
             })
-            .then((res: AxiosResponse<UserInfoExtended[]>)=>{
-                return res.data
-            })
-            .catch((err: any)=>{
-                throw err
-            })
+                .then((res: AxiosResponse<UserInfoExtended[]>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
         },
-        UPDATE_INFO: (data: { name?: ProfileForm['FormName']['name'], password?: ProfileForm['FormPassword']['password'], old_password?: ProfileForm['FormPassword']['old_password']}) => {
+        UPDATE_INFO: (data: {
+            name?: ProfileForm['FormName']['name'],
+            password?: ProfileForm['FormPassword']['password'],
+            old_password?: ProfileForm['FormPassword']['old_password']
+        }) => {
             return axios({
                 url: ENDPOINTS_URL.USERS,
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
                 },
-                data: data.name ? { "name": data.name } : data.password ? { "password": data.password, "old_password": data.old_password } : console.error('Введите данные')
+                data: data.name ? {"name": data.name} : data.password ? {
+                    "password": data.password,
+                    "old_password": data.old_password
+                } : console.error('Введите данные')
             })
         },
         UPDATE_EMAIL: (email: string) => {
@@ -76,7 +95,7 @@ export const ENDPOINTS = {
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
                 },
-                data: { "email": email }
+                data: {"email": email}
             })
         },
         UPDATE_EMAIL_CONFIRM: (data: ProfileForm['FormEmail']) => {
@@ -128,6 +147,16 @@ export const ENDPOINTS = {
                 method: 'POST',
                 data: data
             })
+        },
+        SEND: (data: SendMessageForm) => {
+            return axios({
+                url: ENDPOINTS_URL.AUTH + '/send',
+                method: 'POST',
+                data: data,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
         }
     },
     WORK: {
@@ -139,12 +168,12 @@ export const ENDPOINTS = {
                     Authorization: `Bearer ${getToken()}`,
                 }
             })
-            .then((res: AxiosResponse<ResponseWork[]>)=>{
-                return res.data
-            })
-            .catch((err: any)=>{
-                throw err
-            })
+                .then((res: AxiosResponse<ResponseWork[]>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
         },
         GET_WORK_ID: (id: number) => {
             return axios({
@@ -160,7 +189,7 @@ export const ENDPOINTS = {
                 url: BASE_URL + '/works',
                 method: 'POST',
                 headers: {
-                    Authorization: getToken()? `Bearer ${getToken()}` : undefined,
+                    Authorization: getToken() ? `Bearer ${getToken()}` : undefined,
                 },
                 data: data
             })
@@ -189,7 +218,7 @@ export const ENDPOINTS = {
         GET_FILE: ENDPOINTS_URL.AUDIO
     },
     STATISTIC: {
-        GET_STATISTIC: async ({startDate, endDate, url}: {startDate?: Date, endDate?: Date, url: string}) => {
+        GET_STATISTIC: async ({startDate, endDate, url}: { startDate?: Date, endDate?: Date, url: string }) => {
             return await axios({
                 url: url,
                 method: 'GET',
@@ -197,20 +226,20 @@ export const ENDPOINTS = {
                     Authorization: `Bearer ${getToken()}`,
                 },
                 params: {
-                    start_date: startDate? 
-                        `${startDate.getFullYear()}-${String(startDate?.getMonth() + 1).padStart(2, '0')}-${String(startDate?.getDate()).padStart(2, '0')}` 
-                        : undefined, 
-                    end_date: endDate? 
-                        `${endDate.getFullYear()}-${String(endDate?.getMonth() + 1).padStart(2, '0')}-${String(endDate?.getDate()).padStart(2, '0')}` 
+                    start_date: startDate ?
+                        `${startDate.getFullYear()}-${String(startDate?.getMonth() + 1).padStart(2, '0')}-${String(startDate?.getDate()).padStart(2, '0')}`
+                        : undefined,
+                    end_date: endDate ?
+                        `${endDate.getFullYear()}-${String(endDate?.getMonth() + 1).padStart(2, '0')}-${String(endDate?.getDate()).padStart(2, '0')}`
                         : undefined
                 }
             })
-            .then((res: AxiosResponse<ResponseStatistic>)=>{
-                return res.data
-            })
-            .catch((err: any)=>{
-                throw err
-            })
+                .then((res: AxiosResponse<ResponseStatistic>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
         },
         UPDATE_STATISTIC: () => {
             return axios({
@@ -238,7 +267,7 @@ export const ENDPOINTS = {
                 }
             })
         },
-        GET_HISTORY: async ({startDate, endDate, url}: {startDate?: Date, endDate?: Date, url: string}) => {
+        GET_HISTORY: async ({startDate, endDate, url}: { startDate?: Date, endDate?: Date, url: string }) => {
             return await axios({
                 url: url,
                 method: 'GET',
@@ -246,20 +275,20 @@ export const ENDPOINTS = {
                     Authorization: `Bearer ${getToken()}`,
                 },
                 params: {
-                    start_date: startDate? 
-                        `${startDate.getFullYear()}-${String(startDate?.getMonth() + 1).padStart(2, '0')}-${String(startDate?.getDate()).padStart(2, '0')}` 
-                        : undefined, 
-                    end_date: endDate? 
-                        `${endDate.getFullYear()}-${String(endDate?.getMonth() + 1).padStart(2, '0')}-${String(endDate?.getDate()).padStart(2, '0')}` 
+                    start_date: startDate ?
+                        `${startDate.getFullYear()}-${String(startDate?.getMonth() + 1).padStart(2, '0')}-${String(startDate?.getDate()).padStart(2, '0')}`
+                        : undefined,
+                    end_date: endDate ?
+                        `${endDate.getFullYear()}-${String(endDate?.getMonth() + 1).padStart(2, '0')}-${String(endDate?.getDate()).padStart(2, '0')}`
                         : undefined
                 }
             })
-            .then((res: AxiosResponse<ResponsesHistory[]>)=>{
-                return res.data
-            })
-            .catch((err: any)=>{
-                throw err
-            })
+                .then((res: AxiosResponse<ResponsesHistory[]>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
         },
         GET_PAYMENT_ID: (id: string) => {
             return axios({
@@ -300,14 +329,14 @@ export const ENDPOINTS = {
                     Authorization: `Bearer ${getToken()}`,
                 }
             })
-            .then((res: AxiosResponse<ResponseEnvironment[]>)=>{
-                return res.data
-            })
-            .catch((err: any)=>{
-                throw err
-            })
+                .then((res: AxiosResponse<ResponseEnvironment[]>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
         },
-        UPDATE: ( data: ResponseEnvironment) => {
+        UPDATE: (data: ResponseEnvironment) => {
             return axios({
                 url: ENDPOINTS_URL.ENVIRONMENT,
                 method: 'PUT',
