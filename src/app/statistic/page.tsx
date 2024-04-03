@@ -153,6 +153,13 @@ export default function PageStatistic({ }: Props) {
         else return 0
     }
 
+    const transformValueFixed6 = (val?: number) => {
+        if (val && data) {
+            return Number.isInteger(val)? val : val.toFixed(6)
+        }
+        else return 0
+    }
+
     useEffect(()=>{
         if (data) {
             console.log(Number.isInteger(data.cost_price))
@@ -211,6 +218,10 @@ export default function PageStatistic({ }: Props) {
                     <h4>{transformValue(data?.number_voiced_characters)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
+                    <h4>Озвученные символы Tinkoff</h4>
+                    <h4>{transformValue(data?.number_voiced_characters_tinkoff)}</h4>
+                </div>
+                <div className={style.statistic__section__column}>
                     <h4>Пополнение счета</h4>
                     <h4>{transformValue(data?.number_payments)}</h4>
                 </div>
@@ -227,12 +238,16 @@ export default function PageStatistic({ }: Props) {
                     <h4>{transformValue(data?.cost_price)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
+                    <h4>Себестоимость Tinkoff</h4>
+                    <h4>{transformValue(data?.cost_price_tinkoff)}</h4>
+                </div>
+                <div className={style.statistic__section__column}>
                     <h4>Колличество токенов за ввод</h4>
                     <h4>{transformValue(data?.gpt_request_tokens)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Цена за ввод</h4>
-                    <h4>{transformValue(data?.gpt_request_price)}</h4>
+                    <h4>{transformValueFixed6(data?.gpt_request_price)}</h4>
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Колличество токенов за вывод</h4>
@@ -240,7 +255,7 @@ export default function PageStatistic({ }: Props) {
                 </div>
                 <div className={style.statistic__section__column}>
                     <h4>Цена за вывод</h4>
-                    <h4>{transformValue(data?.gpt_response_price)}</h4>
+                    <h4>{transformValueFixed6(data?.gpt_response_price)}</h4>
                 </div>
             </section>
             {/* <Bar options={options} data={data} /> */}
