@@ -8,8 +8,16 @@ export function Metrika() {
     const pathName = usePathname();
     const searchParams = useSearchParams();
     useEffect(() => {
-        //@ts-ignore
-        ym(92974650, "hit", window.location.href);
+        (function () {
+            const PM_YM_COUNTER = 92974650;
+            //@ts-ignore
+            if (typeof window.ym != 'undefined') {
+                //@ts-ignore
+                ym(PM_YM_COUNTER, 'hit', window.location.href);
+            } else {
+                console.log('Метрика не инициализирована');
+            }
+        })();
     }, [pathName, searchParams]);
     return (
         <Script id="yandex-metrika">
