@@ -29,7 +29,7 @@ export default function Rates({onClick }: Props) {
                                 <li>Бесплатная обработка сложных текстовых фрагментов</li>
                             </ul>
                         </div>
-                        <Link href={ROUTES.REGISTRATION} className="button registration">Попробовать бесплатно</Link>
+                        <Link href={ROUTES.WORK} className="button registration">Попробовать бесплатно</Link>
                     </div>
                     {/*<div>*/}
                     {/*    <div>*/}
