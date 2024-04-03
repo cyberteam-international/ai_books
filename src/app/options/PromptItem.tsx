@@ -28,7 +28,9 @@ export default function PromptItem({ item, submit }: Props) {
     const labelValue = {
         SPLIT_REQUEST_SYMBOLS: 'Разделить символы запроса',
         PRICE_PER_SYMBOL: 'Цена за символ',
+        PRICE_PER_SYMBOL_TINKOFF: 'Цена за символ (Tinkoff)',
         PRICE_PER_SYMBOL_COST: 'Стоимость за символ',
+        PRICE_PER_SYMBOL_COST_TINKOFF: 'Стоимость за символ (Tinkoff)',
         GPT_DECODE_NUMBERS_PROMPT: 'Запрос GPT декодирования чисел',
         GPT_ABBREVIATIONS_PROMPT: 'Запрос GPT декодирования аббревиатур',
         GPT_PRICE_INPUT: 'Ввод цены GPT',
