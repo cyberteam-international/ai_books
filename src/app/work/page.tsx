@@ -1,19 +1,25 @@
 'use client'
 
-import { useContext, useEffect, useState } from 'react'
+import {useContext, useEffect, useState} from 'react'
 import clsx from 'clsx'
-import { useWindowWidth } from '@react-hook/window-size'
-import { AxiosError, AxiosResponse } from 'axios'
+import {useWindowWidth} from '@react-hook/window-size'
+import {AxiosError, AxiosResponse} from 'axios'
 import Cookies from 'js-cookie'
 import Image from 'next/image'
 
-import { ENDPOINTS, LANGUAGES, VOICES } from '@utils/config'
-import { useIsClient } from '@/utils/hooks'
-import { ContextUser } from '@/utils/context'
+import {ENDPOINTS, LANGUAGES, VOICES} from '@utils/config'
+import {useIsClient} from '@/utils/hooks'
+import {ContextUser} from '@/utils/context'
 
-import { Languages, CreateWorks, Voices, ResponseWork, ResponsesHistory } from '@utils/interface'
+import {CreateWorks, DecipherMode, Languages, ResponsesHistory, ResponseWork, Voices} from '@utils/interface'
 
-import { ModalMessage, ModalResult, ModalWarningEnoughBalance, ModalWarningRegistration, ModalWrapper } from '@/components/Modal'
+import {
+    ModalMessage,
+    ModalResult,
+    ModalWarningEnoughBalance,
+    ModalWarningRegistration,
+    ModalWrapper
+} from '@/components/Modal'
 import Select from '@UI/select'
 import FormMain from '@UI/forms/main'
 import Rules from '@components/work/Rules'
@@ -24,290 +30,321 @@ import Loader from '@UI/loader'
 import reset from '@public/reset.svg'
 
 import style from './style.module.scss'
-import { DecipherMode } from '@utils/interface'
+import {UseFreeGeneration} from "@utils/hooks/useFreeGeneration";
+import {UseFreeGpt} from "@utils/hooks/useFreeGpt";
 
 export default function PageWork() {
 
-	const [language, setLanguage] = useState<Languages>(LANGUAGES[0])
-	const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES)
-	const [voice, setVoice] = useState<Voices>(VOICES[0])
+    const [language, setLanguage] = useState<Languages>(LANGUAGES[0])
+    const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES)
+    const [voice, setVoice] = useState<Voices>(VOICES[0])
+    const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration()
+    const {getFreeGpt, addFreeGpt, maxFreeGpt} = UseFreeGpt()
 
-	const [modalResultOpen, setModalResultOpen] = useState<boolean>(false)
-	const [modalEnoughBalanceOpen, setModalEnoughBalanceOpen] = useState<boolean>(false)
-	const [modalRegistrationOpen, setModalRegistrationOpen] = useState<boolean>(false)
-	const [completeMessage, setCompleteMessage] = useState<string>()
-	const [loading, setLoading] = useState<boolean>(false)
+    const [modalResultOpen, setModalResultOpen] = useState<boolean>(false)
+    const [modalEnoughBalanceOpen, setModalEnoughBalanceOpen] = useState<boolean>(false)
+    const [modalRegistrationOpen, setModalRegistrationOpen] = useState<boolean>(false)
+    const [completeMessage, setCompleteMessage] = useState<string>()
+    const [loading, setLoading] = useState<boolean>(false)
 
-	const [requestPaymentLength, setRequestPaymentLength] = useState(0)
+    const [requestPaymentLength, setRequestPaymentLength] = useState(0)
 
-	const [responseData, setResponseData] = useState<ResponseWork>()
+    const [responseData, setResponseData] = useState<ResponseWork>()
 
-	const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
-	const [value, setValue] = useState<string>()
+    const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
+    const [value, setValue] = useState<string>()
 
-	const [decipherMode, setDecipherMode] =useState<DecipherMode>()
+    const [decipherMode, setDecipherMode] = useState<DecipherMode>()
 
-	const { userInfo, mutate } = useContext(ContextUser)
+    const {userInfo, mutate} = useContext(ContextUser)
 
-	const isClient = useIsClient()
+    const isClient = useIsClient()
 
-	const windowWidth = useWindowWidth()
+    const windowWidth = useWindowWidth()
 
-	const decipherOption: DecipherMode[] = [
-		{
-			title: 'Расшифровать аббревиатуры',
-			inputValue: 'Расшифровать аббревиатуры',
-			value: 'abbreviations'
-		},
-		{
-			title: 'Расшифровать числительные',
-			inputValue: 'Расшифровать числительные',
-			value: 'numbers'
-		},
-	]
+    const decipherOption: DecipherMode[] = [
+        {
+            title: 'Расшифровать аббревиатуры',
+            inputValue: 'Расшифровать аббревиатуры',
+            value: 'abbreviations'
+        },
+        {
+            title: 'Расшифровать числительные',
+            inputValue: 'Расшифровать числительные',
+            value: 'numbers'
+        },
+    ]
 
-	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
-		setLoading(true)
-		setCompleteMessage('')
-		ENDPOINTS.WORK.CREATE_WORK({
-			...data,
-			lang: language.value as string,
-			voice: voice.value as string
-		})
-			.then(async (res: AxiosResponse<ResponseWork>) => {
-				console.log(res.data)
-				setResponseData(res.data)
-				setLoading(false)
-				setModalResultOpen(true)
-				if (userInfo?.id) {
-					await mutate();
-					setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
-				}
-			})
-			.catch((err: AxiosError) => {
-				console.log(err)
-				setCompleteMessage(err.message)
-				setLoading(false)
-			})
-	};
+    const submit = (data: { input_text: CreateWorks['input_text'] }) => {
+        if (value) {
+			const freeGeneration = (getFreeGeneration() + 1)
+			if(freeGeneration > maxFreeGeneration) {
+				setCompleteMessage(`Вы исчерпали лимит бесплатных генераций за сутки`)
+				return
+			}
 
-	const handleRemoveClose = () => {
-		setCompleteMessage(`Аудиозапись "${responseData?.name}" удалена`)
-		setModalResultOpen(false)
-	}
+            setLoading(true)
+            setCompleteMessage('')
 
-	const handleEnoughBalance = () => {
-		return setModalEnoughBalanceOpen(true)
-	}
+            ENDPOINTS.WORK.CREATE_WORK({
+                ...data,
+                lang: language.value as string,
+                voice: voice.value as string
+            })
+                .then(async (res: AxiosResponse<ResponseWork>) => {
+                    setResponseData(res.data)
+                    setLoading(false)
+                    setModalResultOpen(true)
+                    if (userInfo?.id) {
+                        await mutate();
+                        setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
+                    }
 
-	const handleRegistration = () => {
-		return setModalRegistrationOpen(true)
-	}
+                    if (value.length <= 200) {
+                        addFreeGeneration()
+                        setCompleteMessage(`Вы можете бесплатно озвучить еще ${maxFreeGeneration - freeGeneration} аудио из ${maxFreeGeneration} за сутки`)
+                    }
+                })
+                .catch((err: AxiosError) => {
+                    console.log(err)
+                    setCompleteMessage(err.message)
+                    setLoading(false)
+                })
+        }
+    };
 
-	const handleChangeAudioName = (newName: string) => {
-		setCompleteMessage('')
-		setCompleteMessage(`Имя успешно изменено на ${newName}`)
-	}
+    const handleRemoveClose = () => {
+        setCompleteMessage(`Аудиозапись "${responseData?.name}" удалена`)
+        setModalResultOpen(false)
+    }
 
-	const handleDecipher_abbreviations = () => {
-		console.log(value)
-		if (value) {
-			setLoading(true)
-			ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(value)
-				.then((res: AxiosResponse<{ text: string }>) => {
-					setLoading(false)
-					setValueBeforeDecipher(value)
-					setValue(res.data.text)
-				})
-		}
-	}
+    const handleEnoughBalance = () => {
+        return setModalEnoughBalanceOpen(true)
+    }
 
-	const handleDecipher_numbers = () => {
-		if (value) {
-			setLoading(true)
-			ENDPOINTS.GPT.REMOVE_NUMBERS(value)
-				.then((res: AxiosResponse<{ text: string }>) => {
-					setLoading(false)
-					setValueBeforeDecipher(value)
-					setValue(res.data.text)
-				})
-		}
+    const handleRegistration = () => {
+        return setModalRegistrationOpen(true)
+    }
 
-	}
+    const handleChangeAudioName = (newName: string) => {
+        setCompleteMessage('')
+        setCompleteMessage(`Имя успешно изменено на ${newName}`)
+    }
 
-	const handleReset = () => {
-		if (valueBeforeDecipher) {
-			setValue(valueBeforeDecipher)
-			setValueBeforeDecipher(undefined)
-			setDecipherMode ({
-				title: 'Выберите преобработку',
-				inputValue: 'Выберите преобработку',
-			})
-		}
+    const handleDecipher_abbreviations = () => {
+        const freeGpt = (getFreeGpt() + 1)
+        if(freeGpt > maxFreeGpt) {
+            setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
+            return
+        }
 
-	}
+        if (value) {
+            setLoading(true)
+            ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(value)
+                .then((res: AxiosResponse<{ text: string }>) => {
+                    setLoading(false)
+                    setValueBeforeDecipher(value)
+                    setValue(res.data.text)
 
-	useEffect(() => {
+                    addFreeGpt()
+                    setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                })
+        }
+    }
+
+    const handleDecipher_numbers = () => {
+        const freeGpt = (getFreeGpt() + 1)
+        if(freeGpt > maxFreeGpt) {
+            setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
+            return
+        }
+
+        if (value) {
+            setLoading(true)
+            ENDPOINTS.GPT.REMOVE_NUMBERS(value)
+                .then((res: AxiosResponse<{ text: string }>) => {
+                    setLoading(false)
+                    setValueBeforeDecipher(value)
+                    setValue(res.data.text)
+
+                    addFreeGpt()
+                    setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                })
+        }
+
+    }
+
+    const handleReset = () => {
+        if (valueBeforeDecipher) {
+            setValue(valueBeforeDecipher)
+            setValueBeforeDecipher(undefined)
+            setDecipherMode({
+                title: 'Выберите преобработку',
+                inputValue: 'Выберите преобработку',
+            })
+        }
+
+    }
+
+    useEffect(() => {
         if (isClient) {
             if (userInfo?.id) {
                 if (window.localStorage.getItem(`textareaValue_${userInfo?.id}`)) {
                     setValue(String(localStorage.getItem(`textareaValue_${userInfo?.id}`)))
                 }
-            }
-            else if (window.localStorage.getItem(`textareaValue_default`)) {
+            } else if (window.localStorage.getItem(`textareaValue_default`)) {
                 setValue(String(localStorage.getItem('textareaValue_default')))
             }
         }
-    }, [isClient ,userInfo])
+    }, [isClient, userInfo])
 
-	useEffect(() => {
-		if (language) {
-			const currentVoiceArray = [...VOICES].filter((item) => item.language === language.value)
-			setVoiceArray(currentVoiceArray)
-			setVoice(currentVoiceArray[0])
-		}
-	}, [language])
+    useEffect(() => {
+        if (language) {
+            const currentVoiceArray = [...VOICES].filter((item) => item.language === language.value)
+            setVoiceArray(currentVoiceArray)
+            setVoice(currentVoiceArray[0])
+        }
+    }, [language])
 
-	useEffect(() => {
-		let intervalId: NodeJS.Timeout;
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout;
 
-		const paymentId = Cookies.get('payment_id');
-		if (paymentId) {
-			intervalId = setInterval(() => {
-				if (requestPaymentLength < 30) {
-					ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
-						.then((res: AxiosResponse<ResponsesHistory>) => {
-							console.log(res.data);
-							setCompleteMessage('');
-							setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`);
-							Cookies.remove('payment_id');
-							clearInterval(intervalId);
-						})
-						.catch((err: any) => {
-							console.log('error', err);
-							setRequestPaymentLength((prev) => prev + 1);
-						});
-				}
-				else {
-					clearInterval(intervalId);
-				}
-			}, 3000);
+        const paymentId = Cookies.get('payment_id');
+        if (paymentId) {
+            intervalId = setInterval(() => {
+                if (requestPaymentLength < 30) {
+                    ENDPOINTS.PAYMENT.GET_PAYMENT_ID(paymentId)
+                        .then((res: AxiosResponse<ResponsesHistory>) => {
+                            console.log(res.data);
+                            setCompleteMessage('');
+                            setCompleteMessage(`Вы пополнили счет на ${res.data.amount}₽`);
+                            Cookies.remove('payment_id');
+                            clearInterval(intervalId);
+                        })
+                        .catch((err: any) => {
+                            console.log('error', err);
+                            setRequestPaymentLength((prev) => prev + 1);
+                        });
+                } else {
+                    clearInterval(intervalId);
+                }
+            }, 3000);
 
-		}
+        }
 
-		return () => {
-			clearInterval(intervalId);
-		};
+        return () => {
+            clearInterval(intervalId);
+        };
 
-	}, [Cookies.get('payment_id'), requestPaymentLength]);
+    }, [Cookies.get('payment_id'), requestPaymentLength]);
 
-	useEffect(()=>{
-		if (value && value.length > 0) {
-			if (!decipherMode?.value) {
-				setDecipherMode ({
-					title: 'Подготовка текста',
-					inputValue: 'Подготовка текста',
-				})
-			}
-		}
-		else setDecipherMode ({
-			title: 'Подготовка текста',
-			inputValue: 'Подготовка текста',
-		})
-	}, [value])
+    useEffect(() => {
+        if (value && value.length > 0) {
+            if (!decipherMode?.value) {
+                setDecipherMode({
+                    title: 'Подготовка текста',
+                    inputValue: 'Подготовка текста',
+                })
+            }
+        } else setDecipherMode({
+            title: 'Подготовка текста',
+            inputValue: 'Подготовка текста',
+        })
+    }, [value])
 
-	useEffect(()=>{
-		if (decipherMode?.value === 'numbers') {
-			handleDecipher_numbers()
-		}
-		else if (decipherMode?.value === 'abbreviations') {
-			handleDecipher_abbreviations()
-		}
-	}, [decipherMode])
+    useEffect(() => {
+        if (decipherMode?.value === 'numbers') {
+            handleDecipher_numbers()
+        } else if (decipherMode?.value === 'abbreviations') {
+            handleDecipher_abbreviations()
+        }
+    }, [decipherMode])
 
-	return (
-		<>
-			<main className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen) || loading) && 'modal')}>
-				<div className={style.main__options}>
-					<Select
-						options={LANGUAGES}
-						value={language}
-						onChange={(data) => setLanguage((data as Languages))}
-						type={'languages'}
-						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
-					/>
-					<Select
-						options={voiceArray}
-						value={voice}
-						onChange={(data) => setVoice((data as unknown as Voices))}
-						type={'voices'}
-						inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
-					/>
-					{language.value === 'ru-RU' && (
-						<Select
-							options={decipherOption}
-							value={decipherMode}
-							onChange={(data) => {
-								if (value) {
-									setDecipherMode((data as DecipherMode))
-								}
-								else {
-									setCompleteMessage('')
-									setCompleteMessage('Для подготовки введите текст')
-								}
-							}}
-							type={'banks'}
-							inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
-						/>
-					)}
-				</div>
-				{isClient && windowWidth < 768 && (
-					<div className={style.main__rules}>
-						<Rules />
-					</div>
-				)}
-				<div className={style.main__wrapper}>
-					<FormMain
-						submit={submit}
-						handleRegistration={handleRegistration}
-						handleEnoughBalance={handleEnoughBalance}
-						canSubmit={language.value && voice.value ? true : false}
-						valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
-						valueState={[value, setValue]}
-					>
-						{<>
-							{(language.inputValue === 'ru-Ru' || valueBeforeDecipher)  && (
-								<div className={style.main__rules__buttons}>
-									<button className={style.main__rules__buttons__item} type="button" onClick={handleReset}>
-										<p>Сбросить</p>
-										<Image {...reset} alt={'reset'} />
-									</button>
-								</div>
-							)}
-						</>}
-					</FormMain>
-					{isClient && (
-						<div className={style.main__rules}>
-							{windowWidth > 768 && (
-								<Rules />
-							)}
-						</div>
-					)} 
-				</div>
-			</main>
-			{loading && (
-				<Loader />
-			)}
-			<ModalWrapper state={[modalEnoughBalanceOpen, setModalEnoughBalanceOpen]}>
-				<ModalWarningEnoughBalance />
-			</ModalWrapper>
-			<ModalWrapper state={[modalRegistrationOpen, setModalRegistrationOpen]}>
-				<ModalWarningRegistration />
-			</ModalWrapper>
-			<ModalWrapper state={[modalResultOpen, setModalResultOpen]}>
-				{responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData} closeModal={() => handleRemoveClose()} />}
-			</ModalWrapper>
-			<ModalMessage message={completeMessage} setMesage={setCompleteMessage} />
-		</>
-	)
+    return (
+        <>
+            <main
+                className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen) || loading) && 'modal')}>
+                <div className={style.main__options}>
+                    <Select
+                        options={LANGUAGES}
+                        value={language}
+                        onChange={(data) => setLanguage((data as Languages))}
+                        type={'languages'}
+                        inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+                    />
+                    <Select
+                        options={voiceArray}
+                        value={voice}
+                        onChange={(data) => setVoice((data as unknown as Voices))}
+                        type={'voices'}
+                        inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+                    />
+                    {language.value === 'ru-RU' && (
+                        <Select
+                            options={decipherOption}
+                            value={decipherMode}
+                            onChange={(data) => {
+                                if (value) {
+                                    setDecipherMode((data as DecipherMode))
+                                } else {
+                                    setCompleteMessage('')
+                                    setCompleteMessage('Для подготовки введите текст')
+                                }
+                            }}
+                            type={'banks'}
+                            inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+                        />
+                    )}
+                </div>
+                {isClient && windowWidth < 768 && (
+                    <div className={style.main__rules}>
+                        <Rules/>
+                    </div>
+                )}
+                <div className={style.main__wrapper}>
+                    <FormMain
+                        submit={submit}
+                        handleRegistration={handleRegistration}
+                        handleEnoughBalance={handleEnoughBalance}
+                        canSubmit={language.value && voice.value ? true : false}
+                        valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
+                        valueState={[value, setValue]}
+                    >
+                        {<>
+                            {(language.inputValue === 'ru-Ru' || valueBeforeDecipher) && (
+                                <div className={style.main__rules__buttons}>
+                                    <button className={style.main__rules__buttons__item} type="button"
+                                            onClick={handleReset}>
+                                        <p>Сбросить</p>
+                                        <Image {...reset} alt={'reset'}/>
+                                    </button>
+                                </div>
+                            )}
+                        </>}
+                    </FormMain>
+                    {isClient && (
+                        <div className={style.main__rules}>
+                            {windowWidth > 768 && (
+                                <Rules/>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </main>
+            {loading && (
+                <Loader/>
+            )}
+            <ModalWrapper state={[modalEnoughBalanceOpen, setModalEnoughBalanceOpen]}>
+                <ModalWarningEnoughBalance/>
+            </ModalWrapper>
+            <ModalWrapper state={[modalRegistrationOpen, setModalRegistrationOpen]}>
+                <ModalWarningRegistration/>
+            </ModalWrapper>
+            <ModalWrapper state={[modalResultOpen, setModalResultOpen]}>
+                {responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData}
+                                              closeModal={() => handleRemoveClose()}/>}
+            </ModalWrapper>
+            <ModalMessage message={completeMessage} setMesage={setCompleteMessage}/>
+        </>
+    )
 }
