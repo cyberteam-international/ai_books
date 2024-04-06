@@ -139,6 +139,11 @@ export default function PageWork() {
         }
 
         if (value) {
+            if (value.length >= 200) {
+                setCompleteMessage(`Вы можете подготовить текст длиной не более 200 символов`)
+                return;
+            }
+
             setLoading(true)
             ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(value)
                 .then((res: AxiosResponse<{ text: string }>) => {
@@ -160,6 +165,11 @@ export default function PageWork() {
         }
 
         if (value) {
+            if (value.length >= 200) {
+                setCompleteMessage(`Вы можете подготовить текст длиной не более 200 символов`)
+                return;
+            }
+
             setLoading(true)
             ENDPOINTS.GPT.REMOVE_NUMBERS(value)
                 .then((res: AxiosResponse<{ text: string }>) => {
