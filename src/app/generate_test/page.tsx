@@ -41,7 +41,7 @@ export default function PageGenerate() {
 
     const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
     const [value, setValue] = useState<string>()
-    const [resultValue, setResultValue] = useState<string>()
+    const [resultValue, setResultValue] = useState<string>("")
 
     const [decipherMode, setDecipherMode] = useState<DecipherMode>()
 
@@ -234,15 +234,16 @@ export default function PageGenerate() {
                             )}
                         </>}
                     </FormGenerate>
-                    {value?.length && resultValue?.length ?
+                    <div style={{display: resultValue.length > 0 ? "block": "none"}}>
                         <FormGenerateResult submit={handleConvertGift}
-                        canSubmit={resultValue?.length !== 0}
-                        handleEnoughBalance={() => {
-                        }}
-                        handleRegistration={() => {
-                        }}
-                        valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
-                        valueState={[resultValue, setResultValue]}/> : undefined}
+                                            canSubmit={resultValue.length > 0}
+                                            handleEnoughBalance={() => {
+                                            }}
+                                            handleRegistration={() => {
+                                            }}
+                                            valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
+                                            valueState={[resultValue, setResultValue]}/>
+                    </div>
                 </div>
             </main>
             {loading && (
