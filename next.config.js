@@ -9,8 +9,8 @@ const nextConfig = {
         }
     },
     env: {
-        // BACKEND_URL: 'https://lp.aibooks.ru'
-        BACKEND_URL: 'http://localhost:3000'
+        BACKEND_URL: 'https://lp.aibooks.ru'
+        // BACKEND_URL: 'http://localhost:3000'
     },
 }
 
