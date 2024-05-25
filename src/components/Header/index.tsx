@@ -66,6 +66,9 @@ export default function Header({ }: Props) {
                             </li>
                         </>
                     )}
+                    <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
+                        <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор тестов</Link>
+                    </li>
                     {userInfo?.is_admin && (
                         <>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>

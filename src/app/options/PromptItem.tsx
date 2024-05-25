@@ -34,7 +34,11 @@ export default function PromptItem({ item, submit }: Props) {
         GPT_DECODE_NUMBERS_PROMPT: 'Запрос GPT декодирования чисел',
         GPT_ABBREVIATIONS_PROMPT: 'Запрос GPT декодирования аббревиатур',
         GPT_PRICE_INPUT: 'Ввод цены GPT',
-        GPT_PRICE_OUTPUT: 'Вывод цены GPT',
+        CONVERT_GIFT: 'Запрос на преобразования в GIFT',
+        SINGLE: 'Запрос на тест с одиночным ответом',
+        MULTIPLE_CHOICE: 'Запрос на тест с множественным выбором',
+        QUESTIONS_COMPARISON: 'Запрос на тест с вопросами на сопоставление',
+        SEQUENCE: 'Запрос для тестов на последовательность',
     }
 
     return (

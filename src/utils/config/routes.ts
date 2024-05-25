@@ -3,6 +3,7 @@
 export const ROUTES = {
     HOME: '/',
     WORK: '/work',
+    GENERATION_TEST: '/generate_test',
     PROFILE: '/profile',
     PAYMENT: '/payment',
     MY_AUDIO: '/my-audio',

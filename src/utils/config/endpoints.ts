@@ -36,7 +36,9 @@ export const ENDPOINTS_URL = {
     VOICES: BASE_URL + '/voices',
     PAYMENT: BASE_URL + '/payment',
     GPT: BASE_URL + '/gpt/decode',
-    ENVIRONMENT: BASE_URL + '/environment'
+    GENERATE: BASE_URL + '/gpt/generate',
+    ENVIRONMENT: BASE_URL + '/environment',
+    CONVERT: BASE_URL + '/gpt/convert',
 }
 
 export const ENDPOINTS = {
@@ -316,6 +318,29 @@ export const ENDPOINTS = {
                 method: 'POST',
                 data: {
                     text: text
+                }
+            })
+        }
+    },
+    GENERATE: {
+        TEST: (type: string, text: string) => {
+            return axios({
+                url: ENDPOINTS_URL.GENERATE + '/test',
+                method: 'POST',
+                data: {
+                    type,
+                    text
+                }
+            })
+        }
+    },
+    CONVERT: {
+        GIFT: (text: string) => {
+            return axios({
+                url: ENDPOINTS_URL.CONVERT + '/gift',
+                method: 'POST',
+                data: {
+                    text
                 }
             })
         }
