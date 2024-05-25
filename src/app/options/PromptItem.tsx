@@ -43,6 +43,7 @@ export default function PromptItem({ item, submit }: Props) {
 
     return (
         <div className={style.page__form__block}>
+            {/* @ts-ignore */ }
             <label htmlFor="abbreviations">{labelValue[item.key]}</label>
             {!Number(item.value) ? (
                 <TextArea
@@ -61,8 +62,9 @@ export default function PromptItem({ item, submit }: Props) {
                     onChange={onChange}
                 />
             )}
-            <Button 
-                className={style.page__form__button} 
+            <Button
+                className={style.page__form__button}
+                /* @ts-ignore */
                 callback={() => submit({ ...item, value: value }, `Параметр ${labelValue[item.key]} изменен`)}
                 isActive={String(value).length > 0 && value !== item.value}
             >Изменить</Button>

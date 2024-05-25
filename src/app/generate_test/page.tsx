@@ -109,7 +109,7 @@ export default function PageGenerate() {
     const handleConvertGift = () => {
         const text = value
 
-        function download(filename, text) {
+        function download(filename: string, text: string) {
             const element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
             element.setAttribute('download', filename);
