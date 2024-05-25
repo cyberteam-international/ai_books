@@ -26,6 +26,7 @@ import {UseFreeGeneration} from "@utils/hooks/useFreeGeneration";
 import {UseFreeGpt} from "@utils/hooks/useFreeGpt";
 import FormMain from "@UI/forms/main";
 import FormGenerateResult from "@UI/forms/generate_result";
+import {tr} from "date-fns/locale";
 
 export default function PageGenerate() {
     const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration()
@@ -108,6 +109,7 @@ export default function PageGenerate() {
 
     const handleConvertGift = () => {
         const text = value
+        setLoading(true)
 
         function download(filename: string, text: string) {
             const element = document.createElement('a');
@@ -123,15 +125,17 @@ export default function PageGenerate() {
         }
 
         if(text) {
+            setLoading(true)
+
             ENDPOINTS.CONVERT.GIFT(text)
                 .then((res: AxiosResponse<{ text: string }>) => {
-                    setLoading(false)
                     const nameFile = new Date().getTime().toString() + ".gift"
                     const bodyFile = res.data.text
                         .replaceAll('```html', '')
                         .replaceAll('```', '')
 
                     download(nameFile, bodyFile)
+                    setLoading(false)
 
                     // addFreeGpt()
                     // setCompleteMessage(`Вы можете подготовить текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)

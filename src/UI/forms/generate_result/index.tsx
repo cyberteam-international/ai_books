@@ -43,7 +43,7 @@ export default function FormGenerateResult({
 
     const isClient = useIsClient()
 
-    const [maxCharacterCount, setMaxCharacterCount] = useState(200)
+    const [maxCharacterCount, setMaxCharacterCount] = useState(5000)
 
     const {
         register,
