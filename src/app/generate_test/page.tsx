@@ -129,7 +129,7 @@ export default function PageGenerate() {
 
             ENDPOINTS.CONVERT.GIFT(text)
                 .then((res: AxiosResponse<{ text: string }>) => {
-                    const nameFile = new Date().getTime().toString() + ".gift"
+                    const nameFile = new Date().getTime().toString() + ".txt"
                     const bodyFile = res.data.text
                         .replaceAll('```html', '')
                         .replaceAll('```', '')
