@@ -6,6 +6,7 @@ export type UserInfo = {
     email: string,
     balance: number,
     is_admin?: Boolean
+    is_editor?: Boolean
 }
 
 export interface UserInfoExtended extends UserInfo {

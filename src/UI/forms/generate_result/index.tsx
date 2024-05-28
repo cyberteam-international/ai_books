@@ -18,6 +18,7 @@ import style from './style.module.scss'
 
 type Props = {
     submit: (data: { input_text: CreateWorks['input_text'] }) => void
+    copyHandle: () => void
     canSubmit: boolean,
     handleEnoughBalance: () => void,
     handleRegistration: () => void,
@@ -28,6 +29,7 @@ type Props = {
 
 export default function FormGenerateResult({
                                                submit,
+                                               copyHandle,
                                                canSubmit,
                                                handleEnoughBalance,
                                                handleRegistration,
@@ -104,11 +106,18 @@ export default function FormGenerateResult({
                 {children}
                 <div className={style.form__control__block}>
                     <div className={style.form__control__wrapper}></div>
-                    <Button
-                        type={isValid ? 'submit' : 'button'}
-                        callback={buttonCallback}
-                        isActive={canSubmit && Boolean(getValues('input_text'))}
-                    >Преобразовать в GIFT</Button>
+                    <div className={style.form__control__wrapper}>
+                        <Button
+                            type={'button'}
+                            callback={copyHandle}
+                            isActive={canSubmit && Boolean(getValues('input_text'))}
+                        >Копировать</Button>
+                        <Button
+                            type={isValid ? 'submit' : 'button'}
+                            callback={buttonCallback}
+                            isActive={canSubmit && Boolean(getValues('input_text'))}
+                        >Преобразовать в GIFT</Button>
+                    </div>
                 </div>
             </div>
         </form>

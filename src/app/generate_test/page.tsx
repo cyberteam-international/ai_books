@@ -3,14 +3,14 @@
 import {useContext, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {useWindowWidth} from '@react-hook/window-size'
-import {AxiosError, AxiosResponse} from 'axios'
+import {AxiosResponse} from 'axios'
 import Image from 'next/image'
 
 import {ENDPOINTS} from '@utils/config'
 import {useIsClient} from '@/utils/hooks'
 import {ContextUser} from '@/utils/context'
 
-import {CreateWorks, DecipherMode, ResponseWork} from '@utils/interface'
+import {DecipherMode, ResponseWork} from '@utils/interface'
 
 import {ModalMessage, ModalWarningRegistration, ModalWrapper} from '@/components/Modal'
 import Select from '@UI/select'
@@ -24,21 +24,15 @@ import reset from '@public/reset.svg'
 import style from './style.module.scss'
 import {UseFreeGeneration} from "@utils/hooks/useFreeGeneration";
 import {UseFreeGpt} from "@utils/hooks/useFreeGpt";
-import FormMain from "@UI/forms/main";
 import FormGenerateResult from "@UI/forms/generate_result";
-import {tr} from "date-fns/locale";
 
 export default function PageGenerate() {
-    const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration()
     const {getFreeGpt, addFreeGpt, maxFreeGpt} = UseFreeGpt()
 
     const [modalResultOpen, setModalResultOpen] = useState<boolean>(false)
     const [modalRegistrationOpen, setModalRegistrationOpen] = useState<boolean>(false)
     const [completeMessage, setCompleteMessage] = useState<string>()
     const [loading, setLoading] = useState<boolean>(false)
-
-
-    const [responseData, setResponseData] = useState<ResponseWork>()
 
     const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
     const [value, setValue] = useState<string>()
@@ -83,11 +77,15 @@ export default function PageGenerate() {
         const type = decipherMode?.value
         const text = value
 
-        const freeGpt = (getFreeGpt() + 1)
-        if (freeGpt > maxFreeGpt) {
-            setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
-            return
+        if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+            const freeGpt = (getFreeGpt() + 1)
+
+            if (freeGpt > maxFreeGpt) {
+                setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
+                return
+            }
         }
+
 
         if (text && type) {
             if (text.length >= 5000) {
@@ -101,8 +99,11 @@ export default function PageGenerate() {
                     setLoading(false)
                     setResultValue(res.data.text)
 
-                    addFreeGpt()
-                    setCompleteMessage(`Вы можете подготовить текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                    if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+                        const freeGpt = (getFreeGpt() + 1)
+                        addFreeGpt()
+                        setCompleteMessage(`Вы можете подготовить текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                    }
                 })
         }
     }
@@ -124,7 +125,7 @@ export default function PageGenerate() {
             document.body.removeChild(element);
         }
 
-        if(text) {
+        if (text) {
             setLoading(true)
 
             ENDPOINTS.CONVERT.GIFT(text)
@@ -152,6 +153,18 @@ export default function PageGenerate() {
                 inputValue: 'Выберите преобработку',
             })
         }
+
+    }
+
+    const copyHandle = () => {
+        navigator.clipboard.writeText(resultValue)
+            .then(() => {
+                setCompleteMessage(`Текст успешно скопирован.`)
+            })
+            .catch((err) => {
+                setCompleteMessage(`Ошибка копирования текста в буфер обмена`)
+                console.error('Ошибка копирования текста в буфер обмена: ', err);
+            });
 
     }
 
@@ -238,8 +251,9 @@ export default function PageGenerate() {
                             )}
                         </>}
                     </FormGenerate>
-                    <div style={{display: resultValue.length > 0 ? "block": "none"}}>
+                    <div style={{display: resultValue.length > 0 ? "block" : "none"}}>
                         <FormGenerateResult submit={handleConvertGift}
+                                            copyHandle={copyHandle}
                                             canSubmit={resultValue.length > 0}
                                             handleEnoughBalance={() => {
                                             }}

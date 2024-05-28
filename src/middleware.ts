@@ -3,7 +3,7 @@ import { ROUTES } from '@/utils/config'
 import { UserInfo } from './utils/interface'
 
 export const config = {
-    matcher: ['/profile', '/payment', '/my-audio', '/statistic', '/preparation', '/users', '/options'],
+    matcher: ['/profile', '/payment', '/my-audio', '/statistic', '/preparation', '/users', '/options', '/generate_test'],
 }
 
 export async function middleware(request: NextRequest) {
@@ -30,7 +30,14 @@ export async function middleware(request: NextRequest) {
                 return NextResponse.redirect(work, 302);
             }
         }
-        
+
+
+        if(!user.is_admin && !user.is_editor) {
+            if (request.nextUrl.pathname === '/generate_test') {
+                return NextResponse.redirect(work, 302);
+            }
+        }
+
         if (request.nextUrl.pathname === '/preparation' && !user.balance) {
             return NextResponse.redirect(work, 302);
         }

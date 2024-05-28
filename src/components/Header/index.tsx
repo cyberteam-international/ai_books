@@ -66,9 +66,11 @@ export default function Header({ }: Props) {
                             </li>
                         </>
                     )}
-                    <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
-                        <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор тестов</Link>
-                    </li>
+                    {(userInfo?.is_admin || userInfo?.is_editor) && (
+                        <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
+                            <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор тестов</Link>
+                        </li>
+                    )}
                     {userInfo?.is_admin && (
                         <>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.STATISTIC && style.header__menu__item_active)}>
@@ -115,9 +117,11 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                     </li>
-                    <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
-                        <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}><span>Генератор тестов</span></Link>
-                    </li>
+                    {(userInfo?.is_admin || userInfo?.is_editor) && (
+                        <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
+                            <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}><span>Генератор тестов</span></Link>
+                        </li>
+                    )}
                     <li className={clsx(style.header__menu__item)}>
                         <Link onClick={() => setIsOpen(false)} href={LINKS.ABOUT_US}><span>О проекте</span></Link>
                     </li>

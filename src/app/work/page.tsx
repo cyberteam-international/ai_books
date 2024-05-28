@@ -77,11 +77,14 @@ export default function PageWork() {
 
     const submit = (data: { input_text: CreateWorks['input_text'] }) => {
         if (value) {
-			const freeGeneration = (getFreeGeneration() + 1)
-			if(freeGeneration > maxFreeGeneration) {
-				setCompleteMessage(`Вы исчерпали лимит бесплатных генераций за сутки`)
-				return
-			}
+            if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+                const freeGeneration = (getFreeGeneration() + 1)
+                if (freeGeneration > maxFreeGeneration) {
+                    setCompleteMessage(`Вы исчерпали лимит бесплатных генераций за сутки`)
+                    return
+                }
+            }
+
 
             setLoading(true)
             setCompleteMessage('')
@@ -101,8 +104,12 @@ export default function PageWork() {
                     }
 
                     if (value.length <= 200) {
-                        addFreeGeneration()
-                        setCompleteMessage(`Вы можете бесплатно озвучить еще ${maxFreeGeneration - freeGeneration} аудио из ${maxFreeGeneration} за сутки`)
+                        if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+                            const freeGeneration = (getFreeGeneration() + 1)
+
+                            addFreeGeneration()
+                            setCompleteMessage(`Вы можете бесплатно озвучить еще ${maxFreeGeneration - freeGeneration} аудио из ${maxFreeGeneration} за сутки`)
+                        }
                     }
                 })
                 .catch((err: AxiosError) => {
@@ -132,10 +139,12 @@ export default function PageWork() {
     }
 
     const handleDecipher_abbreviations = () => {
-        const freeGpt = (getFreeGpt() + 1)
-        if(freeGpt > maxFreeGpt) {
-            setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
-            return
+        if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+            const freeGpt = (getFreeGpt() + 1)
+            if (freeGpt > maxFreeGpt) {
+                setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
+                return
+            }
         }
 
         if (value) {
@@ -151,18 +160,25 @@ export default function PageWork() {
                     setValueBeforeDecipher(value)
                     setValue(res.data.text)
 
-                    addFreeGpt()
-                    setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                    if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+                        const freeGpt = (getFreeGpt() + 1)
+
+                        addFreeGpt()
+                        setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                    }
                 })
         }
     }
 
     const handleDecipher_numbers = () => {
-        const freeGpt = (getFreeGpt() + 1)
-        if(freeGpt > maxFreeGpt) {
-            setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
-            return
+        if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+            const freeGpt = (getFreeGpt() + 1)
+            if (freeGpt > maxFreeGpt) {
+                setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
+                return
+            }
         }
+
 
         if (value) {
             if (value.length >= 200) {
@@ -177,8 +193,12 @@ export default function PageWork() {
                     setValueBeforeDecipher(value)
                     setValue(res.data.text)
 
-                    addFreeGpt()
-                    setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                    if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+                        const freeGpt = (getFreeGpt() + 1)
+
+                        addFreeGpt()
+                        setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                    }
                 })
         }
 
