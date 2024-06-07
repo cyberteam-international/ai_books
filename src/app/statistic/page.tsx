@@ -206,11 +206,11 @@ export default function PageStatistic({}: Props) {
             <section className={style.statistic__section}>
                 <div className={style.statistic__section__item}>
                     <div className={style.statistic__section__column}>
-                        <h4>Посещения</h4>
+                        <h4>Посещения (Общее)</h4>
                         <h4>{transformValue(data?.number_visits)}</h4>
                     </div>
                     <div className={style.statistic__section__column}>
-                        <h4>Уникальные посещения</h4>
+                        <h4>Посещения (Уникальные)</h4>
                         <h4>{transformValue(data?.unique_number_visits)}</h4>
                     </div>
                 </div>
@@ -219,33 +219,21 @@ export default function PageStatistic({}: Props) {
                         <h4>Колличество озвучиваний</h4>
                         <h4>{transformValue(data?.clicks_voice_button)}</h4>
                     </div>
+                </div>
+                <div className={style.statistic__section__item}>
                     <div className={style.statistic__section__column}>
                         <h4>Озвученные символы (Yandex)</h4>
                         <h4>{transformValue(data?.number_voiced_characters)}</h4>
                     </div>
                     <div className={style.statistic__section__column}>
-                        <h4>Озвученные символы (Tinkoff)</h4>
-                        <h4>{transformValue(data?.number_voiced_characters_tinkoff)}</h4>
-                    </div>
-                </div>
-                <div className={style.statistic__section__item}>
-                    <div className={style.statistic__section__column}>
-                        <h4>Пополнение счета</h4>
-                        <h4>{transformValue(data?.number_payments)}</h4>
-                    </div>
-                    <div className={style.statistic__section__column}>
-                        <h4>Сумма пополнений</h4>
-                        <h4>{transformValue(data?.amount_payments)}</h4>
-                    </div>
-                    <div className={style.statistic__section__column}>
-                        <h4>Повторные пополнения</h4>
-                        <h4>{transformValue(data?.number_repeated_payments)}</h4>
-                    </div>
-                </div>
-                <div className={style.statistic__section__item}>
-                    <div className={style.statistic__section__column}>
                         <h4>Себестоимость (Yandex)</h4>
                         <h4>{transformValue(data?.cost_price)}</h4>
+                    </div>
+                </div>
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Озвученные символы (Tinkoff)</h4>
+                        <h4>{transformValue(data?.number_voiced_characters_tinkoff)}</h4>
                     </div>
                     <div className={style.statistic__section__column}>
                         <h4>Себестоимость (Tinkoff)</h4>
@@ -268,6 +256,20 @@ export default function PageStatistic({}: Props) {
                     <div className={style.statistic__section__column}>
                         <h4>Цена за вывод (GPT)</h4>
                         <h4>{transformValueFixed6(data?.gpt_response_price)}</h4>
+                    </div>
+                </div>
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Пополнение счета</h4>
+                        <h4>{transformValue(data?.number_payments)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Сумма пополнений</h4>
+                        <h4>{transformValue(data?.amount_payments)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Повторные пополнения</h4>
+                        <h4>{transformValue(data?.number_repeated_payments)}</h4>
                     </div>
                 </div>
             </section>
