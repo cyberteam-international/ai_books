@@ -109,7 +109,7 @@ export default function PageGenerate() {
     }
 
     const handleConvertGift = () => {
-        const text = value
+        const text = resultValue
         setLoading(true)
 
         function download(filename: string, text: string) {
