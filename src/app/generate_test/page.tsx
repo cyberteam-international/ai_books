@@ -88,8 +88,8 @@ export default function PageGenerate() {
 
 
         if (text && type) {
-            if (text.length >= 5000) {
-                setCompleteMessage(`Вы можете подготовить текст длиной не более 5000 символов`)
+            if (text.length >= 15000) {
+                setCompleteMessage(`Вы можете подготовить текст длиной не более 15000 символов`)
                 return;
             }
 

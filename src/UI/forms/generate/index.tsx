@@ -35,7 +35,7 @@ export default function FormGenerate({ handleEnoughBalance, handleRegistration, 
 
     const isClient = useIsClient()
 
-    const [maxCharacterCount, setMaxCharacterCount] = useState(5000)
+    const [maxCharacterCount, setMaxCharacterCount] = useState(15000)
 
     const {
         register,
@@ -82,10 +82,10 @@ export default function FormGenerate({ handleEnoughBalance, handleRegistration, 
                 <div className={style.form__control__block}>
                     <div className={style.form__control__wrapper}>
                         {characterCount > maxCharacterCount && (
-                            <Image {...icon_warning} alt="Вы ввели более 5000 символов" />
+                            <Image {...icon_warning} alt="Вы ввели более 15000 символов" />
                         )}
                         <p className={style.form__control__character}>
-                            <span>Символов</span> {characterCount.toLocaleString('ru')}/5000
+                            <span>Символов</span> {characterCount.toLocaleString('ru')}/15000
                         </p>
                         <div className={style.form__control__delete}>
                             <Delete callback={() => setValue('input_text', '')}>

@@ -1,56 +1,79 @@
 @import "@styles/spec";
 
-.statistic{
-    h2, h4{
-        margin: 0;
-        text-align: left;
+.statistic {
+  h2, h4 {
+    margin: 0;
+    text-align: left;
+  }
+
+  h4 {
+    @include media-down(sm) {
+      font-size: 16px;
     }
-    h4{
+  }
+
+  canvas {
+    width: 100% !important;
+  }
+
+  &__date {
+    margin-top: 20px;
+    position: relative;
+    width: fit-content;
+
+    &__input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+    }
+
+    &__calendar {
+      position: absolute;
+      z-index: 2;
+
+      &__item {
         @include media-down(sm) {
-            font-size: 16px;
+          max-width: calc(100% - 30px);
         }
+      }
     }
-    canvas{
-        width: 100% !important;
+  }
+
+  &__section {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border-radius: 32px;
+    padding: 32px 36px 36px 36px;
+    border-radius: 32px;
+    border: 2px solid rgba(var(--color-white), 0.06);
+    backdrop-filter: blur(32px);
+    width: fit-content;
+
+    &__column {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 50px;
+
+      &:not(:last-child) {
+        padding-bottom: 4px;
+        border-bottom: 1px solid rgba(var(--color-white), 0.1);
+      }
+
+      &:not(:first-child) {
+        margin-top: 4px;
+      }
     }
-    &__date{
-        margin-top: 20px;
-        position: relative;
-        width: fit-content;
-        &__input{
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 150%;
-        }
-        &__calendar{
-            position: absolute;
-            z-index: 2;
-            &__item{
-                @include media-down(sm) {
-                    max-width: calc(100% - 30px);
-                }
-            }
-        }
+
+    &__item {
+      &:not(:last-child) {
+        margin-bottom: 1em;
+      }
     }
-    &__section{
-        margin-top: 40px;
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-        border-radius: 32px;
-        padding: 32px 36px 36px 36px;
-        border-radius: 32px;
-        border: 2px solid rgba(var(--color-white), 0.06);
-        backdrop-filter: blur(32px);
-        width: fit-content;
-        &__column{
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 50px;
-        }
-    }
+  }
 }

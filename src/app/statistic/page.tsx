@@ -2,11 +2,11 @@
 
 import clsx from 'clsx';
 import DatePicker from "react-datepicker";
-import { useEffect, useState } from 'react';
-import { ru } from 'date-fns/locale'
+import {useEffect, useState} from 'react';
+import {ru} from 'date-fns/locale'
 import Image from 'next/image';
-import { format } from 'date-fns';
-import { AxiosError, AxiosResponse } from 'axios';
+import {format} from 'date-fns';
+import {AxiosError, AxiosResponse} from 'axios';
 // import {
 //     Chart,
 //     CategoryScale,
@@ -20,9 +20,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 // import { FontOnest } from '@/fonts';
 
-import { useGETStatistic, useOutsideClick } from '@/utils/hooks';
-import { ENDPOINTS, ROUTES } from '@/utils/config';
-import { ResponseStatistic } from '@/utils/interface';
+import {useGETStatistic, useOutsideClick} from '@/utils/hooks';
+import {ENDPOINTS, ROUTES} from '@/utils/config';
+import {ResponseStatistic} from '@/utils/interface';
 
 import settings from '@public/settings.svg'
 import close_white from '@public/close_white.svg'
@@ -31,7 +31,7 @@ import style from './style.module.scss'
 
 type Props = {};
 
-export default function PageStatistic({ }: Props) {
+export default function PageStatistic({}: Props) {
 
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
@@ -40,7 +40,7 @@ export default function PageStatistic({ }: Props) {
 
     const ref = useOutsideClick(() => setSettingsOpen(false))
 
-    const { data } = useGETStatistic({startDate, endDate})
+    const {data} = useGETStatistic({startDate, endDate})
 
     const resetRange = () => {
         setStartDate(undefined)
@@ -60,8 +60,8 @@ export default function PageStatistic({ }: Props) {
     };
 
     const formatDate = (date: Date) => {
-        const day = format(date, 'd', { locale: ru });
-        const month = format(date, 'MMMM', { locale: ru });
+        const day = format(date, 'd', {locale: ru});
+        const month = format(date, 'MMMM', {locale: ru});
         return `${day} ${month}`;
     };
 
@@ -76,7 +76,7 @@ export default function PageStatistic({ }: Props) {
     //     })
     // }, [endDate])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log('data', data)
     }, [data])
 
@@ -148,19 +148,17 @@ export default function PageStatistic({ }: Props) {
 
     const transformValue = (val?: number) => {
         if (val && data) {
-            return Number.isInteger(val)? val : val.toFixed(2)
-        }
-        else return 0
+            return Number.isInteger(val) ? val : val.toFixed(2)
+        } else return 0
     }
 
     const transformValueFixed6 = (val?: number) => {
         if (val && data) {
-            return Number.isInteger(val)? val : val.toFixed(6)
-        }
-        else return 0
+            return Number.isInteger(val) ? val : val.toFixed(6)
+        } else return 0
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (data) {
             console.log(Number.isInteger(data.cost_price))
         }
@@ -170,14 +168,19 @@ export default function PageStatistic({ }: Props) {
         <main className={clsx(style.statistic, 'container')}>
             <h2>Статистика</h2>
             <div ref={ref} className={style.statistic__date}>
-                <button className={style.statistic__date__input} onClick={() => { setSettingsOpen(!settingsOpen) }}>
+                <button className={style.statistic__date__input} onClick={() => {
+                    setSettingsOpen(!settingsOpen)
+                }}>
                     <h5>
                         {startDate && formatDate(startDate)} {endDate && endDate.getTime() !== startDate?.getTime() && `- ${formatDate(endDate)}`}
                         {!startDate && 'За все время'}
                     </h5>
-                    {!startDate && <Image {...settings} alt='Open range settings' />}
+                    {!startDate && <Image {...settings} alt='Open range settings'/>}
                     {startDate &&
-                        <Image {...close_white} alt='Open range settings' onClick={(e) => { e.stopPropagation(); resetRange() }} />
+                        <Image {...close_white} alt='Open range settings' onClick={(e) => {
+                            e.stopPropagation();
+                            resetRange()
+                        }}/>
                     }
                 </button>
                 {settingsOpen && (
@@ -201,61 +204,71 @@ export default function PageStatistic({ }: Props) {
                 )}
             </div>
             <section className={style.statistic__section}>
-                <div className={style.statistic__section__column}>
-                    <h4>Посещения</h4>
-                    <h4>{transformValue(data?.number_visits)}</h4>
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Посещения</h4>
+                        <h4>{transformValue(data?.number_visits)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Уникальные посещения</h4>
+                        <h4>{transformValue(data?.unique_number_visits)}</h4>
+                    </div>
                 </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Уникальные посещения</h4>
-                    <h4>{transformValue(data?.unique_number_visits)}</h4>
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Колличество озвучиваний</h4>
+                        <h4>{transformValue(data?.clicks_voice_button)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Озвученные символы (Yandex)</h4>
+                        <h4>{transformValue(data?.number_voiced_characters)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Озвученные символы (Tinkoff)</h4>
+                        <h4>{transformValue(data?.number_voiced_characters_tinkoff)}</h4>
+                    </div>
                 </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Озвучивания</h4>
-                    <h4>{transformValue(data?.clicks_voice_button)}</h4>
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Пополнение счета</h4>
+                        <h4>{transformValue(data?.number_payments)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Сумма пополнений</h4>
+                        <h4>{transformValue(data?.amount_payments)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Повторные пополнения</h4>
+                        <h4>{transformValue(data?.number_repeated_payments)}</h4>
+                    </div>
                 </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Озвученные символы</h4>
-                    <h4>{transformValue(data?.number_voiced_characters)}</h4>
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Себестоимость (Yandex)</h4>
+                        <h4>{transformValue(data?.cost_price)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Себестоимость (Tinkoff)</h4>
+                        <h4>{transformValue(data?.cost_price_tinkoff)}</h4>
+                    </div>
                 </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Озвученные символы Tinkoff</h4>
-                    <h4>{transformValue(data?.number_voiced_characters_tinkoff)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Пополнение счета</h4>
-                    <h4>{transformValue(data?.number_payments)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Сумма пополнений</h4>
-                    <h4>{transformValue(data?.amount_payments)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Повторные пополнения</h4>
-                    <h4>{transformValue(data?.number_repeated_payments)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Себестоимость</h4>
-                    <h4>{transformValue(data?.cost_price)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Себестоимость Tinkoff</h4>
-                    <h4>{transformValue(data?.cost_price_tinkoff)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Колличество токенов за ввод</h4>
-                    <h4>{transformValue(data?.gpt_request_tokens)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Цена за ввод</h4>
-                    <h4>{transformValueFixed6(data?.gpt_request_price)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Колличество токенов за вывод</h4>
-                    <h4>{transformValue(data?.gpt_response_tokens)}</h4>
-                </div>
-                <div className={style.statistic__section__column}>
-                    <h4>Цена за вывод</h4>
-                    <h4>{transformValueFixed6(data?.gpt_response_price)}</h4>
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Колличество токенов за ввод (GPT)</h4>
+                        <h4>{transformValue(data?.gpt_request_tokens)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Цена за ввод (GPT)</h4>
+                        <h4>{transformValueFixed6(data?.gpt_request_price)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Колличество токенов за вывод (GPT)</h4>
+                        <h4>{transformValue(data?.gpt_response_tokens)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Цена за вывод (GPT)</h4>
+                        <h4>{transformValueFixed6(data?.gpt_response_price)}</h4>
+                    </div>
                 </div>
             </section>
             {/* <Bar options={options} data={data} /> */}
