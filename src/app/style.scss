@@ -1549,3 +1549,23 @@
 		}
 	}
 }
+
+@media only screen and (max-width: 440px) {
+	.home {
+		h1 {
+			font-size: 200.85%;
+		}
+
+		h5 {
+			font-size: 100%;
+		}
+	}
+}
+
+@media only screen and (max-width: 360px) {
+	.home {
+		h1 {
+			font-size: 170%;
+		}
+	}
+}
