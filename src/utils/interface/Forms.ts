@@ -57,6 +57,7 @@ export type CreateWorks = {
     voice: string,
     input_text: string,
     name?: string
+    is_my_voice?: boolean
 }
 
 export type UpdateWorks = {

@@ -1,5 +1,6 @@
 import { SelectValue } from "./SelectValue";
 import { LanguageValue } from "./Languages";
+import {any} from "prop-types";
 
 enum VoiceValue {
     'lea',
@@ -37,7 +38,8 @@ enum VoiceValue {
 
 export interface Voices extends SelectValue {
     title: string,
-    value: keyof typeof VoiceValue,
+    value: keyof typeof VoiceValue | string,
     audio: string,
     language: keyof typeof LanguageValue,
+    is_my_voice: boolean
 }

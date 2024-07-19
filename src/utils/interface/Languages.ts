@@ -8,6 +8,7 @@ export enum LanguageValue {
     'he-IL',
     'en-US',
     'uz-UZ',
+    'multiLang',
     // 'dk',
     // 'id',
     // 'es',

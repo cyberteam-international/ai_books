@@ -38,7 +38,7 @@ export const useAudio = (data: ResponseWork) => {
     };
 
     const setVoice = useMemo(() => {
-        return VOICES.filter((el)=>el.value === data.voice)[0].title
+        return VOICES.filter((el)=>el.value === data.voice)[0]?.title || ""
     }, [data])
 
     const formatDate = useMemo(() => {

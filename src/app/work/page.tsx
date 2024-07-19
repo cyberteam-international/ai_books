@@ -32,12 +32,19 @@ import reset from '@public/reset.svg'
 import style from './style.module.scss'
 import {UseFreeGeneration} from "@utils/hooks/useFreeGeneration";
 import {UseFreeGpt} from "@utils/hooks/useFreeGpt";
+import {MyVoice} from "@utils/interface/MyVoice";
 
 export default function PageWork() {
+    const defaultMyVoice: MyVoice = {
+        title: "Мой голоса",
+        inputValue: "Мой голоса"
+    }
 
     const [language, setLanguage] = useState<Languages>(LANGUAGES[0])
     const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES)
+    const [myVoiceArray, setMyVoiceArray] = useState<MyVoice[]>([])
     const [voice, setVoice] = useState<Voices>(VOICES[0])
+    const [myVoice, setMyVoice] = useState<MyVoice>(defaultMyVoice)
     const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration()
     const {getFreeGpt, addFreeGpt, maxFreeGpt} = UseFreeGpt()
 
@@ -92,7 +99,8 @@ export default function PageWork() {
             ENDPOINTS.WORK.CREATE_WORK({
                 ...data,
                 lang: language.value as string,
-                voice: voice.value as string
+                voice: myVoice.value ? myVoice.value : voice.value as string,
+                is_my_voice: !!myVoice.value,
             })
                 .then(async (res: AxiosResponse<ResponseWork>) => {
                     setResponseData(res.data)
@@ -237,6 +245,28 @@ export default function PageWork() {
     }, [language])
 
     useEffect(() => {
+        if (userInfo) {
+            if (userInfo) {
+                ENDPOINTS.VOICES.GET_VOICES().then((res) => {
+                    const myVoiceArray: MyVoice[] = []
+
+                    for (let i = 0; i < res.data.length; i++) {
+                        const r = res.data[i]
+
+                        myVoiceArray.push({
+                            title: r.name,
+                            inputValue: r.name,
+                            value: r.voice_id,
+                        })
+                    }
+
+                    setMyVoiceArray(myVoiceArray)
+                })
+            }
+        }
+    }, [userInfo]);
+
+    useEffect(() => {
         let intervalId: NodeJS.Timeout;
 
         const paymentId = Cookies.get('payment_id');
@@ -298,15 +328,32 @@ export default function PageWork() {
                     <Select
                         options={LANGUAGES}
                         value={language}
-                        onChange={(data) => setLanguage((data as Languages))}
+                        onChange={(data) => {
+                            setLanguage((data as Languages))
+                            setMyVoice(defaultMyVoice)
+                        }}
                         type={'languages'}
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+                        disabled={myVoice.value !== undefined}
                     />
                     <Select
                         options={voiceArray}
                         value={voice}
-                        onChange={(data) => setVoice((data as unknown as Voices))}
+                        onChange={(data) => {
+                            setVoice((data as unknown as Voices))
+                            setMyVoice(defaultMyVoice)
+                        }}
                         type={'voices'}
+                        inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+                        disabled={myVoice.value !== undefined}
+                    />
+                    <Select
+                        options={myVoiceArray}
+                        value={myVoice}
+                        onChange={(data) => {
+                            setMyVoice((data as MyVoice))
+                        }}
+                        type={'banks'}
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
                     />
                     {language.value === 'ru-RU' && (
