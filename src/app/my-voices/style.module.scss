@@ -46,17 +46,21 @@
     }
 
     &__voice {
-        height: 50px;
+        height: 60px;
         align-items: center;
         display: flex;
-        border-radius: 4px;
+        border-radius: 24px;
         transition: background .2s;
         padding: 0 16px;
-        font-size: 20px;
         cursor: pointer;
+        justify-content: space-between;
 
         &:hover {
             background: rgba(#fff, .1);
+        }
+
+        &__title {
+            font-size: 20px;
         }
     }
 }

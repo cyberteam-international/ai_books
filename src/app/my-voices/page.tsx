@@ -1,73 +1,79 @@
 'use client'
 
 import clsx from 'clsx';
-import {useContext, useEffect, useState} from 'react';
-
-import {ENDPOINTS} from '@/utils/config';
+import {useState} from 'react';
 
 import Button from '@/UI/button';
 
 import style from './style.module.scss'
 
-import {ContextUser} from '@/utils/context';
-import {MyVoice} from "@utils/interface/MyVoice";
 import {useGETVoices} from "@utils/hooks/useSwrGET";
 import {ModalCreateVoice} from "@components/Modal/ModalCreateVoice";
-import {ModalWarningEnoughBalance, ModalWrapper} from "@components/Modal";
+import {ModalMessage, ModalWrapper} from "@components/Modal";
+import Delete from "@UI/delete";
+import {ENDPOINTS} from "@utils/config";
 
 export default function PageMyVoices() {
-    const [myVoiceArray, setMyVoiceArray] = useState<MyVoice[]>([])
     const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false)
-    const {userInfo, mutate} = useContext(ContextUser)
-    const {data} = useGETVoices()
+    const {data, mutate} = useGETVoices()
+    const [completeMessage, setCompleteMessage] = useState<string>()
 
-    useEffect(() => {
-        if (userInfo) {
-            ENDPOINTS.VOICES.GET_VOICES().then((res) => {
-                const myVoiceArray: MyVoice[] = []
+    function onSubmitCreateVoice() {
+        setCompleteMessage('Пожалуйста подождите. Голос обрабатывается')
+        setModalCreateVoiceOpen(false)
 
-                for (let i = 0; i < res.length; i++) {
-                    const r = res[i]
+        mutate().then(() => {
+            setCompleteMessage('Голос успешно создан.')
+        }).catch(() => {
+            setCompleteMessage('Ошибка. Попробуйте позже')
+        })
+    }
 
-                    myVoiceArray.push({
-                        title: r.name,
-                        inputValue: r.name,
-                        value: r.voice_id,
-                    })
-                }
+    function onDeleteButton(voice_id: number) {
+        setCompleteMessage('Удаление...')
 
-                setMyVoiceArray(myVoiceArray)
+        ENDPOINTS.VOICES.DELETE_VOICE(voice_id).then(() => {
+            mutate().then(() => {
+                setCompleteMessage('Успешно удалено.')
+            }).catch(() => {
+                setCompleteMessage('Ошибка. Попробуйте позже')
             })
-        }
-
-    }, [userInfo, data]);
-
-    function onSubmitCreateVoice() {}
+        }).catch(() => {
+            setCompleteMessage('Ошибка. Попробуйте позже')
+        })
+    }
 
     return (
         <main className={clsx(style.profile, 'container')}>
-            <div className={style.profile__wrapper}>
-                <div className={style.profile__header}>
-                    <p className={style.profile__wrapper__title}>Мои голоса <span>({myVoiceArray.length}/10)</span>
-                    </p>
-                    <Button className={style.profile__btn} callback={() => {
-                        return setModalCreateVoiceOpen(true)
-                    }}>Создать</Button>
+            {data && <>
+                <div className={style.profile__wrapper}>
+                    <div className={style.profile__header}>
+                        <p className={style.profile__wrapper__title}>Мои голоса <span>({data.length}/10)</span>
+                        </p>
+                        <Button className={style.profile__btn} callback={() => {
+                            return setModalCreateVoiceOpen(true)
+                        }}>Создать</Button>
+                    </div>
+
+                    <div className={style.profile__voices}>
+                        {data.map(voice => {
+                            return <div className={style.profile__voice}>
+                                <p className={style.profile__voice__title}>{voice.name}</p>
+
+                                <Delete callback={() => {
+                                    onDeleteButton(voice.id);
+                                }}><p>Удалить</p></Delete>
+                            </div>
+                        })}
+                    </div>
                 </div>
 
-                <div className={style.profile__voices}>
-                    {myVoiceArray.map(voice => {
-                        return <div className={style.profile__voice}>
-                            {voice.title}
-                        </div>
-                    })}
-                </div>
-            </div>
+                <ModalWrapper state={[modalCreateVoiceOpen, setModalCreateVoiceOpen]}>
+                    <ModalCreateVoice onSubmit={onSubmitCreateVoice}/>
+                </ModalWrapper>
+            </>}
 
-            <ModalWrapper state={[modalCreateVoiceOpen, setModalCreateVoiceOpen]}>
-                <ModalCreateVoice onSubmit={onSubmitCreateVoice}/>
-            </ModalWrapper>
-
+            <ModalMessage message={completeMessage} setMesage={setCompleteMessage}/>
         </main>
     );
 }

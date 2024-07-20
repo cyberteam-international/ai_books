@@ -11,11 +11,27 @@
     justify-content: space-between;
     align-items: flex-start;
     padding: 1.125em 1.875em;
-    border: 1px solid rgba(66, 66, 106, 0.2);
+    border: 1px solid rgba(66, 66, 106, 1);
     border-radius: 5em;
     width: 100%;
     color: #42426A;
-    min-width: 500px;
+    min-width: 400px;
+}
+
+.textarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.125em 1.875em;
+    border: 1px solid rgba(66, 66, 106, 1);
+    border-radius: 24px;
+    width: 100%;
+    color: #42426A;
+    resize: none;
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .caption {
@@ -68,7 +84,7 @@
         justify-content: space-between;
         align-items: flex-start;
         padding: 1.125em 1.875em;
-        border: 1px solid rgba(66, 66, 106, 0.2);
+        border: 1px solid rgba(66, 66, 106, 1);
         border-radius: 5em;
         width: 100%;
         cursor: pointer;
@@ -77,12 +93,12 @@
     span {
         font-size: 75%;
         padding: 0 0.5em;
-        display: block;
+        display: table;
         background: linear-gradient(89.79deg, #E636C3 -9.06%, #8E1BE8 102.62%, #8E1BE8 102.63%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-fill-color: transparent;
-        margin: 0.25em 0 1.25em 1.8em;
+        margin-top: 1em;
     }
 }

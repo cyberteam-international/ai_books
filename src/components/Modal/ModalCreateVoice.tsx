@@ -15,12 +15,12 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
         const formData = new FormData(e.target)
 
         ENDPOINTS.VOICES.CREATE_VOICE(formData)
-            .then(res => {
-                onSubmit()
-            })
+            .then()
             .catch(err => {
                 console.error(err)
             })
+
+        onSubmit()
     }
     return (
         <form onSubmit={sendForm} className={style.modal__error}>
@@ -34,7 +34,7 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
             />
 
             <textarea
-                className={styleForm.input}
+                className={styleForm.textarea}
                 placeholder='Описание'
                 name="description"
             ></textarea>

@@ -285,6 +285,15 @@ export const ENDPOINTS = {
                     Authorization: `Bearer ${getToken()}`,
                 }
             })
+        },
+        DELETE_VOICE: (id: number) => {
+            return axios({
+                url: `${ENDPOINTS_URL.VOICES}/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
         }
     },
     PAYMENT: {
