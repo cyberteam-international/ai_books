@@ -245,13 +245,12 @@ export default function PageWork() {
     }, [language])
 
     useEffect(() => {
-        if (userInfo) {
             if (userInfo) {
                 ENDPOINTS.VOICES.GET_VOICES().then((res) => {
                     const myVoiceArray: MyVoice[] = []
 
-                    for (let i = 0; i < res.data.length; i++) {
-                        const r = res.data[i]
+                    for (let i = 0; i < res.length; i++) {
+                        const r = res[i]
 
                         myVoiceArray.push({
                             title: r.name,
@@ -263,7 +262,7 @@ export default function PageWork() {
                     setMyVoiceArray(myVoiceArray)
                 })
             }
-        }
+
     }, [userInfo]);
 
     useEffect(() => {
@@ -347,7 +346,7 @@ export default function PageWork() {
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
                         disabled={myVoice.value !== undefined}
                     />
-                    <Select
+                    {myVoiceArray.length > 0 && <Select
                         options={myVoiceArray}
                         value={myVoice}
                         onChange={(data) => {
@@ -355,7 +354,7 @@ export default function PageWork() {
                         }}
                         type={'banks'}
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
-                    />
+                    />}
                     {language.value === 'ru-RU' && (
                         <Select
                             options={decipherOption}

@@ -14,6 +14,19 @@ export const useGETUser = () => {
     }
 }
 
+
+export const useGETVoices = () => {
+
+    const { data, error, isLoading, mutate } = useSWR(ENDPOINTS_URL.VOICES, ENDPOINTS.VOICES.GET_VOICES)
+
+    return {
+        data: data,
+        isLoading,
+        isError: error,
+        mutate
+    }
+}
+
 export const useGETWorks = () => {
 
     const { data, error, isLoading, mutate } = useSWR(ENDPOINTS_URL.WORK, ENDPOINTS.WORK.GET_WORKS)

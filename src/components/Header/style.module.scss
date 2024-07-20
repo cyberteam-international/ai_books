@@ -9,7 +9,7 @@
     line-height: 150%;
     padding-top: 40px;
     &_open{
-        position: fixed; 
+        position: fixed;
         z-index: 5;
         top: 0;
         left: 0;
@@ -83,7 +83,7 @@
                 span{
                     color: rgba(var(--color-white), 1);
                 }
-            } 
+            }
         }
     }
     &__profile{

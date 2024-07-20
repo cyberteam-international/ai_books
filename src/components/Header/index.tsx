@@ -61,14 +61,18 @@ export default function Header({ }: Props) {
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}>Мои аудио</Link>
                             </li>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_VOICES && style.header__menu__item_active)}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_VOICES}>Мои голоса</Link>
+                            </li>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
-                                <Link onClick={() => setIsOpen(false)} href={ROUTES.PAYMENT}>Баланс <span>{Number(userInfo?.balance.toFixed(2)).toLocaleString('ru-RU')}</span> ₽</Link>
+                                <Link onClick={() => setIsOpen(false)}
+                                      href={ROUTES.PAYMENT}>Баланс <span>{Number(userInfo?.balance.toFixed(2)).toLocaleString('ru-RU')}</span> ₽</Link>
                             </li>
                         </>
                     )}
                     {(userInfo?.is_admin || userInfo?.is_editor) && (
                         <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
-                            <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор тестов</Link>
+                        <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор тестов</Link>
                         </li>
                     )}
                     {userInfo?.is_admin && (

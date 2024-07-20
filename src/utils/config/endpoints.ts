@@ -251,14 +251,20 @@ export const ENDPOINTS = {
         },
     },
     VOICES: {
-        GET_VOICES: () => {
-            return axios({
+        GET_VOICES: async () => {
+            return await axios({
                 url: ENDPOINTS_URL.VOICES,
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
                 }
             })
+                .then((res: AxiosResponse<any>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
         },
         GET_BY_VOICE: (id: string) => {
             return axios({
@@ -269,29 +275,7 @@ export const ENDPOINTS = {
                 }
             })
         },
-        CREATE_VOICE: ({name, description, labels, files}: {
-            name: string,
-            description?: string
-            labels?: string
-            files: File[]
-        }) => {
-            const formData = new FormData()
-            formData.append('name', name)
-
-            if(description) {
-                formData.append('description', description)
-            }
-
-            if(labels) {
-                formData.append('labels', labels)
-            }
-
-            if(files) {
-                files.forEach(file => {
-                    formData.append('files[]', file)
-                })
-            }
-
+        CREATE_VOICE: (formData: FormData) => {
             return axios({
                 url: `${ENDPOINTS_URL.VOICES}`,
                 method: 'POST',

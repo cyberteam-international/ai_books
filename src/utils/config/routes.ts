@@ -7,6 +7,7 @@ export const ROUTES = {
     PROFILE: '/profile',
     PAYMENT: '/payment',
     MY_AUDIO: '/my-audio',
+    MY_VOICES: '/my-voices',
     REGISTRATION: '/registration',
     LOGIN: '/login',
     POLICY: '/policy',
