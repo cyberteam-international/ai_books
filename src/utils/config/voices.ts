@@ -2,6 +2,7 @@ import { Voices } from "../interface"
 
 export const VOICES: Voices[] = [
     {
+        is_my_voice: false,
         title: 'Леа',
         value: 'lea',
         inputValue: 'Леа',
@@ -9,6 +10,7 @@ export const VOICES: Voices[] = [
         language: "de-DE"
     },
     {
+        is_my_voice: false,
         title: 'Джон',
         value: 'john',
         inputValue: 'Джон',
@@ -16,6 +18,7 @@ export const VOICES: Voices[] = [
         language: 'en-US'
     },
     {
+        is_my_voice: false,
         title: 'Наоми',
         value: 'naomi',
         inputValue: 'Наоми',
@@ -23,6 +26,7 @@ export const VOICES: Voices[] = [
         language: 'he-IL'
     },
     {
+        is_my_voice: false,
         title: 'Амира',
         value: 'amira',
         inputValue: 'Амира',
@@ -30,6 +34,7 @@ export const VOICES: Voices[] = [
         language: 'kk-KK'
     },
     {
+        is_my_voice: false,
         title: 'Мади',
         value: 'madi',
         inputValue: 'Мади',
@@ -37,6 +42,7 @@ export const VOICES: Voices[] = [
         language: 'kk-KK'
     },
     {
+        is_my_voice: false,
         title: 'Алена',
         value: 'alena',
         inputValue: 'Алена',
@@ -44,6 +50,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Филипп',
         value: 'filipp',
         inputValue: 'Филипп',
@@ -51,6 +58,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Ермил',
         value: 'ermil',
         inputValue: 'Ермил',
@@ -58,6 +66,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Джейн',
         value: 'jane',
         inputValue: 'Джейн',
@@ -65,6 +74,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Мадирус',
         value: 'madirus',
         inputValue: 'Мадирус',
@@ -72,6 +82,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Омаж',
         value: 'omazh',
         inputValue: 'Омаж',
@@ -79,6 +90,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Захар',
         value: 'zahar',
         inputValue: 'Захар',
@@ -86,6 +98,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Даша',
         value: 'dasha',
         inputValue: 'Даша',
@@ -93,6 +106,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Юлия',
         value: 'julia',
         inputValue: 'Юлия',
@@ -100,6 +114,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Лера',
         value: 'lera',
         inputValue: 'Лера',
@@ -107,6 +122,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Маша',
         value: 'masha',
         inputValue: 'Маша',
@@ -114,6 +130,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Марина',
         value: 'marina',
         inputValue: 'Марина',
@@ -121,6 +138,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Александр',
         value: 'alexander',
         inputValue: 'Александр',
@@ -128,6 +146,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Кирилл',
         value: 'kirill',
         inputValue: 'Кирилл',
@@ -135,6 +154,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Антон',
         value: 'anton',
         inputValue: 'Антон',
@@ -142,6 +162,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: 'Нигора',
         value: 'nigora',
         inputValue: 'Нигора',
@@ -149,6 +170,7 @@ export const VOICES: Voices[] = [
         language: 'uz-UZ'
     },
     {
+        is_my_voice: false,
         title: 'Tomoru (BrandVoice)',
         value: 'b1gs9a5ant07jps2s9d8',
         inputValue: 'Tomoru (BrandVoice)',
@@ -156,6 +178,7 @@ export const VOICES: Voices[] = [
         language: 'ru-RU'
     },
     {
+        is_my_voice: false,
         title: "Алёна",
         language: 'ru-RU',
         value: "alyona",
@@ -163,6 +186,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/alyona.wav',
     },
     {
+        is_my_voice: false,
         title: "Алёна, грустное",
         language: "ru-RU",
         value: "alyona:sad",
@@ -170,6 +194,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/alyona-sad.wav',
     },
     {
+        is_my_voice: false,
         title: "Алёна, веселое",
         language: "ru-RU",
         value: "alyona:funny",
@@ -177,6 +202,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/alyona-funny.wav',
     },
     {
+        is_my_voice: false,
         title: "Алёна, флирт",
         language: "ru-RU",
         value: "alyona:flirt",
@@ -184,6 +210,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/alyona-flirt.wav',
     },
     {
+        is_my_voice: false,
         title: "Дорофеев",
         language: "ru-RU",
         value: "dorofeev:neutral",
@@ -191,6 +218,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/dorofeev-neutral.wav',
     },
     {
+        is_my_voice: false,
         title: "Дорофеев, драма",
         language: "ru-RU",
         value: "dorofeev:drama",
@@ -198,6 +226,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/dorofeev-drama.wav',
     },
     {
+        is_my_voice: false,
         title: "Дорофеев, комедия",
         language: "ru-RU",
         value: "dorofeev:comedy",
@@ -205,6 +234,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/dorofeev-comedy.wav',
     },
     {
+        is_my_voice: false,
         title: "Дорофеев, инфо",
         language: "ru-RU",
         value: "dorofeev:info",
@@ -212,6 +242,7 @@ export const VOICES: Voices[] = [
         audio: '/testAudio/dorofeev-info.wav',
     },
     {
+        is_my_voice: false,
         title: "Дорофеев, трагедия",
         language: "ru-RU",
         value: "dorofeev:tragedy",
