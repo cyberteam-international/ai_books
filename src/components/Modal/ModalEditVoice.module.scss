@@ -1,0 +1,107 @@
+@import "@styles/spec";
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.input {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.125em 1.875em;
+    border: 1px solid rgba(66, 66, 106, 1);
+    border-radius: 5em;
+    width: 100%;
+    color: #42426A;
+    min-width: 400px;
+}
+
+.textarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.125em 1.875em;
+    border: 1px solid rgba(66, 66, 106, 1);
+    border-radius: 24px;
+    width: 100%;
+    color: #42426A;
+    resize: none;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.caption {
+    text-align: center;
+    font-size: .875em;
+    margin: 0.75em 0;
+    
+    a, b {
+        font-weight: bold;
+    }
+}
+
+.button {
+    display: block;
+    cursor: pointer;
+    margin-top: 2em;
+    padding: 1.1em;
+    position: relative;
+    color: rgba(var(--Light), 1);
+    background: radial-gradient(108.29% 5056.67% at -3.54% 81.67%, #C7299E 0%, #5E12BA 49.77%, #331ED2 100%);
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border: none;
+    border-radius: 5em;
+    text-align: center;
+    z-index: 0;
+    font-size: 112.5%;
+    width: 100%;
+    color: #fff;
+}
+
+.inputFile {
+    position: relative;
+    width: 100%;
+    
+    input[type=file] {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        display: block;
+        width: 0;
+        height: 0;
+    }
+    
+    label {
+        position: relative;
+        transform: none;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1.125em 1.875em;
+        border: 1px solid rgba(66, 66, 106, 1);
+        border-radius: 5em;
+        width: 100%;
+        cursor: pointer;
+    }
+    
+    span {
+        font-size: 75%;
+        padding: 0 0.5em;
+        margin-top: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 30px;
+
+        button {
+            color: red;
+            text-fill-color: red;
+        }
+    }
+}

@@ -15,6 +15,7 @@ import {
 import {UserInfoExtended} from "../interface/UserInfo"
 import {ResponseEnvironment} from "../interface/Responses"
 import {SendMessageForm} from "@utils/interface/Forms";
+import {IDataEditSettingsVoice} from "@components/Modal/ModalEditSettingsVoice";
 
 const BASE_URL = process.env.BACKEND_URL
 
@@ -275,6 +276,15 @@ export const ENDPOINTS = {
                 }
             })
         },
+        GET_BY_VOICE_SETTINGS: (id: number) => {
+            return axios<IDataEditSettingsVoice>({
+                url: `${ENDPOINTS_URL.VOICES}/settings/${id}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
+        },
         CREATE_VOICE: (formData: FormData) => {
             return axios({
                 url: `${ENDPOINTS_URL.VOICES}`,
@@ -286,9 +296,40 @@ export const ENDPOINTS = {
                 }
             })
         },
+        EDIT_VOICE: (id: number, formData: FormData) => {
+            return axios({
+                url: `${ENDPOINTS_URL.VOICES}/${id}`,
+                method: 'PUT',
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
+        },
+        EDIT_VOICE_SETTINGS: (id: number, data: IDataEditSettingsVoice) => {
+            return axios({
+                url: `${ENDPOINTS_URL.VOICES}/settings/${id}`,
+                method: 'PUT',
+                data: data,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
+        },
         DELETE_VOICE: (id: number) => {
             return axios({
                 url: `${ENDPOINTS_URL.VOICES}/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
+        },
+        DELETE_SAMPLE: (id: number, sample_id:string) => {
+            return axios({
+                url: `${ENDPOINTS_URL.VOICES}/${id}/sample/${sample_id}`,
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${getToken()}`,

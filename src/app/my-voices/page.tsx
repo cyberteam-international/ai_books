@@ -12,11 +12,41 @@ import {ModalCreateVoice} from "@components/Modal/ModalCreateVoice";
 import {ModalMessage, ModalWrapper} from "@components/Modal";
 import Delete from "@UI/delete";
 import {ENDPOINTS} from "@utils/config";
+import {IDataEditVoice, ModalEditVoice} from "@components/Modal/ModalEditVoice";
+import Settings from "@UI/settings";
+import {ModalEditSettingsVoice} from "@components/Modal/ModalEditSettingsVoice";
 
 export default function PageMyVoices() {
+    const MAX_VOICE_SIZE = 10
     const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false)
+    const [modalEditVoiceOpen, setModalEditVoiceOpen] = useState<boolean>(false)
+    const [modalEditSettingsVoiceOpen, setModalEditSettingsVoiceOpen] = useState<boolean>(false)
     const {data, mutate} = useGETVoices()
     const [completeMessage, setCompleteMessage] = useState<string>()
+    const [editData, setEditData] = useState<IDataEditVoice | undefined>(undefined)
+    const [editDataSettings, setEditDataSettings] = useState<number | undefined>(undefined)
+
+    function onSubmitEditSettingsVoice() {
+        setCompleteMessage('Пожалуйста подождите. Сохранение')
+        setModalEditVoiceOpen(false)
+
+        mutate().then(() => {
+            setCompleteMessage('Настройки успешно сохранены.')
+        }).catch(() => {
+            setCompleteMessage('Ошибка. Попробуйте позже')
+        })
+    }
+
+    function onSubmitEditVoice() {
+        setCompleteMessage('Пожалуйста подождите. Сохранение')
+        setModalEditVoiceOpen(false)
+
+        mutate().then(() => {
+            setCompleteMessage('Голос успешно изменен.')
+        }).catch(() => {
+            setCompleteMessage('Ошибка. Попробуйте позже')
+        })
+    }
 
     function onSubmitCreateVoice() {
         setCompleteMessage('Пожалуйста подождите. Голос обрабатывается')
@@ -48,21 +78,38 @@ export default function PageMyVoices() {
             {data && <>
                 <div className={style.profile__wrapper}>
                     <div className={style.profile__header}>
-                        <p className={style.profile__wrapper__title}>Мои голоса <span>({data.length}/10)</span>
+                        <p className={style.profile__wrapper__title}>Мои
+                            голоса <span>({data.length}/{MAX_VOICE_SIZE})</span>
                         </p>
-                        <Button className={style.profile__btn} callback={() => {
+                        {data.length < MAX_VOICE_SIZE && <Button className={style.profile__btn} callback={() => {
                             return setModalCreateVoiceOpen(true)
-                        }}>Создать</Button>
+                        }}>Создать</Button>}
                     </div>
 
                     <div className={style.profile__voices}>
-                        {data.map(voice => {
+                        {data.map((voice: any) => {
                             return <div className={style.profile__voice}>
+                                <a className={style.profile__voice_link} onClick={() => {
+                                    setModalEditVoiceOpen(true)
+                                    setEditData({
+                                        id: voice.id,
+                                        name: voice.name,
+                                        description: voice.description,
+                                        samples: voice.samples,
+                                    })
+                                }}></a>
                                 <p className={style.profile__voice__title}>{voice.name}</p>
 
-                                <Delete callback={() => {
-                                    onDeleteButton(voice.id);
-                                }}><p>Удалить</p></Delete>
+                                <div className={style.profile__voice__tools}>
+                                    <Settings callback={() => {
+                                        setModalEditSettingsVoiceOpen(true)
+                                        setEditDataSettings(voice.id)
+                                    }}><p>Настройки</p></Settings>
+
+                                    <Delete callback={() => {
+                                        onDeleteButton(voice.id);
+                                    }}><p>Удалить</p></Delete>
+                                </div>
                             </div>
                         })}
                     </div>
@@ -70,6 +117,14 @@ export default function PageMyVoices() {
 
                 <ModalWrapper state={[modalCreateVoiceOpen, setModalCreateVoiceOpen]}>
                     <ModalCreateVoice onSubmit={onSubmitCreateVoice}/>
+                </ModalWrapper>
+
+                <ModalWrapper state={[modalEditVoiceOpen, setModalEditVoiceOpen]}>
+                    <ModalEditVoice data={editData} onSubmit={onSubmitEditVoice}/>
+                </ModalWrapper>
+
+                <ModalWrapper state={[modalEditSettingsVoiceOpen, setModalEditSettingsVoiceOpen]}>
+                    <ModalEditSettingsVoice id={editDataSettings} onSubmit={onSubmitEditSettingsVoice}/>
                 </ModalWrapper>
             </>}
 

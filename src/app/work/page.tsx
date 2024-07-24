@@ -245,23 +245,23 @@ export default function PageWork() {
     }, [language])
 
     useEffect(() => {
-            if (userInfo) {
-                ENDPOINTS.VOICES.GET_VOICES().then((res) => {
-                    const myVoiceArray: MyVoice[] = []
+        if (userInfo) {
+            ENDPOINTS.VOICES.GET_VOICES().then((res) => {
+                const myVoiceArray: MyVoice[] = []
 
-                    for (let i = 0; i < res.length; i++) {
-                        const r = res[i]
+                for (let i = 0; i < res.length; i++) {
+                    const r = res[i]
 
-                        myVoiceArray.push({
-                            title: r.name,
-                            inputValue: r.name,
-                            value: r.voice_id,
-                        })
-                    }
+                    myVoiceArray.push({
+                        title: r.name,
+                        inputValue: r.name,
+                        value: r.voice_id,
+                    })
+                }
 
-                    setMyVoiceArray(myVoiceArray)
-                })
-            }
+                setMyVoiceArray(myVoiceArray)
+            })
+        }
 
     }, [userInfo]);
 
@@ -346,7 +346,7 @@ export default function PageWork() {
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
                         disabled={myVoice.value !== undefined}
                     />
-                    {myVoiceArray.length > 0 && <Select
+                    {userInfo?.is_admin && myVoiceArray.length > 0 && <Select
                         options={myVoiceArray}
                         value={myVoice}
                         onChange={(data) => {
