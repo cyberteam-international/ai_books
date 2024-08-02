@@ -33,6 +33,7 @@ import style from './style.module.scss'
 import {UseFreeGeneration} from "@utils/hooks/useFreeGeneration";
 import {UseFreeGpt} from "@utils/hooks/useFreeGpt";
 import {MyVoice} from "@utils/interface/MyVoice";
+import WorkSettings, {SettingsDefault} from "@components/work/WorkSettings";
 
 export default function PageWork() {
     const defaultMyVoice: MyVoice = {
@@ -41,6 +42,7 @@ export default function PageWork() {
     }
 
     const [language, setLanguage] = useState<Languages>(LANGUAGES[0])
+    const [settings, setSettings] = useState<SettingsDefault>()
     const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES)
     const [myVoiceArray, setMyVoiceArray] = useState<MyVoice[]>([])
     const [voice, setVoice] = useState<Voices>(VOICES[0])
@@ -101,6 +103,7 @@ export default function PageWork() {
                 lang: language.value as string,
                 voice: myVoice.value ? myVoice.value : voice.value as string,
                 is_my_voice: !!myVoice.value,
+                settings: settings
             })
                 .then(async (res: AxiosResponse<ResponseWork>) => {
                     setResponseData(res.data)
@@ -401,7 +404,9 @@ export default function PageWork() {
                     {isClient && (
                         <div className={style.main__rules}>
                             {windowWidth > 768 && (
-                                <Rules/>
+                                <WorkSettings voice={voice} myVoice={myVoice} onSettings={(settings) => {
+                                    setSettings(settings)
+                                }}/>
                             )}
                         </div>
                     )}

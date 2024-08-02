@@ -1,3 +1,5 @@
+import {SettingsDefault} from "@components/work/WorkSettings";
+
 export type LoginForm = {
     email: string,
     password: string
@@ -58,6 +60,7 @@ export type CreateWorks = {
     input_text: string,
     name?: string
     is_my_voice?: boolean
+    settings?: SettingsDefault
 }
 
 export type UpdateWorks = {

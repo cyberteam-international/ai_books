@@ -29,9 +29,10 @@
         display: grid;
         grid-template-columns: 2fr 1fr;
         gap: 40px;
-        @include media-down(md) {
-            grid-template-rows: auto;
-            grid-template-columns: 1fr;
+
+        @include media-down(lg) {
+            flex-direction: column-reverse;
+            display: flex;
             gap: 16px;
         }
     }
@@ -39,7 +40,6 @@
         display: flex;
         flex-direction: column;
         gap: 18px;
-        overflow: hidden;
         @include media-down(md) {
             margin-top: 16px;
         }
