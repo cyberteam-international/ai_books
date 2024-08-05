@@ -115,7 +115,7 @@ export default function Select({isLoading, addButton, value, onChange, placehold
                         </li>}
 
                         {isLoading && <li className={style.select__options__list__loading}>
-                            <Loading color={"#000"} width={"24px"} height={"24px"}/>
+                            <Loading isBlack={true}/>
                         </li>}
 
                         {setOptions()}

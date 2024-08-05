@@ -1,15 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import clsx from 'clsx';
 
-import { ResponseEnvironment } from '@/utils/interface/Responses';
-import { ENDPOINTS } from '@/utils/config';
+import {ResponseEnvironment} from '@/utils/interface/Responses';
+import {ENDPOINTS} from '@/utils/config';
 
 import PromptItem from './PromptItem';
 
 import style from './style.module.scss'
-import { ModalMessage } from '@/components/Modal';
+import {ModalMessage} from '@/components/Modal';
 
 type Props = {};
 
@@ -19,7 +19,6 @@ export default function PagePrompt({ }: Props) {
     const [completeMessage, setCompleteMessage] = useState<string>()
 
     const submit = (data: ResponseEnvironment, message: string) => {
-        console.log(data)
         ENDPOINTS.ENVIRONMENT.UPDATE(data).then(()=>{
             if (environmentList) {
                 const newList = [...environmentList]
@@ -42,10 +41,6 @@ export default function PagePrompt({ }: Props) {
             setEnvironmentList(res)
         })
     }, [])
-
-    useEffect(() => {
-        console.log(environmentList)
-    }, [environmentList])
 
     return (
         <>
