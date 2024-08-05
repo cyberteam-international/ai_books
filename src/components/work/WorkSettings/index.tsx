@@ -38,15 +38,24 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
 
     useEffect(() => {
         const roleArr = getRoleVoices(voice?.value)
-        onSettings({
-            stability: stability / 100 || undefined,
-            similarity_boost: similarity / 100 || undefined,
-            style: styleExaggeration / 100 || undefined,
-            use_speaker_boost: dynamicBoost || undefined,
-            speed: speed / 100 || undefined,
-            pitchShift: pitchShift || undefined,
-            role: roleArr[role] || undefined
-        })
+
+        if(myVoice?.value) {
+            onSettings({
+                stability: stability / 100 || undefined,
+                similarity_boost: similarity / 100 || undefined,
+                style: styleExaggeration / 100 || undefined,
+                use_speaker_boost: dynamicBoost || undefined
+            })
+        }
+
+        if(isYandex(voice?.value) && !myVoice?.value) {
+            onSettings({
+                speed: speed / 100 || undefined,
+                pitchShift: pitchShift || undefined,
+                role: roleArr[role] || undefined
+            })
+        }
+
     }, [stability, similarity, styleExaggeration, dynamicBoost, speed, pitchShift, role]);
 
     function isYandex(voice?: string) {
