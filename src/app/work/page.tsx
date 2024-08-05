@@ -335,6 +335,10 @@ export default function PageWork() {
         }
     }, [decipherMode])
 
+    useEffect(() => {
+        setSettings({})
+    }, [voice, myVoice])
+
     return (
         <>
             <main

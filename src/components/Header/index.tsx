@@ -14,9 +14,7 @@ import logo from '@public/logo.svg'
 import profile from '@public/profile.svg'
 import burger_close from '@public/burger_close.svg'
 import burger_open from '@public/burger_open.svg'
-import vk from '@public/vk.svg'
 import telegram from '@public/telegram.svg'
-import whatsapp from '@public/whatsapp.svg'
 
 import style from './style.module.scss'
 
