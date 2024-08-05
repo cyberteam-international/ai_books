@@ -230,6 +230,18 @@ export default function PageStatistic({}: Props) {
                         <h4>{transformValue(data?.cost_price)}</h4>
                     </div>
                 </div>
+
+                <div className={style.statistic__section__item}>
+                    <div className={style.statistic__section__column}>
+                        <h4>Озвученные символы (ElevenLabs)</h4>
+                        <h4>{transformValue(data?.number_voiced_characters_elevenlabs)}</h4>
+                    </div>
+                    <div className={style.statistic__section__column}>
+                        <h4>Себестоимость (ElevenLabs)</h4>
+                        <h4>{transformValue(data?.cost_price_elevenlabs)}</h4>
+                    </div>
+                </div>
+
                 <div className={style.statistic__section__item}>
                     <div className={style.statistic__section__column}>
                         <h4>Озвученные символы (Tinkoff)</h4>
