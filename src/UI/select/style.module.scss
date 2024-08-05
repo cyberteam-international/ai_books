@@ -94,6 +94,13 @@
         transform: rotate(90deg) scale(-1, 1);
       }
     }
+
+    &__add {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
 
   &__options {
@@ -123,6 +130,11 @@
         backdrop-filter: blur(16px);
       }
 
+      &__loading {
+       height: 40px;
+        transform: scale(.5);
+      }
+
       &__item {
         display: flex;
         align-items: center;
@@ -137,6 +149,7 @@
         line-height: 150%;
         letter-spacing: 0.36px;
         color: rgba(var(--сolor-grey), 0.6);
+        position: relative;
 
         &:hover {
           background: rgba(var(--сolor-grey), 0.03);

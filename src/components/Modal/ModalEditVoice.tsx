@@ -2,7 +2,6 @@ import style from './style.module.scss'
 import styleForm from './ModalEditVoice.module.scss'
 import {useEffect, useState} from "react";
 import {ENDPOINTS} from "@utils/config";
-import {da} from "date-fns/locale";
 import icon_trash from "@public/icon_trash.svg";
 import Image from "next/image";
 
@@ -14,7 +13,6 @@ export interface IDataEditVoiceSample {
 export interface IDataEditVoice {
     id: number,
     name: string,
-    description?: string,
     samples?: IDataEditVoiceSample[]
 }
 
@@ -47,7 +45,6 @@ export const ModalEditVoice = ({onSubmit, data}: Props) => {
             _setData({
                 id: _data.id,
                 name: _data.name,
-                description: _data.description,
                 samples: _data.samples?.filter((s) => {
                     return s.sample_id !== sample_id
                 }) || [],
@@ -76,13 +73,6 @@ export const ModalEditVoice = ({onSubmit, data}: Props) => {
                 defaultValue={_data.name}
                 required={true}
             />
-
-            <textarea
-                className={styleForm.textarea}
-                placeholder='Описание'
-                name="description"
-                defaultValue={_data?.description}
-            ></textarea>
 
             <div className={styleForm.inputFile}>
                 <input type="file" id="file" name="files" multiple={true} onChange={(e) => {

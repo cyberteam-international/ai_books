@@ -105,6 +105,11 @@ export default function Header({ }: Props) {
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_AUDIO && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_AUDIO}><span>Мои аудио</span></Link>
                             </li>
+                            {(userInfo?.is_admin) && (
+                                <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_VOICES && style.header__menu__item_active)}>
+                                    <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_VOICES}><span>Мои голоса</span></Link>
+                                </li>
+                            )}
                         </>
                     ) : (
                         <>

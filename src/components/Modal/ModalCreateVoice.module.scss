@@ -16,6 +16,10 @@
     width: 100%;
     color: #42426A;
     min-width: 400px;
+
+    @include media-down(md) {
+        min-width: 0;
+    }
 }
 
 .textarea {

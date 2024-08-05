@@ -10,10 +10,12 @@ import {useOutsideClick} from "@/utils/hooks";
 import {PlayerSelect} from "../audioPlayer";
 
 import arrow_right from '@public/arrow_right.svg'
+import add from '@public/add.svg'
+import loading from '@public/loading_1.svg'
 
 import style from './style.module.scss'
 import {IDataFilter} from "@/app/my-audio/data";
-import {SelectValue} from "@/utils/interface/SelectValue";
+import Loading from "@/app/loading";
 
 type Props = {
     value: Banks | Languages | Voices | IDataFilter | DecipherMode | undefined,
@@ -23,9 +25,11 @@ type Props = {
     inputStyle?: 'withForm' | 'default',
     options: (Banks | Languages | Voices | IDataFilter | DecipherMode)[],
     disabled?: boolean,
+    addButton?: () => void,
+    isLoading?: boolean
 }
 
-export default function Select({value, onChange, placeholder, options, type, disabled, inputStyle = 'withForm'}: Props) {
+export default function Select({isLoading, addButton, value, onChange, placeholder, options, type, disabled, inputStyle = 'withForm'}: Props) {
 
     const [isOpen, setIsOpen] = useState(false)
     const [playingOption, setPlayingOption] = useState<number>(-1)
@@ -98,6 +102,22 @@ export default function Select({value, onChange, placeholder, options, type, dis
             {isOpen && (
                 <div className={style.select__options}>
                     <ul className={clsx('scroll', style.select__options__list)}>
+                        {addButton && <li
+                            className={style.select__options__list__item}
+                            onClick={() => {
+                                addButton()
+                            }}
+                        >
+                            <p>Создать</p>
+                            <Image
+                                className={clsx(style.select__input__add)} {...add}
+                                alt='open select'/>
+                        </li>}
+
+                        {isLoading && <li className={style.select__options__list__loading}>
+                            <Loading color={"#000"} width={"24px"} height={"24px"}/>
+                        </li>}
+
                         {setOptions()}
                     </ul>
                 </div>

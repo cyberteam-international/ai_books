@@ -5,6 +5,9 @@ import Typography from "@mui/material/Typography";
 import SwitchComponent from "@UI/SwitchComponent";
 import {Voices} from "@utils/interface";
 import {MyVoice} from "@utils/interface/MyVoice";
+import clsx from "clsx";
+import Image from "next/image";
+import close_icon from "../../../../public/close_white.svg";
 
 export interface SettingsDefault {
     stability?: number
@@ -30,6 +33,8 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
     const [pitchShift, setPitchShift] = useState<number>(0);
     const [role, setRole] = useState<number>(0);
     const [dynamicBoost, setDynamicBoost] = useState<boolean>(true);
+
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const roleArr = getRoleVoices(voice?.value)
@@ -71,12 +76,14 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
     }
 
     return (
-        <div className={style.settings}>
-            <p className={style.settings__title}>Настройки озвучки</p>
-            <div className={style.settings__wrapper}>
-                <Typography variant="h5" sx={{color: '#fff', textAlign: 'left', padding: '0 10px'}}>
+        <div className={clsx(style.settings, (!isYandex(voice?.value) && !myVoice?.value) && style.settings__not)}>
+            <p className={style.settings__title} onClick={() => setIsOpen(!isOpen)}>Настройки озвучки</p>
+            <div className={clsx(style.settings__wrapper, isOpen && style.settings__wrapper__active)}>
+                <Typography variant="h5" sx={{color: '#fff', textAlign: 'left', padding: '0 10px'}} >
                     {myVoice?.value ? myVoice?.title : voice?.title}
                 </Typography>
+
+                <button className={clsx(style.settings__close)} onClick={() => setIsOpen(false)}><Image {...close_icon}/></button>
 
                 {myVoice?.value && <>
                     <SliderComponent

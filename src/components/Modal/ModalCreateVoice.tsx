@@ -2,7 +2,6 @@ import style from './style.module.scss'
 import styleForm from './ModalCreateVoice.module.scss'
 import {useState} from "react";
 import {ENDPOINTS} from "@utils/config";
-import {tr} from "date-fns/locale";
 
 type Props = {
     onSubmit: () => void
@@ -32,12 +31,6 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
                 name="name"
                 required={true}
             />
-
-            <textarea
-                className={styleForm.textarea}
-                placeholder='Описание'
-                name="description"
-            ></textarea>
 
             <div className={styleForm.inputFile}>
                 <input type="file" id="file" name="files" multiple={true} onChange={(e) => {

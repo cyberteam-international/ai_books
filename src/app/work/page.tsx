@@ -34,6 +34,7 @@ import {UseFreeGeneration} from "@utils/hooks/useFreeGeneration";
 import {UseFreeGpt} from "@utils/hooks/useFreeGpt";
 import {MyVoice} from "@utils/interface/MyVoice";
 import WorkSettings, {SettingsDefault} from "@components/work/WorkSettings";
+import {ModalCreateVoice} from "@components/Modal/ModalCreateVoice";
 
 export default function PageWork() {
     const defaultMyVoice: MyVoice = {
@@ -50,6 +51,7 @@ export default function PageWork() {
     const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration()
     const {getFreeGpt, addFreeGpt, maxFreeGpt} = UseFreeGpt()
 
+    const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false)
     const [modalResultOpen, setModalResultOpen] = useState<boolean>(false)
     const [modalEnoughBalanceOpen, setModalEnoughBalanceOpen] = useState<boolean>(false)
     const [modalRegistrationOpen, setModalRegistrationOpen] = useState<boolean>(false)
@@ -227,6 +229,17 @@ export default function PageWork() {
 
     }
 
+    function onSubmitCreateVoice() {
+        setCompleteMessage('Пожалуйста подождите. Голос обрабатывается')
+        setModalCreateVoiceOpen(false)
+
+        mutate().then(() => {
+            setCompleteMessage('Голос успешно создан.')
+        }).catch(() => {
+            setCompleteMessage('Ошибка. Попробуйте позже')
+        })
+    }
+
     useEffect(() => {
         if (isClient) {
             if (userInfo?.id) {
@@ -325,7 +338,7 @@ export default function PageWork() {
     return (
         <>
             <main
-                className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen) || loading) && 'modal')}>
+                className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen || modalCreateVoiceOpen) || loading) && 'modal')}>
                 <div className={style.main__options}>
                     <Select
                         options={LANGUAGES}
@@ -349,7 +362,7 @@ export default function PageWork() {
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
                         disabled={myVoice.value !== undefined}
                     />
-                    {userInfo?.is_admin && myVoiceArray.length > 0 && <Select
+                    {userInfo?.is_admin && <Select
                         options={myVoiceArray}
                         value={myVoice}
                         onChange={(data) => {
@@ -357,6 +370,10 @@ export default function PageWork() {
                         }}
                         type={'banks'}
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
+                        addButton={() => {
+                            setModalCreateVoiceOpen(true)
+                        }}
+                        isLoading={myVoiceArray.length === 0}
                     />}
                     {language.value === 'ru-RU' && (
                         <Select
@@ -375,11 +392,6 @@ export default function PageWork() {
                         />
                     )}
                 </div>
-                {isClient && windowWidth < 768 && (
-                    <div className={style.main__rules}>
-                        <Rules/>
-                    </div>
-                )}
                 <div className={style.main__wrapper}>
                     <FormMain
                         submit={submit}
@@ -403,11 +415,9 @@ export default function PageWork() {
                     </FormMain>
                     {isClient && (
                         <div className={style.main__rules}>
-                            {windowWidth > 768 && (
-                                <WorkSettings voice={voice} myVoice={myVoice} onSettings={(settings) => {
-                                    setSettings(settings)
-                                }}/>
-                            )}
+                            <WorkSettings voice={voice} myVoice={myVoice} onSettings={(settings) => {
+                                setSettings(settings)
+                            }}/>
                         </div>
                     )}
                 </div>
@@ -415,6 +425,9 @@ export default function PageWork() {
             {loading && (
                 <Loader/>
             )}
+            <ModalWrapper state={[modalCreateVoiceOpen, setModalCreateVoiceOpen]}>
+                <ModalCreateVoice onSubmit={onSubmitCreateVoice}/>
+            </ModalWrapper>
             <ModalWrapper state={[modalEnoughBalanceOpen, setModalEnoughBalanceOpen]}>
                 <ModalWarningEnoughBalance/>
             </ModalWrapper>
