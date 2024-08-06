@@ -8,6 +8,7 @@ import {MyVoice} from "@utils/interface/MyVoice";
 import clsx from "clsx";
 import Image from "next/image";
 import close_icon from "../../../../public/close_white.svg";
+import {FontOnest} from "@/fonts";
 
 export interface SettingsDefault {
     stability?: number
@@ -88,7 +89,7 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
         <div className={clsx(style.settings, (!isYandex(voice?.value) && !myVoice?.value) && style.settings__not)}>
             <p className={style.settings__title} onClick={() => setIsOpen(!isOpen)}>Настройки озвучки</p>
             <div className={clsx(style.settings__wrapper, isOpen && style.settings__wrapper__active)}>
-                <Typography variant="h5" sx={{color: '#fff', textAlign: 'left', padding: '0 10px'}} >
+                <Typography variant="h5" sx={{color: '#fff', textAlign: 'left', padding: '0 10px', fontWeight: '400', fontFamily: FontOnest.style}} >
                     {myVoice?.value ? myVoice?.title : voice?.title}
                 </Typography>
 

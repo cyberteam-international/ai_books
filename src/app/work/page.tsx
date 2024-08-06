@@ -35,6 +35,7 @@ import {UseFreeGpt} from "@utils/hooks/useFreeGpt";
 import {MyVoice} from "@utils/interface/MyVoice";
 import WorkSettings, {SettingsDefault} from "@components/work/WorkSettings";
 import {ModalCreateVoice} from "@components/Modal/ModalCreateVoice";
+import {useGETVoices} from "@utils/hooks/useSwrGET";
 
 export default function PageWork() {
     const defaultMyVoice: MyVoice = {
@@ -45,11 +46,11 @@ export default function PageWork() {
     const [language, setLanguage] = useState<Languages>(LANGUAGES[0])
     const [settings, setSettings] = useState<SettingsDefault>()
     const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES)
-    const [myVoiceArray, setMyVoiceArray] = useState<MyVoice[]>([])
     const [voice, setVoice] = useState<Voices>(VOICES[0])
     const [myVoice, setMyVoice] = useState<MyVoice>(defaultMyVoice)
     const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration()
     const {getFreeGpt, addFreeGpt, maxFreeGpt} = UseFreeGpt()
+    const myVoicesData = useGETVoices()
 
     const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false)
     const [modalResultOpen, setModalResultOpen] = useState<boolean>(false)
@@ -233,11 +234,14 @@ export default function PageWork() {
         setCompleteMessage('Пожалуйста подождите. Голос обрабатывается')
         setModalCreateVoiceOpen(false)
 
-        mutate().then(() => {
-            setCompleteMessage('Голос успешно создан.')
-        }).catch(() => {
-            setCompleteMessage('Ошибка. Попробуйте позже')
-        })
+        setTimeout(() => {
+            myVoicesData.mutate().then((data) => {
+                console.log('mutate', data)
+                setCompleteMessage('Голос успешно создан.')
+            }).catch(() => {
+                setCompleteMessage('Ошибка. Попробуйте позже')
+            })
+        }, 500)
     }
 
     useEffect(() => {
@@ -260,26 +264,26 @@ export default function PageWork() {
         }
     }, [language])
 
-    useEffect(() => {
-        if (userInfo) {
-            ENDPOINTS.VOICES.GET_VOICES().then((res) => {
-                const myVoiceArray: MyVoice[] = []
-
-                for (let i = 0; i < res.length; i++) {
-                    const r = res[i]
-
-                    myVoiceArray.push({
-                        title: r.name,
-                        inputValue: r.name,
-                        value: r.voice_id,
-                    })
-                }
-
-                setMyVoiceArray(myVoiceArray)
-            })
-        }
-
-    }, [userInfo]);
+    // useEffect(() => {
+    //     if (userInfo) {
+    //         ENDPOINTS.VOICES.GET_VOICES().then((res) => {
+    //             const myVoiceArray: MyVoice[] = []
+    //
+    //             for (let i = 0; i < res.length; i++) {
+    //                 const r = res[i]
+    //
+    //                 myVoiceArray.push({
+    //                     title: r.name,
+    //                     inputValue: r.name,
+    //                     value: r.voice_id,
+    //                 })
+    //             }
+    //
+    //             setMyVoiceArray(myVoiceArray)
+    //         })
+    //     }
+    //
+    // }, [userInfo]);
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
@@ -367,7 +371,11 @@ export default function PageWork() {
                         disabled={myVoice.value !== undefined}
                     />
                     {userInfo?.is_admin && <Select
-                        options={myVoiceArray}
+                        options={myVoicesData?.data?.map((r: any) => ({
+                            title: r.name,
+                            inputValue: r.name,
+                            value: r.voice_id,
+                        })) || []}
                         value={myVoice}
                         onChange={(data) => {
                             setMyVoice((data as MyVoice))
@@ -377,7 +385,7 @@ export default function PageWork() {
                         addButton={() => {
                             setModalCreateVoiceOpen(true)
                         }}
-                        isLoading={myVoiceArray.length === 0}
+                        isLoading={myVoicesData?.isLoading}
                     />}
                     {language.value === 'ru-RU' && (
                         <Select

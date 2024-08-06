@@ -40,33 +40,39 @@ export default function PageMyVoices() {
         setCompleteMessage('Пожалуйста подождите. Сохранение')
         setModalEditVoiceOpen(false)
 
-        mutate().then(() => {
-            setCompleteMessage('Голос успешно изменен.')
-        }).catch(() => {
-            setCompleteMessage('Ошибка. Попробуйте позже')
-        })
+        setTimeout(() => {
+            mutate().then(() => {
+                setCompleteMessage('Голос успешно изменен.')
+            }).catch(() => {
+                setCompleteMessage('Ошибка. Попробуйте позже')
+            })
+        }, 500)
     }
 
     function onSubmitCreateVoice() {
         setCompleteMessage('Пожалуйста подождите. Голос обрабатывается')
         setModalCreateVoiceOpen(false)
 
-        mutate().then(() => {
-            setCompleteMessage('Голос успешно создан.')
-        }).catch(() => {
-            setCompleteMessage('Ошибка. Попробуйте позже')
-        })
+        setTimeout(() => {
+            mutate().then(() => {
+                setCompleteMessage('Голос успешно создан.')
+            }).catch(() => {
+                setCompleteMessage('Ошибка. Попробуйте позже')
+            })
+        }, 500)
     }
 
     function onDeleteButton(voice_id: number) {
         setCompleteMessage('Удаление...')
 
         ENDPOINTS.VOICES.DELETE_VOICE(voice_id).then(() => {
-            mutate().then(() => {
-                setCompleteMessage('Успешно удалено.')
-            }).catch(() => {
-                setCompleteMessage('Ошибка. Попробуйте позже')
-            })
+            setTimeout(() => {
+                mutate().then(() => {
+                    setCompleteMessage('Успешно удалено.')
+                }).catch(() => {
+                    setCompleteMessage('Ошибка. Попробуйте позже')
+                })
+            }, 500)
         }).catch(() => {
             setCompleteMessage('Ошибка. Попробуйте позже')
         })

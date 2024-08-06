@@ -3,7 +3,8 @@ import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
+import {FontOnest} from "@/fonts";
 
 const CustomSlider = styled(Slider)({
     color: '#9B51E0',
@@ -46,7 +47,7 @@ interface ValueLabelComponentProps {
     options: string[];
 }
 
-const ValueLabelComponent: React.FC<ValueLabelComponentProps> = ({ children, value, open, options }) => {
+const ValueLabelComponent: React.FC<ValueLabelComponentProps> = ({children, value, open, options}) => {
     return (
         <Tooltip open={open} enterTouchDelay={0} placement="top" title={options[value]}>
             {children}
@@ -54,7 +55,16 @@ const ValueLabelComponent: React.FC<ValueLabelComponentProps> = ({ children, val
     );
 };
 
-const SliderComponent: React.FC<CustomSliderProps> = ({ title, value, onChange, leftLabel, rightLabel, min = 0, max = 100, options }) => {
+const SliderComponent: React.FC<CustomSliderProps> = ({
+                                                          title,
+                                                          value,
+                                                          onChange,
+                                                          leftLabel,
+                                                          rightLabel,
+                                                          min = 0,
+                                                          max = 100,
+                                                          options
+                                                      }) => {
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
         if (typeof newValue === 'number') {
             onChange(newValue);
@@ -62,8 +72,16 @@ const SliderComponent: React.FC<CustomSliderProps> = ({ title, value, onChange, 
     };
 
     return (
-        <Box sx={{ width: '100%', margin: '0 auto', padding: '0 10px', textAlign: 'center', borderRadius: '10px', position: 'relative' }}>
-            <Typography variant="subtitle1" gutterBottom sx={{ color: '#ffffff80', textAlign: 'left', marginBottom: '15px' }}>
+        <Box sx={{
+            width: '100%',
+            margin: '0 auto',
+            padding: '0 10px',
+            textAlign: 'center',
+            borderRadius: '10px',
+            position: 'relative'
+        }}>
+            <Typography variant="subtitle1" gutterBottom
+                        sx={{color: '#ffffff80', textAlign: 'left', marginBottom: '15px', fontFamily: FontOnest.style}}>
                 {title}
             </Typography>
             <CustomSlider
@@ -73,14 +91,16 @@ const SliderComponent: React.FC<CustomSliderProps> = ({ title, value, onChange, 
                 min={options ? 0 : min}
                 max={options ? options.length - 1 : max}
                 step={options ? 1 : undefined}
-                components={options ? { ValueLabel: (props) => <ValueLabelComponent {...props} options={options} /> } : undefined}
+                components={options ? {
+                    ValueLabel: (props) => <ValueLabelComponent {...props} options={options}/>
+                } : undefined}
                 valueLabelDisplay="auto"
             />
-            <Box display="flex" justifyContent="space-between" sx={{ marginTop: '-10px' }}>
-                <Typography variant="body2" sx={{ color: '#fff' }}>
+            <Box display="flex" justifyContent="space-between" sx={{marginTop: '-10px'}}>
+                <Typography variant="body2" sx={{color: '#fff', fontFamily: FontOnest.style}}>
                     {leftLabel}
                 </Typography>
-                <Typography variant="body2" sx={{ color: '#fff' }}>
+                <Typography variant="body2" sx={{color: '#fff', fontFamily: FontOnest.style}}>
                     {rightLabel}
                 </Typography>
             </Box>
@@ -90,7 +110,7 @@ const SliderComponent: React.FC<CustomSliderProps> = ({ title, value, onChange, 
                     sx={{
                         color: '#fff',
                         position: 'relative',
-                        top: '-45px',
+                        top: '-45px', fontFamily: FontOnest.style
                     }}
                 >
                     {options[value]}

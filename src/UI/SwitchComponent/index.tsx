@@ -3,6 +3,7 @@ import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import {FontOnest} from "@/fonts";
 
 const CustomSwitch = styled(Switch)({
     '& .MuiSwitch-switchBase.Mui-checked': {
@@ -35,7 +36,7 @@ const SwitchComponent: React.FC<CustomSwitchProps> = ({ label, checked, onChange
                 onChange={handleSwitchChange}
                 color="primary"
             />
-            <Typography variant="body1" sx={{ color: '#fff', marginLeft: '8px', cursor: 'pointer' }} onClick={handleLabelClick}>
+            <Typography variant="body1" sx={{ color: '#fff', marginLeft: '8px', cursor: 'pointer', fontFamily: FontOnest.style, fontWeight: 300 }} onClick={handleLabelClick}>
                 {label}
             </Typography>
         </Box>

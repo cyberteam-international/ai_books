@@ -1,21 +1,16 @@
 'use client'
 
-import { useForm } from "react-hook-form";
-import { ReactNode, useContext, useEffect, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {useForm} from "react-hook-form";
+import {ReactNode, useContext, useEffect, useState} from "react";
+import {yupResolver} from "@hookform/resolvers/yup";
 import Image from "next/image";
-import Link from "next/link";
 
-import { useIsClient } from "@/utils/hooks";
+import {useIsClient} from "@/utils/hooks";
 
-import { CreateWorks, Languages } from "@utils/interface";
-import { SchemaTextArea } from "@utils/config/yupShemes";
-import { ContextUser } from "@/utils/context";
-import { ENDPOINTS, PRICE, ROUTES } from "@/utils/config";
-
-import abbreviations_img from '@public/decipher_abbreviations.svg'
-import numbers_img from '@public/decipher_numbers.svg'
-import reset from '@public/reset.svg'
+import {CreateWorks} from "@utils/interface";
+import {SchemaTextArea} from "@utils/config/yupShemes";
+import {ContextUser} from "@/utils/context";
+import {PRICE} from "@/utils/config";
 
 import TextArea from "@/UI/textarea";
 import Button from "@/UI/button";
