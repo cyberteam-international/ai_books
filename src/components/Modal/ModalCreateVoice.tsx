@@ -108,6 +108,12 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
                        }}/>
                 <label htmlFor="file">Прикрепить аудиофайлы *</label>
                 {error && <p className={styleForm.inputFile__span_error}>{error}</p>}
+                {files.length <= 0 && <p className={styleForm.inputFile__text}>
+                    Пока ничего не загружено. Загрузите аудиосэмплы голоса, которые вы хотите использовать для обучения.<br/><br/>
+
+                    Качество сэмплов важнее, чем их количество. Шумные сэмплы могут привести к плохим результатам.
+                    При воспроизведении звука продолжительностью более 5 минут улучшения будут незначительными.
+                </p>}
                 {files.map((file) => {
                     return <span>
                         {file.name}

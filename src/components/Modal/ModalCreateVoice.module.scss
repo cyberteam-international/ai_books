@@ -51,7 +51,6 @@
 .button {
   display: block;
   cursor: pointer;
-  margin-top: 2em;
   padding: 1.1em;
   position: relative;
   color: rgba(var(--Light), 1);
@@ -123,5 +122,12 @@
   &__span_error {
     color: red !important;
     margin-top: 0.5em;
+  }
+
+  &__text {
+    text-align: left !important;
+    padding: 10px 0;
+    opacity: .8;
+    font-size: 14px;
   }
 }

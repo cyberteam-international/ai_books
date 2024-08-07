@@ -1,12 +1,15 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ru } from 'date-fns/locale'
-import { format } from 'date-fns';
+import {ChangeEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {ru} from 'date-fns/locale'
+import {format} from 'date-fns';
 
-import { ResponseWork } from '../interface';
-import { ENDPOINTS_URL, VOICES } from '../config';
+import {ResponseWork} from '../interface';
+import {ENDPOINTS_URL, VOICES} from '../config';
+import {useGETVoices} from "@utils/hooks/useSwrGET";
+import {Loader} from "next/dynamic";
+import Loading from "@/app/loading";
 
 export const useAudio = (data: ResponseWork) => {
-
+    const myVoicesData = useGETVoices()
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState<number>()
     const [currentTime, setCurrentTime] = useState<number>(0)
@@ -14,7 +17,7 @@ export const useAudio = (data: ResponseWork) => {
     const [newTrackName, setNewTrackName] = useState('')
     const [audioUrl, setAudioUrl] = useState<string>('');
 
-	const audioRef = useRef<HTMLAudioElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
 
     // Сервис временной почты для борьбы со спамом. sil<[2000]> Избавтесь от спама с нашей бесплатной, безопасной 10-минутной почтой.
@@ -38,21 +41,27 @@ export const useAudio = (data: ResponseWork) => {
     };
 
     const setVoice = useMemo(() => {
-        return VOICES.filter((el)=>el.value === data.voice)[0]?.title || ""
-    }, [data])
+        const voice = VOICES.filter((el) => el.value === data.voice)[0]?.title
+        if (voice) return voice
+
+        const myVoice = myVoicesData?.data ? myVoicesData?.data.filter((el: any) => el.voice_id === data.voice)[0]?.name : ""
+        if(myVoice) return `Мой голос (${myVoice})`
+
+        return ""
+    }, [data, myVoicesData.data])
 
     const formatDate = useMemo(() => {
         const date = new Date(data.created_at)
-        const day = format(date, 'd', { locale: ru });
-        const month = format(date, 'MMMM', { locale: ru });
-        const year = format(date, 'yyyy', { locale: ru });
+        const day = format(date, 'd', {locale: ru});
+        const month = format(date, 'MMMM', {locale: ru});
+        const year = format(date, 'yyyy', {locale: ru});
         return `${day} ${month.slice(0, 3)}. ${year}`;
     }, [data])
 
     const fetchAudioUrl = useCallback(async () => {
         const response = await fetch(ENDPOINTS_URL.AUDIO + data.completed_file);
         const blob = await response.blob();
-        const newBlob = new Blob([blob], { type: 'audio/mpeg' });
+        const newBlob = new Blob([blob], {type: 'audio/mpeg'});
         const url = URL.createObjectURL(newBlob);
         setAudioUrl(url);
     }, [data])
@@ -66,13 +75,13 @@ export const useAudio = (data: ResponseWork) => {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (progressBarRef.current) {
             progressBarRef.current.addEventListener('input', handleChangeRange)
         }
         return () => {
-			progressBarRef.current?.removeEventListener('input', handleChangeRange)
-		};
+            progressBarRef.current?.removeEventListener('input', handleChangeRange)
+        };
     }, [progressBarRef])
 
     // useEffect(()=>{
@@ -80,8 +89,8 @@ export const useAudio = (data: ResponseWork) => {
     //         audioRef.current.addEventListener('loadedmetadata', onLoadedMetadata)
     //     }
     //     return () => {
-	// 		audioRef.current?.removeEventListener('loadedmetadata', onLoadedMetadata)
-	// 	};
+    // 		audioRef.current?.removeEventListener('loadedmetadata', onLoadedMetadata)
+    // 	};
     // }, [audioRef])
 
     useEffect(() => {
@@ -98,21 +107,20 @@ export const useAudio = (data: ResponseWork) => {
     useEffect(() => {
         if (isPlaying) {
             audioRef.current?.play()
-        }
-        else {
+        } else {
             audioRef.current?.pause()
         }
     }, [isPlaying])
 
-    useEffect(()=>{
-        if (duration && progressBarRef.current ) {
+    useEffect(() => {
+        if (duration && progressBarRef.current) {
             progressBarRef.current.style.setProperty('--min', `${0}`);
             progressBarRef.current.style.setProperty('--max', `${duration}`);
             progressBarRef.current.style.setProperty('--value', `${currentTime}`);
         }
     }, [duration, progressBarRef, currentTime])
 
-	return {
+    return {
         audioRef,
         progressBarRef,
         isPlaying, setIsPlaying,

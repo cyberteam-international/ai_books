@@ -18,6 +18,7 @@ import pause from '@public/player/pause.svg'
 import download from '@public/download.svg'
 
 import style from './ForFull.module.scss'
+import Loading from "@/app/loading";
 
 
 interface Props {
@@ -32,7 +33,6 @@ interface Props {
 };
 
 export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandler, handleDuration, handleChangeAudioName, isOptionTop }: Props) => {
-
     const [menuOpen, setMenuOpen] = useState(false)
 
     const {
@@ -134,7 +134,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                     </form>
                     {isClient && windowWidth > 1280 && (
                         <>
-                            <p className={style.player__text}>{setVoice}</p>
+                            <p className={style.player__text}>{setVoice || <Loading/>}</p>
                             <p className={style.player__text}>{formatDate}</p>
                             <p className={style.player__text}>{formatTime()}</p>
                         </>
@@ -158,7 +158,7 @@ export const PlayerFull = ({ index, canPlay, setPlayingIndex, data, removeHandle
                 {isClient && windowWidth < 1280 && (
                     <div className={style.player__bottom}>
                         <div className={style.player__bottom__wrapper}>
-                            <p className={style.player__text}>{setVoice}</p>
+                            <p className={style.player__text}>{setVoice || <Loading/>}</p>
                             <p className={style.player__text}>{formatDate}</p>
                         </div>
                         <p className={style.player__text}>{formatTime()}</p>
