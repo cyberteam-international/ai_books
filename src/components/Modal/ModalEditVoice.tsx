@@ -79,7 +79,7 @@ export const ModalEditVoice = ({onSubmit, data}: Props) => {
             />
 
             <div className={styleForm.inputFile}>
-                <input type="file" id="file" name="files" multiple={true} onChange={(e) => {
+                <input accept="audio/*" type="file" id="file" name="files" multiple={true} onChange={(e) => {
                     // @ts-ignore
                     const files = Array.from(e.target['files'])
                     setFiles(files)
