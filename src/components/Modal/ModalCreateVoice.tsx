@@ -5,6 +5,7 @@ import {ENDPOINTS} from "@utils/config";
 import clsx from "clsx";
 import Image from "next/image";
 import icon_trash from "@public/icon_trash.svg";
+import Loading from "@/app/loading";
 
 type Props = {
     onSubmit: () => void
@@ -12,6 +13,7 @@ type Props = {
 
 export const ModalCreateVoice = ({onSubmit}: Props) => {
     const [files, setFiles] = useState<File[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>('')
 
     const sendForm = (e: any) => {
@@ -20,12 +22,16 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
         const valid = onValid()
 
         if (valid) {
+            setIsLoading(true)
+
             ENDPOINTS.VOICES.CREATE_VOICE(formData)
-                .then()
+                .then(() => {
+                    onSubmit()
+                    setIsLoading(false)
+                })
                 .catch(err => {
                     console.error(err)
                 })
-            onSubmit()
         }
     }
 
@@ -51,7 +57,7 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
         }
 
         for (let i = 0; i < files.length; i++) {
-            if(files[i].type !== "audio/mpeg") {
+            if (files[i].type !== "audio/mpeg") {
                 setError('Загрузите только .mp3 файлы')
                 return false
             }
@@ -93,7 +99,9 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
 
             </div>
 
-            <button className={styleForm.button} type='submit'>Создать</button>
+            <button className={styleForm.button} type='submit'>
+                {isLoading ? <Loading/> : 'Создать'}
+            </button>
         </form>
     );
 }

@@ -64,6 +64,11 @@
   font-size: 112.5%;
   width: 100%;
   color: #fff;
+  height: 60px;
+
+  & > div {
+    transform: scale(.6) translateY(-75%) translateX(-50%);
+  }
 }
 
 .inputFile {

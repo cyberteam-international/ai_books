@@ -20,7 +20,7 @@ export default function PageMyVoices() {
     const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false)
     const [modalEditVoiceOpen, setModalEditVoiceOpen] = useState<boolean>(false)
     // const [modalEditSettingsVoiceOpen, setModalEditSettingsVoiceOpen] = useState<boolean>(false)
-    const {data, mutate} = useGETVoices()
+    const myVoices = useGETVoices()
     const [completeMessage, setCompleteMessage] = useState<string>()
     const [editData, setEditData] = useState<IDataEditVoice | undefined>(undefined)
     // const [editDataSettings, setEditDataSettings] = useState<number | undefined>(undefined)
@@ -41,7 +41,7 @@ export default function PageMyVoices() {
         setModalEditVoiceOpen(false)
 
         setTimeout(() => {
-            mutate().then(() => {
+            myVoices.mutate().then(() => {
                 setCompleteMessage('Голос успешно изменен.')
             }).catch(() => {
                 setCompleteMessage('Ошибка. Попробуйте позже')
@@ -53,26 +53,22 @@ export default function PageMyVoices() {
         setCompleteMessage('Пожалуйста подождите. Голос обрабатывается')
         setModalCreateVoiceOpen(false)
 
-        setTimeout(() => {
-            mutate().then(() => {
-                setCompleteMessage('Голос успешно создан.')
-            }).catch(() => {
-                setCompleteMessage('Ошибка. Попробуйте позже')
-            })
-        }, 500)
+        myVoices.mutate().then(() => {
+            setCompleteMessage('Голос успешно создан.')
+        }).catch(() => {
+            setCompleteMessage('Ошибка. Попробуйте позже')
+        })
     }
 
     function onDeleteButton(voice_id: number) {
         setCompleteMessage('Удаление...')
 
         ENDPOINTS.VOICES.DELETE_VOICE(voice_id).then(() => {
-            setTimeout(() => {
-                mutate().then(() => {
-                    setCompleteMessage('Успешно удалено.')
-                }).catch(() => {
-                    setCompleteMessage('Ошибка. Попробуйте позже')
-                })
-            }, 500)
+            myVoices?.mutate().then(() => {
+                setCompleteMessage('Успешно удалено.')
+            }).catch(() => {
+                setCompleteMessage('Ошибка. Попробуйте позже')
+            })
         }).catch(() => {
             setCompleteMessage('Ошибка. Попробуйте позже')
         })
@@ -83,15 +79,15 @@ export default function PageMyVoices() {
             <div className={style.profile__wrapper}>
                 <div className={style.profile__header}>
                     <p className={style.profile__wrapper__title}>Мои
-                        голоса <span>({data?.length || 0}/{MAX_VOICE_SIZE})</span>
+                        голоса <span>({myVoices?.data?.length || 0}/{MAX_VOICE_SIZE})</span>
                     </p>
                     <Button className={style.profile__btn} callback={() => {
                         return setModalCreateVoiceOpen(true)
                     }}>Создать</Button>
                 </div>
 
-                {data && <div className={style.profile__voices}>
-                    {data.map((voice: any) => {
+                {myVoices?.data && <div className={style.profile__voices}>
+                    {myVoices?.data.map((voice: any) => {
                         return <div className={style.profile__voice}>
                             <a className={style.profile__voice_link} onClick={() => {
                                 setModalEditVoiceOpen(true)
@@ -116,7 +112,7 @@ export default function PageMyVoices() {
                         </div>
                     })}
                 </div>}
-                {!data && <Loading/>}
+                {!myVoices?.data && <Loading/>}
             </div>
 
             <ModalWrapper state={[modalCreateVoiceOpen, setModalCreateVoiceOpen]}>
@@ -130,7 +126,6 @@ export default function PageMyVoices() {
             {/*<ModalWrapper state={[modalEditSettingsVoiceOpen, setModalEditSettingsVoiceOpen]}>*/}
             {/*    <ModalEditSettingsVoice id={editDataSettings} onSubmit={onSubmitEditSettingsVoice}/>*/}
             {/*</ModalWrapper>*/}
-
 
             <ModalMessage message={completeMessage} setMesage={setCompleteMessage}/>
         </main>

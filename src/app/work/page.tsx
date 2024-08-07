@@ -1,6 +1,6 @@
 'use client'
 
-import {useContext, useEffect, useState} from 'react'
+import {useCallback, useContext, useEffect, useState} from 'react'
 import clsx from 'clsx'
 import {useWindowWidth} from '@react-hook/window-size'
 import {AxiosError, AxiosResponse} from 'axios'
@@ -44,7 +44,7 @@ export default function PageWork() {
     }
 
     const [language, setLanguage] = useState<Languages>(LANGUAGES[0])
-    const [settings, setSettings] = useState<SettingsDefault>()
+    const [settings, setSettings] = useState<SettingsDefault>({})
     const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES)
     const [voice, setVoice] = useState<Voices>(VOICES[0])
     const [myVoice, setMyVoice] = useState<MyVoice>(defaultMyVoice)
@@ -101,6 +101,8 @@ export default function PageWork() {
             setLoading(true)
             setCompleteMessage('')
 
+            console.log(settings)
+
             ENDPOINTS.WORK.CREATE_WORK({
                 ...data,
                 lang: language.value as string,
@@ -132,7 +134,7 @@ export default function PageWork() {
                     setLoading(false)
                 })
         }
-    };
+    }
 
     const handleRemoveClose = () => {
         setCompleteMessage(`Аудиозапись "${responseData?.name}" удалена`)
@@ -427,8 +429,8 @@ export default function PageWork() {
                     </FormMain>
                     {isClient && (
                         <div className={style.main__rules}>
-                            <WorkSettings voice={voice} myVoice={myVoice} onSettings={(settings) => {
-                                setSettings(settings)
+                            <WorkSettings voice={voice} myVoice={myVoice} onSettings={(_settings) => {
+                                setSettings(_settings)
                             }}/>
                         </div>
                     )}

@@ -9,6 +9,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import close_icon from "../../../../public/close_white.svg";
 import {FontOnest} from "@/fonts";
+import {tr} from "date-fns/locale";
 
 export interface SettingsDefault {
     stability?: number
@@ -38,14 +39,18 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
+        setSettings()
+    }, [stability, similarity, styleExaggeration, dynamicBoost, speed, pitchShift, role, voice, myVoice]);
+
+    function setSettings() {
         const roleArr = getRoleVoices(voice?.value)
 
         if(myVoice?.value) {
             onSettings({
-                stability: stability / 100 || undefined,
-                similarity_boost: similarity / 100 || undefined,
-                style: styleExaggeration / 100 || undefined,
-                use_speaker_boost: dynamicBoost || undefined
+                stability: stability / 100 || 0.5,
+                similarity_boost: similarity / 100 || 0.75,
+                style: styleExaggeration / 100 || 0,
+                use_speaker_boost: dynamicBoost || true
             })
         }
 
@@ -56,8 +61,7 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
                 role: roleArr[role] || undefined
             })
         }
-
-    }, [stability, similarity, styleExaggeration, dynamicBoost, speed, pitchShift, role]);
+    }
 
     function isYandex(voice?: string) {
         const yandexVoices = [

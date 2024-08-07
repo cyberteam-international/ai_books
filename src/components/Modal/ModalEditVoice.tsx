@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {ENDPOINTS} from "@utils/config";
 import icon_trash from "@public/icon_trash.svg";
 import Image from "next/image";
+import Loading from "@/app/loading";
 
 export interface IDataEditVoiceSample {
     file_name: string
@@ -23,20 +24,23 @@ type Props = {
 
 export const ModalEditVoice = ({onSubmit, data}: Props) => {
     const [files, setFiles] = useState<File[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [_data, _setData] = useState<IDataEditVoice | undefined>(undefined)
 
     const sendForm = (e: any) => {
         if (_data) {
             e.preventDefault()
             const formData = new FormData(e.target)
+            setIsLoading(true)
 
             ENDPOINTS.VOICES.EDIT_VOICE(_data.id, formData)
-                .then()
+                .then(() => {
+                    onSubmit()
+                    setIsLoading(false)
+                })
                 .catch(err => {
                     console.error(err)
                 })
-
-            onSubmit()
         }
     }
     const onDelete = (sample_id: string) => {
@@ -93,7 +97,9 @@ export const ModalEditVoice = ({onSubmit, data}: Props) => {
                 })}
             </div>
 
-            <button className={styleForm.button} type='submit'>Сохранить</button>
+            <button className={styleForm.button} type='submit'>
+                {isLoading ? <Loading/> : 'Сохранить'}
+            </button>
         </form>
     );
 }
