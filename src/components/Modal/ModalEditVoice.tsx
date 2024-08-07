@@ -5,6 +5,7 @@ import {ENDPOINTS} from "@utils/config";
 import icon_trash from "@public/icon_trash.svg";
 import Image from "next/image";
 import Loading from "@/app/loading";
+import clsx from "clsx";
 
 export interface IDataEditVoiceSample {
     file_name: string
@@ -26,21 +27,26 @@ export const ModalEditVoice = ({onSubmit, data}: Props) => {
     const [files, setFiles] = useState<File[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [_data, _setData] = useState<IDataEditVoice | undefined>(undefined)
+    const [error, setError] = useState<string>('')
 
     const sendForm = (e: any) => {
         if (_data) {
             e.preventDefault()
             const formData = new FormData(e.target)
-            setIsLoading(true)
+            const valid = onValid()
 
-            ENDPOINTS.VOICES.EDIT_VOICE(_data.id, formData)
-                .then(() => {
-                    onSubmit()
-                    setIsLoading(false)
-                })
-                .catch(err => {
-                    console.error(err)
-                })
+            if (valid) {
+                setIsLoading(true)
+
+                ENDPOINTS.VOICES.EDIT_VOICE(_data.id, formData)
+                    .then(() => {
+                        onSubmit()
+                        setIsLoading(false)
+                    })
+                    .catch(err => {
+                        console.error(err)
+                    })
+            }
         }
     }
     const onDelete = (sample_id: string) => {
@@ -59,7 +65,51 @@ export const ModalEditVoice = ({onSubmit, data}: Props) => {
                 .catch(err => {
                     console.error(err)
                 })
+
+            setError('')
         }
+    }
+
+    function isAudio(type: string) {
+        switch (type) {
+            case 'audio/mpeg':
+            case 'audio/webm':
+            case 'audio/aac':
+            case 'audio/basic':
+            case 'audio/L24':
+            case 'audio/mp4':
+            case 'audio/ogg':
+            case 'audio/vorbis':
+            case 'audio/x-ms-wma':
+            case 'audio/x-ms-wax':
+            case 'audio/vnd.rn-realaudio':
+            case 'audio/vnd.wave':
+                return true;
+        }
+        return false;
+    }
+
+    const onValid = () => {
+        if (files.length <= 0) {
+            setError('Выберите аудиофайлы')
+            return false
+        }
+
+        if (files.length > 20) {
+            setError('Аудиофайлов не может быть больше 20')
+            return false
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            if (!isAudio(files[i].type)) {
+                setError('Недопустимый формат файла.')
+                return false
+            }
+
+        }
+
+        setError('')
+        return true
     }
 
     useEffect(() => {
@@ -78,13 +128,15 @@ export const ModalEditVoice = ({onSubmit, data}: Props) => {
                 required={true}
             />
 
-            <div className={styleForm.inputFile}>
+            <div className={clsx(styleForm.inputFile, error && styleForm.inputFile__error)}>
                 <input accept="audio/*" type="file" id="file" name="files" multiple={true} onChange={(e) => {
                     // @ts-ignore
                     const files = Array.from(e.target['files'])
                     setFiles(files)
+                    setError('')
                 }}/>
                 <label htmlFor="file">Прикрепить аудиофайлы</label>
+                {error && <p className={styleForm.inputFile__span_error}>{error}</p>}
                 {files.map((file) => {
                     return <span>{file.name}</span>
                 })}

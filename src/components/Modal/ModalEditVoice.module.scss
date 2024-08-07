@@ -113,4 +113,15 @@
             text-fill-color: red;
         }
     }
+
+    &__error {
+        label {
+            border-color: red !important;
+        }
+    }
+
+    &__span_error {
+        color: red !important;
+        margin-top: 0.5em;
+    }
 }

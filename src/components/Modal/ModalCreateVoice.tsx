@@ -45,6 +45,25 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
         setError('')
     }
 
+    function isAudio(type: string) {
+        switch (type) {
+            case 'audio/mpeg':
+            case 'audio/webm':
+            case 'audio/aac':
+            case 'audio/basic':
+            case 'audio/L24':
+            case 'audio/mp4':
+            case 'audio/ogg':
+            case 'audio/vorbis':
+            case 'audio/x-ms-wma':
+            case 'audio/x-ms-wax':
+            case 'audio/vnd.rn-realaudio':
+            case 'audio/vnd.wave':
+                return true;
+        }
+        return false;
+    }
+
     const onValid = () => {
         if (files.length <= 0) {
             setError('Выберите аудиофайлы')
@@ -57,10 +76,11 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
         }
 
         for (let i = 0; i < files.length; i++) {
-            if (files[i].type !== "audio/mpeg") {
-                setError('Загрузите только .mp3 файлы')
+            if (!isAudio(files[i].type)) {
+                setError('Недопустимый формат файла.')
                 return false
             }
+
         }
 
         setError('')
