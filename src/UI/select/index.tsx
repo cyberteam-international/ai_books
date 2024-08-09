@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from "react";
+import {useContext, useState} from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
@@ -11,11 +11,11 @@ import {PlayerSelect} from "../audioPlayer";
 
 import arrow_right from '@public/arrow_right.svg'
 import add from '@public/add.svg'
-import loading from '@public/loading_1.svg'
 
 import style from './style.module.scss'
 import {IDataFilter} from "@/app/my-audio/data";
 import Loading from "@/app/loading";
+import {ContextUser} from "@utils/context";
 
 type Props = {
     value: Banks | Languages | Voices | IDataFilter | DecipherMode | undefined,
@@ -27,10 +27,22 @@ type Props = {
     disabled?: boolean,
     addButton?: () => void,
     isLoading?: boolean
+    isAuth?: boolean
 }
 
-export default function Select({isLoading, addButton, value, onChange, placeholder, options, type, disabled, inputStyle = 'withForm'}: Props) {
-
+export default function Select({
+                                   isAuth,
+                                   isLoading,
+                                   addButton,
+                                   value,
+                                   onChange,
+                                   placeholder,
+                                   options,
+                                   type,
+                                   disabled,
+                                   inputStyle = 'withForm'
+                               }: Props) {
+    const {userInfo, mutate} = useContext(ContextUser)
     const [isOpen, setIsOpen] = useState(false)
     const [playingOption, setPlayingOption] = useState<number>(-1)
 
@@ -76,7 +88,8 @@ export default function Select({isLoading, addButton, value, onChange, placehold
     const ref = useOutsideClick(() => setIsOpen(false))
 
     return (
-        <div ref={ref} className={clsx(style.select, inputStyle === 'withForm' && style.select_form, disabled && style.select_disabled)}>
+        <div ref={ref}
+             className={clsx(style.select, inputStyle === 'withForm' && style.select_form, disabled && style.select_disabled)}>
             <div className={style.select__input} onClick={() => setIsOpen(!isOpen)}>
                 {type === 'languages' && (value as Languages)?.img &&
                     <Image
@@ -100,25 +113,32 @@ export default function Select({isLoading, addButton, value, onChange, placehold
                     alt='open select'/>
             </div>
             {isOpen && (
-                <div className={style.select__options}>
+                <div className={clsx(style.select__options, (isAuth && !userInfo) && style.select__options_auth)}>
                     <ul className={clsx('scroll', style.select__options__list)}>
-                        {addButton && <li
-                            className={style.select__options__list__item}
-                            onClick={() => {
-                                addButton()
-                            }}
-                        >
-                            <p>Создать</p>
-                            <Image
-                                className={clsx(style.select__input__add)} {...add}
-                                alt='open select'/>
-                        </li>}
+                        {isAuth && !userInfo ? <>
+                            <li className={style.select__options__list__auth}>
+                                <span>Озвучивание своим голосом доступно только авторизованным пользователям</span>
+                                <a href="/login">Авторизоваться</a>
+                            </li>
+                        </> : <>
+                            {addButton && <li
+                                className={style.select__options__list__item}
+                                onClick={() => {
+                                    addButton()
+                                }}
+                            >
+                                <p>Создать</p>
+                                <Image
+                                    className={clsx(style.select__input__add)} {...add}
+                                    alt='open select'/>
+                            </li>}
 
-                        {isLoading && <li className={style.select__options__list__loading}>
-                            <Loading isBlack={true}/>
-                        </li>}
+                            {isLoading && <li className={style.select__options__list__loading}>
+                                <Loading isBlack={true}/>
+                            </li>}
 
-                        {setOptions()}
+                            {setOptions()}
+                        </>}
                     </ul>
                 </div>
             )}

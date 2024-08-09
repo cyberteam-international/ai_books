@@ -113,6 +113,11 @@
     background: rgb(var(--color-white));
     border-radius: 24px;
     padding: 16px;
+
+    &_auth {
+      width: 320px;
+    }
+
     @include media-down(sm) {
       width: 100%;
     }
@@ -123,7 +128,7 @@
       gap: 6px;
       overflow-y: auto;
       max-height: calc(250px - 16px - 16px);
-      padding-right: 10px;
+      padding-right: 0;
 
       &::-webkit-scrollbar-track {
         background: rgba(var(--сolor-grey), 0.12);
@@ -131,7 +136,7 @@
       }
 
       &__loading {
-       height: 40px;
+        height: 40px;
         transform: scale(.5);
       }
 
@@ -159,6 +164,31 @@
         &__img {
           width: 22px;
           height: 22px;
+        }
+      }
+
+      &__auth {
+        span {
+          color: #000;
+          margin-bottom: 10px;
+          display: block;
+          text-align: center;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 10px;
+          color: #000;
+          border-radius: 200px;
+          border: 1px solid #333;
+
+          background: radial-gradient(5057.17% 129.86% at -3.54% 81.67%, #C7299E 0%, #5E12BA 49.77%, #331ED2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-size: 18px;
+          border-image-slice: 1;
         }
       }
     }

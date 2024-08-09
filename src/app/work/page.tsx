@@ -372,7 +372,7 @@ export default function PageWork() {
                         inputStyle={isClient && windowWidth < 768 ? 'withForm' : 'default'}
                         disabled={myVoice.value !== undefined}
                     />
-                    {userInfo?.is_admin && <Select
+                    <Select
                         options={myVoicesData?.data?.map((r: any) => ({
                             title: r.name,
                             inputValue: r.name,
@@ -387,8 +387,9 @@ export default function PageWork() {
                         addButton={() => {
                             setModalCreateVoiceOpen(true)
                         }}
+                        isAuth={true}
                         isLoading={myVoicesData?.isLoading}
-                    />}
+                    />
                     {language.value === 'ru-RU' && (
                         <Select
                             options={decipherOption}
