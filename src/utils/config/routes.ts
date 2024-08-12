@@ -12,6 +12,7 @@ export const ROUTES = {
     LOGIN: '/login',
     POLICY: '/policy',
     PUBLIC_OFFER: '/public_offer',
+    USE_POLICY: '/use_policy',
     STATISTIC: '/statistic',
     RESET_PASSWORD: '/forgot_password',
     PREPARATION: '/preparation',

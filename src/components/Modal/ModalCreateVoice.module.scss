@@ -68,6 +68,10 @@
   & > div {
     transform: scale(.6) translateY(-75%) translateX(-50%);
   }
+
+  &:disabled {
+    opacity: .5;
+  }
 }
 
 .inputFile {
@@ -98,25 +102,25 @@
     cursor: pointer;
   }
 
-    span {
-        font-size: 75%;
-        padding: 0 0.5em;
-        margin-top: 1em;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 30px;
+  span {
+    font-size: 75%;
+    padding: 0 0.5em;
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
 
-        button {
-            color: red;
-            text-fill-color: red;
-        }
+    button {
+      color: red;
+      text-fill-color: red;
     }
+  }
 
   &__error {
-      label {
-          border-color: red !important;
-      }
+    label {
+      border-color: red !important;
+    }
   }
 
   &__span_error {
@@ -124,10 +128,30 @@
     margin-top: 0.5em;
   }
 
-  &__text {
+  &__text, &__text2 {
     text-align: left !important;
-    padding: 10px 0;
     opacity: .8;
     font-size: 14px;
+    color: #575757;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    background: #ececec;
+    border-radius: 14px;
+  }
+
+  &__text2 {
+    font-size: 18px;
+  }
+}
+
+.agreePolicy {
+  p {
+    text-align: left;
+    color: rgba(var(--color-black), 0.6) !important;
+
+    a {
+      color: #000;
+    }
   }
 }

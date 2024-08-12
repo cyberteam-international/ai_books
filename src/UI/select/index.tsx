@@ -16,6 +16,7 @@ import style from './style.module.scss'
 import {IDataFilter} from "@/app/my-audio/data";
 import Loading from "@/app/loading";
 import {ContextUser} from "@utils/context";
+import {PRICE} from "@utils/config";
 
 type Props = {
     value: Banks | Languages | Voices | IDataFilter | DecipherMode | undefined,
@@ -121,23 +122,30 @@ export default function Select({
                                 <a href="/login">Авторизоваться</a>
                             </li>
                         </> : <>
-                            {addButton && <li
-                                className={style.select__options__list__item}
-                                onClick={() => {
-                                    addButton()
-                                }}
-                            >
-                                <p>Создать</p>
-                                <Image
-                                    className={clsx(style.select__input__add)} {...add}
-                                    alt='open select'/>
-                            </li>}
+                            {isAuth && userInfo && Math.floor(userInfo.balance / PRICE) <= 0 ? <>
+                                <li className={style.select__options__list__auth}>
+                                    <span>Для использования данной функции необходимо пополнить баланс</span>
+                                    <a href="/payment">Пополнить</a>
+                                </li>
+                            </> : <>
+                                {addButton && <li
+                                    className={style.select__options__list__item}
+                                    onClick={() => {
+                                        addButton()
+                                    }}
+                                >
+                                    <p>Создать</p>
+                                    <Image
+                                        className={clsx(style.select__input__add)} {...add}
+                                        alt='open select'/>
+                                </li>}
 
-                            {isLoading && <li className={style.select__options__list__loading}>
-                                <Loading isBlack={true}/>
-                            </li>}
+                                {isLoading && <li className={style.select__options__list__loading}>
+                                    <Loading isBlack={true}/>
+                                </li>}
 
-                            {setOptions()}
+                                {setOptions()}
+                            </>}
                         </>}
                     </ul>
                 </div>
