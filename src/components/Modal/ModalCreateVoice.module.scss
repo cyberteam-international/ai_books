@@ -147,7 +147,7 @@
 
 .agreePolicy {
   p {
-    text-align: left;
+    text-align: left !important;
     color: rgba(var(--color-black), 0.6) !important;
 
     a {
