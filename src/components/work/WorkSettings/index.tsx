@@ -9,7 +9,6 @@ import clsx from "clsx";
 import Image from "next/image";
 import close_icon from "../../../../public/close_white.svg";
 import {FontOnest} from "@/fonts";
-import {tr} from "date-fns/locale";
 
 export interface SettingsDefault {
     stability?: number
@@ -58,7 +57,7 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
             onSettings({
                 speed: speed / 100 || undefined,
                 pitchShift: pitchShift || undefined,
-                role: roleArr[role] || undefined
+                role: getRoleValue(roleArr[role] || "") || undefined
             })
         }
     }
@@ -70,21 +69,35 @@ export default function WorkSettings({onSettings, voice, myVoice}: Props) {
         return voice ? yandexVoices.indexOf(voice) !== -1 : false
     }
 
+    function getRoleValue(role: string) {
+        switch (role) {
+            case 'Модерн': return 'modern';
+            case 'Нейтральный': return 'neutral';
+            case 'Добрый': return 'good';
+            case 'Злой': return 'evil';
+            case 'Дружелюбный': return 'friendly';
+            case 'Классический': return 'classic';
+            case 'Строгий': return 'strict';
+            case 'Шепот': return 'whisper';
+            default: return role;
+        }
+    }
+
     function getRoleVoices(voice?: string) {
         switch (voice) {
-            case 'naomi': return ['modern', 'classic'];
-            case 'alena': return ['neutral', 'good'];
-            case 'ermil': return ['neutral', 'good'];
-            case 'jane': return ['neutral', 'good', 'evil'];
-            case 'omazh': return ['neutral', 'evil'];
-            case 'dasha': return ['neutral', 'good', 'friendly'];
-            case 'julia': return ['neutral', 'strict'];
-            case 'lera': return ['neutral', 'friendly'];
-            case 'masha': return ['good', 'strict', 'friendly'];
-            case 'marina': return ['neutral', 'whisper', 'friendly'];
-            case 'alexander': return ['neutral', 'good'];
-            case 'kirill': return ['neutral', 'strict', 'good'];
-            case 'anton': return ['neutral', 'good'];
+            case 'naomi': return ['Модерн', 'Классический'];
+            case 'alena': return ['Нейтральный', 'Добрый'];
+            case 'ermil': return ['Нейтральный', 'Добрый'];
+            case 'jane': return ['Нейтральный', 'Добрый', 'Злой'];
+            case 'omazh': return ['Нейтральный', 'Злой'];
+            case 'dasha': return ['Нейтральный', 'Добрый', 'Дружелюбный'];
+            case 'julia': return ['Нейтральный', 'Строгий'];
+            case 'lera': return ['Нейтральный', 'Дружелюбный'];
+            case 'masha': return ['Добрый', 'Строгий', 'Дружелюбный'];
+            case 'marina': return ['Нейтральный', 'Шепот', 'Дружелюбный'];
+            case 'alexander': return ['Нейтральный', 'Добрый'];
+            case 'kirill': return ['Нейтральный', 'Строгий', 'Добрый'];
+            case 'anton': return ['Нейтральный', 'Добрый'];
             default: return [];
         }
     }
