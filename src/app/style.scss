@@ -3,7 +3,7 @@
 	--Light: 244, 242, 252;
 }
 
-.home{
+.home {
 	position: relative;
 	color: var(--Dark);
 
@@ -93,21 +93,20 @@
 	}
 	
 	ul.list>li {
-		overflow: hidden
+		padding: 4px 0;
 	}
 	
 	ul.list>li+li {
-		margin-top: 1em
+		margin-top: 1em;
 	}
 	
 	ul.list>li:before {
 		content: '';
 		float: left;
-		margin-right: .875em;
-		width: 1.5em;
-		height: 1.5em;
-		background: url("/images/check-icon.svg") 50% 50% no-repeat;
-		background-size: contain
+		margin: -5px 4px 0 0;
+		width: 2.2em;
+		height: 2.2em;
+		background: url("/images/check-icon.svg") center / contain no-repeat;
 	}
 	
 	p {
@@ -211,6 +210,7 @@
 	
 	.button {
 		display: block;
+		box-sizing: border-box;
 		cursor: pointer;
 		margin-top: 2em;
 		padding: 1.1em;
@@ -222,7 +222,8 @@
 		border-radius: 5em;
 		text-align: center;
 		z-index: 0;
-		font-size: 112.5%
+		font-size: 112.5%;
+		width: 100%;
 	}
 	
 	.button:hover {
@@ -698,7 +699,7 @@
 	/*	Озвучка */
 	#voices {
 		color: rgba(var(--Light), 1);
-		margin-bottom: 14em
+		margin-bottom: 8em
 	}
 	
 	.voices {
@@ -783,17 +784,28 @@
 	
 	/*	Тарифы */
 	.double-rblock {
-		display: flex;
-		flex-wrap: wrap;
 		margin-top: 2.375em;
-		justify-content: center;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
 	}
 	
 	.double-rblock > div {
+		grid-column: span 1;
 		display: flex;
+		flex: 1 1 100%;
 		flex-direction: column;
 		justify-content: space-between;
-		max-width: 600px;
+		box-shadow: 4px 10px 40px rgba(193, 190, 214, 0.8);
+		backdrop-filter: blur(6px);
+		border-radius: 2.5em;
+		margin: 1.25em;
+		padding: 1.5em 3em;
+		position: relative;
+		overflow: hidden;
+		
+		&:first-child {
+			grid-column: span 2;
+		}
 	}
 	
 	.double-rblock h3,
@@ -807,18 +819,7 @@
 		white-space: nowrap
 	}
 	
-	.double-rblock>div {
-		flex: 1 1;
-		box-shadow: 4px 10px 40px rgba(193, 190, 214, 0.8);
-		backdrop-filter: blur(6px);
-		border-radius: 2.5em;
-		margin: 1.25em;
-		padding: 1.5em 3em;
-		position: relative;
-		overflow: hidden
-	}
-	
-	.double-rblock>div .label {
+	.double-rblock .label {
 		position: absolute;
 		background: radial-gradient(108.29% 5056.67% at -3.54% 81.67%, #C7299E 0%, #5E12BA 49.77%, #331ED2 100%);
 		font-size: .875em;
@@ -831,15 +832,15 @@
 		right: -1em;
 	}
 	
-	.double-rblock>div .price {
+	.double-rblock .price {
 		display: flex;
-		align-items: flex-start
-	}
-	
-	.double-rblock>div .price>span {
-		font-size: 87.5%;
-		line-height: 145%;
-		margin: 1.75em 0
+		align-items: flex-start;
+
+		span {
+			font-size: 87.5%;
+			line-height: 145%;
+			margin: 1.75em 0
+		}
 	}
 	
 	/*	Обратная связь */
@@ -1082,8 +1083,12 @@
 	}
 	
 	@media only screen and (max-width: 1280px) {
-		.double-rblock>div {
-			flex: 1 1 100%
+		.double-rblock {
+			grid-template-columns: 1fr;
+
+			> div:first-child {
+				grid-column: span 1;
+			}
 		}
 	
 		body {
@@ -1092,10 +1097,6 @@
 	}
 	
 	@media only screen and (max-width: 1024px) {
-		.double-rblock>div {
-			flex: 1 1 100%;
-		}
-	
 		footer>div {
 			flex-wrap: wrap
 		}

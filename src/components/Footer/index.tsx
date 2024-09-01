@@ -10,10 +10,10 @@ import { LINKS, ROUTES } from '@utils/config';
 
 import ButtonUp from '@/UI/buttonUp';
 
-import logo from '@public/logo.svg'
-import vk from '@public/vk.svg'
-import telegram from '@public/telegram.svg'
-import whatsapp from '@public/whatsapp.svg'
+// import logo from '@public/logo.svg'
+// import vk from '@public/vk.svg'
+// import telegram from '@public/telegram.svg'
+// import whatsapp from '@public/whatsapp.svg'
 
 import style from './style.module.scss'
 
@@ -27,7 +27,7 @@ export default function Footer({ }: Props) {
         <footer className={style.footer}>
             <div className={clsx(style.footer__wrapper, "container")}>
                 <Link href={ROUTES.HOME}>
-                    <Image {...logo} alt='AI Books logo'/>
+                    <Image src='/logo.svg' alt='AI Books logo' width={128} height={19} />
                 </Link>
                 <div className={style.footer__info}>
                     <p className={style.footer__info__adress}>ООО “Директ-Медиа” г. Москва, ул. Обручева, д. 34-63, стр. 3, этаж 1 пом 1, ком 1</p>
@@ -67,7 +67,7 @@ export default function Footer({ }: Props) {
                     </nav>
                     <div className={style.footer__nav__social}>
                         {/* <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk'/></a> */}
-                        <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image {...telegram} alt='telegram'/></a>
+                        <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image src='/telegram.svg' alt='telegram' width={40} height={40} /></a>
                         {/* <a href={LINKS.WHATSAPP} target="_blank" rel="noopener noreferrer"><Image {...whatsapp} alt='whatsapp'/></a> */}
                     </div>
                     <p className={style.footer__nav__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>

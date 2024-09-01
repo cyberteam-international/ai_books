@@ -1,13 +1,14 @@
 'use client'
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { FontUnbounded } from "@/fonts";
 import clsx from "clsx";
 
 import { DataVoices } from "./data";
 
 interface IVoiceItem extends DataVoices {
     canPlay: boolean,
-    setPlayIndex: ()=>void
+    setPlayIndex: () => void
 }
 
 export default function VoiceItem({audio, title, gender, canPlay, setPlayIndex}: IVoiceItem) {
@@ -77,14 +78,13 @@ export default function VoiceItem({audio, title, gender, canPlay, setPlayIndex}:
                     onTimeUpdate={(e) => setCurrentTime((e.target as HTMLAudioElement).currentTime)}
                     src={`audio/${audio}`}
                 />
-                <h4 className="name">{title}</h4>
+                <h4 className={`name ${FontUnbounded.className}`}>{title}</h4>
                 <span className="gender">{gender}</span>
                 <input
                     className='track play'
                     ref={progressBarRef}
                     type="range"
                     value={currentTime}
-                    defaultValue="0"
                     max={duration}
                     onChange={handleChangeRange}
                 />

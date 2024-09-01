@@ -10,11 +10,11 @@ import { usePathname } from 'next/navigation';
 import { LINKS, ROUTES } from '@utils/config';
 import { ContextUser } from '@/utils/context';
 
-import logo from '@public/logo.svg'
-import profile from '@public/profile.svg'
-import burger_close from '@public/burger_close.svg'
-import burger_open from '@public/burger_open.svg'
-import telegram from '@public/telegram.svg'
+// import logo from '@public/logo.svg'
+// import profile from '@public/profile.svg'
+// import burger_close from '@public/burger_close.svg'
+// import burger_open from '@public/burger_open.svg'
+// import telegram from '@public/telegram.svg'
 
 import style from './style.module.scss'
 
@@ -41,12 +41,12 @@ export default function Header({ }: Props) {
         <header className={clsx(style.header, isOpen && style.header_open, 'container')}>
             <div className={style.header__top}>
                 <Link onClick={() => setIsOpen(false)} href={ROUTES.HOME}>
-                    <Image {...logo} alt='AI Books logo' />
+                    <Image src='/logo.svg' alt='AI Books logo' width={128} height={19} />
                 </Link>
                 {isOpen ? (
-                    <Image {...burger_open} onClick={() => setIsOpen(false)} alt='close menu' />
+                    <Image src='/burger_open.svg' onClick={() => setIsOpen(false)} alt='close menu' width={38} height={38} />
                 ) : (
-                    <Image {...burger_close} onClick={() => setIsOpen(true)} alt='open menu' />
+                    <Image src='/burger_close.svg' onClick={() => setIsOpen(true)} alt='open menu' width={38} height={38} />
                 )}
             </div>
             <nav className={clsx(style.header__burger, isOpen && style.header__burger_open)}>
@@ -161,7 +161,7 @@ export default function Header({ }: Props) {
                 </ul>
                 <div className={style.header__social}>
                     {/* <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk' /></a> */}
-                    <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image {...telegram} alt='telegram' /></a>
+                    <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image src='/telegram.svg' alt='telegram' width={40} height={40} /></a>
                     {/* <a href={LINKS.WHATSAPP} target="_blank" rel="noopener noreferrer"><Image {...whatsapp} alt='whatsapp' /></a> */}
                 </div>
                 <p className={style.header__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>
@@ -169,7 +169,7 @@ export default function Header({ }: Props) {
             {userInfo ? (
                 <Link href={ROUTES.PROFILE} className={style.header__profile}>
                     <p className={style.header__profile__name}>{userInfo.name}</p>
-                    <Image {...profile} alt={'profile image'} />
+                    <Image src='/profile.svg' alt={'profile image'} width={27} height={27} />
                 </Link>
             ) : (
                 <div className={style.header__block}>

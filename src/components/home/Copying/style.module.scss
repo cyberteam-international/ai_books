@@ -1,0 +1,136 @@
+.copying {
+	$self: &;
+	padding: 240px 60px 40px !important;
+	max-width: 1300px;
+	margin: 0 auto;
+	
+	@media only screen and (max-width: 920px) {
+		padding: 180px 60px 80px !important;
+	}
+	
+	@media only screen and (max-width: 740px) {
+		padding: 100px 0 60px !important;
+	}
+	
+	h2#{&}__title {
+		font-weight: 300;
+		font-size: 78px;
+		line-height: 1.22;
+		text-align: center;
+		color: #F4F2FC;
+		margin: 0 auto 60px;
+		
+		@media screen and (max-width: 1024px) {
+			font-size: 60px;
+		}
+		
+		@media screen and (max-width: 740px) {
+			font-size: 34px;
+		}
+	}
+	
+	h3#{&}__subtitle {
+		color: rgba(var(--Light), 1);
+		font-weight: 200;
+		font-size: 24px;
+		line-height: 1.45;
+		opacity: 0.9;
+		max-width: 760px;
+		padding: 0;
+		margin: 0 auto 120px;
+		
+		@media screen and (max-width: 1024px) {
+			font-size: 20px;
+			margin: 0 auto 80px;
+		}
+		
+		@media screen and (max-width: 740px) {
+			margin: 0 auto 60px;
+			font-size: 18px;
+		}
+	}
+
+	&__slider {
+		:global(.slick-dots) {
+			position: static;
+			padding-top: 20px;
+		}
+
+		@media only screen and (max-width: 480px) {
+			:global(.slick-slide) {
+				margin: 0 5px 40px;
+			}
+		}
+	}
+
+	&__slide {
+		display: flex !important;
+		flex-flow: column nowrap;
+		align-items: stretch;
+		padding: 40px;
+		background: url('./corner.png') top right / auto no-repeat rgba(244, 242, 252, 0.1);
+		border: 1px solid rgba(244, 242, 252, 0.1);
+		backdrop-filter: blur(4px);
+		border-radius: 40px;
+		outline: none;
+		
+		@media only screen and (max-width: 740px) {
+			border-radius: 24px;
+			padding: 24px;
+		}
+	}
+
+	img#{&}__image {
+		display: block;
+		border-radius: 40px;
+		height: auto;
+		margin: 0 auto 30px;
+		
+		@media only screen and (max-width: 740px) {
+			border-radius: 24px;
+		}
+	}
+
+	h4#{&}__name {
+		color: #fff;
+		margin: 0 0 20px;
+		text-align: left;
+	}
+
+	&__button {
+		max-width: 300px;
+		margin: 0 auto;
+	}
+
+	&__voice {
+		box-sizing: border-box;
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		border-radius: 200px;
+		overflow: hidden;
+	}
+
+	&__play {
+		display: block;
+		cursor: pointer;
+		width: 80px;
+		height: 80px;
+		flex-shrink: 0;
+		background: url("/images/button-play.svg") 50% 50% no-repeat;
+		background-size: contain;
+		position: relative;
+
+		&_stop {
+			background-image: url("/images/button-stop.svg");
+		}
+	}
+
+	&__side {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		flex-grow: 1;
+		padding-left: 25px;
+	}
+}

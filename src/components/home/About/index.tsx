@@ -5,10 +5,14 @@ import { FontUnbounded } from "@/fonts";
 import spring_img_1 from '@public/images/spring.svg'
 import spring_img_2 from '@public/images/spring2.svg'
 import spring_img_3 from '@public/images/spring3.svg'
+import Link from "next/link";
+import { ROUTES } from "@/utils/config";
 
-type Props = {};
+type Props = {
+    onClick: () => void
+};
 
-export default function About({ }: Props) {
+export default function About({onClick}: Props) {
     return (
         <div id="about" className='container excavation_content'>
             <h2 id="about_h" className={FontUnbounded.className}>О сервисе</h2>
@@ -16,28 +20,29 @@ export default function About({ }: Props) {
             <div className='spring-block'>
                 <div className='spring-block-container'>
                     <div>
-                        <Image {...spring_img_1} alt="Озвучиваем тексты любой сложности" />
+                        <Image src='/images/spring.svg' alt="Копирование голосов" width={200} height={200} />
                         <div>
-                            <h4 className={FontUnbounded.className}>Озвучиваем тексты любой сложности</h4>
-                            <p>AI Books умеет обрабатывать сложные фрагменты текста - сокращения, редкие имена собственные, даты,
-                                единицы измерения - все то, с чем плохо справляются речевые синтезаторы. Поэтому сложный текст мы
-                                озвучиваем лучше.</p>
+                            <h4 className={FontUnbounded.className}>Копирование голосов</h4>
+                            <p className="auto-bottom">Загрузите пример голоса и через минуту вы сможете озвучить ваш текст качественной "человекоподобной" копией голоса.</p>
+                            <Link href={ROUTES.WORK} className="button registration">Подробнее</Link>
                         </div>
                     </div>
                 </div>
                 <div className='spring-block-container'>
                     <div>
-                        <Image {...spring_img_2} alt="Структура и порядок" />
+                        <Image src='/images/spring2.svg' alt="Библиотека голосов" width={200} height={200} />
                         <div>
-                            <h4 className={FontUnbounded.className}>Структура и порядок</h4>
-                            <p>Размечаем заголовки и подзаголовки, умеем работать с абзацами и главами. Такой текст проще слушать.</p>
+                            <h4 className={FontUnbounded.className}>Библиотека голосов</h4>
+                            <p>Озвучивайте тексты на разных языках голосами из общей библиотеки. Расшифровывайте сложгые тексты перед озвучиванием с помощью ИИ.</p>
+                            <a href="#voices_h" className="button">Подробнее</a>
                         </div>
                     </div>
                     <div>
-                        <Image {...spring_img_3} alt="Дешевле и быстрее диктора" />
+                        <Image src='/images/spring3.svg' alt="Создание аудиокниг" width={200} height={200} />
                         <div>
-                            <h4 className={FontUnbounded.className}>Дешевле и быстрее диктора</h4>
-                            <p>Стоимость аудио текста в 3-8 раз ниже, чем при озвучивании диктором. При этом результат Вы получаете в несколько раз быстрее.</p>
+                            <h4 className={FontUnbounded.className}>Создание аудиокниг</h4>
+                            <p>Закажите качественно аудиоиздание на основе вашей книги или рукописи. Полный издательский цикл и помощь в дистрибуции.</p>
+                            <button className="button" onClick={onClick}>Консультация</button>
                         </div>
                     </div>
                 </div>
