@@ -8,16 +8,21 @@ export const data: SampleVoices[] = [
 	{
 		title: 'Брежнев',
 		avatar: '/avatar-brezhnev.png',
-		audio: 'Oksana.mp3',
+		audio: 'sample-brezhnev.mp3',
 	},
 	{
-		title: 'Уолтер Уайт',
-		avatar: '/avatar-white.png',
-		audio: 'Jane.mp3',
+		title: 'Шерлок Холмс',
+		avatar: '/avatar-livanov.png',
+		audio: 'sample-livanov.mp3',
 	},
 	{
-		title: 'Спанчбоб',
-		avatar: '/avatar-spongebob.png',
-		audio: 'Omazh.mp3',
+		title: 'Сквидвард',
+		avatar: '/avatar-squidward.png',
+		audio: 'sample-squidward.mp3',
+	},
+	{
+		title: 'Король Лич',
+		avatar: '/avatar-lich.png',
+		audio: 'sample-lich.mp3',
 	}
 ]
