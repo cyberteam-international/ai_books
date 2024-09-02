@@ -10,7 +10,7 @@ export type { ResponseWork } from './Responses'
 export type { ResponseStatistic } from './Responses'
 export type { ResponsesHistory } from './Responses'
 
-export type { History } from './History'
+export type { HistoryType } from './History'
 export type { Languages } from './Languages'
 export type { Banks } from './Banks'
 export type { Voices } from './Voices'

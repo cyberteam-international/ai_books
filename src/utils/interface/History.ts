@@ -1,4 +1,4 @@
-export type History = {
+export type HistoryType = {
     date: string,
     items: {
         cost: number,

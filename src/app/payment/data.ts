@@ -1,4 +1,4 @@
-import { History } from "@utils/interface";
+import { HistoryType } from "@utils/interface";
 
 
 // export const dataPaymentHistory: History[] = [

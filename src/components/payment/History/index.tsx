@@ -10,7 +10,7 @@ import { DateTime } from 'luxon'
 
 import { useGETHistory, useOutsideClick } from '@/utils/hooks';
 
-import { History, ResponsesHistory } from '@utils/interface';
+import { HistoryType, ResponsesHistory } from '@utils/interface';
 import { ENDPOINTS } from '@/utils/config';
 
 import settings from '@public/settings.svg'
