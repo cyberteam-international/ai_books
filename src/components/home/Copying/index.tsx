@@ -70,7 +70,7 @@ const Copying = ({}: Props) => {
 					)					
 				})}
 			</Slider>
-			<Link className={`${s.copying__button} button`} href={ROUTES.WORK}>Начать</Link>
+			<Link className={`${s.copying__button} button`} href={`${ROUTES.WORK}?start`}>Начать</Link>
 		</div>
 	);
 }

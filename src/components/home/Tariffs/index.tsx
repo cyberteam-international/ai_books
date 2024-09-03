@@ -28,7 +28,7 @@ const Tariffs = ({onClick}: Props) => {
 						<li>Настройка персональных голосов</li>
 						<li>Озвучивание до 5 000 символов за раз</li>
 					</ul>
-					<Link href={ROUTES.WORK} className={`${s.tariffs__button} button`}>Начать</Link>
+					<Link href={`${ROUTES.WORK}?start`} className={`${s.tariffs__button} button`}>Начать</Link>
 				</div>
 
 				<div className={`${s.tariffs__item}`}>

@@ -18,6 +18,7 @@ import {
     ModalResult,
     ModalWarningEnoughBalance,
     ModalWarningRegistration,
+    ModalGoLogin,
     ModalWrapper
 } from '@/components/Modal'
 import Select from '@UI/select'
@@ -36,6 +37,7 @@ import {MyVoice} from "@utils/interface/MyVoice";
 import WorkSettings, {SettingsDefault} from "@components/work/WorkSettings";
 import {ModalCreateVoice} from "@components/Modal/ModalCreateVoice";
 import {useGETVoices} from "@utils/hooks/useSwrGET";
+import { useSearchParams } from 'next/navigation'
 
 export default function PageWork() {
     const defaultMyVoice: MyVoice = {
@@ -43,36 +45,39 @@ export default function PageWork() {
         inputValue: "Мой голоса"
     }
 
-    const [language, setLanguage] = useState<Languages>(LANGUAGES[0])
-    const [settings, setSettings] = useState<SettingsDefault>({})
-    const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES)
-    const [voice, setVoice] = useState<Voices>(VOICES[0])
-    const [myVoice, setMyVoice] = useState<MyVoice>(defaultMyVoice)
-    const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration()
-    const {getFreeGpt, addFreeGpt, maxFreeGpt} = UseFreeGpt()
-    const myVoicesData = useGETVoices()
+    const [language, setLanguage] = useState<Languages>(LANGUAGES[0]);
+    const [settings, setSettings] = useState<SettingsDefault>({});
+    const [voiceArray, setVoiceArray] = useState<Voices[]>(VOICES);
+    const [voice, setVoice] = useState<Voices>(VOICES[0]);
+    const [myVoice, setMyVoice] = useState<MyVoice>(defaultMyVoice);
+    const {getFreeGeneration, addFreeGeneration, maxFreeGeneration} = UseFreeGeneration();
+    const {getFreeGpt, addFreeGpt, maxFreeGpt} = UseFreeGpt();
+    const myVoicesData = useGETVoices();
 
-    const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false)
-    const [modalResultOpen, setModalResultOpen] = useState<boolean>(false)
-    const [modalEnoughBalanceOpen, setModalEnoughBalanceOpen] = useState<boolean>(false)
-    const [modalRegistrationOpen, setModalRegistrationOpen] = useState<boolean>(false)
-    const [completeMessage, setCompleteMessage] = useState<string>()
-    const [loading, setLoading] = useState<boolean>(false)
+    const [modalGoLoginOpen, setModalGoLoginOpen] = useState<boolean>(false);
+    const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false);
+    const [modalResultOpen, setModalResultOpen] = useState<boolean>(false);
+    const [modalEnoughBalanceOpen, setModalEnoughBalanceOpen] = useState<boolean>(false);
+    const [modalRegistrationOpen, setModalRegistrationOpen] = useState<boolean>(false);
+    const [completeMessage, setCompleteMessage] = useState<string>();
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const [requestPaymentLength, setRequestPaymentLength] = useState(0)
+    const [requestPaymentLength, setRequestPaymentLength] = useState(0);
 
-    const [responseData, setResponseData] = useState<ResponseWork>()
+    const [responseData, setResponseData] = useState<ResponseWork>();
 
-    const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>()
-    const [value, setValue] = useState<string>()
+    const [valueBeforeDecipher, setValueBeforeDecipher] = useState<string>();
+    const [value, setValue] = useState<string>();
 
-    const [decipherMode, setDecipherMode] = useState<DecipherMode>()
+    const [decipherMode, setDecipherMode] = useState<DecipherMode>();
 
-    const {userInfo, mutate} = useContext(ContextUser)
+    const {userInfo, mutate} = useContext(ContextUser);
 
-    const isClient = useIsClient()
+    const start = useSearchParams().has('start');
 
-    const windowWidth = useWindowWidth()
+    const isClient = useIsClient();
+
+    const windowWidth = useWindowWidth();
 
     const decipherOption: DecipherMode[] = [
         {
@@ -138,25 +143,26 @@ export default function PageWork() {
 
     const handleRemoveClose = () => {
         setCompleteMessage(`Аудиозапись "${responseData?.name}" удалена`)
-        setModalResultOpen(false)
+        setModalResultOpen(false);
     }
 
     const handleEnoughBalance = () => {
-        return setModalEnoughBalanceOpen(true)
+        return setModalEnoughBalanceOpen(true);
     }
 
     const handleRegistration = () => {
-        return setModalRegistrationOpen(true)
+        return setModalRegistrationOpen(true);
     }
 
     const handleChangeAudioName = (newName: string) => {
-        setCompleteMessage('')
-        setCompleteMessage(`Имя успешно изменено на ${newName}`)
+        setCompleteMessage('');
+        setCompleteMessage(`Имя успешно изменено на ${newName}`);
     }
 
     const handleDecipher_abbreviations = () => {
         if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
-            const freeGpt = (getFreeGpt() + 1)
+            const freeGpt = (getFreeGpt() + 1);
+
             if (freeGpt > maxFreeGpt) {
                 setCompleteMessage(`Вы исчерпали лимит бесплатной подготовки текста за сутки`)
                 return
@@ -169,18 +175,19 @@ export default function PageWork() {
                 return;
             }
 
-            setLoading(true)
+            setLoading(true);
+
             ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(value)
                 .then((res: AxiosResponse<{ text: string }>) => {
-                    setLoading(false)
-                    setValueBeforeDecipher(value)
-                    setValue(res.data.text)
+                    setLoading(false);
+                    setValueBeforeDecipher(value);
+                    setValue(res.data.text);
 
                     if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
-                        const freeGpt = (getFreeGpt() + 1)
+                        const freeGpt = (getFreeGpt() + 1);
 
-                        addFreeGpt()
-                        setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`)
+                        addFreeGpt();
+                        setCompleteMessage(`Вы можете подготовть текст еще ${maxFreeGpt - freeGpt} из ${maxFreeGpt} раз за сутки`);
                     }
                 })
         }
@@ -222,26 +229,27 @@ export default function PageWork() {
 
     const handleReset = () => {
         if (valueBeforeDecipher) {
-            setValue(valueBeforeDecipher)
-            setValueBeforeDecipher(undefined)
+            setValue(valueBeforeDecipher);
+            setValueBeforeDecipher(undefined);
             setDecipherMode({
                 title: 'Выберите преобработку',
                 inputValue: 'Выберите преобработку',
-            })
+            });
         }
 
     }
 
     function onSubmitCreateVoice() {
-        setCompleteMessage('Пожалуйста подождите. Голос обрабатывается')
-        setModalCreateVoiceOpen(false)
+        setCompleteMessage('Пожалуйста подождите. Голос обрабатывается');
+        setModalCreateVoiceOpen(false);
 
         setTimeout(() => {
             myVoicesData.mutate().then((data) => {
-                console.log('mutate', data)
-                setCompleteMessage('Голос успешно создан.')
+                console.log('mutate', data);
+
+                setCompleteMessage('Голос успешно создан.');
             }).catch(() => {
-                setCompleteMessage('Ошибка. Попробуйте позже')
+                setCompleteMessage('Ошибка. Попробуйте позже');
             })
         }, 500)
     }
@@ -260,11 +268,17 @@ export default function PageWork() {
 
     useEffect(() => {
         if (language) {
-            const currentVoiceArray = [...VOICES].filter((item) => item.language === language.value)
-            setVoiceArray(currentVoiceArray)
-            setVoice(currentVoiceArray[0])
+            const currentVoiceArray = [...VOICES].filter((item) => item.language === language.value);
+            setVoiceArray(currentVoiceArray);
+            setVoice(currentVoiceArray[0]);
         }
-    }, [language])
+    }, [language]);
+
+    useEffect(() => {
+        if(! userInfo && start) {
+            setModalGoLoginOpen(true);
+        }
+    }, [start]);
 
     // useEffect(() => {
     //     if (userInfo) {
@@ -348,7 +362,7 @@ export default function PageWork() {
     return (
         <>
             <main
-                className={clsx(style.main, 'container', ((modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen || modalCreateVoiceOpen) || loading) && 'modal')}>
+                className={clsx(style.main, 'container', ((modalGoLoginOpen || modalEnoughBalanceOpen || modalResultOpen || modalRegistrationOpen || modalCreateVoiceOpen) || loading) && 'modal')}>
                 <div className={style.main__options}>
                     <Select
                         options={LANGUAGES}
@@ -440,6 +454,9 @@ export default function PageWork() {
             {loading && (
                 <Loader/>
             )}
+            <ModalWrapper state={[modalGoLoginOpen, setModalGoLoginOpen]}>
+                <ModalGoLogin/>
+            </ModalWrapper>
             <ModalWrapper state={[modalCreateVoiceOpen, setModalCreateVoiceOpen]}>
                 <ModalCreateVoice onSubmit={onSubmitCreateVoice}/>
             </ModalWrapper>
@@ -450,8 +467,7 @@ export default function PageWork() {
                 <ModalWarningRegistration/>
             </ModalWrapper>
             <ModalWrapper state={[modalResultOpen, setModalResultOpen]}>
-                {responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData}
-                                              closeModal={() => handleRemoveClose()}/>}
+                {responseData && <ModalResult handleChangeAudioName={handleChangeAudioName} data={responseData} closeModal={() => handleRemoveClose()}/>}
             </ModalWrapper>
             <ModalMessage message={completeMessage} setMesage={setCompleteMessage}/>
         </>
