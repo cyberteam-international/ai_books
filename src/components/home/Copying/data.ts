@@ -6,7 +6,7 @@ export type SampleVoices = {
 
 export const data: SampleVoices[] = [
 	{
-		title: 'Брежнев',
+		title: 'Брежнев Л.И.',
 		avatar: '/avatar-brezhnev.png',
 		audio: 'sample-brezhnev.mp3',
 	},

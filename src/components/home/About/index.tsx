@@ -24,7 +24,8 @@ export default function About({onClick}: Props) {
                         <div>
                             <h4 className={FontUnbounded.className}>Копирование голосов</h4>
                             <p className="auto-bottom">Загрузите пример голоса и через минуту вы сможете озвучить ваш текст качественной "человекоподобной" копией голоса.</p>
-                            <Link href={ROUTES.WORK} className="button registration">Подробнее</Link>
+                            {/* <Link href={ROUTES.WORK} className="button registration">Подробнее</Link> */}
+                            <a href="#copying_h" className="button">Подробнее</a>
                         </div>
                     </div>
                 </div>

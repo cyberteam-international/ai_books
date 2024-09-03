@@ -55,12 +55,6 @@
 			position: static;
 			padding-top: 20px;
 		}
-
-		@media only screen and (max-width: 480px) {
-			:global(.slick-slide) {
-				margin: 0 5px 40px;
-			}
-		}
 	}
 
 	&__slide {
@@ -89,12 +83,20 @@
 		@media only screen and (max-width: 740px) {
 			border-radius: 24px;
 		}
+		
+		@media only screen and (max-width: 480px) {
+			border-radius: 20px;
+		}
 	}
 
 	h4#{&}__name {
 		color: #fff;
 		margin: 0 0 20px;
 		text-align: left;
+
+		@media only screen and (max-width: 480px) {
+			font-size: 120%;
+		}
 	}
 
 	&__button {
@@ -107,22 +109,44 @@
 		display: flex;
 		flex-flow: row nowrap;
 		align-items: center;
-		border-radius: 200px;
-		overflow: hidden;
 	}
 
 	&__play {
-		display: block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
 		cursor: pointer;
 		width: 80px;
 		height: 80px;
+		border-radius: 1000px;
 		flex-shrink: 0;
-		background: url("/images/button-play.svg") 50% 50% no-repeat;
-		background-size: contain;
-		position: relative;
+		background: radial-gradient(at right top, #01b1d5 0%, #076d9d 20%, #7500c9 58%, #ff79bb 100%);
 
-		&_stop {
-			background-image: url("/images/button-stop.svg");
+		&::after {
+			display: block;
+			content: '';
+			width: 19px;
+			height: 27px;
+			background: url('/images/icon-play.svg') center / contain no-repeat transparent;
+			margin-left: 5px;
+		}
+
+		&_stop::after {
+			background-image: url("/images/icon-pause.svg");
+		}
+
+		&:hover::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			z-index: -1;
+			opacity: 0.5;
+			box-shadow: -0.5em 0.5em 2em #c7299e, 1em 1em 3em #5e12ba, -1em -1em 2em #5e12ba, 0.5em -0.5em 2em #331ed2;
 		}
 	}
 
