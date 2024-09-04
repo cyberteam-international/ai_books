@@ -454,7 +454,7 @@ export default function PageWork() {
             {loading && (
                 <Loader/>
             )}
-            <ModalWrapper state={[modalGoLoginOpen, setModalGoLoginOpen]} styles={{maxWidth: '380px'}}>
+            <ModalWrapper state={[modalGoLoginOpen, setModalGoLoginOpen]} styles={{maxWidth: '520px', padding: '50px'}}>
                 <ModalGoLogin/>
             </ModalWrapper>
             <ModalWrapper state={[modalCreateVoiceOpen, setModalCreateVoiceOpen]}>

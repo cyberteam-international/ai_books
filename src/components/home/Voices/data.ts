@@ -12,9 +12,9 @@ export type DataVoices = {
 export const data: DataVoices[][] = [
     [
         {
-            title: 'Виталий',
-            gender: 'Мужской',
-            audio: 'Vitaliy.mp3',
+            title: 'Алёна',
+            gender: 'Женский',
+            audio: 'Alena.mp3',
         },
         {
             title: 'Джейн',
@@ -22,29 +22,9 @@ export const data: DataVoices[][] = [
             audio: 'Jane.mp3',
         },
         {
-            title: 'Омаж',
+            title: 'Маша',
             gender: 'Женский',
-            audio: 'Omazh.mp3',
-        },
-        {
-            title: 'Ермил',
-            gender: 'Мужской',
-            audio: 'Ermil.mp3',
-        },
-        {
-            title: 'Захар',
-            gender: 'Мужской',
-            audio: 'Zahar.mp3',
-        },
-        {
-            title: 'Алёна',
-            gender: 'Женский',
-            audio: 'Alena.mp3',
-        },
-        {
-            title: 'Филипп',
-            gender: 'Мужской',
-            audio: 'Filipp.mp3',
+            audio: 'Masha.mp3',
         },
         {
             title: 'Оксана',
@@ -52,169 +32,89 @@ export const data: DataVoices[][] = [
             audio: 'Oksana.mp3',
         },
         {
-            title: 'Татьяна',
+            title: 'Юлия',
             gender: 'Женский',
-            audio: 'Tatiana.mp3',
-        },
-        {
-            title: 'Омаж',
-            gender: 'Женский',
-            audio: 'Omazh.mp3',
+            audio: 'Julia.mp3',
         },
     ],
     [
-        {
-            title: 'Ермил',
-            gender: 'Мужской',
-            audio: 'Ermil.mp3',
-        },
-        {
-            title: 'Захар',
-            gender: 'Мужской',
-            audio: 'Zahar.mp3',
-        },
-        {
-            title: 'Алёна',
-            gender: 'Женский',
-            audio: 'Alena.mp3',
-        },
-        {
-            title: 'Филипп',
-            gender: 'Мужской',
-            audio: 'Filipp.mp3',
-        },
-        {
-            title: 'Оксана',
-            gender: 'Женский',
-            audio: 'Oksana.mp3',
-        },
-        {
-            title: 'Джейн',
-            gender: 'Женский',
-            audio: 'Jane.mp3',
-        },
-        {
-            title: 'Омаж',
-            gender: 'Женский',
-            audio: 'Omazh.mp3',
-        },
-        {
-            title: 'Ермил',
-            gender: 'Мужской',
-            audio: 'Ermil.mp3',
-        },
-        {
-            title: 'Юрий',
-            gender: 'Мужской',
-            audio: 'Yuriy.mp3',
-        },
-        {
-            title: 'Алёна',
-            gender: 'Женский',
-            audio: 'Alena.mp3',
-        },
-    ],
-    [
-        {
-            title: 'Джейн',
-            gender: 'Женский',
-            audio: 'Jane.mp3',
-        },
-        {
-            title: 'Захар',
-            gender: 'Мужской',
-            audio: 'Zahar.mp3',
-        },
-        {
-            title: 'Алёна',
-            gender: 'Женский',
-            audio: 'Alena.mp3',
-        },
-        {
-            title: 'Филипп',
-            gender: 'Мужской',
-            audio: 'Filipp.mp3',
-        },
-        {
-            title: 'Ермил',
-            gender: 'Мужской',
-            audio: 'Ermil.mp3',
-        },
-        {
-            title: 'Оксана',
-            gender: 'Женский',
-            audio: 'Oksana.mp3',
-        },
-        {
-            title: 'Джейн',
-            gender: 'Женский',
-            audio: 'Jane.mp3',
-        },
-        {
-            title: 'Виктория',
-            gender: 'Женский',
-            audio: 'Victoria.mp3',
-        },
-        {
-            title: 'Захар',
-            gender: 'Мужской',
-            audio: 'Zahar.mp3',
-        },
-        {
-            title: 'Алёна',
-            gender: 'Женский',
-            audio: 'Alena.mp3',
-        },
-    ],[
-        {
-            title: 'Юрий',
-            gender: 'Мужской',
-            audio: 'Yuriy.mp3',
-        },
-       {
-            title: 'Анна',
-            gender: 'Женский',
-            audio: 'Anna.mp3',
-        },
         {
             title: 'Александр',
             gender: 'Мужской',
-            audio: 'Aleksandr.mp3',
+            audio: 'Alexander.mp3',
         },
         {
-            title: 'Артемий',
+            title: 'Ермил',
             gender: 'Мужской',
-            audio: 'Artemiy.mp3',
+            audio: 'Ermil.mp3',
         },
         {
-            title: 'Елена',
-            gender: 'Женский',
-            audio: 'Elena.mp3',
-        },
-        {
-            title: 'Евгений',
+            title: 'Филипп',
             gender: 'Мужской',
-            audio: 'Evgeniy.mp3',
+            audio: 'Filipp.mp3',
         },
         {
-            title: 'Ирина',
-            gender: 'Женский',
-            audio: 'Irina.mp3',
-        },
-        {
-            title: 'Павел',
+            title: 'Мадирус',
             gender: 'Мужской',
-            audio: 'Pavel.mp3',
+            audio: 'Madirus.mp3',
         },
         {
-            title: 'Арина',
+            title: 'Захар',
+            gender: 'Мужской',
+            audio: 'Zahar.mp3',
+        },
+    ],
+    [
+        {
+            title: 'Омаж',
             gender: 'Женский',
-            audio: 'Arina.mp3',
+            audio: 'Omazh.mp3',
         },
         {
-            title: 'Татьяна',
+            title: 'Томару',
             gender: 'Женский',
-            audio: 'Tatiana.mp3',
-        }
+            audio: 'Tomaru.mp3',
+        },
+        {
+            title: 'Лера',
+            gender: 'Женский',
+            audio: 'Lera.mp3',
+        },
+        {
+            title: 'Алёна',
+            gender: 'Женский',
+            audio: 'Alena.mp3',
+        },
+        {
+            title: 'Даша',
+            gender: 'Женский',
+            audio: 'Dasha.mp3',
+        },
+    ],[
+        {
+            title: 'Алёна',
+            gender: 'Женский',
+            audio: 'Alena.mp3',
+        },
+        {
+            title: 'Оксана',
+            gender: 'Женский',
+            audio: 'Oksana.mp3',
+        },
+        {
+            title: 'Захар',
+            gender: 'Мужской',
+            audio: 'Zahar.mp3',
+        },
+        {
+            title: 'Оксана',
+            gender: 'Женский',
+            audio: 'Oksana.mp3',
+        },
+        {
+            title: 'Маша',
+            gender: 'Женский',
+            audio: 'Masha.mp3',
+        },
     ]
 ]
