@@ -40,6 +40,7 @@
         font-style: normal;
         font-weight: 500;
         line-height: 135%;
+        padding-right: 40px;
     }
     &__text{
         font-size: 18px;
@@ -191,11 +192,17 @@
 .gologin {
     width: 100%;
 
+    &__text {
+        font-size: 22px;
+        padding: 40px 0 0;
+        margin-bottom: 40px;
+    }
+
     &__buttons {
         display: flex;
         flex-flow: row wrap;
         gap: 20px;
-        padding-top: 30px;
+        margin-bottom: 10px;
     }
 
     &__button {

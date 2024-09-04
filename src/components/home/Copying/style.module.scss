@@ -131,9 +131,10 @@
 			background: url('/images/icon-play.svg') center / contain no-repeat transparent;
 			margin-left: 5px;
 		}
-
+		
 		&_stop::after {
 			background-image: url("/images/icon-pause.svg");
+			margin: 0;
 		}
 
 		&:hover::before {
