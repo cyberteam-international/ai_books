@@ -1,6 +1,8 @@
 .copying {
 	$self: &;
 	padding: 240px 60px 40px !important;
+	position: relative;
+	z-index: 2;
 	max-width: 1300px;
 	margin: 0 auto;
 	

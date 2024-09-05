@@ -3,6 +3,10 @@
 	--Light: 244, 242, 252;
 }
 
+body {
+	overflow: hidden;
+}
+
 .home {
 	position: relative;
 	color: var(--Dark);
@@ -173,12 +177,15 @@
 		display: block;
 		margin: 0 auto;
 		margin-top: 30px;
-		a{
+
+		a {
 			color: rbg(var(--color-white));
-			&:hover{
+
+			&:hover {
 				color: rbg(var(--color-white));
 			}
-			h5{
+
+			h5 {
 				margin: 0;
 			}
 		}
@@ -260,8 +267,7 @@
 		margin-top: 2.5em
 	}
 	
-	form input[type="text"],
-	.input-file-btn {
+	form input[type="text"], .input-file-btn {
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-start;
@@ -380,53 +386,17 @@
 	}
 	
 	/*	Шапка */
-	header,
 	#voices,
 	#support {
 		position: relative;
 	}
-	
-	// header:before {
-	// 	content: '';
-	// 	display: block;
-	// 	position: absolute;
-	// 	animation-duration: 25s;
-	// 	animation-name: header-animation-2;
-	// 	animation-iteration-count: infinite;
-	// 	width: 1411.83px;
-	// 	height: 911.16px;
-	// 	background: url("/images/animation/2-min.png") 50% 50% no-repeat;
-	// 	background-size: cover;
-	// 	/*background: radial-gradient(40.58% 58.57% at 38.83% 45.8%, #1872F9 0%, #2F27B6 38.22%, #581B98 100%);
-	// 	mix-blend-mode: normal;
-	// 	filter: blur(200px);
-	// 	border-radius: 380.337px;
-	// 	transform: matrix(0.98, 0.2, 0.57, -0.82, 0, 0);*/
-	// }
-	
-	// header:after {
-	// 	content: '';
-	// 	display: block;
-	// 	position: absolute;
-	// 	animation-duration: 25s;
-	// 	animation-name: header-animation-1;
-	// 	animation-iteration-count: infinite;
-	// 	animation-delay: .5s;
-	// 	width: 1758.21px;
-	// 	height: 1134.71px;
-	// 	background: url("/images/animation/7-min.png") 50% 50% no-repeat;
-	// 	background-size: cover;
-	// 	/*background: radial-gradient(28.31% 46.15% at 30.18% 57.01%, #3FCEB6 0%, rgba(237, 143, 187, 0) 100%);
-	// 	opacity: 0.8;
-	// 	filter: blur(83.5px);
-	// 	border-radius: 380.337px;
-	// 	transform: matrix(0.98, 0.2, 0.57, -0.82, 0, 0);*/
-	// }
+
 	
 	#voices:before {
-		// content: '';
+		content: '';
 		display: block;
 		position: absolute;
+		z-index: 1;
 		animation-duration: 25s;
 		animation-name: voices-animation-1;
 		animation-iteration-count: infinite;
@@ -443,9 +413,10 @@
 	}
 	
 	#voices:after {
-		// content: '';
+		content: '';
 		display: block;
 		position: absolute;
+		z-index: 1;
 		animation-duration: 25s;
 		animation-name: voices-animation-2;
 		animation-iteration-count: infinite;
@@ -462,9 +433,10 @@
 	}
 	
 	#support:before {
-		// content: '';
+		content: '';
 		display: block;
 		position: absolute;
+		z-index: 1;
 		animation-duration: 25s;
 		animation-name: support-animation-1;
 		animation-iteration-count: infinite;
@@ -483,9 +455,10 @@
 	}
 	
 	#support:after {
-		// content: '';
+		content: '';
 		display: block;
 		position: absolute;
+		z-index: 1;
 		animation-duration: 25s;
 		animation-name: support-animation-2;
 		animation-iteration-count: infinite;
@@ -624,10 +597,6 @@
 		background: url("/images/button-more.svg") 50% 50% no-repeat;
 		background-size: contain;
 		border-radius: 50%;
-
-		// @media only screen and (max-width: 768px) {
-		// 	top: 0;
-		// }
 	}
 	
 	.excavation:before {
@@ -699,7 +668,12 @@
 	/*	Озвучка */
 	#voices {
 		color: rgba(var(--Light), 1);
-		margin-bottom: 8em
+		margin-bottom: 8em;
+
+		.container {
+			position: relative;
+			z-index: 2;
+		}
 	}
 	
 	.voices {
@@ -849,14 +823,17 @@
 	}
 	
 	#support h2 {
-		color: rgba(var(--Light), 1)
+		color: rgba(var(--Light), 1);
+		position: relative;
+		z-index: 2;
 	}
 	
 	.quote-block {
 		display: flex;
 		color: rgb(var(--Light));
 		margin: 3.625em -1.25em;
-		z-index: 1;
+		position: relative;
+		z-index: 2;
 	}
 	
 	.quote-block .quote-block-item {
@@ -1415,50 +1392,6 @@
 			margin: 0.25em 0;
 			font-size: 16px;
 			font-weight: 300;
-		}
-	}
-	
-	@keyframes header-animation-2 {
-		0% {
-			left: -920px;
-			top: 338.35px;
-		}
-	
-		100% {
-			left: -920px;
-			top: 338.35px;
-		}
-	
-		33% {
-			left: 1282px;
-			top: 958.35px;
-		}
-	
-		66% {
-			left: -1046px;
-			top: -281.65px;
-		}
-	}
-	
-	@keyframes header-animation-1 {
-		0% {
-			left: 665px;
-			top: 1345.45px;
-		}
-	
-		100% {
-			left: 665px;
-			top: 1345.45px;
-		}
-	
-		33% {
-			left: -1513px;
-			top: 373.45px;
-		}
-	
-		66% {
-			left: 1350px;
-			top: 373.45px;
 		}
 	}
 	
