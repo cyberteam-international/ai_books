@@ -31,8 +31,11 @@ export default function Support({ }: Props) {
 		}, {
 			breakpoint: 740,
 			settings: {
-				slidesToShow: 1.1,
-				slidesToScroll: 1
+				arrows: false,
+				slidesToShow: 1,
+				slidesToScroll: 1,
+				centerMode: true,
+				centerPadding: '10%',
 			}
 		}]
 	}

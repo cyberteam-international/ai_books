@@ -26,7 +26,7 @@
     overflow: hidden;
 
     margin: 0;
-    padding: 0;
+    padding: 0 !important;
 }
 .slick-list:focus
 {
@@ -82,11 +82,14 @@
     float: left;
     margin: 1.25em;
     min-height: 1px;
-    div{
+    div {
         height: 100%;
     }
     @media screen and (max-width: 899.9px) {
         height: auto;
+    }
+    @media screen and (max-width: 400px) {
+        margin: 0.75em;
     }
 }
 [dir='rtl'] .slick-slide

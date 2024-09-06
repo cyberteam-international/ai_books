@@ -38,8 +38,10 @@ const Copying = ({}: Props) => {
 			breakpoint: 740,
 			settings: {
 				arrows: false,
-				slidesToShow: 1.1,
-				slidesToScroll: 1
+				slidesToShow: 1,
+				slidesToScroll: 1,
+				centerMode: true,
+				centerPadding: '10%'
 			}
 		}]
 	}
