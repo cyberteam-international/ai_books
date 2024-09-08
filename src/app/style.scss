@@ -6,9 +6,11 @@
 .home {
 	position: relative;
 	color: var(--Dark);
+	background: linear-gradient(172deg, #090B1B 8%, #1A2057 47.63%, #090B1B 92.58%);
 
 	.home__wrapper{
 		position: relative;
+		z-index: 1;
 	}
 
 	.home__title{
@@ -31,7 +33,7 @@
 	}
 
 	@media only screen and (max-width: 768px) {
-		margin-top: 30px;
+		padding-top: 30px;
 	}
 
 	fieldset {

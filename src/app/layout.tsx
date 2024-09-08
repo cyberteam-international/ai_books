@@ -28,7 +28,7 @@ export default function RootLayout({
 
 
 	return (
-			<html lang="ru">
+		<html lang="ru">
 			<body className={FontOnest.className}>
 				<ContextLayout>
 					<div className="page__wrapper">
@@ -43,6 +43,6 @@ export default function RootLayout({
 					<Metrika/>
 				</Suspense>
 			</body>
-			</html>
+		</html>
 	)
 }
