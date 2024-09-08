@@ -277,10 +277,12 @@ export default function PageWork() {
 	useEffect(() => {
 		if(! userInfo && start) {
 			setModalGoLoginOpen(true);
+			setModalCreateVoiceOpen(false);
 		} else if(start) {
 			setModalCreateVoiceOpen(true);
+			setModalGoLoginOpen(false);
 		}
-	}, [start]);
+	}, [start, userInfo]);
 
 	// useEffect(() => {
 	//     if (userInfo) {
