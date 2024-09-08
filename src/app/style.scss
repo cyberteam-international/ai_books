@@ -4,7 +4,6 @@
 }
 
 .home {
-	position: relative;
 	color: var(--Dark);
 	background: linear-gradient(172deg, #090B1B 8%, #1A2057 47.63%, #090B1B 92.58%);
 
@@ -431,7 +430,7 @@
 	}
 	
 	#support:before {
-		content: '';
+		// content: '';
 		display: block;
 		position: absolute;
 		z-index: 1;
@@ -453,7 +452,7 @@
 	}
 	
 	#support:after {
-		content: '';
+		// content: '';
 		display: block;
 		position: absolute;
 		z-index: 1;

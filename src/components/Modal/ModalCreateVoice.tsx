@@ -1,7 +1,7 @@
 import style from './style.module.scss'
 import styleForm from './ModalCreateVoice.module.scss'
 import {useContext, useEffect, useState} from "react";
-import {ENDPOINTS, PRICE, ROUTES} from "@utils/config";
+import {ENDPOINTS, PRICE, ROUTES, MAX_VOICE_SIZE} from "@utils/config";
 import clsx from "clsx";
 import Image from "next/image";
 import icon_trash from "@public/icon_trash.svg";
@@ -103,10 +103,11 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
 	return (
 		<form onSubmit={sendForm} className={style.modal__error}>
 
-			{myVoicesData?.data && myVoicesData.data.length >= 10 ? <>
+			{myVoicesData?.data && myVoicesData.data.length >= MAX_VOICE_SIZE ? <>
 				<br/>
-				<p className={styleForm.inputFile__text2}>
-					У Вас максимальное количество созданных голосов.
+				<p className={styleForm.inputFile__note}>
+					Для создания нового голоса необходимо освободить место. <br/>
+					(Удалите 1 или более голосов)
 				</p>
 			</> : <>
 				{userInfo && Math.floor(userInfo.balance / PRICE) <= 0 ? <>

@@ -11,12 +11,12 @@ import {useGETVoices} from "@utils/hooks/useSwrGET";
 import {ModalCreateVoice} from "@components/Modal/ModalCreateVoice";
 import {ModalMessage, ModalWrapper} from "@components/Modal";
 import Delete from "@UI/delete";
+import {MAX_VOICE_SIZE} from '@utils/config';
 import {ENDPOINTS} from "@utils/config";
 import {IDataEditVoice, ModalEditVoice} from "@components/Modal/ModalEditVoice";
 import Loading from "@/app/loading";
 
 export default function PageMyVoices() {
-    const MAX_VOICE_SIZE = 10
     const [modalCreateVoiceOpen, setModalCreateVoiceOpen] = useState<boolean>(false)
     const [modalEditVoiceOpen, setModalEditVoiceOpen] = useState<boolean>(false)
     // const [modalEditSettingsVoiceOpen, setModalEditSettingsVoiceOpen] = useState<boolean>(false)
@@ -90,7 +90,7 @@ export default function PageMyVoices() {
                     {myVoices?.data.map((voice: any) => {
                         return <div className={style.profile__voice}>
                             <a className={style.profile__voice_link} onClick={() => {
-                                setModalEditVoiceOpen(true)
+                                setModalEditVoiceOpen(true);
                                 setEditData({
                                     id: voice.id,
                                     name: voice.name,

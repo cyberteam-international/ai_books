@@ -14,7 +14,7 @@ const Tariffs = ({onClick}: Props) => {
 
 	return (
 		<div id="tariffs" className={`${s.tariffs}`}>
-			<h2 className={`${s.tariffs__title} ${FontUnbounded.className}`}>Тарифы</h2>
+			<h2 className={`${s.tariffs__title} ${FontUnbounded.className}`} id="tariffs_h">Тарифы</h2>
 			
 			<div className={`${s.tariffs__items}`}>
 				<div className={`${s.tariffs__item}`}>

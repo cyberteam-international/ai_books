@@ -1,5 +1,7 @@
 import { Voices } from "../interface"
 
+export const MAX_VOICE_SIZE = 3;
+
 export const VOICES: Voices[] = [
     {
         is_my_voice: false,
