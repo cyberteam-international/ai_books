@@ -12,7 +12,8 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted
+    name: Build
+    runs-on: ubuntu-latest
 
     steps:
       - name: Executing remote ssh commands using password
@@ -20,5 +21,5 @@ jobs:
         with:
           host: 141.8.194.22
           username: root
-          key: utubpexewiipus
+          password: utubpexewiipus
           script: cd ai_books && git pull && docker compose up --build -d
