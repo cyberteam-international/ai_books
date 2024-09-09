@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Executing remote ssh commands using password
-      - uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: 141.8.194.22
           username: root
