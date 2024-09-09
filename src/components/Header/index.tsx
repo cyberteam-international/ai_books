@@ -38,7 +38,7 @@ export default function Header({ }: Props) {
     }, [windowWidth])
 
     return (
-        <header className={clsx(style.header, isOpen && style.header_open, pathname === ROUTES.HOME && style.header_home, 'container')}>
+        <header className={clsx(style.header, isOpen && style.header_open, pathname === ROUTES.HOME && style.header_home)}>
             <div className={style.header__top}>
                 <Link onClick={() => setIsOpen(false)} href={ROUTES.HOME}>
                     <Image src='/logo.svg' alt='AI Books logo' width={128} height={19} />
