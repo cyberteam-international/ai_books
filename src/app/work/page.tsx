@@ -103,7 +103,7 @@ export default function PageWork() {
 				voice: myVoice.value ? myVoice.value : voice.value as string,
 				is_my_voice: !!myVoice.value,
 				settings: settings,
-				n: getFreeGeneration() >= maxFreeGeneration
+				n: myVoice.value ? true : getFreeGeneration() >= maxFreeGeneration
 			})
 				.then(async (res: AxiosResponse<ResponseWork>) => {
 					setResponseData(res.data)
