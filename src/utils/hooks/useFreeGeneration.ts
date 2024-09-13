@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import Cookies from "js-cookie";
 import {DateTime} from "luxon";
 
@@ -7,9 +7,9 @@ export const UseFreeGeneration = () => {
 
     const maxFreeGeneration = 10
 
-    function getFreeGeneration() {
+    const getFreeGeneration = useCallback(() => {
         return parseInt(freeGeneration)
-    }
+    }, [freeGeneration])
 
     function addFreeGeneration() {
         setFreeGeneration((prevState) => {

@@ -94,27 +94,16 @@ export default function PageWork() {
 
 	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
 		if (value) {
-			if(!myVoice.value) {
-				if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
-					const freeGeneration = (getFreeGeneration() + 1)
-					if (freeGeneration > maxFreeGeneration) {
-						setCompleteMessage(`Вы исчерпали лимит бесплатных генераций за сутки`)
-						return
-					}
-				}
-			}
-
 			setLoading(true)
 			setCompleteMessage('')
-
-			console.log(settings)
 
 			ENDPOINTS.WORK.CREATE_WORK({
 				...data,
 				lang: language.value as string,
 				voice: myVoice.value ? myVoice.value : voice.value as string,
 				is_my_voice: !!myVoice.value,
-				settings: settings
+				settings: settings,
+				n: getFreeGeneration() >= maxFreeGeneration
 			})
 				.then(async (res: AxiosResponse<ResponseWork>) => {
 					setResponseData(res.data)
@@ -130,8 +119,10 @@ export default function PageWork() {
 							if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
 								const freeGeneration = (getFreeGeneration() + 1)
 
-								addFreeGeneration()
-								setCompleteMessage(`Вы можете бесплатно озвучить еще ${maxFreeGeneration - freeGeneration} аудио из ${maxFreeGeneration} за сутки`)
+								if(freeGeneration <= maxFreeGeneration) {
+									addFreeGeneration()
+									setCompleteMessage(`Вы можете бесплатно озвучить еще ${maxFreeGeneration - freeGeneration} аудио из ${maxFreeGeneration} за сутки`)
+								}
 							}
 						}
 					}
@@ -287,27 +278,6 @@ export default function PageWork() {
 		}
 	}, [start, userInfo]);
 
-	// useEffect(() => {
-	//     if (userInfo) {
-	//         ENDPOINTS.VOICES.GET_VOICES().then((res) => {
-	//             const myVoiceArray: MyVoice[] = []
-	//
-	//             for (let i = 0; i < res.length; i++) {
-	//                 const r = res[i]
-	//
-	//                 myVoiceArray.push({
-	//                     title: r.name,
-	//                     inputValue: r.name,
-	//                     value: r.voice_id,
-	//                 })
-	//             }
-	//
-	//             setMyVoiceArray(myVoiceArray)
-	//         })
-	//     }
-	//
-	// }, [userInfo]);
-
 	useEffect(() => {
 		let intervalId: NodeJS.Timeout;
 
@@ -437,6 +407,7 @@ export default function PageWork() {
 						valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
 						valueState={[value, setValue]}
 						isMyVoice={!!myVoice.value}
+						freeGeneration={getFreeGeneration()}
 					>
 						{<>
 							{(language.inputValue === 'ru-Ru' || valueBeforeDecipher) && (

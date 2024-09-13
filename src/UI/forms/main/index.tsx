@@ -19,6 +19,7 @@ import Delete from "@/UI/delete";
 import icon_warning from '@public/warning.svg'
 
 import style from './style.module.scss'
+import {UseFreeGeneration} from "@utils/hooks/useFreeGeneration";
 
 type Props = {
     submit: (data: { input_text: CreateWorks['input_text'] }) => void
@@ -29,9 +30,10 @@ type Props = {
     valueState: [string | undefined, (val:string)=>void],
     children?: ReactNode,
     isMyVoice?: boolean
+    freeGeneration?: number
 };
 
-export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, valueState, valueBeforeDecipherState, children, isMyVoice }: Props) {
+export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, valueState, valueBeforeDecipherState, children, isMyVoice, freeGeneration = 0}: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
     const [valueProps, setValueProps] = valueState
@@ -89,14 +91,13 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
 
     useEffect(() => {
         if (userInfo?.id) {
-            if(isMyVoice) {
+            if(isMyVoice || freeGeneration >= 10) {
                 setMaxCharacterCount(Math.floor(userInfo.balance / PRICE))
             } else {
                 setMaxCharacterCount(Math.floor(userInfo.balance / PRICE) > 200 ? Math.floor(userInfo.balance / PRICE) : 200)
             }
         }
-        console.log('isMyVoice', isMyVoice)
-    }, [userInfo, isMyVoice])
+    }, [userInfo, isMyVoice, freeGeneration])
 
     return (
         <form id={'mainForm'} className={style.form} onSubmit={handleSubmit(submit)}>

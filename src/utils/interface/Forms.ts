@@ -60,7 +60,8 @@ export type CreateWorks = {
     input_text: string,
     name?: string
     is_my_voice?: boolean
-    settings?: SettingsDefault
+    settings?: SettingsDefault,
+    n?: boolean
 }
 
 export type UpdateWorks = {
