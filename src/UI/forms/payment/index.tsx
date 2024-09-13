@@ -83,7 +83,6 @@ export default function FormPayment({ }: Props) {
 	};
 
 	const submit = (data?: PaymentForm['FormMobile']) => {
-		console.log(data);
 		if (paymentMethod) {
 			ENDPOINTS.PAYMENT.SET_PAYMENT(
 				{
@@ -97,7 +96,7 @@ export default function FormPayment({ }: Props) {
 			.then((res: AxiosResponse<ResponsePayment>)=>{
 				Cookies.set('payment_id', res.data.id, {secure: true})
 				// window.location.href = res.data.link
-				window.open(res.data.link, '_blank');
+				window.location.replace(res.data.link);
 			})
 		}
 		
