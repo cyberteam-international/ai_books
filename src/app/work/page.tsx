@@ -94,14 +94,15 @@ export default function PageWork() {
 
 	const submit = (data: { input_text: CreateWorks['input_text'] }) => {
 		if (value) {
-			if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
-				const freeGeneration = (getFreeGeneration() + 1)
-				if (freeGeneration > maxFreeGeneration) {
-					setCompleteMessage(`Вы исчерпали лимит бесплатных генераций за сутки`)
-					return
+			if(!myVoice.value) {
+				if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+					const freeGeneration = (getFreeGeneration() + 1)
+					if (freeGeneration > maxFreeGeneration) {
+						setCompleteMessage(`Вы исчерпали лимит бесплатных генераций за сутки`)
+						return
+					}
 				}
 			}
-
 
 			setLoading(true)
 			setCompleteMessage('')
@@ -124,12 +125,14 @@ export default function PageWork() {
 						setCompleteMessage('Аудио будет доступно в личном кабинете 10 дней')
 					}
 
-					if (value.length <= 200) {
-						if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
-							const freeGeneration = (getFreeGeneration() + 1)
+					if(!myVoice.value) {
+						if (value.length <= 200) {
+							if (userInfo && !userInfo.is_admin && !userInfo.is_editor || !userInfo) {
+								const freeGeneration = (getFreeGeneration() + 1)
 
-							addFreeGeneration()
-							setCompleteMessage(`Вы можете бесплатно озвучить еще ${maxFreeGeneration - freeGeneration} аудио из ${maxFreeGeneration} за сутки`)
+								addFreeGeneration()
+								setCompleteMessage(`Вы можете бесплатно озвучить еще ${maxFreeGeneration - freeGeneration} аудио из ${maxFreeGeneration} за сутки`)
+							}
 						}
 					}
 				})
@@ -433,6 +436,7 @@ export default function PageWork() {
 						canSubmit={language.value && voice.value ? true : false}
 						valueBeforeDecipherState={[valueBeforeDecipher, setValueBeforeDecipher]}
 						valueState={[value, setValue]}
+						isMyVoice={!!myVoice.value}
 					>
 						{<>
 							{(language.inputValue === 'ru-Ru' || valueBeforeDecipher) && (

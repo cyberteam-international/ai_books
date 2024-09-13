@@ -28,9 +28,10 @@ type Props = {
     valueBeforeDecipherState: [string | undefined, (val:string)=>void],
     valueState: [string | undefined, (val:string)=>void],
     children?: ReactNode,
+    isMyVoice?: boolean
 };
 
-export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, valueState, valueBeforeDecipherState, children }: Props) {
+export default function FormMain({ submit, canSubmit, handleEnoughBalance, handleRegistration, valueState, valueBeforeDecipherState, children, isMyVoice }: Props) {
 
     const [characterCount, setCharacterCount] = useState(0);
     const [valueProps, setValueProps] = valueState
@@ -67,36 +68,6 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
         else return undefined
     }
 
-    // const decipher_abbreviations = () => {
-    //     const textValue = getValues('input_text')
-    //     setLoading(true)
-    //     ENDPOINTS.GPT.REMOVE_ABBREVIATIONS(textValue)
-    //         .then((res: AxiosResponse<{text: string}>)=>{
-    //             setLoading(false)
-    //             setValueBeforeDecipher(textValue)
-    //             setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-    //         })
-    // }
-
-    // const decipher_numbers = () => {
-    //     const textValue = getValues('input_text')
-    //     setLoading(true)
-    //     ENDPOINTS.GPT.REMOVE_NUMBERS(textValue)
-    //         .then((res: AxiosResponse<{text: string}>)=>{
-    //             setLoading(false)
-    //             setValueBeforeDecipher(textValue)
-    //             setValue('input_text', res.data.text, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-    //         })
-    // }
-
-    // const handleReset = () => {
-    //     if (valueBeforeDecipher) {
-    //         setValue('input_text', valueBeforeDecipher, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-    //         setValueBeforeDecipher(undefined)
-    //     }
-        
-    // }
-
     useEffect(() => {
         const currentValue = getValues('input_text')
         setCharacterCount(currentValue?.length || 0);
@@ -118,9 +89,14 @@ export default function FormMain({ submit, canSubmit, handleEnoughBalance, handl
 
     useEffect(() => {
         if (userInfo?.id) {
-            setMaxCharacterCount(Math.floor(userInfo.balance / PRICE) > 200 ? Math.floor(userInfo.balance / PRICE) : 200)
+            if(isMyVoice) {
+                setMaxCharacterCount(Math.floor(userInfo.balance / PRICE))
+            } else {
+                setMaxCharacterCount(Math.floor(userInfo.balance / PRICE) > 200 ? Math.floor(userInfo.balance / PRICE) : 200)
+            }
         }
-    }, [userInfo])
+        console.log('isMyVoice', isMyVoice)
+    }, [userInfo, isMyVoice])
 
     return (
         <form id={'mainForm'} className={style.form} onSubmit={handleSubmit(submit)}>
