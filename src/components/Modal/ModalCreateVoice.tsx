@@ -130,7 +130,7 @@ export const ModalCreateVoice = ({onSubmit}: Props) => {
 						/>
 
 						<div className={clsx(styleForm.inputFile, error && styleForm.inputFile__error)}>
-							<input accept="audio/*" type="file" id="file" name="files" multiple={true}
+							<input accept=".mp3,.wav,.aac,.m4a,.opus,.aif,.aiff,.flac,.alac,.ogg" type="file" id="file" name="files" multiple={true}
 								   onChange={(e) => {
 									   // @ts-ignore
 									   const files = Array.from(e.target['files'])
