@@ -1,12 +1,13 @@
 @import "@styles/spec";
 
 .registration{
-    max-width: 50%;
+    max-width: 50% !important;
+
     @include media-down(lg) {
-        max-width: 70%;
+        max-width: 70% !important;
     }
     @include media-down(sm) {
-        max-width: none;
+        max-width: none !important;
     }
     &__wrapper{
         border-radius: 32px;
