@@ -28,6 +28,8 @@ export type ResponseStatistic = {
     gpt_request_price: number,
     gpt_response_tokens: number,
     gpt_response_price: number
+	number_voices_created_all: number
+	number_voices_created: number
 }
 
 export type ResponseVoices = {
