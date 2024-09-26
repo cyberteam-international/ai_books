@@ -41,8 +41,8 @@ import { useSearchParams } from 'next/navigation'
 
 export default function PageWork() {
 	const defaultMyVoice: MyVoice = {
-		title: "Мой голоса",
-		inputValue: "Мой голоса"
+		title: "Мои голоса",
+		inputValue: "Мои голоса"
 	}
 
 	const [language, setLanguage] = useState<Languages>(LANGUAGES[0]);
