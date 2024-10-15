@@ -16,7 +16,7 @@ import '@styles/global.scss'
 import {Metrika} from "@components/Metrika/Metrika";
 
 export const metadata: Metadata = {
-	title: 'Создание аудиокниг. Озвучивание текстов. AIBooks',
+	title: 'Копирование голосов, озвучивание текстов. Создание аудиокниг - AIBooks.ru',
 	description: 'Сервис заказа озвучивания книг. Создаем аудиокниги на основе вашего текст на русском языке.',
 }
 
