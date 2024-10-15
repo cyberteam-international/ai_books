@@ -9,6 +9,7 @@ import { FontUnbounded } from "@/fonts";
 import { ROUTES } from "@/utils/config";
 import { data } from './data';
 import SampleVoice from './SampleVoice';
+import {tr} from "date-fns/locale";
 
 type Props = {};
 
@@ -50,6 +51,7 @@ const Copying = ({}: Props) => {
 		<div id="copying" className={`${s.copying}`}>
 			<h2 className={`${FontUnbounded.className} ${s.copying__title}`} id="copying_h">Копирование голосов</h2>
 			<h3 className={`${s.copying__subtitle}`}>Загрузите аудиофайл с примером голоса. Настройте интонации и стиль звучания. Озвучивайте ваши тексты нужными голосами за несколько секунд.</h3>
+			<video poster={"/images/copying_voices_poster.jpg"} autoPlay={true} controls={true} controlsList="nodownload" className={s.copying__video} src="/video/copying_voices.mp4"></video>
 			<Slider {...settings} className={`${s.copying__slider}`}>
 
 				{data && data.map((sample, i) => {

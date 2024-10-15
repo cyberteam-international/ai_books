@@ -34,7 +34,7 @@ export default function About({onClick}: Props) {
                         <Image src='/images/spring2.svg' alt="Библиотека голосов" width={200} height={200} />
                         <div>
                             <h4 className={FontUnbounded.className}>Библиотека голосов</h4>
-                            <p>Озвучивайте тексты на разных языках голосами из общей библиотеки. Расшифровывайте сложгые тексты перед озвучиванием с помощью ИИ.</p>
+                            <p>Озвучивайте тексты на разных языках голосами из общей библиотеки. Расшифровывайте сложные тексты перед озвучиванием с помощью ИИ.</p>
                             <a href="#voices_h" className="button">Подробнее</a>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ export default function About({onClick}: Props) {
                         <Image src='/images/spring3.svg' alt="Создание аудиокниг" width={200} height={200} />
                         <div>
                             <h4 className={FontUnbounded.className}>Создание аудиокниг</h4>
-                            <p>Закажите качественно аудиоиздание на основе вашей книги или рукописи. Полный издательский цикл и помощь в дистрибуции.</p>
+                            <p>Закажите качественное аудиоиздание на основе вашей книги или рукописи. Полный издательский цикл и помощь в дистрибуции.</p>
                             <button className="button" onClick={onClick}>Консультация</button>
                         </div>
                     </div>
