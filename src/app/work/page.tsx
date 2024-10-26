@@ -128,8 +128,10 @@ export default function PageWork() {
 					}
 				})
 				.catch((err: AxiosError) => {
-					console.log(err)
-					setCompleteMessage(err.message)
+					if(err && err.response && err.response?.status === 406) {
+						setCompleteMessage("Мы не можем озвучить ваш текст! \nОбнаружен контент противоречащий правилам сервиса. Пожалуйста, убедитесь, что ваш контент соответствует нашим требованиям.</br> </br> <a target='_blank' href='/rules'>Подробнее</a>")
+					}
+					console.error(err)
 					setLoading(false)
 				})
 		}

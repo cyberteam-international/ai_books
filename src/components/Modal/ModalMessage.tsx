@@ -46,7 +46,7 @@ export const ModalMessage = ({ message, setMesage }: Props) => {
             }}
         >
             <div>
-                <p>{message}</p>
+                <p  dangerouslySetInnerHTML={{__html: message || ""}}/>
                 <button onClick={() => {
                     setIsMounted(false)
                 }}>

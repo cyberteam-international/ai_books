@@ -173,6 +173,13 @@
         letter-spacing: 0.32px;
     }
 
+    a {
+        text-transform: uppercase;
+        text-decoration: underline;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
     &_enter{
         opacity: 0;
         &_active{
