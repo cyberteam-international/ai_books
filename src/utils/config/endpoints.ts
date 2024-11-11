@@ -13,10 +13,9 @@ import {
     UserInfo
 } from "../interface"
 import {UserInfoExtended} from "../interface/UserInfo"
-import {ResponseEnvironment} from "../interface/Responses"
-import {SendMessageForm} from "@utils/interface/Forms";
+import {Message, ResponseEnvironment, ResponseMessageCreate} from "../interface/Responses"
+import {CreateMessage, SendMessageForm} from "@utils/interface/Forms";
 import {IDataEditSettingsVoice} from "@components/Modal/ModalEditSettingsVoice";
-import {fi} from "date-fns/locale";
 
 const BASE_URL = process.env.BACKEND_URL
 
@@ -41,6 +40,7 @@ export const ENDPOINTS_URL = {
     GENERATE: BASE_URL + '/gpt/generate',
     ENVIRONMENT: BASE_URL + '/environment',
     CONVERT: BASE_URL + '/gpt/convert',
+    MESSAGES: BASE_URL + '/messages',
 }
 
 export const ENDPOINTS = {
@@ -458,6 +458,50 @@ export const ENDPOINTS = {
                 data: data
             })
         },
+    },
+    MESSAGES: {
+        GET: async () => {
+            return await axios<Message[]>({
+                url: ENDPOINTS_URL.MESSAGES,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                }
+            })
+                .then((res: AxiosResponse<Message[]>) => {
+                    return res.data
+                })
+                .catch((err: any) => {
+                    throw err
+                })
+        },
+        GET_ID: (id: number) => {
+            return axios<Message>({
+                url: `${ENDPOINTS_URL.MESSAGES}/${id}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+            })
+        },
+        CREATE: (data: CreateMessage | FormData) => {
+            return axios<ResponseMessageCreate>({
+                url: ENDPOINTS_URL.MESSAGES,
+                method: 'POST',
+                headers: {
+                    Authorization: getToken() ? `Bearer ${getToken()}` : undefined,
+                },
+                data: data
+            })
+        },
+        DELETE: () => {
+            return axios<boolean>({
+                url: ENDPOINTS_URL.MESSAGES,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+            })
+        },
     }
-
 }

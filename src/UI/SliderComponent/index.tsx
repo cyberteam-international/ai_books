@@ -38,6 +38,7 @@ interface CustomSliderProps {
     min?: number;
     max?: number;
     options?: string[];
+    step? : number
 }
 
 interface ValueLabelComponentProps {
@@ -63,7 +64,8 @@ const SliderComponent: React.FC<CustomSliderProps> = ({
                                                           rightLabel,
                                                           min = 0,
                                                           max = 100,
-                                                          options
+                                                          options,
+                                                          step
                                                       }) => {
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
         if (typeof newValue === 'number') {
@@ -75,13 +77,13 @@ const SliderComponent: React.FC<CustomSliderProps> = ({
         <Box sx={{
             width: '100%',
             margin: '0 auto',
-            padding: '0 10px',
+            padding: '0',
             textAlign: 'center',
             borderRadius: '10px',
             position: 'relative'
         }}>
             <Typography variant="subtitle1" gutterBottom
-                        sx={{color: '#ffffff80', textAlign: 'left', marginBottom: '15px', fontFamily: FontOnest.style}}>
+                        sx={{color: '#ffffff80', textAlign: 'left', marginBottom: '-5px', fontFamily: FontOnest.style}}>
                 {title}
             </Typography>
             <CustomSlider
@@ -90,7 +92,7 @@ const SliderComponent: React.FC<CustomSliderProps> = ({
                 aria-labelledby="continuous-slider"
                 min={options ? 0 : min}
                 max={options ? options.length - 1 : max}
-                step={options ? 1 : undefined}
+                step={step ? step : options ? 1 : undefined}
                 components={options ? {
                     ValueLabel: (props) => <ValueLabelComponent {...props} options={options}/>
                 } : undefined}

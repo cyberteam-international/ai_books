@@ -64,6 +64,10 @@ export type CreateWorks = {
     n?: boolean
 }
 
+export type CreateMessage = {
+    text: string,
+}
+
 export type UpdateWorks = {
     name: string
 }

@@ -1,27 +1,20 @@
-'use client'
+'use client';
 
+import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext } from 'react';
 
 import { LINKS, ROUTES } from '@utils/config';
-// import { ContextUser } from '@/utils/context';
-
 import ButtonUp from '@/UI/buttonUp';
 
-// import logo from '@public/logo.svg'
-// import vk from '@public/vk.svg'
-// import telegram from '@public/telegram.svg'
-// import whatsapp from '@public/whatsapp.svg'
+import style from './style.module.scss';
 
-import style from './style.module.scss'
+export default function Footer() {
+    const pathname = usePathname();
 
-type Props = {};
-
-export default function Footer({ }: Props) {
-
-    // const [userState, _setUserState] = useContext(ContextUser)
+    // Условие, чтобы не рендерить Footer на странице /chat
+    if (pathname === '/chat') return null;
 
     return (
         <footer className={style.footer}>
@@ -55,25 +48,17 @@ export default function Footer({ }: Props) {
                             <li className={style.footer__nav__menu__item}>
                                 <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
                             </li>
-                            {/* <li className={style.footer__nav__menu__item}>
-                                <Link href={ROUTES.PUBLIC_OFFER}>Договор оферты</Link>
-                            </li> */}
-                            {/* {userState?.is_admin && (
-                                <li className={style.footer__nav__menu__item}>
-                                    <Link href={ROUTES.STATISTIC}>Статистика</Link>
-                                </li>
-                            )} */}
                         </ul>
                     </nav>
                     <div className={style.footer__nav__social}>
-                        {/* <a href={LINKS.VK} target="_blank" rel="noopener noreferrer"><Image {...vk} alt='vk'/></a> */}
-                        <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer"><Image src='/telegram.svg' alt='telegram' width={40} height={40} /></a>
-                        {/* <a href={LINKS.WHATSAPP} target="_blank" rel="noopener noreferrer"><Image {...whatsapp} alt='whatsapp'/></a> */}
+                        <a href={LINKS.TELEGRAM} target="_blank" rel="noopener noreferrer">
+                            <Image src='/telegram.svg' alt='telegram' width={40} height={40} />
+                        </a>
                     </div>
                     <p className={style.footer__nav__copyright}>© 2001-{new Date().getFullYear()}. Все права защищены</p>
                 </div>
                 <div className={style.footer__scroll}>
-                    <ButtonUp/>
+                    <ButtonUp />
                 </div>
             </div>
         </footer>

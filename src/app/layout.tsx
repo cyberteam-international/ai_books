@@ -14,6 +14,9 @@ import '@styles/slick-theme.scss'
 import '@styles/slick.scss'
 import '@styles/global.scss'
 import {Metrika} from "@components/Metrika/Metrika";
+import clsx from "clsx";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
 	title: 'Копирование голосов, озвучивание текстов. Создание аудиокниг - AIBooks.ru',
@@ -26,10 +29,9 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 
-
 	return (
 		<html lang="ru">
-			<body className={FontOnest.className}>
+			<body className={clsx(FontOnest.className)}>
 				<ContextLayout>
 					<div className="page__wrapper">
 						<Header/>
@@ -37,6 +39,7 @@ export default function RootLayout({
 							{children}
 						</Suspense>
 					</div>
+					<ToastContainer />
 					<Footer/>
 				</ContextLayout>
 				<Suspense>

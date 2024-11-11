@@ -17,9 +17,10 @@ import {IDataFilter} from "@/app/my-audio/data";
 import Loading from "@/app/loading";
 import {ContextUser} from "@utils/context";
 import {PRICE} from "@utils/config";
+import {IModel} from "@utils/config/models";
 
 type Props = {
-    value: Banks | Languages | Voices | IDataFilter | DecipherMode | undefined,
+    value: Banks | Languages | Voices | IDataFilter | DecipherMode | IModel | undefined,
     onChange: (value: Props['value']) => void,
     placeholder?: string,
     type: 'banks' | 'languages' | 'voices',
@@ -29,10 +30,12 @@ type Props = {
     addButton?: () => void,
     isLoading?: boolean
     isAuth?: boolean
+    isMin?: boolean
 }
 
 export default function Select({
                                    isAuth,
+                                   isMin,
                                    isLoading,
                                    addButton,
                                    value,
@@ -114,7 +117,7 @@ export default function Select({
                     alt='open select'/>
             </div>
             {isOpen && (
-                <div className={clsx(style.select__options, (isAuth && !userInfo) && style.select__options_auth)}>
+                <div className={clsx(style.select__options, (isAuth && !userInfo) && style.select__options_auth, (isMin) && style.select__options_min)}>
                     <ul className={clsx('scroll', style.select__options__list)}>
                         {isAuth && !userInfo ? <>
                             <li className={style.select__options__list__auth}>

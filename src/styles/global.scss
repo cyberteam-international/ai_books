@@ -15,10 +15,14 @@ html{
 
 body{
 	min-height: 100vh;
-	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 	color: rgb(var(--color-white));
+
+	&.isChat {
+		overflow: initial;
+	}
 }
 
 .page__wrapper {
