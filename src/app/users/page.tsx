@@ -87,8 +87,8 @@ export default function PageMyAudio() {
                 case 'balance':
                     newUsersList = [...defaultUsersList].sort((a, b) =>
                         filterMode === 'up' ?
-                            a.id - b.id
-                            : b.id - a.id
+                            a.balance - b.balance
+                            : b.balance - a.balance
                     );
                     break;
                 default:
@@ -114,7 +114,7 @@ export default function PageMyAudio() {
                     <div key={item.id} className={style.page__table__body__item}>
                         <p className={style.page__table__body__item__id}><span>id: </span>{item.id}</p>
                         <p className={style.page__table__body__item__name}>{item.name}</p>
-                        <p className={style.page__table__body__item__name}>{item.balance.toFixed(2)}</p>
+                        {/*<p className={style.page__table__body__item__name}>{item.balance.toFixed(2)}</p>*/}
                         <p className={style.page__table__body__item__email}>{item.email}</p>
                         <p className={style.page__table__body__item__date}>
                             {DateTime.fromISO(item.created_at).setLocale('ru').toLocaleString({ month: 'long', day: 'numeric', year: 'numeric' })}
@@ -155,13 +155,13 @@ export default function PageMyAudio() {
                                                className={clsx(style.page__table__header__filter__image, activeFilter === 'name' && style[`page__table__header__filter__image_${filterMode}`])}
                                                alt='filter name'/>
                                     </div>
-                                    <div onClick={() => changeFilterHandler('balance')}
-                                         className={clsx(style.page__table__header__filter, activeFilter === 'balance' && style.page__table__header__filter_active)}>
-                                        <p>Баланс</p>
-                                        <Image {...arrow_right}
-                                               className={clsx(style.page__table__header__filter__image, activeFilter === 'balance' && style[`page__table__header__filter__image_${filterMode}`])}
-                                               alt='filter name'/>
-                                    </div>
+                                    {/*<div onClick={() => changeFilterHandler('balance')}*/}
+                                    {/*     className={clsx(style.page__table__header__filter, activeFilter === 'balance' && style.page__table__header__filter_active)}>*/}
+                                    {/*    <p>Баланс</p>*/}
+                                    {/*    <Image {...arrow_right}*/}
+                                    {/*           className={clsx(style.page__table__header__filter__image, activeFilter === 'balance' && style[`page__table__header__filter__image_${filterMode}`])}*/}
+                                    {/*           alt='filter name'/>*/}
+                                    {/*</div>*/}
                                     <div onClick={() => changeFilterHandler('email')}
                                          className={clsx(style.page__table__header__filter, activeFilter === 'email' && style.page__table__header__filter_active)}>
                                         <p>Почта</p>

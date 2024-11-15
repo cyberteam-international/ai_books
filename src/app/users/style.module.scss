@@ -14,7 +14,8 @@
         }
         &__header{
             display: grid;
-            grid-template-columns: 28px 120px 1fr 1fr 1fr 1fr;
+            //grid-template-columns: 28px 120px 1fr 1fr 1fr 1fr;
+            grid-template-columns: 28px 1fr 1fr 1fr 1fr;
             align-items: center;
             gap: 60px;
             border-bottom: 2px solid rgba(var(--color-white), 0.06);
@@ -65,7 +66,8 @@
             }
             &__item{
                 display: grid;
-                grid-template-columns: 28px 120px 1fr 1fr 1fr 1fr;
+                //grid-template-columns: 28px 120px 1fr 1fr 1fr 1fr;
+                grid-template-columns: 28px 1fr 1fr 1fr 1fr;
                 align-items: center;
                 gap: 60px;
                 padding: 0 16px;

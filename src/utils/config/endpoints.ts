@@ -16,6 +16,7 @@ import {UserInfoExtended} from "../interface/UserInfo"
 import {Message, ResponseEnvironment, ResponseMessageCreate} from "../interface/Responses"
 import {CreateMessage, SendMessageForm} from "@utils/interface/Forms";
 import {IDataEditSettingsVoice} from "@components/Modal/ModalEditSettingsVoice";
+import {da} from "date-fns/locale";
 
 const BASE_URL = process.env.BACKEND_URL
 
@@ -90,6 +91,22 @@ export const ENDPOINTS = {
                     "password": data.password,
                     "old_password": data.old_password
                 } : console.error('Введите данные')
+            })
+        },
+        UPDATE_INFO_ADMIN: (data: {
+            name?: string,
+            role?: string,
+            email?: string
+            balance?: number
+            password?: string
+        }) => {
+            return axios({
+                url: ENDPOINTS_URL.USERS,
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+                data: data
             })
         },
         UPDATE_EMAIL: (email: string) => {
