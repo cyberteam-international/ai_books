@@ -10,12 +10,6 @@ import { usePathname } from 'next/navigation';
 import { LINKS, ROUTES } from '@utils/config';
 import { ContextUser } from '@/utils/context';
 
-// import logo from '@public/logo.svg'
-// import profile from '@public/profile.svg'
-// import burger_close from '@public/burger_close.svg'
-// import burger_open from '@public/burger_open.svg'
-// import telegram from '@public/telegram.svg'
-
 import style from './style.module.scss'
 
 type Props = {
@@ -62,6 +56,11 @@ export default function Header({ }: Props) {
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_VOICES && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_VOICES}>Мои голоса</Link>
                             </li>
+                            {(userInfo?.is_admin || userInfo?.is_editor) && (
+                                <li className={clsx(style.header__menu__item, pathname === ROUTES.CHAT && style.header__menu__item_active)}>
+                                    <Link onClick={() => setIsOpen(false)} href={ROUTES.CHAT}>Чат</Link>
+                                </li>
+                            )}
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.PAYMENT && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)}
                                       href={ROUTES.PAYMENT}>Баланс <span>{Number(userInfo?.balance.toFixed(2)).toLocaleString('ru-RU')}</span> ₽</Link>
@@ -69,9 +68,12 @@ export default function Header({ }: Props) {
                         </>
                     )}
                     {(userInfo?.is_admin || userInfo?.is_editor) && (
-                        <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
-                            <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор тестов</Link>
-                        </li>
+                        <>
+                            <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
+                                <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор
+                                    тестов</Link>
+                            </li>
+                        </>
                     )}
                     {userInfo?.is_admin && (
                         <>
@@ -122,6 +124,11 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                     </li>
+                    {(userInfo?.is_admin || userInfo?.is_editor) && (
+                        <li className={clsx(style.header__menu__item, pathname === ROUTES.CHAT && style.header__menu__item_active)}>
+                            <Link onClick={() => setIsOpen(false)} href={ROUTES.CHAT}><span>Чат</span></Link>
+                        </li>
+                    )}
                     {(userInfo?.is_admin || userInfo?.is_editor) && (
                         <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
                             <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}><span>Генератор тестов</span></Link>

@@ -5,17 +5,14 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { useWindowWidth } from '@react-hook/window-size'
 
-import { useGETWorks, useIsClient } from '@/utils/hooks'
+import { useIsClient } from '@/utils/hooks'
 import { ENDPOINTS } from '@/utils/config'
-import { ResponseWork, UserInfo } from '@/utils/interface'
 
 import { ModalMessage } from '@/components/Modal'
-import { PlayerFull } from '@UI/audioPlayer'
 import Select from '@/UI/select'
 
 import { IDataFilter, filter, filterOptionsMyAudio, filterType } from './data'
 
-import time from '@public/time.svg'
 import arrow_right from '@public/arrow_right.svg'
 
 import style from './style.module.scss'
@@ -47,10 +44,6 @@ export default function PageMyAudio() {
         else {
             setFilterMode(filterMode === 'down' ? 'up' : 'down')
         }
-    }
-
-    const getUserstList = () => {
-
     }
 
     useEffect(()=> {
@@ -91,6 +84,13 @@ export default function PageMyAudio() {
                         : b.id - a.id
                     );
                     break;
+                case 'balance':
+                    newUsersList = [...defaultUsersList].sort((a, b) =>
+                        filterMode === 'up' ?
+                            a.id - b.id
+                            : b.id - a.id
+                    );
+                    break;
                 default:
                     break;
             }
@@ -114,6 +114,7 @@ export default function PageMyAudio() {
                     <div key={item.id} className={style.page__table__body__item}>
                         <p className={style.page__table__body__item__id}><span>id: </span>{item.id}</p>
                         <p className={style.page__table__body__item__name}>{item.name}</p>
+                        <p className={style.page__table__body__item__name}>{item.balance.toFixed(2)}</p>
                         <p className={style.page__table__body__item__email}>{item.email}</p>
                         <p className={style.page__table__body__item__date}>
                             {DateTime.fromISO(item.created_at).setLocale('ru').toLocaleString({ month: 'long', day: 'numeric', year: 'numeric' })}
@@ -140,21 +141,40 @@ export default function PageMyAudio() {
                         <>
                             {windowWidth > 1280 ? (
                                 <>
-                                    <div onClick={() => changeFilterHandler('id')} className={clsx(style.page__table__header__filter, activeFilter === 'id' && style.page__table__header__filter_active)}>
+                                    <div onClick={() => changeFilterHandler('id')}
+                                         className={clsx(style.page__table__header__filter, activeFilter === 'id' && style.page__table__header__filter_active)}>
                                         <p>id</p>
-                                        <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'id' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter id' />
+                                        <Image {...arrow_right}
+                                               className={clsx(style.page__table__header__filter__image, activeFilter === 'id' && style[`page__table__header__filter__image_${filterMode}`])}
+                                               alt='filter id'/>
                                     </div>
-                                    <div onClick={() => changeFilterHandler('name')} className={clsx(style.page__table__header__filter, activeFilter === 'name' && style.page__table__header__filter_active)}>
+                                    <div onClick={() => changeFilterHandler('name')}
+                                         className={clsx(style.page__table__header__filter, activeFilter === 'name' && style.page__table__header__filter_active)}>
                                         <p>Имя</p>
-                                        <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'name' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter name' />
+                                        <Image {...arrow_right}
+                                               className={clsx(style.page__table__header__filter__image, activeFilter === 'name' && style[`page__table__header__filter__image_${filterMode}`])}
+                                               alt='filter name'/>
                                     </div>
-                                    <div onClick={() => changeFilterHandler('email')} className={clsx(style.page__table__header__filter, activeFilter === 'email' && style.page__table__header__filter_active)}>
+                                    <div onClick={() => changeFilterHandler('balance')}
+                                         className={clsx(style.page__table__header__filter, activeFilter === 'balance' && style.page__table__header__filter_active)}>
+                                        <p>Баланс</p>
+                                        <Image {...arrow_right}
+                                               className={clsx(style.page__table__header__filter__image, activeFilter === 'balance' && style[`page__table__header__filter__image_${filterMode}`])}
+                                               alt='filter name'/>
+                                    </div>
+                                    <div onClick={() => changeFilterHandler('email')}
+                                         className={clsx(style.page__table__header__filter, activeFilter === 'email' && style.page__table__header__filter_active)}>
                                         <p>Почта</p>
-                                        <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'email' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter email' />
+                                        <Image {...arrow_right}
+                                               className={clsx(style.page__table__header__filter__image, activeFilter === 'email' && style[`page__table__header__filter__image_${filterMode}`])}
+                                               alt='filter email'/>
                                     </div>
-                                    <div onClick={() => changeFilterHandler('created_at')} className={clsx(style.page__table__header__filter, activeFilter === 'created_at' && style.page__table__header__filter_active)}>
+                                    <div onClick={() => changeFilterHandler('created_at')}
+                                         className={clsx(style.page__table__header__filter, activeFilter === 'created_at' && style.page__table__header__filter_active)}>
                                         <p>Дата регистрации</p>
-                                        <Image {...arrow_right} className={clsx(style.page__table__header__filter__image, activeFilter === 'created_at' && style[`page__table__header__filter__image_${filterMode}`])} alt='filter created_at' />
+                                        <Image {...arrow_right}
+                                               className={clsx(style.page__table__header__filter__image, activeFilter === 'created_at' && style[`page__table__header__filter__image_${filterMode}`])}
+                                               alt='filter created_at'/>
                                     </div>
                                     <div className={clsx(style.page__table__header__filter)}>
                                         <p>Пароль</p>
@@ -165,7 +185,9 @@ export default function PageMyAudio() {
                                     options={filterOptionsMyAudio}
                                     value={selectFilterValue}
                                     inputStyle='withForm'
-                                    onChange={(val) => { setSelectFilterValue(val as IDataFilter) }}
+                                    onChange={(val) => {
+                                        setSelectFilterValue(val as IDataFilter)
+                                    }}
                                     type='banks'
                                 />
                             )}

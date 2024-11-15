@@ -5,6 +5,7 @@ export enum filter {
     'id',
     'email',
     'created_at',
+    'balance',
 }
 
 export enum filterType {

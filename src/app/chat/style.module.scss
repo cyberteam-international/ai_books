@@ -135,6 +135,25 @@
       }
     }
 
+    &__image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border-radius: 10px;
+      background: #9B51E0;
+      color: rgb(var(--color-white));
+      min-width: 240px;
+      max-width: 240px;
+      width: 300px;
+      height: 40px;
+      transition: .3s;
+
+      &:hover {
+        background: #971cff;
+      }
+    }
+
     &__file {
       background: rgba(var(--color-white), 0.12);
       -webkit-backdrop-filter: blur(32px);
@@ -245,6 +264,17 @@
 
   @include media-down(md) {
     display: block;
+  }
+
+  img {
+    max-width: 500px;
+    border-radius: 12px;
+    transition: .3s;
+    cursor: pointer;
+
+    &:hover {
+      filter: grayscale(100%);
+    }
   }
 
   &__files {

@@ -18,7 +18,9 @@ export type Message = {
     is_reply: true
     sender: { id: number }
     text: string | null
+    url: string | null
     updated_at: string
+    is_image : boolean
 }
 
 export type ResponseMessageCreate = {

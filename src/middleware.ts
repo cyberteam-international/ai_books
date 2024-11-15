@@ -3,7 +3,7 @@ import { ROUTES } from '@/utils/config'
 import { UserInfo } from './utils/interface'
 
 export const config = {
-    matcher: ['/profile', '/payment', '/my-audio', '/my-voices', '/statistic', '/preparation', '/users', '/options', '/generate_test'],
+    matcher: ['/profile', '/chat', '/payment', '/my-audio', '/my-voices', '/statistic', '/preparation', '/users', '/options', '/generate_test'],
 }
 
 export async function middleware(request: NextRequest) {

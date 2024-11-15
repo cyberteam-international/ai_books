@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import style from './style.module.scss'
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Loading from "@/app/loading";
@@ -13,12 +13,15 @@ import {FontOnest} from "@/fonts";
 import Typography from "@mui/material/Typography";
 import {ENDPOINTS} from "@utils/config";
 import {toast} from "react-toastify";
+import {da} from "date-fns/locale";
 
 type Props = {};
 
 interface IMessage {
     id: number,
     text: string | null
+    url: string | null
+    is_image: boolean
     files?: string[] | null
     position: 'left' | 'right'
 }
@@ -39,6 +42,7 @@ export default function page({}: Props) {
     const [isOpenSettings, setIsOpenSettings] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isGlobalLoading, setIsGlobalLoading] = useState<boolean>(true);
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
 
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -93,6 +97,8 @@ export default function page({}: Props) {
             const newReqMessage: IMessage = {
                 id: data.reqMessage.id,
                 text: data.reqMessage.text,
+                url: data.reqMessage.url,
+                is_image: data.reqMessage.is_image,
                 position: 'right',
                 files: data.reqMessage.files
             }
@@ -100,6 +106,8 @@ export default function page({}: Props) {
             const newResMessage: IMessage = {
                 id: data.resMessage.id,
                 text: data.resMessage.text,
+                url: data.resMessage.url,
+                is_image: data.resMessage.is_image,
                 position: 'left',
                 files: data.resMessage.files
             }
@@ -114,7 +122,7 @@ export default function page({}: Props) {
             setText('');
             setFiles([]);
         } catch (error: any) {
-            if(error?.response?.data?.message) {
+            if (error?.response?.data?.message) {
                 toast.error(error?.response?.data?.message, {
                     position: 'bottom-right'
                 })
@@ -139,13 +147,16 @@ export default function page({}: Props) {
         const {data} = await ENDPOINTS.MESSAGES.GET_ID(id)
         const findMessage = _messages.find(mess => mess.id === id);
 
-        if (data.text !== null) {
+
+        if (data.text !== null || data.url !== null) {
             if (findMessage) {
                 setMessages(prevState => (prevState.map((mess) => {
                     if (mess.id === id) {
                         return {
                             ...mess,
-                            text: data.text
+                            text: data.text,
+                            url: data.url,
+                            is_image: data.is_image
                         }
                     }
                     return mess
@@ -168,6 +179,16 @@ export default function page({}: Props) {
         }
     }
 
+    const setImageText = () => {
+        if(text.indexOf('image:') === -1) {
+            setText((prevState) => 'image: ' + prevState)
+        }
+
+        if(textareaRef.current) {
+            textareaRef.current.focus()
+        }
+    }
+
     useEffect(() => {
         setTemperature(getInitialLocalStoreSlider('chat-temperature', 1))
         setTopP(getInitialLocalStoreSlider('chat-top-p', 1))
@@ -186,6 +207,8 @@ export default function page({}: Props) {
                 const messages: IMessage[] = res.map((message) => ({
                     id: message.id,
                     text: message.text,
+                    url: message.url,
+                    is_image: message.is_image,
                     files: message.files,
                     position: message.is_reply ? "left" : "right"
                 }))
@@ -207,8 +230,10 @@ export default function page({}: Props) {
                             <div
                                 className={clsx(style.message, _message.position === 'left' ? style.message_left : style.message_right)}>
                                 <div>
-                                    {_message.text ?
-                                        <Markdown remarkPlugins={[remarkGfm]}>{_message.text}</Markdown> :
+                                    {_message.text ? <Markdown
+                                        remarkPlugins={[remarkGfm]}>{_message.text}</Markdown> : _message.url ?
+                                        <a target={"_blank"} href={_message.url}><img src={_message.url}
+                                                                                      alt={_message.url}/></a> :
                                         <Loading isStatic={true}/>}
 
                                     {_message.files && <div className={clsx(style.message__files)}>
@@ -326,7 +351,9 @@ export default function page({}: Props) {
 
             <div className={clsx(style.chat__footer)}>
                 <div className={clsx(style.chat__footer__files, 'scroll')}>
-                    {files.map((file) => {
+                    {files.length <= 0 ? <button onClick={() => setImageText()} className={clsx(style.chat__footer__image)}>
+                        <p>Сгенерировать картинку</p>
+                    </button> : files.map((file) => {
                         return <div className={clsx(style.chat__footer__file)}>
                             <p>{file.name}</p>
                             <button type="button" className={clsx(style.chat__footer__file__remove)}
@@ -363,7 +390,7 @@ export default function page({}: Props) {
                         style={{display: 'none'}}
                         onChange={handleFileChange}
                     />
-                    <textarea rows={4} className={clsx(style.chat__textarea)} onChange={(e) => setText(e.target.value)}
+                    <textarea autoFocus={true} ref={textareaRef} rows={4} className={clsx(style.chat__textarea)} onChange={(e) => setText(e.target.value)}
                               onKeyDown={handleKeyDown} value={text} name={"text"}></textarea>
                     <button disabled={text.length <= 0 || isLoading}
                             className={clsx(style.chat__button, style.chat__button_send)}
