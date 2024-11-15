@@ -21,6 +21,9 @@ import 'react-toastify/dist/ReactToastify.css';
 export const metadata: Metadata = {
 	title: 'Копирование голосов, озвучивание текстов. Создание аудиокниг - AIBooks.ru',
 	description: 'Сервис заказа озвучивания книг. Создаем аудиокниги на основе вашего текст на русском языке.',
+	other: {
+		"yandex-verification": "a76852d20d305cf6"
+	}
 }
 
 export default function RootLayout({
