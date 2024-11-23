@@ -20,8 +20,7 @@ const Tariffs = ({onClick}: Props) => {
 				<div className={`${s.tariffs__item}`}>
 					<h3 className={`${s.tariffs__subtitle} ${FontUnbounded.className}`}>Копирование голосов</h3>
 					<div className={`${s.tariffs__price}`}>
-						<span className={` ${FontUnbounded.className}`}>40 000 ₽</span>
-						<span>за 1 млн символов<br/> 33р. минута</span>
+						<span className={` ${FontUnbounded.className}`}>33 ₽ - 1 мин.</span>
 					</div>
 					<ul className={`${s.tariffs__list} list`}>
 						<li>Создание персональных голосов</li>

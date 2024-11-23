@@ -31,8 +31,13 @@ export async function middleware(request: NextRequest) {
             }
         }
 
+        if(!user.is_admin && !user.is_editor && !user.is_company && !user.is_employee) {
+            if (request.nextUrl.pathname === '/chat') {
+                return NextResponse.redirect(work, 302);
+            }
+        }
 
-        if(!user.is_admin && !user.is_editor) {
+        if(!user.is_admin && !user.is_editor && !user.is_company && !user.is_employee) {
             if (request.nextUrl.pathname === '/generate_test') {
                 return NextResponse.redirect(work, 302);
             }

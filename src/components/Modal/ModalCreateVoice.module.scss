@@ -6,6 +6,19 @@
 	gap: 40px;
 }
 
+.select {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 1.125em 0;
+	border: 1px solid rgba(66, 66, 106, 1);
+	border-radius: 0.4em;
+	width: 100%;
+	color: #42426A;
+	outline: none;
+	min-width: 400px;
+}
+
 .input {
 	display: flex;
 	justify-content: space-between;

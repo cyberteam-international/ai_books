@@ -56,7 +56,7 @@ export default function Header({ }: Props) {
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.MY_VOICES && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.MY_VOICES}>Мои голоса</Link>
                             </li>
-                            {(userInfo?.is_admin || userInfo?.is_editor) && (
+                            {(userInfo?.is_admin || userInfo?.is_editor || userInfo?.is_company || userInfo?.is_employee) && (
                                 <li className={clsx(style.header__menu__item, pathname === ROUTES.CHAT && style.header__menu__item_active)}>
                                     <Link onClick={() => setIsOpen(false)} href={ROUTES.CHAT}>Чат</Link>
                                 </li>
@@ -67,7 +67,7 @@ export default function Header({ }: Props) {
                             </li>
                         </>
                     )}
-                    {(userInfo?.is_admin || userInfo?.is_editor) && (
+                    {(userInfo?.is_admin || userInfo?.is_editor || userInfo?.is_company || userInfo?.is_employee) && (
                         <>
                             <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
                                 <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}>Генератор
@@ -124,12 +124,12 @@ export default function Header({ }: Props) {
                     <li className={clsx(style.header__menu__item, pathname === ROUTES.WORK && style.header__menu__item_active)}>
                         <Link onClick={() => setIsOpen(false)} href={ROUTES.WORK}><span>Озвучить</span></Link>
                     </li>
-                    {(userInfo?.is_admin || userInfo?.is_editor) && (
+                    {(userInfo?.is_admin || userInfo?.is_editor || userInfo?.is_company || userInfo?.is_employee) && (
                         <li className={clsx(style.header__menu__item, pathname === ROUTES.CHAT && style.header__menu__item_active)}>
                             <Link onClick={() => setIsOpen(false)} href={ROUTES.CHAT}><span>Чат</span></Link>
                         </li>
                     )}
-                    {(userInfo?.is_admin || userInfo?.is_editor) && (
+                    {(userInfo?.is_admin || userInfo?.is_editor || userInfo?.is_company || userInfo?.is_employee) && (
                         <li className={clsx(style.header__menu__item, pathname === ROUTES.GENERATION_TEST && style.header__menu__item_active)}>
                             <Link onClick={() => setIsOpen(false)} href={ROUTES.GENERATION_TEST}><span>Генератор тестов</span></Link>
                         </li>

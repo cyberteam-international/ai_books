@@ -1,5 +1,3 @@
-import { ResponseWork } from "."
-
 export type UserInfo = {
     id: number,
     name: string,
@@ -7,6 +5,8 @@ export type UserInfo = {
     balance: number,
     is_admin?: Boolean
     is_editor?: Boolean
+    is_company?: Boolean
+    is_employee?: Boolean
 }
 
 export interface UserInfoExtended extends UserInfo {

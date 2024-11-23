@@ -93,7 +93,20 @@ export const ENDPOINTS = {
                 } : console.error('Введите данные')
             })
         },
+        DELETE_USER_ADMIN: (id: number) => {
+            return axios({
+                url: ENDPOINTS_URL.USERS,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+                data: {
+                    id: id
+                }
+            })
+        },
         UPDATE_INFO_ADMIN: (data: {
+            id: number,
             name?: string,
             role?: string,
             email?: string
@@ -101,7 +114,7 @@ export const ENDPOINTS = {
             password?: string
         }) => {
             return axios({
-                url: ENDPOINTS_URL.USERS,
+                url: ENDPOINTS_URL.USERS + "/admin",
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${getToken()}`,
@@ -352,7 +365,7 @@ export const ENDPOINTS = {
                 }
             })
         },
-        DELETE_SAMPLE: (id: number, sample_id:string) => {
+        DELETE_SAMPLE: (id: number, sample_id: string) => {
             return axios({
                 url: `${ENDPOINTS_URL.VOICES}/${id}/sample/${sample_id}`,
                 method: 'DELETE',

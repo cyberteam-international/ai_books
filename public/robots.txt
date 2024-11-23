@@ -1,0 +1,10 @@
+Sitemap: https://aibooks.ru/sitemap.xml
+User-agent: *
+Disallow: /work?start
+Disallow: /payment
+Disallow: /statistic
+Disallow: /users
+Disallow: /options
+Disallow: /profile
+Disallow: /?*
+Disallow: /forgot_password

@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-	title: 'AI Books',
-	description: 'Автоматическое озвучивание текстов и аудиокниг',
+	title: 'Озвучить текст онлайн - AiBooks.ru',
+	description: 'Озвучить текст на русском и других языках онлайн.',
 }
 
 export default function Layout({
