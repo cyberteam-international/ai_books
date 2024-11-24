@@ -232,8 +232,7 @@ export default function page({}: Props) {
                                 <div>
                                     {_message.text ? <Markdown
                                         remarkPlugins={[remarkGfm]}>{_message.text}</Markdown> : _message.url ?
-                                        <a target={"_blank"} href={_message.url}><img src={_message.url}
-                                                                                      alt={_message.url}/></a> :
+                                        <a target={"_blank"} href={_message.url}><img src={_message.url} alt={"Не доступно"}/></a> :
                                         <Loading isStatic={true}/>}
 
                                     {_message.files && <div className={clsx(style.message__files)}>
