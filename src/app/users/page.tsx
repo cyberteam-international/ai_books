@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 import { useWindowWidth } from '@react-hook/window-size'
 
 import { useIsClient } from '@/utils/hooks'
@@ -38,6 +38,8 @@ export default function PageMyAudio() {
     const [modalUserEditBalanceOpen, setModalUserEditBalanceOpen] = useState<boolean>(false)
     const [modalUserEditRoleOpen, setModalUserEditRoleOpen] = useState<boolean>(false)
     const [selectId, setSelectId] = useState<number>()
+
+    const [searchInput, setSearchInput] = useState<string>("");
 
     const isClient = useIsClient()
 
@@ -114,6 +116,16 @@ export default function PageMyAudio() {
             setFilterUsersList(newUsersList)
         }
     }, [defaultUsersList, activeFilter, filterMode]);
+
+    useEffect(() => {
+        if(searchInput.length >= 3) {
+            setFilterUsersList(defaultUsersList?.filter((val) => {
+                return val.name.toLowerCase().indexOf(searchInput.toLowerCase()) !== -1 || val.email.toLowerCase().indexOf(searchInput.toLowerCase()) != -1
+            }))
+        } else {
+            setFilterUsersList(defaultUsersList)
+        }
+    }, [searchInput]);
 
     useEffect(() => {
         if (windowWidth < 1280) {
@@ -229,6 +241,11 @@ export default function PageMyAudio() {
 
     return (
         <main className={clsx(style.page, 'container')}>
+
+            <form className={style.page__search}>
+                <input value={searchInput} onChange={e => setSearchInput(e.target.value)} type="search" placeholder={"Поиск по имени или почте"} autoFocus={true}/>
+            </form>
+
             <div className={style.page__table}>
                 <div className={style.page__table__header}>
                     {isClient && (
@@ -300,7 +317,8 @@ export default function PageMyAudio() {
                     {setList()}
                 </div>
             </div>
-            <ModalMessage message={completeMessage} setMesage={setCompleteMessage} />
+
+            <ModalMessage message={completeMessage} setMesage={setCompleteMessage}/>
 
             <ModalWrapper state={[modalUserEditPasswordOpen, setModalUserEditPasswordOpen]}>
                 <ModalUserEditPassword id={selectId} onSubmit={onSubmitUserEditPassword}/>
